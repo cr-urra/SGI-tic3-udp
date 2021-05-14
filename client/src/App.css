@@ -4,8 +4,46 @@
 
 .altura-login{
     margin: 11rem 0 0 0;
+    padding-bottom: 190px;
 }
 
 .title{
     font-size: 4rem;
 }
+
+@media (min-width: 768px) and (max-width: 1500px) {
+    #copyright {
+        padding: 0 30% 0 30%;
+    }
+}
+
+.color_sitio{
+    background-color: #1f2a44;
+    color: #F18B31;
+}
+
+.color_sitio2{
+    background-color: #ec6e00 !important;
+    color: #ffffff !important;
+}
+
+.color_escritura{
+    color: #2d60b8 !important;
+}
+
+.head{
+    height: 73px !important;
+}
+
+.boton_sidebar{
+    padding: 20px 0 20px 23px !important;
+}
+
+.bienvenida{
+    margin: 10% 0;
+    padding-left: 8%
+}
+
+
+
+

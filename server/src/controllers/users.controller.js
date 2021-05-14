@@ -1,6 +1,6 @@
 import usuarios from '../models/users';
 
-export async function updateUsers(req, res) {
+export const updateUsers = async (req, res) => {
     const {id} = req.params;
     const {rut, nombre, apellido, password} =  req.body;
     const users = await usuarios.findOne({
@@ -18,11 +18,11 @@ export async function updateUsers(req, res) {
     });
     res.json({
         message: 'Usuario actualizado',
-        userUpdate
+        resultado: true
     });
 };
 
-export async function deleteUsers(req, res) {
+export const deleteUsers = async (req, res) => {
     const {id} = req.params;
     await usuarios.destroy({
         where: {
@@ -32,7 +32,7 @@ export async function deleteUsers(req, res) {
     res.json({message: 'Usuario eliminado'});
 };
 
-export async function getUsersId(req, res) {
+export const getUsersId = async (req, res) => {
     const {id} = req.params;
     const user = await usuarios.findOne({
         where: {id},
@@ -41,7 +41,7 @@ export async function getUsersId(req, res) {
     res.json(user);
 };
 
-export async function getAllUsers(req, res) {
+export const getAllUsers = async (req, res) => {
     const allUsers = await usuarios.findAll({
         attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'password'],
         order: [

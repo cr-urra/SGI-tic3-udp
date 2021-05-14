@@ -3,10 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateUsers = updateUsers;
-exports.deleteUsers = deleteUsers;
-exports.getUsersId = getUsersId;
-exports.getAllUsers = getAllUsers;
+exports.getAllUsers = exports.getUsersId = exports.deleteUsers = exports.updateUsers = void 0;
 
 var _users = _interopRequireDefault(require("../models/users"));
 
@@ -16,12 +13,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function updateUsers(_x, _x2) {
-  return _updateUsers.apply(this, arguments);
-}
-
-function _updateUsers() {
-  _updateUsers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
+var updateUsers = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
     var id, _req$body, rut, nombre, apellido, password, users, userUpdate;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -66,17 +59,16 @@ function _updateUsers() {
       }
     }, _callee);
   }));
-  return _updateUsers.apply(this, arguments);
-}
 
-;
+  return function updateUsers(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
-function deleteUsers(_x3, _x4) {
-  return _deleteUsers.apply(this, arguments);
-}
+exports.updateUsers = updateUsers;
 
-function _deleteUsers() {
-  _deleteUsers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
+var deleteUsers = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
     var id;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -102,17 +94,16 @@ function _deleteUsers() {
       }
     }, _callee2);
   }));
-  return _deleteUsers.apply(this, arguments);
-}
 
-;
+  return function deleteUsers(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}();
 
-function getUsersId(_x5, _x6) {
-  return _getUsersId.apply(this, arguments);
-}
+exports.deleteUsers = deleteUsers;
 
-function _getUsersId() {
-  _getUsersId = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+var getUsersId = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
     var id, user;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -138,17 +129,16 @@ function _getUsersId() {
       }
     }, _callee3);
   }));
-  return _getUsersId.apply(this, arguments);
-}
 
-;
+  return function getUsersId(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
 
-function getAllUsers(_x7, _x8) {
-  return _getAllUsers.apply(this, arguments);
-}
+exports.getUsersId = getUsersId;
 
-function _getAllUsers() {
-  _getAllUsers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+var getAllUsers = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
     var allUsers;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -173,7 +163,10 @@ function _getAllUsers() {
       }
     }, _callee4);
   }));
-  return _getAllUsers.apply(this, arguments);
-}
 
-;
+  return function getAllUsers(_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.getAllUsers = getAllUsers;

@@ -7,11 +7,11 @@ exports["default"] = void 0;
 
 require("@babel/polyfill");
 
-var _roles = _interopRequireDefault(require("./routes/roles.js"));
+var _rolesRoutes = _interopRequireDefault(require("./routes/roles.routes.js"));
 
-var _users = _interopRequireDefault(require("./routes/users.js"));
+var _usersRoutes = _interopRequireDefault(require("./routes/users.routes.js"));
 
-var _auth = _interopRequireDefault(require("./routes/auth.js"));
+var _authRoutes = _interopRequireDefault(require("./routes/auth.routes.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -21,13 +21,18 @@ var morgan = require('morgan');
 
 var path = require('path');
 
-var cors = require('cors'); //inicialización
+var cors = require('cors');
+
+var cookieParser = require('cookie-parser');
+
+require('./database/association'); //inicialización
 
 
 var app = express(); //settings
 
 app.set('port', process.env.PORT || 4000); //middlewares server
 
+app.use(cookieParser());
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.urlencoded({
@@ -40,9 +45,9 @@ app.use(function (req, res, next) {
 }); //Importar rutas
 
 //routes
-app.use('/users', _users["default"]);
-app.use('/auth', _auth["default"]);
-app.use('/roles', _roles["default"]); //public
+app.use('/users', _usersRoutes["default"]);
+app.use('/auth', _authRoutes["default"]);
+app.use('/roles', _rolesRoutes["default"]); //public
 //app.use(express.static('../public'));
 
 var _default = app;

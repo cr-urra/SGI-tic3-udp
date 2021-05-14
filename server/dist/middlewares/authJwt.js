@@ -27,16 +27,15 @@ var verifyToken = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            token = req.headers["x-access-token"];
-            console.log(token);
-            !token && res.status(403).json({
+            token = req.cookies.token;
+            !token && res.json({
+              resul: null,
               message: "Ha ocurrido un problema con la autenticación"
             });
             decoded = _jsonwebtoken["default"].verify(token, _config["default"].SECRET);
-            console.log("aqui", decoded);
             id = decoded.id;
             req.id = id;
-            _context.next = 10;
+            _context.next = 8;
             return _users["default"].findOne({
               where: {
                 id: id
@@ -44,33 +43,34 @@ var verifyToken = /*#__PURE__*/function () {
               attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id']
             });
 
-          case 10:
+          case 8:
             user = _context.sent;
-            !user && res.status(404).json({
+            !user && res.json({
+              resul: null,
               message: "No se encuentra el usuario"
             });
-            console.log("user: ", user);
             next();
-            _context.next = 20;
+            _context.next = 17;
             break;
 
-          case 16:
-            _context.prev = 16;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.json({
-              message: "Ha ocurrido un problema con la autenticación"
+              resul: false,
+              message: "Ha ocurrido un problema, token expirado"
             });
 
-          case 20:
+          case 17:
             ;
 
-          case 21:
+          case 18:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 16]]);
+    }, _callee, null, [[0, 13]]);
   }));
 
   return function verifyToken(_x, _x2, _x3) {
@@ -82,25 +82,24 @@ exports.verifyToken = verifyToken;
 
 var administrador = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res, next) {
-    var id, user, rol;
+    var rut, user, id, rol;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            id = req.id;
+            rut = req.params.rut;
             _context2.next = 3;
             return _users["default"].findOne({
               where: {
-                id: id
+                rut: rut
               },
               attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id']
             });
 
           case 3:
             user = _context2.sent;
-            console.log(user.roles_id);
             id = user.roles_id;
-            _context2.next = 8;
+            _context2.next = 7;
             return _roles["default"].findOne({
               where: {
                 id: id
@@ -108,14 +107,14 @@ var administrador = /*#__PURE__*/function () {
               attributes: ['id', 'cod_rol', 'nombre']
             });
 
-          case 8:
+          case 7:
             rol = _context2.sent;
-            console.log(rol);
-            rol.cod_rol === "adm" ? next() : res.status(403).json({
+            rol.cod_rol === "adm" ? next() : res.json({
+              resul: false,
               message: "Su usuario no se encuentra autorizado"
             });
 
-          case 11:
+          case 9:
           case "end":
             return _context2.stop();
         }
@@ -132,25 +131,24 @@ exports.administrador = administrador;
 
 var superUsuario = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res, next) {
-    var id, user, rol;
+    var rut, user, id, rol;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            id = req.id;
+            rut = req.body.rut;
             _context3.next = 3;
             return _users["default"].findOne({
               where: {
-                id: id
+                rut: rut
               },
               attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id']
             });
 
           case 3:
             user = _context3.sent;
-            console.log(user.roles_id);
             id = user.roles_id;
-            _context3.next = 8;
+            _context3.next = 7;
             return _roles["default"].findOne({
               where: {
                 id: id
@@ -158,14 +156,14 @@ var superUsuario = /*#__PURE__*/function () {
               attributes: ['id', 'cod_rol', 'nombre']
             });
 
-          case 8:
+          case 7:
             rol = _context3.sent;
-            console.log(rol);
-            rol.cod_rol === "sup" ? next() : res.status(403).json({
+            rol.cod_rol === "sup" ? next() : res.json({
+              resul: false,
               message: "Su usuario no se encuentra autorizado"
             });
 
-          case 11:
+          case 9:
           case "end":
             return _context3.stop();
         }
@@ -182,25 +180,24 @@ exports.superUsuario = superUsuario;
 
 var usuario = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
-    var id, user, rol;
+    var rut, user, id, rol;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            id = req.id;
+            rut = req.body.rut;
             _context4.next = 3;
             return _users["default"].findOne({
               where: {
-                id: id
+                rut: rut
               },
               attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id']
             });
 
           case 3:
             user = _context4.sent;
-            console.log(user.roles_id);
             id = user.roles_id;
-            _context4.next = 8;
+            _context4.next = 7;
             return _roles["default"].findOne({
               where: {
                 id: id
@@ -208,14 +205,14 @@ var usuario = /*#__PURE__*/function () {
               attributes: ['id', 'cod_rol', 'nombre']
             });
 
-          case 8:
+          case 7:
             rol = _context4.sent;
-            console.log(rol);
-            rol.cod_rol === "usr" ? next() : res.status(403).json({
+            rol.cod_rol === "usr" ? next() : res.json({
+              resul: false,
               message: "Su usuario no se encuentra autorizado"
             });
 
-          case 11:
+          case 9:
           case "end":
             return _context4.stop();
         }

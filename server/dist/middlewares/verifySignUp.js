@@ -32,7 +32,7 @@ var verifyUser = /*#__PURE__*/function () {
 
           case 4:
             user = _context.sent;
-            user ? res.status(400).json({
+            user ? res.json({
               message: "El rut ingresado ya se encuentra registrado",
               rut: user.rut
             }) : next();

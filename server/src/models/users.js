@@ -1,6 +1,5 @@
 import sequelize from 'sequelize';
 import {database} from '../database/database';
-import roles from './roles';
 
 const users = database.define('user', {
     id: {
@@ -25,8 +24,5 @@ const users = database.define('user', {
 },{
     timestamps: false
 });
-
-users.hasMany(roles, {foreingKey: 'roles_id', sourceKey: 'id'});
-roles.belongsTo(users, {foreingKey: 'roles_id', sourceKey: 'id'});
 
 export default users;

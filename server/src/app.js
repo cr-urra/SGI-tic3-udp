@@ -5,23 +5,17 @@ const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-require('./database/associaton');
+const csurf = require('csurf');
+require('./database/associations');
 
 //inicialización
 
 const app = express();
+const csrf = csurf({cookie: true});
 
 //settings
 
 app.set('port', process.env.PORT || 4000);
-
-//middlewares server
-
-app.use(cookieParser());
-app.use(cors());
-app.use(morgan('dev'));
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
 
 //variables globales
 
@@ -29,11 +23,26 @@ app.use((req,res,next) => {
     next();
 });
 
+//middlewares server
+
+app.use(cookieParser());
+app.use(cors());
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(csrf);
+app.use(express.urlencoded({
+    extended: false
+}));
+
+app.get ('/csrf', (req, res) => { 
+    res.send({ csrfToken: req.csrfToken() })
+});
+
 //Importar rutas
 
-import roles from './routes/roles.js';
-import users from './routes/users.js';
-import auth from './routes/auth.js';
+import roles from './routes/roles.routes.js';
+import users from './routes/users.routes.js';
+import auth from './routes/auth.routes.js';
 
 
 //routes
