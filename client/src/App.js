@@ -11,6 +11,7 @@ import Init from './components/Init';
 import AdminInterface from './components/AdminHome';
 import SuperUserInterface from './components/SuperUserHome';
 import UserInterface from './components/UserHome';
+import Buscar_Producto from './components/Buscar_Producto';
 
 
 function App() {
@@ -21,6 +22,10 @@ function App() {
       <Route path="/users/adm" exact component={AdminInterface}/>
       <Route path="/users/sup" exact component={SuperUserInterface}/>
       <Route path="/users/usr" exact component={UserInterface}/>
+
+      <Route path="/users/Buscar_Producto" exact component={Buscar_Producto}/>
+
+
     </BrowserRouter>
   );
 }

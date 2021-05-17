@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Navbar from './layout/navbarAdmin.js'
 import Sidebar from './layout/sidebarAdmin.js'
-import Bienvenida from './Bienvenida.js'
+import Contenido from './Contenidos/Bienvenida.js'
 import {Redirect,Link} from 'react-router-dom';
 
 
@@ -56,7 +56,7 @@ export default class AdminHome extends Component {
                     </aside>                 
                   <div class="layout">
                     <header class="header"><Navbar logOut={this.logOut}/></header>
-                    <Bienvenida/>
+                    <Contenido/>
                     <div class="overlay"></div>
                   </div>
                 </div>            

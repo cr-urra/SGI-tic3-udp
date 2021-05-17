@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { ProSidebar, Menu, MenuItem, SubMenu , SidebarHeader } from 'react-pro-sidebar';
-
+import {Link} from 'react-router-dom';
 
 export default class Sidebar extends Component {
 
@@ -74,7 +74,7 @@ export default class Sidebar extends Component {
                 }
               >
                 <MenuItem>Ingresar Producto</MenuItem>
-                <MenuItem>Buscar Producto</MenuItem>
+                <MenuItem> <Link to = '/users/Buscar_Producto'> Buscar Producto </Link> </MenuItem>
               </SubMenu>
               <SubMenu 
                 title="Reportes"
