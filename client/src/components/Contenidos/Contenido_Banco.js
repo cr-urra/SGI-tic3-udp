@@ -1,20 +1,25 @@
 import React, { Component } from 'react'
+import Listado from '../Componentes/Componentes Banco/Listado'
+import Banco from '../Componentes/Componentes Banco/Banco'
+import Botones from '../Componentes/Componentes Banco/Botones'
 
 
 export default class Init extends Component {
     render() {
         return (
             <main className="content">
-            <div className="jumbotron jumbotron-fluid">
 
-                    <div className="container bienvenida">
+                <h1 className="display-5 titulo">Bancos</h1>
 
-                        <h1 className="display-4">BIENVENIDO A SGI</h1>
+                <Listado />
 
-                        <p className="lead">Vista Bancos</p>
+                <Banco />
+                      
+                <Botones /> 
+                   
 
-                    </div>
-                    </div>
+                   
+              
             </main>
         )
     }

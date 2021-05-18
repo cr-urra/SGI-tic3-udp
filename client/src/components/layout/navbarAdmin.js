@@ -20,7 +20,7 @@ export default class Navbar extends Component {
                 <img src={Logo} alt="logo" />
                     <div className="container">
                         <span className="navbar-brand" to="#">Hola, Administrador</span>                  
-                        <div className="collapse navbar-collapse" id="navbarNav">
+
                             <div className="container">
                                 <div className="row">
                                     <div className="col">
@@ -41,7 +41,7 @@ export default class Navbar extends Component {
                                 </li>
                             </ul>
                             </div> 
-                        </div>
+
                     </div>
                 </nav>
 

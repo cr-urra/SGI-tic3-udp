@@ -44,6 +44,25 @@
     padding-left: 8%
 }
 
+.titulo{
+    margin: 4%;
+}
+
+.separacion{
+    margin: 3%;
+}
+
+.ancho{
+    width: 100%;
+}
+
+.separacion_final{
+    height: 150px;
+}
+
+.no_flex{
+    flex-wrap: initial !important;
+}
 
 
 
