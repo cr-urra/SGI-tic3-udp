@@ -41,7 +41,7 @@ export default class Sidebar extends Component {
                 </svg>
               } 
             >
-              Dashboard
+             <Link to = '/users/Dashboard'> Dashboard </Link>
             </MenuItem >
               <SubMenu 
                 title="Pedidos"
@@ -51,8 +51,8 @@ export default class Sidebar extends Component {
                   </svg>
                 }  
               >
-                <MenuItem>Crear Pedido </MenuItem>
-                <MenuItem>Buscar Pedido</MenuItem>
+                <MenuItem> <Link to = '/users/Crear_Pedido'> Crear Pedido </Link> </MenuItem>
+                <MenuItem>  <Link to = '/users/Buscar_Pedido'> Buscar Pedido  </Link> </MenuItem>
               </SubMenu>
               <SubMenu  
                 title="Proveedores"
@@ -62,8 +62,8 @@ export default class Sidebar extends Component {
                   </svg>
                 }  
               >
-                <MenuItem >Ingresar Proveedor</MenuItem>
-                <MenuItem>Buscar Proveedor</MenuItem>
+                <MenuItem ><Link to = '/users/Ingresar_Proveedor'> Ingresar Proveedor  </Link> </MenuItem>
+                <MenuItem> <Link to = '/users/Buscar_Proveedor'> Buscar Proveedor </Link> </MenuItem>
               </SubMenu>
               <SubMenu 
                 title="Productos"
@@ -72,8 +72,8 @@ export default class Sidebar extends Component {
                     <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"/>
                   </svg>
                 }
-              >
-                <MenuItem>Ingresar Producto</MenuItem>
+              >       
+                <MenuItem> <Link to = '/users/Ingresar_Producto'> Ingresar Producto </Link> </MenuItem>
                 <MenuItem> <Link to = '/users/Buscar_Producto'> Buscar Producto </Link> </MenuItem>
               </SubMenu>
               <SubMenu 
@@ -84,11 +84,11 @@ export default class Sidebar extends Component {
                   </svg>
                 }
               >
-                <MenuItem>Costos Finales</MenuItem>
-                <MenuItem>Status Agente de Aduana</MenuItem>
+                <MenuItem><Link to = '/users/Reporte_Costos_Finales'> Costos Finales  </Link>  </MenuItem>
+                <MenuItem> <Link to = '/users/Reporte_Status_Agente_Aduana'> Status Agente de Aduana</Link> </MenuItem>
                   <SubMenu title="Montos de Importaciones">
-                    <MenuItem>Por Proveedor</MenuItem>
-                    <MenuItem>Por Producto</MenuItem>
+                    <MenuItem><Link to = '/users/Reporte_Importacion_Proveedor'> Por Proveedor  </Link> </MenuItem>
+                    <MenuItem><Link to = '/users/Reporte_Importacion_Producto'> Por Producto  </Link> </MenuItem>
                   </SubMenu>
               </SubMenu>
               <SubMenu 
@@ -100,8 +100,8 @@ export default class Sidebar extends Component {
                   </svg>
                 }
               >
-                <MenuItem>Crear Usuario</MenuItem>
-                <MenuItem>Buscar Usuario</MenuItem>
+                <MenuItem> <Link to = '/users/Crear_Usuario'> Crear Usuario </Link></MenuItem>
+                <MenuItem> <Link to = '/users/Buscar_Usuario'> Buscar Usuario   </Link></MenuItem>
               </SubMenu>
               <SubMenu 
                 title="Agentes de Aduana"
@@ -112,8 +112,8 @@ export default class Sidebar extends Component {
                   </svg>
                 }  
               >
-                <MenuItem>Ingresar Agente de Aduana</MenuItem>
-                <MenuItem>Buscar Agente de Aduana</MenuItem>
+                <MenuItem> <Link to = '/users/Ingresar_Agente_Aduana'> Ingresar Agente de Aduana </Link> </MenuItem>
+                <MenuItem> <Link to = '/users/Buscar_Agente_Aduana'> Buscar Agente de Aduana  </Link> </MenuItem>
               </SubMenu>
               <MenuItem 
                 icon={
@@ -123,7 +123,7 @@ export default class Sidebar extends Component {
                   </svg>
                 }
               >
-                Bancos
+                 <Link to = '/users/Bancos'> Bancos </Link>
               </MenuItem>
               
           </Menu>

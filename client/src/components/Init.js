@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Login from './Login'
-import Derechos from './footer'
+import Derechos from './layout/footer'
 import logo from '../imagenes/logo.png'
 
 export default class Init extends Component {
