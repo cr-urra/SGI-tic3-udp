@@ -1,0 +1,41 @@
+[
+    {
+        "nombre": "Banco A",
+        "IBAN": "IBAN A",
+        "pais": "Chile A",
+        "ABA": "ABA A",
+        "referencia": "referencia A",
+        "banco_beneficiario": "Banco Beneficiario A",
+        "SWIFT": "codigo Swift A",
+        "IFCS": "codigo IFCS A",
+        "cuenta_interbancaria": "cuenta interbancaria A", 
+        "banco_intermediario": "banco intermediario A"
+    },
+
+    {
+        "nombre": "Banco B",
+        "IBAN": "IBAN B",
+        "pais": "Chile B",
+        "ABA": "ABA B",
+        "referencia": "referencia B",
+        "banco_beneficiario": "Banco Beneficiario B",
+        "SWIFT": "codigo Swift B",
+        "IFCS": "codigo IFCS B",
+        "cuenta_interbancaria": "cuenta interbancaria B",
+        "banco_intermediario": "banco intermediario B"
+    },
+
+    {
+        "nombre": "Banco C",
+        "IBAN": "IBAN C",
+        "pais": "Chile C",
+        "ABA": "ABA C",
+        "referencia": "referencia C",
+        "banco_beneficiario": "Banco Beneficiario C",
+        "SWIFT": "codigo Swift C",
+        "IFCS": "codigo IFCS C",
+        "cuenta_interbancaria": "cuenta interbancaria C",
+        "banco_intermediario": "banco intermediario C"
+    }
+
+]
