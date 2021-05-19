@@ -1,30 +1,52 @@
 import React, { Component } from 'react'
 import Lista from './Lista'
+import Botones from './Botones'
 
 
 export default class Banco extends Component {
+
+
     render() {
-        
-        return (
-            <div className="container separacion">
-                <div class="card border-primary ">
-                  <div class="card-header text-primary">
-                    Banco A
-                  </div>
-                    <ul class="list-group list-group-flush">
-                        <Lista nombre={"Cuenta Corriente (IBAN)"} contenido={"Banco A"}/>
-                        <Lista nombre={"País"} contenido={"Banco A"}/>
-                        <Lista nombre={"Número ABA"} contenido={"Banco A"}/>
-                        <Lista nombre={"Referencia"} contenido={"Banco A"}/>
-                        <Lista nombre={"Banco Beneficiario"} contenido={"Banco A"}/>
-                        <Lista nombre={"Código SWITF"} contenido={"Banco A"}/>
-                        <Lista nombre={"Código IFCS"} contenido={"Banco A"}/>
-                        <Lista nombre={"Cuenta Interbancaria"} contenido={"Banco A"}/>
-                        <Lista nombre={"Banco Intermediario"} contenido={"Banco A"}/>
-                    </ul>
-                </div>
-            </div>
-        )
-        
+
+        if(this.props.banco !== ""){
+            let j;
+            for(let i = 0 ; i < this.props.bancos.length ; i++){
+                
+                if(this.props.banco=== this.props.bancos[i].nombre){
+                    j = i;
+                }
+            }
+            if(this.props.bancos[j]!==null){
+                return (
+                    <div>
+                        <div className="container separacion">
+
+                            <div className="card border-primary ">
+                              <div className="card-header text-primary">
+                                {this.props.bancos[j].nombre}
+                              </div>
+                                <ul className="list-group list-group-flush">
+                                    <Lista nombre={"Cuenta Corriente (IBAN)"} contenido={this.props.bancos[j].IBAN}/>
+                                    <Lista nombre={"País"} contenido={this.props.bancos[j].pais}/>
+                                    <Lista nombre={"Número ABA"} contenido={this.props.bancos[j].ABA}/>
+                                    <Lista nombre={"Referencia"} contenido={this.props.bancos[j].referencia}/>
+                                    <Lista nombre={"Banco Beneficiario"} contenido={this.props.bancos[j].banco_beneficiario}/>
+                                    <Lista nombre={"Código SWIFT"} contenido={this.props.bancos[j].SWIFT}/>
+                                    <Lista nombre={"Código IFCS"} contenido={this.props.bancos[j].IFCS}/>
+                                    <Lista nombre={"Cuenta Interbancaria"} contenido={this.props.bancos[j].cuenta_interbancaria}/>
+                                    <Lista nombre={"Banco Intermediario"} contenido={this.props.bancos[j].banco_intermediario}/>
+                                </ul>
+                            </div>
+                        </div>
+                        <Botones change = {this.props.change} delete={this.props.delete}/>
+                    </div>
+
+                )
+            }else{
+                return <div/>
+            }
+        }else{
+           return <div/>
+        } 
     }
 }

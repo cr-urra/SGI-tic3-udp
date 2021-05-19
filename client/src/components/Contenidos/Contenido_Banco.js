@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import Listado from '../Componentes/Componentes Banco/Listado'
 import Banco from '../Componentes/Componentes Banco/Banco'
-import Botones from '../Componentes/Componentes Banco/Botones'
 import bancos from '../JasonDePruebas/Banco.json'
 
 
 
 
 
-export default class Init extends Component {
+
+export default class Contenido_Banco extends Component {
 
     state = {
-        bancos: bancos
+        bancos: bancos,
+        banco: "",
+ 
     }
 
     change = () => {
@@ -22,19 +24,22 @@ export default class Init extends Component {
         /*  Funcion del boton eliminar banco   */
     }
 
+    onChangeBanco = (event) => {
+        this.setState({
+            banco: event.target.value
+        })
+    }
+
+
 
     render() {
         return (
             <main className="content">
-
                 <h1 className="display-5 titulo">Bancos</h1>
+                <Listado bancos={this.state.bancos} banco = {this.state.banco} onChangeBanco = {this.onChangeBanco} />
 
-                <Listado />
-
-                <Banco />
-                      
-                <Botones change = {this.change} delete = {this.delete} /> 
-                           
+                <Banco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change} delete = {this.delete}/>
+                               
             </main>
         )
     }
