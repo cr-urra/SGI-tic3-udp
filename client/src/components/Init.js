@@ -13,9 +13,7 @@ export default class Init extends Component {
                 <div className="text-center mt-4 mb-4">
                     <h1 className="color_escritura">Sistema de Gestión de Importaciones</h1>
                 </div>
-                
                 <Login/>
-
                 <Derechos/>    
             </div>
         )
