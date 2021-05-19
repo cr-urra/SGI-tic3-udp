@@ -36,7 +36,7 @@ export default class Contenido_Agente_Aduana extends Component {
 
                 <div className="container separacion">
 
-                    <div className="card">
+                    <div className="card shadow-lg">
 
                         <div className="card-header">
                             Formulario para crear un Agente de Aduana

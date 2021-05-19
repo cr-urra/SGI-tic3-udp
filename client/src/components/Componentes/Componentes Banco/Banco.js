@@ -16,14 +16,14 @@ export default class Banco extends Component {
                     j = i;
                 }
             }
-            if(this.props.bancos[j]!==null){
+            if(this.props.bancos[j]!=null){
                 return (
                     <div>
                         <div className="container separacion">
 
-                            <div className="card border-primary ">
+                            <div className="card border-primary  shadow-lg">
                               <div className="card-header text-primary">
-                                {this.props.bancos[j].nombre}
+                                <h4>{this.props.bancos[j].nombre}</h4>
                               </div>
                                 <ul className="list-group list-group-flush">
                                     <Lista nombre={"Cuenta Corriente (IBAN)"} contenido={this.props.bancos[j].IBAN}/>
@@ -40,7 +40,6 @@ export default class Banco extends Component {
                         </div>
                         <Botones change = {this.props.change} delete={this.props.delete}/>
                     </div>
-
                 )
             }else{
                 return <div/>

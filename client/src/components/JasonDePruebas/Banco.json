@@ -36,6 +36,19 @@
         "IFCS": "codigo IFCS C",
         "cuenta_interbancaria": "cuenta interbancaria C",
         "banco_intermediario": "banco intermediario C"
+    },
+
+    {
+        "nombre": "Banco D",
+        "IBAN": "IBAN D",
+        "pais": "Chile D",
+        "ABA": "ABA D",
+        "referencia": "referencia D",
+        "banco_beneficiario": "Banco Beneficiario D",
+        "SWIFT": "codigo Swift D",
+        "IFCS": "codigo IFCS D",
+        "cuenta_interbancaria": "cuenta interbancaria D",
+        "banco_intermediario": "banco intermediario D"
     }
 
 ]

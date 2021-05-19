@@ -21,7 +21,8 @@ export default class Sidebar extends Component {
       <ProSidebar 
       
       collapsed = {this.state.collapsed}
-      breakPoint="md"
+
+
       >
         <SidebarHeader className="head boton_sidebar" >
           
