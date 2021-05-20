@@ -12,7 +12,7 @@ export default class Buscar_Producto extends Component {
         rut: 0,
         cod_rol: "",
         verify: undefined,
-        message: "",
+        message: null,
     };
 
     componentDidMount = async () => {
@@ -25,6 +25,7 @@ export default class Buscar_Producto extends Component {
     };
 
     componentWillUnmount = () => {
+        if(this.state.message)
         alert(this.state.message);
     };
 
@@ -45,11 +46,8 @@ export default class Buscar_Producto extends Component {
             default:
                 break;
         };
-        if(this.state.verify)
         return (
             
-
-    
                 <div className="layout has-sidebar">
                   <aside >
                     <Sidebar/>
@@ -62,7 +60,5 @@ export default class Buscar_Producto extends Component {
                 </div>          
  
         )
-        else 
-        return <div/>
     };
 }

@@ -13,7 +13,7 @@ export default class Contenido_Agente_Aduana extends Component {
 
     addAgente = async (empresa,contacto,banco,cuenta_corriente) =>{
         const Agente_Aduanta ={
-
+            
         }
     }
 

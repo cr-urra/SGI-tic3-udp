@@ -12,7 +12,7 @@ export default class AdminHome extends Component {
         rut: 0,
         cod_rol: "",
         verify: undefined,
-        message: "",
+        message: null,
     };
 
     componentDidMount = async () => {
@@ -25,6 +25,7 @@ export default class AdminHome extends Component {
     };
 
     componentWillUnmount = () => {
+        if(this.state.message)
         alert(this.state.message);
     };
 
@@ -45,7 +46,6 @@ export default class AdminHome extends Component {
             default:
                 break;
         };
-        if(this.state.verify)
         return (
             
 
@@ -62,7 +62,5 @@ export default class AdminHome extends Component {
                 </div>            
  
         )
-        else 
-        return <div/>
     };
 }
