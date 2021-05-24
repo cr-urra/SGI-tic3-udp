@@ -10,10 +10,10 @@ export default class Listado extends Component {
             <div className="container" >
                 <div className="input-group no_flex">
                   <label className="input-group-text " for="inputGroupSelect01">Buscar un Banco</label>
-                  <select className="form-select ancho" id="inputGroupSelect01" value = {this.props.banco} onChange={this.props.onChangeBanco} >
-                    <option defaultValue>Elegir un Banco Aquí...</option>
+                  <input class="form-control ancho" list="datalistOptions" id="exampleDataList" placeholder="Escribe Aquí para Buscar..." value = {this.props.banco} onChange={this.props.onChangeBanco} ></input>
+                  <datalist id="datalistOptions">
                     <Opciones bancos = {this.props.bancos}/>
-                  </select>
+                  </datalist>
                 </div>
             </div>
         )

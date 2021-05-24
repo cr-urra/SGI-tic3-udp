@@ -7,14 +7,13 @@ export default class Botones extends Component {
             return (
                 <div className="container separacion_final">
                     <div className="row g-2  mb-4">
-                        <div className="col-1"/>
-                        <div className="col-3">
-                        <button type="button" className="btn btn-primary rounded-pill" >
+                        <div className="col-6 text-center">
+                        <button type="button" className="btn btn-primary rounded-pill ancho3" >
                             Editar Banco 
                         </button>
                         </div>
-                        <div className="col-8">
-                        <button type="button" className="btn btn-danger rounded-pill" >
+                        <div className="col-6 text-center">
+                        <button type="button" className="btn btn-danger rounded-pill ancho3" >
                             Eliminar Banco
                         </button>
                         </div>
