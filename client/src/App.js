@@ -33,6 +33,7 @@ import Buscar_Usuario from './components/Buscar_Usuario';
 import Crear_Usuario from './components/Crear_Usuario';
 
 import Buscar_Agente_Aduana from './components/Buscar_Agente_Aduana';
+import Historial_Agente_Aduana from './components/Historial_Agente_Aduana';
 import Ingresar_Agente_Aduana from './components/Ingresar_Agente_Aduana';
 
 import Bancos from './components/Bancos'
@@ -68,6 +69,7 @@ function App() {
       <Route path="/users/Crear_Usuario" exact component={Crear_Usuario}/>
 
       <Route path="/users/Buscar_Agente_Aduana" exact component={Buscar_Agente_Aduana}/>
+      <Route path="/users/Buscar_Agente_Aduana/Historial_Saldo" exact component={Historial_Agente_Aduana}/>
       <Route path="/users/Ingresar_Agente_Aduana" exact component={Ingresar_Agente_Aduana}/>
 
       <Route path="/users/Bancos" exact component={Bancos}/>

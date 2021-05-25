@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import {Link} from 'react-router-dom';
 
 export default class Init extends Component {
     render() {
@@ -62,9 +62,11 @@ export default class Init extends Component {
                                     <div className="row">
                                         <div className="col-3"/>
                                         <div className="col-6 text-center">
-                                            <button type="submit" className="btn btn-outline-success rounded-pill ancho"> 
-                                                Ver Historial del Saldo
-                                            </button>
+                                            <Link to = '/users/Buscar_Agente_Aduana/Historial_Saldo'>
+                                                <button type="button" className="btn btn-outline-success rounded-pill ancho ">                                                  
+                                                    Ver Historial del Saldo
+                                                </button>
+                                            </Link> 
                                         </div>
                                         <div className="col-3"/>                                        
                                     </div>
