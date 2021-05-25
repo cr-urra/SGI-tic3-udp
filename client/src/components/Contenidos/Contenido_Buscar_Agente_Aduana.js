@@ -5,11 +5,11 @@ export default class Init extends Component {
     render() {
         return (
             <main className="content">
-                <h1 className="display-5 titulo">Buscar un Agente de Aduana</h1>
+                <h1 className="display-5 titulo">Buscar Agente de Aduana</h1>
 
                 <div className="container" >
                     <div className="input-group no_flex">
-                      <label className="input-group-text " for="inputGroupSelect01">Buscar un Banco</label>
+                      <label className="input-group-text " for="inputGroupSelect01">Buscar un Agente de Aduana</label>
                       <input class="form-control ancho" list="datalistOptions" id="exampleDataList" placeholder="Escribe Aquí para Buscar..." value = {this.props.banco} onChange={this.props.onChangeBanco} ></input>
                       <datalist id="datalistOptions">
                         <option value="San Francisco"/>
