@@ -48,12 +48,10 @@ export default class Buscar_Producto extends Component {
         };
 
         return (
-            
-
-    
                 <div className="layout has-sidebar">
                   <aside >
                     <Sidebar/>
+                    <div className="overlay"></div>
                     </aside>                 
                   <div className="layout">
                     <header className="header"><Navbar logOut={this.logOut}/></header>

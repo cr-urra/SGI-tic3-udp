@@ -137,15 +137,16 @@ export default class Ingresar_Usuario extends Component {
                                         <div className = "col-2 text-center">
                                             <h5> Banco </h5>
                                         </div>
-                                        <div className = "col-6" >
+                                        <div className = "col-2" >
                                             <div class="form-check">
                                               <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioBanco"/>                                             
                                               <label class="form-check-label form-label" for="flexRadioBanco">
                                                 Elegir Banco                                                
-                                              </label>                                             
-                                              
+                                              </label>                                                                                          
                                             </div>  
-                                            <input class="form-control " list="datalistOptions" id="exampleDataList" placeholder="Type to search..."/>
+                                        </div>
+                                        <div className = "col-4" > 
+                                            <input className="form-control " list="datalistOptions" id="exampleDataList" placeholder="Type to search..."/>
                                             <datalist id="datalistOptions">
                                               <option value="San Francisco"/>
                                               <option value="New York"/>
@@ -162,15 +163,12 @@ export default class Ingresar_Usuario extends Component {
                                               </label>
                                             </div> 
                                         </div>
-
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-
-
             </main>
         )
     }

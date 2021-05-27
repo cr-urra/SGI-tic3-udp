@@ -19,6 +19,7 @@ export default class Banco extends Component {
             if(this.props.bancos[j]!=null){
                 return (
                     <div>
+                        
                         <div className="container separacion">
 
                             <div className="card border-primary  shadow-lg">
