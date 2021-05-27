@@ -78,7 +78,7 @@ export const SidebarData = [
                 //path: '/reportes/monto_import',
                 subsubNav: [
                     {
-                        title:'Por proovedor',
+                        title:'Por proveedor',
                         path: '/users/Reporte_Importacion_Proveedor'
                     },
                     {

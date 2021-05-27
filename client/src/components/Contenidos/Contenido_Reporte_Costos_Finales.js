@@ -28,7 +28,7 @@ export default class Init extends Component {
                               </div>
                               <div className="container mt-4" >
                               <h1 className="text-center" style={{fontSize:"25px"}}>Productos</h1>
-                                <table class="table" style={{marginTop:"20px"}}>
+                                <table className="table text-center table-striped table-bordered" style={{marginTop:"20px"}}>
                                   <thead>
                                     <tr>
                                       <th scope="col">Id Producto</th>
@@ -72,15 +72,10 @@ export default class Init extends Component {
                         </div>
                         <div className="container separacion_final">
                             <div className="row g-2  mb-4">
-                                <div className="col-6 text-center">
-                                <button type="button" className="btn btn-primary rounded-pill ancho3" >
-                                    Editar Usuario 
-                                </button>
-                                </div>
-                                <div className="col-6 text-center">
-                                <button type="button" className="btn btn-danger rounded-pill ancho3" >
-                                    Eliminar Usuario
-                                </button>
+                                <div className="col-12 text-center">
+                                    <button type="button" className="btn btn-success rounded-pill" style={{width:"20%"}} >
+                                        Exportar 
+                                    </button>
                                 </div>
                             </div>
                         </div>
