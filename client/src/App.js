@@ -23,6 +23,7 @@ import Ingresar_Proveedor from './components/Ingresar_Proveedor';
 
 import Buscar_Producto from './components/Buscar_Producto';
 import Ingresar_Producto from './components/Ingresar_Producto';
+import Ingresar_Producto_lote from './components/Ingresar_Producto_lote';
 import Historial_Producto_precio from './components/Historial_Producto_precio';
 
 
@@ -60,7 +61,9 @@ function App() {
       <Route path="/users/Ingresar_Proveedor" exact component={Ingresar_Proveedor}/>
 
       <Route path="/users/Buscar_Producto" exact component={Buscar_Producto}/>
-      <Route path="/users/Ingresar_Producto" exact component={Ingresar_Producto}/>
+      <Route path="/users/Ingresar_Producto/Ingreso_unidad" exact component={Ingresar_Producto}/>
+      <Route path="/users/Ingresar_Producto/Ingreso_lote" exact component={Ingresar_Producto_lote}/>
+
       <Route path="/users/Buscar_Producto/Historial_Producto_Precio" exact component={Historial_Producto_precio}/>
 
       <Route path="/users/Reporte_Costos_Finales" exact component={Reporte_Costos_Finales}/>

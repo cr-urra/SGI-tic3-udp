@@ -51,8 +51,19 @@ export const SidebarData = [
         icon: <IconProducto/>,
         subNav : [
             {
-                title: 'Crear Producto',
-                path: '/users/Ingresar_Producto'
+                title: 'Ingresar Producto',
+                path: '/users/Ingresar_Producto',
+                subsubNav: [
+                    {
+                        title:'Ingresar Por Unidad',
+                        path: '/users/Ingresar_Producto/Ingreso_unidad'
+                    },
+                    {
+                        title:'Ingresar Por Lote',
+                        path: '/users/Ingresar_Producto/Ingreso_lote'
+                    }
+
+                ]
             },
             {
                 title: 'Buscar Producto',
