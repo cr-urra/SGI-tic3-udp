@@ -15,10 +15,10 @@ export default class Init extends Component {
                         <div className="card-header">
                             <div className="row">
                                 <div className="col-3 text-center">
-                                    Saldo Actual
+                                    <h4>Saldo Actual:</h4>
                                 </div>
                                 <div className="col-8">
-                                    $550.000
+                                    <h4>$550.000</h4>
                                 </div>
                                 <div className="col-1">
                                     <Link to = '/users/Buscar_Agente_Aduana'> 
@@ -34,18 +34,19 @@ export default class Init extends Component {
                         <div className="container separacion">
                             <div className="row">
                                 <div className="col-3 text-center">
-                                    Busqueda por Fecha
+                                    <h5>Busqueda por Fecha</h5>
                                 </div>
                                 <div className="col-9">
                                     <div className="input-group mb-3">
+                                        <div className="col-1"/>
                                         <div className="col-2">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
                                             </div>
                                         </div>
-                                        <div className="col-10">
+                                        <div className="col-6">
                                             <input 
-                                            type="text" 
+                                            type="date" 
                                             name="empresa"
                                             className="form-control" 
                                             aria-label="Default" 
@@ -53,17 +54,23 @@ export default class Init extends Component {
                                             /*onChange={this.onChange}
                                             value={this.state.empresa}*/
                                             />
-                                        </div>   
+                                        </div> 
+                                        <div className="col-3">
+                                            <button type="button" className="btn btn-primary rounded-pill " >
+                                                    Filtrar Fechas
+                                            </button> 
+                                        </div> 
                                     </div>
                                     <div className="input-group mb-3">
+                                        <div className="col-1"/>
                                         <div className="col-2">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
                                             </div>
                                         </div>
-                                        <div className="col-10">
+                                        <div className="col-6">
                                             <input 
-                                            type="text" 
+                                            type="date" 
                                             name="empresa"
                                             className="form-control" 
                                             aria-label="Default" 
@@ -75,12 +82,8 @@ export default class Init extends Component {
                                     </div> 
                                      
                                 </div>
-                                <div className="col-10"/>
-                                <div className="col-2">
-                                    <button type="button" className="btn btn-primary rounded-pill " >
-                                            Filtrar Fechas
-                                    </button> 
-                                </div>
+
+                                
                             </div>
 
                             <div className="container mt-4">
