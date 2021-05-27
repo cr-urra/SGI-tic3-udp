@@ -41,10 +41,6 @@ export const SidebarData = [
             {
                 title: 'Buscar Proveedor',
                 path: '/users/Buscar_Proveedor'
-            },
-            {
-                title: 'Lista de precios',
-                path: '/proveedor/lista_precio'
             }
         ]
 

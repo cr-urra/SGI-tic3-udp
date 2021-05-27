@@ -1,105 +1,116 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom';
 
 
 export default class Init extends Component {
     render() {
         return (
             <main className="content">
-                <h1 className="display-5 titulo">Crear Usuario</h1>
+            <h1 className="display-5 titulo">Buscar Producto</h1>
 
-                <div className="container separacion">
-
-                    <div className="card shadow-lg">
-
-                        <div className="card-header">
-                            Formulario de creación de Usuario
-                        </div>
-
-                        <div className="container separacion">
-                            <form onSubmit ={this.onSubmit}>
-                                <div className="row g-2 mt-2 mb-2">
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Nombre</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="text" 
-                                            name="nombre"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.nombre}
-                                            />
-                                        </div>
-                                    </div> 
-
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                            <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Contraseña</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="password" 
-                                            name="contraseña"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.contraseña}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Repetir Contraseña</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="password" 
-                                            name="r_contraseña"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.r_contraseña}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="input-group no_flex">
-                                        <div className="col-2">
-                                            <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Rol</label>
-                                        </div>
-                                        <div className="col-10">
-                                            <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.state.rol} onChange={this.onChangeRol} >
-                                              <option defaultValue>Escoger el Rol del Usuario</option>
-                                              <option value="1">Adminitrador</option>
-                                              <option value="2">Operaciones</option>
-                                              <option value="3">Finanzas</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className = "container mt-4 ml-3"> 
-                                        <button type="button" className="btn btn-primary rounded-pill" >
-                                            Guardar Usuario
-                                        </button>
-                                    </div> 
-                                </div>                            
-                            </form>
-                        </div>
-                        
-                    </div> 
+            <div className="container" >
+                <div className="input-group no_flex">
+                  <label className="input-group-text " for="inputGroupSelect01">Buscar Producto</label>
+                  <input class="form-control ancho" list="datalistOptions" id="exampleDataList" placeholder="Escribe Aquí para Buscar..." value = {this.props.banco} onChange={this.props.onChangeBanco} ></input>
+                  <datalist id="datalistOptions">
+                    <option value="producto 1"/>
+                    <option value="Producto 2"/>
+                  </datalist>
                 </div>
-            </main>
+            </div>
+
+            <div>
+                <div className="container separacion">
+                    <div className="card border-primary  shadow-lg">
+                      <div className="card-header text-primary">
+                        Producto 1
+                      </div>
+                        <ul className="list-group list-group-flush">
+                            <li className="list-group-item">
+                                <div className="row g-2 mt-2 mb-2">
+                                    <div className="col-4">
+                                      <div >Nombre</div>
+                                    </div>
+                                    <div className="col-8">
+                                      <div > Producto 1</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="list-group-item">
+                                <div className="row g-2 mt-2 mb-2">
+                                    <div className="col-4">
+                                      <div > Codigo </div>
+                                    </div>
+                                    <div className="col-8">
+                                      <div > 12343 </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="list-group-item">
+                                <div className="row g-2 mt-2 mb-2">
+                                    <div className="col-4">
+                                      <div > Descripcion </div>
+                                    </div>
+                                    <div className="col-8">
+                                      <div > muy Resistente </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="list-group-item">
+                                <div className="row g-2 mt-2 mb-2">
+                                    <div className="col-4">
+                                      <div > Proveedor </div>
+                                    </div>
+                                    <div className="col-8">
+                                      <div > JJPlastalloy </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="list-group-item">
+                                <div className="row g-2 mt-2 mb-2">
+                                    <div className="col-4">
+                                      <div > Tipo </div>
+                                    </div>
+                                    <div className="col-8">
+                                      <div > Plastico </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className = "list-group-item">
+                                <div className="row">
+                                    <div className="col-3"/>
+                                    <div className="col-6 text-center">
+                                        <Link to = '/users/Buscar_Producto/Historial_Producto_Precio'>
+                                            <button type="button" className="btn btn-outline-success rounded-pill ancho ">                                                  
+                                                Ver Historial de Precios
+                                            </button>
+                                        </Link> 
+                                    </div>
+                                    <div className="col-3"/>                                        
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="row g-2 mt-4 mb-2">
+                        <div className="col-4 text-center">
+                            <button type="submit" className="btn rounded-pill color_sitio2 ancho3"> 
+                                Pedidos
+                            </button>
+                        </div>
+                        <div className="col-4 text-center">
+                            <button type="submit" className="btn btn-primary rounded-pill ancho3"> 
+                                Editar
+                            </button>
+                        </div>
+                        <div className="col-4 text-center">
+                            <button type="submit" className="btn btn-danger rounded-pill ancho3"> 
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
         )
     }
 }
