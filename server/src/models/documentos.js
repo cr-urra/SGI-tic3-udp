@@ -1,19 +1,19 @@
 import sequelize from 'sequelize';
 import {database} from '../database/database';
 
-const roles = database.define('role',{
-    id: {
+const documentos = database.define('documentos',{
+    id:{
         type: sequelize.INTEGER,
         primaryKey: true
     },
-    cod_rol: {
-        type: sequelize.TEXT
+    nombre_documento:{
+        type: sequelize.STRING
     },
-    nombre:{
-        type: sequelize.TEXT
+    pedidos_id:{
+        type: sequelize.INTEGER
     }
 },{
     timestamps: false
 });
 
-export default roles;
+export default documentos;
