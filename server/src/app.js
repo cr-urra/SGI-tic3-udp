@@ -6,6 +6,7 @@ const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const csurf = require('csurf');
+const os = require('os');
 require('./database/associations');
 
 //inicialización
@@ -34,26 +35,21 @@ app.use(express.urlencoded({
     extended: false
 }));
 
-app.get ('/csrf', (req, res) => { 
-    res.send({ csrfToken: req.csrfToken() })
-});
-
 //Importar rutas
 
 import roles from './routes/roles.routes.js';
-import users from './routes/users.routes.js';
+import usuarios from './routes/usuarios.routes.js';
 import auth from './routes/auth.routes.js';
-
 
 //routes
 
-app.use('/users', users);
+app.use('/usuarios', usuarios);
 app.use('/auth', auth);
 app.use('/roles', roles);
 
-//public
-
-//app.use(express.static('../public'));
+app.get('/csrf', (req, res) => { 
+    res.send({csrfToken: req.csrfToken()})
+});
 
 export default app;
 

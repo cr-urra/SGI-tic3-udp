@@ -1,19 +1,19 @@
 import sequelize from 'sequelize';
 import {database} from '../database/database';
 
-const detalles_dolar = database.define('detalles_dolar',{
-    id:{
+const telefonos_usuarios = database.define('telefonos_usuarios',{
+    id: {
         type: sequelize.INTEGER,
         primaryKey: true
     },
-    precio_compra:{
-        type: sequelize.DOUBLE
+    telefono:{
+        type: sequelize.NUMBER
     },
-    historial_dolar_id:{
+    usuarios_id:{
         type: sequelize.INTEGER
     }
 },{
     timestamps: false
 });
 
-export default detalles_dolar;
+export default telefonos_usuarios;

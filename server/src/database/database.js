@@ -1,7 +1,7 @@
 import sequelize from 'sequelize';
 
 export const database = new sequelize(
-    'db_02', //Nombre bd
+    'sgi_db', //Nombre bd
     'postgres', //Usuario
     'pass123', //Contraseña
     {
@@ -13,6 +13,11 @@ export const database = new sequelize(
             require: 30000,
             idle: 1000
         },
-        logging: false
+        logging: false,
+        define: {
+            "createdAt": "createdat",
+            "updatedAt": "updatedat",
+            freezeTableName: true
+        }
     }
 )

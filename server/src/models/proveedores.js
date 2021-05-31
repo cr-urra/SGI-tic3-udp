@@ -1,7 +1,7 @@
 import sequelize from 'sequelize';
 import {database} from '../database/database';
 
-const agentes_aduana = database.define('agentes_aduana',{
+const proveedores = database.define('proveedores',{
     id:{
         type: sequelize.INTEGER,
         primaryKey: true
@@ -9,14 +9,21 @@ const agentes_aduana = database.define('agentes_aduana',{
     nombre:{
         type: sequelize.STRING
     },
-    apellido:{
+    direccion:{
         type: sequelize.STRING
     },
     correo:{
         type: sequelize.STRING
+    },
+    pais:{
+        type: sequelize.STRING
+    },
+    monedas_id:{
+        type: sequelize.INTEGER
     }
+
 },{
     timestamps: false
 });
 
-export default agentes_aduana;
+export default proveedores;

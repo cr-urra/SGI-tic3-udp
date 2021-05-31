@@ -1,4 +1,4 @@
-import usuarios from '../models/users';
+import usuarios from '../models/usuarios';
 import roles from '../models/roles';
 import bcrypt from 'bcryptjs';
 import config from '../config';

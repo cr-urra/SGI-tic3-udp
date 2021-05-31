@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import config from '../config';
-import users from '../models/users';
+import usuarios from '../models/usuarios';
 import roles from '../models/roles';
 
 export const verifyToken = async (req, res, next) => {
@@ -10,7 +10,7 @@ export const verifyToken = async (req, res, next) => {
         const decoded = jwt.verify(token, config.SECRET);
         const id = decoded.id;
         req.id = id;
-        const user = await users.findOne({
+        const user = await usuarios.findOne({
             where: {id},
             attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id']
         });
@@ -24,7 +24,7 @@ export const verifyToken = async (req, res, next) => {
 
 export const administrador = async (req, res, next) => {
     const {rut} = req.params;
-    const user = await users.findOne({
+    const user = await usuarios.findOne({
         where: {rut},
         attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id']
     });
@@ -38,7 +38,7 @@ export const administrador = async (req, res, next) => {
 
 export const superUsuario = async (req, res, next) => {
     let {rut} = req.body;
-    const user = await users.findOne({
+    const user = await usuarios.findOne({
         where: {rut},
         attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id']
     });
@@ -52,7 +52,7 @@ export const superUsuario = async (req, res, next) => {
 
 export const usuario = async (req, res, next) => {
     let {rut} = req.body;
-    const user = await users.findOne({
+    const user = await usuarios.findOne({
         where: {rut},
         attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id']
     });

@@ -1,28 +1,34 @@
 import sequelize from 'sequelize';
 import {database} from '../database/database';
 
-const users = database.define('user', {
-    id: {
+const usuarios = database.define('usuarios', {
+    id:{
         type: sequelize.INTEGER,
         primaryKey: true
     },
-    rut: {
+    rut:{
         type: sequelize.INTEGER
     },
     nombre:{
         type: sequelize.TEXT
     },
     apellido:{
+        type: sequelize.STRING
+    },
+    correo:{
+        type: sequelize.TEXT
+    },
+    contraseña:{
         type: sequelize.TEXT
     },
     roles_id:{
         type: sequelize.INTEGER
     },
-    password:{
-        type: sequelize.TEXT
+    verificacion:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false
 });
 
-export default users;
+export default usuarios;

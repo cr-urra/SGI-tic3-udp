@@ -1,19 +1,28 @@
 import sequelize from 'sequelize';
 import {database} from '../database/database';
 
-const documentos = database.define('documentos',{
+const productos = database.define('productos',{
     id:{
         type: sequelize.INTEGER,
         primaryKey: true
     },
-    nombre_documento:{
+    codigo:{
         type: sequelize.STRING
     },
-    pedidos_id:{
+    nombre:{
+        type: sequelize.STRING
+    },
+    precio_por_kg:{
+        type: sequelize.FLOAT
+    },
+    tipo:{
+        type: sequelize.STRING
+    },
+    proveedores_id:{
         type: sequelize.INTEGER
     }
 },{
     timestamps: false
 });
 
-export default documentos;
+export default productos;

@@ -1,22 +1,19 @@
 import sequelize from 'sequelize';
 import {database} from '../database/database';
 
-const cuentas_corrientes = database.define('cuentas_corrientes',{
+const telefonos_proveedores = database.define('telefonos_proveedores',{
     id:{
         type: sequelize.INTEGER,
         primaryKey: true
     },
-    debe:{
-        type: sequelize.DOUBLE
+    telefono:{
+        type: sequelize.NUMBER
     },
-    haber:{
-        type: sequelize.DOUBLE
-    },
-    agentes_aduana_id:{
+    proveedores_id:{
         type: sequelize.INTEGER
     }
 },{
     timestamps: false
 });
 
-export default cuentas_corrientes;
+export default telefonos_proveedores;
