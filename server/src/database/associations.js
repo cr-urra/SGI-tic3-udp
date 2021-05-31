@@ -93,6 +93,10 @@ agentes_aduana.belongsTo(telefonos_agentes_aduana, {foreingKey: 'agentes_aduana_
 movimientos.hasMany(cuentas_corrientes, {foreingKey: 'cuentas_corrientes_id', sourceKey: 'id'});
 cuentas_corrientes.belongsTo(movimientos, {foreingKey: 'cuentas_corrientes_id', sourceKey: 'id'});
 
+ips.hasMany(usuarios, {foreingKey: 'usuarios_id', sourceKey: 'id'});
+usuarios.belongsTo(ips, {foreingKey: 'usuarios_id', sourceKey: 'id'});
+
+
 // N:M
 
 pedidos.belongToMany(usuarios, {through: 'realiza', foreignKey: 'usuarios_id'});
