@@ -15,8 +15,12 @@ export const encryptPassword = async (password) => {
 
 export const consulRol = async (id) => {
     const codRol = await roles.findOne({
-        where: {id},
-        attributes: ['cod_rol']
+        where: {
+            id
+        },
+        attributes: [
+            'cod_rol'
+        ]
     });
     return codRol;
 };
@@ -33,12 +37,26 @@ export const signUp = async (req, res) => {
             correo,
             verificacion: false
         },{
-            fields: ['rut','nombre','apellido','roles_id','contraseña', 'correo', 'verificacion']
+            fields: [
+                'rut',
+                'nombre',
+                'apellido',
+                'roles_id',
+                'contraseña', 
+                'correo', 
+                'verificacion'
+            ]
         });
-        res.json({resultado: true, message: "Usuario registrado correctamente"});
-    } catch (e) {
+        res.json({
+            resultado: true, 
+            message: "Usuario registrado correctamente"
+        });
+    }catch(e){
         console.log(e);
-        res.json({message: "Problemas al registrar usuario, contactese con el administrador del sistema", data: {}})
+        res.json({
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false
+        })
     };
 };
 
@@ -100,7 +118,7 @@ export const verifySup = async (req, res) => {
     const token = req.cookies.token;
     !token && res.json({resul: null, cod_rol: "", message: "Ha ocurrido un problema con la autenticación"});
     let verifyDecoded = null;
-    const aux = jwt.verify(token, config.SECRET, (err) => {verifyDecoded = err});
+    jwt.verify(token, config.SECRET, (err) => {verifyDecoded = err});
     if(verifyDecoded !== null){
         res.json({resul: null, cod_rol: "", message: "Su sesión ha expirado"});
     }else{
@@ -151,8 +169,7 @@ export const verifyUsr = async (req, res) => {
 };
 
 export const logOut = async (req, res) => {
-    const user_token = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-    res.cookie('token', user_token, {httpOnly: true});
+    res.cookie('token', jwt.sign({}, config.SECRET, {expiresIn: 1}), {httpOnly: true});
     res.json({resultado: true, message: "Se ha cerrado la sesión", logout: null});
 };
 

@@ -14,6 +14,12 @@ const agentes_aduana = database.define('agentes_aduana',{
     },
     correo:{
         type: sequelize.STRING
+    },
+    numero_cuenta:{
+        type: sequelize.STRING
+    },
+    tipo_cuenta:{
+        type: sequelize.STRING
     }
 },{
     timestamps: false

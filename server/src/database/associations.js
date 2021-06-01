@@ -99,11 +99,11 @@ usuarios.belongsTo(ips, {foreingKey: 'usuarios_id', sourceKey: 'id'});
 
 // N:M
 
-pedidos.belongToMany(usuarios, {through: 'realiza', foreignKey: 'usuarios_id'});
-usuarios.belongToMany(pedidos, {through: 'realiza', foreignKey: 'pedidos_id'});
+pedidos.belongsToMany(usuarios, {through: 'realiza', foreignKey: 'pedidos_id'});
+usuarios.belongsToMany(pedidos, {through: 'realiza', foreignKey: 'usuarios_id'});
 
-pedidos.belongToMany(productos, {through: 'tiene', foreignKey: 'productos_id'});
-productos.belongToMany(pedidos, {through: 'tiene', foreignKey: 'pedidos_id'});
+pedidos.belongsToMany(productos, {through: 'tiene', foreignKey: 'pedidos_id'});
+productos.belongsToMany(pedidos, {through: 'tiene', foreignKey: 'productos_id'});
 
-pedidos.belongToMany(historial_dolar, {through: 'cobra', foreignKey: 'historial_dolar_id'});
-historial_dolar.belongToMany(pedidos, {through: 'cobra', foreignKey: 'pedidos_id'});
+pedidos.belongsToMany(historial_dolar, {through: 'cobra', foreignKey: 'pedidos_id'});
+historial_dolar.belongsToMany(pedidos, {through: 'cobra', foreignKey: 'historial_dolar_id'});
