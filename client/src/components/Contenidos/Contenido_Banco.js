@@ -13,7 +13,6 @@ export default class Contenido_Banco extends Component {
     state = {
         bancos: bancos,
         banco: "",
-        colapse: "",
  
     }
 

@@ -25,7 +25,7 @@ export default class Login extends Component {
         axios.defaults.headers.post['X-CSRF-Token'] = data.csrfToken;
         const datosLogin = {
             rut: this.state.rut,
-            password: this.state.password
+            contraseña: this.state.password
         };
         const res = await axios.post('/auth/signin', datosLogin);
         res.data.resultado === true ? this.setState({ 

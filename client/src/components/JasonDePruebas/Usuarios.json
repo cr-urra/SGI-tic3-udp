@@ -1,0 +1,38 @@
+[
+    {
+        "nombre": "Nombre A",
+        "apellido": "Apellido A",
+        "telefono": "Telefono A",
+        "correo": "Correo A",
+        "rut": "Rut A",
+        "rol": "Rol A"
+    },
+
+    {
+        "nombre": "Nombre B",
+        "apellido": "Apellido B",
+        "telefono": "Telefono B",
+        "correo": "Correo B",
+        "rut": "Rut B",
+        "rol": "Rol B"
+    },
+
+    {
+        "nombre": "Nombre C",
+        "apellido": "Apellido C",
+        "telefono": "Telefono C",
+        "correo": "Correo C",
+        "rut": "Rut C",
+        "rol": "Rol C"
+    },
+
+    {
+        "nombre": "Nombre D",
+        "apellido": "Apellido D",
+        "telefono": "Telefono D",
+        "correo": "Correo D",
+        "rut": "Rut D",
+        "rol": "Rol D"
+    }
+    
+]

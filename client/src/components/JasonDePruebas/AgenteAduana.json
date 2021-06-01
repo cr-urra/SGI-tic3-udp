@@ -1,0 +1,45 @@
+[
+    {
+        "nombre": "Nombre A",
+        "apellido": "Apellido A",
+        "telefono": "Telefono A",
+        "banco": "Banco A",
+        "n_cuenta": "Numero de Cuenta A",
+        "correo": "Correo A",
+        "tipo_cuenta": "Tipo de Cuenta A",
+        "saldo": "Saldo A"
+    },
+
+    {
+        "nombre": "Nombre B",
+        "apellido": "Apellido B",
+        "tipo_cuenta": "Tipo de Cuenta B",
+        "telefono": "Telefono B",
+        "banco": "Banco B",
+        "n_cuenta": "Numero de Cuenta B",
+        "correo": "Correo B",
+        "saldo": "Saldo B"
+    },
+
+    {
+        "nombre": "Nombre C",
+        "apellido": "Apellido C",
+        "telefono": "Telefono C",
+        "tipo_cuenta": "Tipo de Cuenta C",
+        "banco": "Banco C",
+        "correo": "Correo C",
+        "n_cuenta": "Numero de Cuenta C",
+        "saldo": "Saldo C"
+    },
+
+    {
+        "nombre": "Nombre D",
+        "apellido": "Apellido D",
+        "telefono": "Telefono D",
+        "banco": "Banco D",
+        "tipo_cuenta": "Tipo de Cuenta D",
+        "correo": "Correo D",
+        "n_cuenta": "Numero de Cuenta D",
+        "saldo": "Saldo D"
+    }
+]

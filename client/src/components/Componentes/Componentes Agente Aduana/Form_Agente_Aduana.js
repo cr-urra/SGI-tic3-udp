@@ -5,13 +5,16 @@ import axios from 'axios';
 export default class Contenido_Agente_Aduana extends Component {
 
     state ={
-        empresa: null,
-        contacto: null,
+        nombre: null,
+        apellido: null,
+        telefono: null,
         banco: null,
-        cuenta_corriente: null
+        n_cuenta: null,
+        tipo_cuenta: null,
+        correo: null
     }
 
-    addAgente = async (empresa,contacto,banco,cuenta_corriente) =>{
+    addAgente = async (nombre,telefono,banco,n_cuenta) =>{
         const Agente_Aduanta ={
             
         }
@@ -33,46 +36,81 @@ export default class Contenido_Agente_Aduana extends Component {
         return (
             <div className="container separacion">
                 <form onSubmit ={this.onSubmit}>
-                    
                     <div className="row g-2 mt-2 mb-2">
                         <div className="input-group mb-3">
                             <div className="col-2">
                                 <div className="input-group-prepend ancho2">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Empresa</span>
+                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Nombre</span>
                                 </div>
                             </div>
                             <div className="col-10">
                                 <input 
                                 type="text" 
-                                name="empresa"
+                                name="nombre"
                                 className="form-control" 
                                 aria-label="Default" 
                                 aria-describedby="inputGroup-sizing-default"
                                 onChange={this.onChange}
-                                value={this.state.empresa}
+                                value={this.state.nombre}
+                                />
+                            </div>   
+                        </div> 
+                        <div className="input-group mb-3">
+                            <div className="col-2">
+                                <div className="input-group-prepend ancho2">
+                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Apellido</span>
+                                </div>
+                            </div>
+                            <div className="col-10">
+                                <input 
+                                type="text" 
+                                name="apellido"
+                                className="form-control" 
+                                
+                                aria-label="Default" 
+                                aria-describedby="inputGroup-sizing-default"
+                                onChange={this.onChange}
+                                value={this.state.apellido}
                                 />
                             </div>   
                         </div> 
                         <div className="input-group mb-3">
                             <div className="col-2">
                                 <div className="input-group-prepend ancho2 ">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Contacto</span>
+                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Teléfono</span>
                                 </div>
                             </div>
                             <div className="col-10">
                                 <input 
                                 type="text" 
-                                name="contacto"
+                                name="telefono"
                                 className="form-control " 
+                                aria-label="Default" 
+                                placeholder="Ej: +569 12345678"
+                                aria-describedby="inputGroup-sizing-default"
+                                onChange={this.onChange}
+                                value={this.state.telefono}
+                                />
+                            </div>
+                        </div>
+                        <div className="input-group mb-3">
+                            <div className="col-2">
+                                <div className="input-group-prepend ancho2">
+                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Correo</span>
+                                </div>
+                            </div>
+                            <div className="col-10">
+                                <input 
+                                type="text" 
+                                name="correo"
+                                className="form-control" 
                                 aria-label="Default" 
                                 aria-describedby="inputGroup-sizing-default"
                                 onChange={this.onChange}
-                                value={this.state.contacto}
+                                value={this.state.correo}
                                 />
-                            </div>
-                            
-                        </div>
-                        
+                            </div>   
+                        </div>    
                         <div className="input-group mb-3">
                             
                             <div className="col-2">
@@ -93,31 +131,48 @@ export default class Contenido_Agente_Aduana extends Component {
                             </div>
                             
                         </div>
-                        
                         <div className="input-group mb-3">
                             <div className="col-2">
                                 <div className="input-group-prepend ancho2">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Cuenta Corriente</span>
+                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Tipo de Cuenta</span>
                                 </div>
                             </div>
                             <div className="col-10">
                                 <input 
                                 type="text" 
-                                name="cuenta_corriente"
+                                name="tipo_cuenta"
                                 className="form-control" 
                                 aria-label="Default" 
                                 aria-describedby="inputGroup-sizing-default"
                                 onChange={this.onChange}
-                                value={this.state.cuenta_corriente}
+                                value={this.state.tipo_cuenta}
                                 />
                             </div>   
-                        </div>    
+                        </div>  
+                        <div className="input-group mb-3">
+                            <div className="col-2">
+                                <div className="input-group-prepend ancho2">
+                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Número de Cuenta</span>
+                                </div>
+                            </div>
+                            <div className="col-10">
+                                <input 
+                                type="text" 
+                                name="n_cuenta"
+                                className="form-control" 
+                                aria-label="Default" 
+                                aria-describedby="inputGroup-sizing-default"
+                                onChange={this.onChange}
+                                value={this.state.n_cuenta}
+                                />
+                            </div>   
+                        </div>  
+                       
                     </div> 
                     <button type="button" className="btn btn-primary rounded-pill mt-3 ml-3" >
                         Guardar Agente de Aduana
                     </button>                              
                 </form>
-                
             </div>
         )
     }
