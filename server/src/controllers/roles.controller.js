@@ -19,7 +19,11 @@ export const createRoles = async (req, res) => {
         });
     } catch (e) {
         console.log(e);
-        res.json({message: "Problemas al registrar el rol, contactese con el administrador del sistema", resultado: false, roles: null})
+        res.json({
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false, 
+            roles: null
+        });
     };
 };
 
@@ -45,7 +49,8 @@ export const updateRoles = async (req, res) => {
         console.log(e);
         res.json({
             resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            message: "Ha ocurrido un error, porfavor contactese con el administrador",
+            roles: null
         });
     }
 };
@@ -75,7 +80,11 @@ export const deleteRoles = async (req, res) => {
 export const getAllRoles = async (req, res) => {
     try{
         const allRoles = await roles.findAll({
-            attributes: ['id', 'cod_rol', 'nombre'],
+            attributes: [
+                'id', 
+                'cod_rol', 
+                'nombre'
+            ],
             order: [
                 ['id', 'DESC']
             ]
@@ -99,10 +108,20 @@ export const getRolesId = async (req, res) => {
     try{
         const {id} = req.params;
         const roles = await roles.findOne({
-            where: {id},
-            attributes: ['id', 'nombre', 'cod_rol']
+            where: {
+                id
+            },
+            attributes: [
+                'id', 
+                'nombre', 
+                'cod_rol'
+            ]
         });
-        res.json({resultado: true, message: "", roles: roles}); 
+        res.json({
+            resultado: true, 
+            message: "", 
+            roles: roles
+        }); 
     }catch(e){
         console.log(e);
         res.json({

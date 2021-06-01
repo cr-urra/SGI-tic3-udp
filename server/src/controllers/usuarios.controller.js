@@ -1,52 +1,117 @@
 import usuarios from '../models/usuarios';
 
 export const updateUsuarios = async (req, res) => {
-    const {id} = req.params;
-    const {rut, nombre, apellido, password} =  req.body;
-    const users = await usuarios.findOne({
-        attributes: ['rut','nombre', 'apellido','password'],
-        where: {id}
-    });
-    const userUpdate = await usuarios.update({
-        rut,
-        nombre,
-        apellido,
-        password
-    },
-    {
-        where: {id}
-    });
-    res.json({
-        message: 'Usuario actualizado',
-        resultado: true
-    });
+    try{
+        const {id} = req.params;
+        const body = req.body;
+        const userUpdate = await usuarios.update({
+            body
+        },
+        {
+            where: {
+                id
+            }
+        });
+        res.json({
+            message: 'Usuario actualizado correctamente',
+            resultado: true,
+            usuarios: userUpdate
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: true,
+            usuarios: null
+        });
+    };
 };
 
 export const deleteUsuarios = async (req, res) => {
-    const {id} = req.params;
-    await usuarios.destroy({
-        where: {
-            id
-        }
-    });
-    res.json({message: 'Usuario eliminado'});
+    try{
+        const {id} = req.params;
+        await usuarios.destroy({
+            where: {
+                id
+            }
+        });
+        res.json({
+            message: 'Usuario eliminado correctamente',
+            resultado: true
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
+        });
+    };
 };
 
 export const getUsuariosId = async (req, res) => {
-    const {id} = req.params;
-    const user = await usuarios.findOne({
-        where: {id},
-        attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id','password']
-    });
-    res.json(user);
+    try{
+        const {id} = req.params;
+        const user = await usuarios.findOne({
+            where: {
+                id
+            },
+            attributes: [
+                'id', 
+                'rut', 
+                'nombre', 
+                'apellido', 
+                'roles_id',
+                'correo',
+                'verificacion',
+                'contraseña'
+            ]
+        });
+        res.json({
+            resultado: true,
+            message: "",
+            usuario: user
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false,
+            usuario: null
+        });
+    }
 };
 
 export const getAllUsuarios = async (req, res) => {
-    const allUsers = await usuarios.findAll({
-        attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'password'],
-        order: [
-            ['id', 'DESC']
-        ]
-    });
-    res.json({allUsers});
+    try{
+        const allUsers = await usuarios.findAll({
+            attributes: [
+                'id', 
+                'rut', 
+                'nombre', 
+                'apellido', 
+                'roles_id', 
+                'contraseña', 
+                'correo', 
+                'verificacion'
+            ],
+            order: [
+                [
+                    'id', 
+                    'DESC'
+                ]
+            ]
+        });
+        res.json({
+            resultado: true,
+            message: "",
+            usuarios: allUsers
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false,
+            usuarios: null
+        });
+    }
 };
