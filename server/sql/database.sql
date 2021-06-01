@@ -28,7 +28,9 @@ CREATE TABLE public.agentes_aduana (
     id integer NOT NULL,
     nombre character varying(30),
     apellido character varying(30),
-    correo character varying(30)
+    correo character varying(30),
+    numero_cuenta character varying(30),
+    tipo_cuenta character varying(30)
 );
 
 
@@ -471,7 +473,8 @@ CREATE TABLE public.movimientos (
     id integer NOT NULL,
     monto double precision,
     fecha date,
-    cuentas_corrientes_id integer
+    cuentas_corrientes_id integer,
+    descripcion text
 );
 
 
@@ -1119,7 +1122,7 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id SET DEFAULT nextval('public.usu
 -- Data for Name: agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.agentes_aduana (id, nombre, apellido, correo) FROM stdin;
+COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, tipo_cuenta) FROM stdin;
 \.
 
 
@@ -1223,7 +1226,7 @@ COPY public.monedas (id, pais, moneda) FROM stdin;
 -- Data for Name: movimientos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.movimientos (id, monto, fecha, cuentas_corrientes_id) FROM stdin;
+COPY public.movimientos (id, monto, fecha, cuentas_corrientes_id, descripcion) FROM stdin;
 \.
 
 

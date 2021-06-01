@@ -1,7 +1,7 @@
 import sequelize from 'sequelize';
 import {database} from '../database/database';
 
-const monedas = database.define('monedas',{
+const movimientos = database.define('movimientos',{
     id:{
         type: sequelize.INTEGER,
         primaryKey: true
@@ -14,9 +14,12 @@ const monedas = database.define('monedas',{
     },
     cuentas_corrientes_id:{
         type: sequelize.INTEGER
+    },
+    descripcion:{
+        type: sequelize.TEXT
     }
 },{
     timestamps: false
 });
 
-export default monedas;
+export default movimientos;
