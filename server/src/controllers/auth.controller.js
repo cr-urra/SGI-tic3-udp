@@ -49,7 +49,7 @@ export const signIn = async (req, res) => {
         attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'contraseña']
     });
     if(user){
-        const matchPassword = await comparePassword(req.body.password, user.password);
+        const matchPassword = await comparePassword(req.body.contraseña, user.contraseña);
         let user_token = null;
         if(matchPassword){
             user_token = jwt.sign({id: user.id, antiCsrf: req.get('CSRF-Token')}, config.SECRET, {expiresIn: 1200000000});

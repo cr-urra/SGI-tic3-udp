@@ -7,7 +7,7 @@ const usuarios = database.define('usuarios', {
         primaryKey: true
     },
     rut:{
-        type: sequelize.INTEGER
+        type: sequelize.STRING
     },
     nombre:{
         type: sequelize.TEXT
