@@ -47,7 +47,7 @@ export const signIn = async (req, res) => {
     const {rut} = req.body;
     const user = await usuarios.findOne({
         where: {rut},
-        attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'password']
+        attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'contraseña']
     });
     if(user){
         const matchPassword = await comparePassword(req.body.password, user.password);
