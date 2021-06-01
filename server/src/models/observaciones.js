@@ -7,7 +7,7 @@ const observaciones = database.define('observaciones',{
         primaryKey: true
     },
     observacion:{
-        type: sequelize.text
+        type: sequelize.TEXT
     },
     fecha:{
         type: sequelize.DATE

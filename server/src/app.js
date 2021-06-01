@@ -7,7 +7,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const csurf = require('csurf');
 const os = require('os');
-require('./database/associations');
+//equire('./database/associations');
 
 //inicialización
 
