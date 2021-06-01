@@ -9,7 +9,7 @@ import * as authJwt from '../middlewares/authJwt';
 router.get('/adm', auth.verifyAdm);
 router.get('/sup', auth.verifySup);
 router.get('/usr', auth.verifyUsr);
-router.post('/signin', [authJwt.verifyToken],auth.signIn);
+router.post('/signin',auth.signIn);
 router.get('/getRol', auth.getRol);
 router.post('/signup', auth.signUp);
 router.get('/logout', auth.logOut);
