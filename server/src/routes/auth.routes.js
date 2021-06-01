@@ -12,7 +12,7 @@ router.get('/sup', auth.verifySup);
 router.get('/usr', auth.verifyUsr);
 router.post('/signin', auth.signIn);
 router.get('/getRol', auth.getRol);
-router.post('/signup', verifySignUp.verifyUser, auth.signUp);
+router.post('/signup', auth.signUp);
 router.get('/logout', auth.logOut);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 import roles from '../models/roles';
 
 export const createRoles = async (req, res) => {
-    const {cod_rol, nombre} = req.body;
     try{
+        const {cod_rol, nombre} = req.body;
         let newRol = await roles.create({
             cod_rol,
             nombre,

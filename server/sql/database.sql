@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.11 (Debian 11.11-1.pgdg100+1)
--- Dumped by pg_dump version 11.11 (Debian 11.11-1.pgdg100+1)
+-- Dumped from database version 11.12 (Debian 11.12-1.pgdg100+1)
+-- Dumped by pg_dump version 11.12 (Debian 11.12-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -391,6 +391,41 @@ ALTER TABLE public.historial_precios_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.historial_precios_id_seq OWNED BY public.historial_precios.id;
+
+
+--
+-- Name: ips; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ips (
+    id integer NOT NULL,
+    ip character varying(30),
+    usuarios_id integer
+);
+
+
+ALTER TABLE public.ips OWNER TO postgres;
+
+--
+-- Name: ips_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ips_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ips_id_seq OWNER TO postgres;
+
+--
+-- Name: ips_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ips_id_seq OWNED BY public.ips.id;
 
 
 --
@@ -883,7 +918,8 @@ CREATE TABLE public.usuarios (
     apellido character varying(30),
     correo character varying(30),
     "contraseña" text,
-    roles_id integer
+    roles_id integer,
+    verificacion boolean
 );
 
 
@@ -979,6 +1015,13 @@ ALTER TABLE ONLY public.historial_dolar ALTER COLUMN id SET DEFAULT nextval('pub
 --
 
 ALTER TABLE ONLY public.historial_precios ALTER COLUMN id SET DEFAULT nextval('public.historial_precios_id_seq'::regclass);
+
+
+--
+-- Name: ips id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ips ALTER COLUMN id SET DEFAULT nextval('public.ips_id_seq'::regclass);
 
 
 --
@@ -1161,6 +1204,14 @@ COPY public.historial_precios (id, precio, fecha, productos_id) FROM stdin;
 
 
 --
+-- Data for Name: ips; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ips (id, ip, usuarios_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: monedas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1237,6 +1288,7 @@ COPY public.realiza (pedidos_id, detalles_pedidos_id, created_at, updated_at) FR
 --
 
 COPY public.roles (id, nombre, cod_rol) FROM stdin;
+1	Administrador	adm
 \.
 
 
@@ -1276,7 +1328,8 @@ COPY public.tiene (pedidos_id, productos_id, created_at, updated_at) FROM stdin;
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id) FROM stdin;
+COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id, verificacion) FROM stdin;
+2	123456781	admin	01	nombre.apellido@mail.cl	$2a$10$FLCHmK7KDzK8aDWq7HqstuxzQOjaTKLq42rGy/tKSUuhWwLcATN7G	1	f
 \.
 
 
@@ -1351,6 +1404,13 @@ SELECT pg_catalog.setval('public.historial_precios_id_seq', 1, false);
 
 
 --
+-- Name: ips_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ips_id_seq', 1, false);
+
+
+--
 -- Name: monedas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -1410,7 +1470,7 @@ SELECT pg_catalog.setval('public.proveedores_id_seq', 1, false);
 -- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.roles_id_seq', 1, false);
+SELECT pg_catalog.setval('public.roles_id_seq', 1, true);
 
 
 --
@@ -1438,7 +1498,7 @@ SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 1, false);
 -- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuarios_id_seq', 1, false);
+SELECT pg_catalog.setval('public.usuarios_id_seq', 2, true);
 
 
 --
@@ -1527,6 +1587,14 @@ ALTER TABLE ONLY public.historial_dolar
 
 ALTER TABLE ONLY public.historial_precios
     ADD CONSTRAINT historial_precios_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ips ips_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ips
+    ADD CONSTRAINT ips_pkey PRIMARY KEY (id);
 
 
 --
@@ -1743,6 +1811,14 @@ ALTER TABLE ONLY public.historial_dolar
 
 ALTER TABLE ONLY public.historial_precios
     ADD CONSTRAINT historial_precios_productos_id_fkey FOREIGN KEY (productos_id) REFERENCES public.productos(id);
+
+
+--
+-- Name: ips ips_usuarios_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ips
+    ADD CONSTRAINT ips_usuarios_id_fkey FOREIGN KEY (usuarios_id) REFERENCES public.usuarios(id);
 
 
 --

@@ -22,21 +22,20 @@ export const consulRol = async (id) => {
 };
 
 export const signUp = async (req, res) => {
-    const {rut, nombre, apellido, roles_id, password} = req.body;
     try{
-        let newUsers = await usuarios.create({
+        const {rut, nombre, apellido, roles_id, contraseña, correo} = req.body;
+        await usuarios.create({
             rut,
             nombre,
             apellido,
             roles_id,
-            password: await encryptPassword(password)
+            contraseña: await encryptPassword(contraseña),
+            correo,
+            verificacion: false
         },{
-            fields: ['rut','nombre','apellido','roles_id','password']
+            fields: ['rut','nombre','apellido','roles_id','contraseña', 'correo', 'verificacion']
         });
-        if(newUsers){
-            const user_token = jwt.sign({id: newUsers.id}, config.SECRET, {expiresIn: 120});
-            res.json({message: "Usuario registrado correctamente", data: newUsers, token: user_token});
-        };
+        res.json({resultado: true, message: "Usuario registrado correctamente"});
     } catch (e) {
         console.log(e);
         res.json({message: "Problemas al registrar usuario, contactese con el administrador del sistema", data: {}})
