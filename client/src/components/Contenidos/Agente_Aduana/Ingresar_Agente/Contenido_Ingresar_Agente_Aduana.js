@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Card from '../Componentes/Componentes Agente Aduana/Card_Form'
+import Card from './Componentes_Ingresar_Agente/Card_Form'
 
 
 export default class Contenido_Agente_Aduana extends Component {

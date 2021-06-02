@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Navbar from './layout/navbarAdmin.js'
 import Sidebar from './layout/sidebarAdmin.js'
-import Contenido from './Contenidos/Contenido_Crear_Usuario'
+import Contenido from './Contenidos/Usuarios/Crear_Usuario/Contenido_Crear_Usuario'
 import {Redirect,Link} from 'react-router-dom';
 
 

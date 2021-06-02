@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Listado from '../Componentes/Componentes Banco/Listado'
-import Banco from '../Componentes/Componentes Banco/Banco'
-import bancos from '../JasonDePruebas/Banco.json'
+import Listado from './Componentes Banco/Listado'
+import Banco from './Componentes Banco/Banco'
+import bancos from '../../JasonDePruebas/Banco.json'
 import { Accordion} from 'react-bootstrap';
 
 

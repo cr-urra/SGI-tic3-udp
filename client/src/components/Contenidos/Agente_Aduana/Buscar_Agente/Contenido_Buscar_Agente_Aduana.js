@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import AgentesAduana from '../JasonDePruebas/AgenteAduana.json'
-import Listado from '../Componentes/Componentes Agente Aduana/Listado'
-import Tabla from '../Componentes/Componentes Agente Aduana/Tabla'
+import AgentesAduana from '../../../JasonDePruebas/AgenteAduana.json'
+import Listado from './Componentes_Buscar_Agente/Listado'
+import Tabla from './Componentes_Buscar_Agente/Tabla'
 
 export default class Init extends Component {
 

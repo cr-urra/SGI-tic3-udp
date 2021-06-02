@@ -17,6 +17,12 @@ import Dashboard from './components/Dashboard'
 
 import Buscar_Pedido from './components/Buscar_Pedido';
 import Crear_Pedido from './components/Crear_Pedido';
+import Pedido_Finalizado from "./components/Pedido_Finalizado";
+import Pedido_Ingreso from "./components/Pedido_Ingreso";
+import Pedido_Internacional from "./components/Pedido_Internacional";
+import Pedido_Nacional from "./components/Pedido_Nacional";
+import Pedido_Produccion from "./components/Pedido_Produccion";
+
 
 import Buscar_Proveedor from './components/Buscar_Proveedor';
 import Ingresar_Proveedor from './components/Ingresar_Proveedor';
@@ -56,6 +62,11 @@ function App() {
 
       <Route path="/users/Buscar_Pedido" exact component={Buscar_Pedido}/>
       <Route path="/users/Crear_Pedido" exact component={Crear_Pedido}/>
+      <Route path="/users/Pedido_Finalizado" exact component={Pedido_Finalizado}/>
+      <Route path="/users/Pedido_Ingreso" exact component={Pedido_Ingreso}/>
+      <Route path="/users/Pedido_Internacional" exact component={Pedido_Internacional}/>
+      <Route path="/users/Pedido_Nacional" exact component={Pedido_Nacional}/>
+      <Route path="/users/Pedido_Produccion" exact component={Pedido_Produccion}/>
 
       <Route path="/users/Buscar_Proveedor" exact component={Buscar_Proveedor}/>
       <Route path="/users/Ingresar_Proveedor" exact component={Ingresar_Proveedor}/>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Navbar from './layout/navbarAdmin.js'
 import Sidebar from './layout/sidebarAdmin.js'
-import Contenido from './Contenidos/Contenido_Agente_Aduana_Historial'
+import Contenido from './Contenidos/Agente_Aduana/Historial_Agente/Contenido_Agente_Aduana_Historial'
 import {Redirect,Link} from 'react-router-dom';
 
 

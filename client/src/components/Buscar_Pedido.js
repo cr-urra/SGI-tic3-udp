@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Navbar from './layout/navbarAdmin.js'
 import Sidebar from './layout/sidebarAdmin.js'
-import Contenido from './Contenidos/Contenido_Buscar_Pedido.js'
+import Contenido from './Contenidos/Pedidos/Buscar_Pedido/Contenido_Buscar_Pedido.js'
 import {Redirect,Link} from 'react-router-dom';
 
 

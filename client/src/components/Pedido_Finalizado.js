@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Navbar from './layout/navbarAdmin.js'
 import Sidebar from './layout/sidebarAdmin.js'
-import Contenido from './Contenidos/Reportes/Costos_Finales/Contenido_Reporte_Costos_Finales'
+import Contenido from './Contenidos/Pedidos/Pedido_Finalizado/Contenido_Pedido_Finalizado'
 import {Redirect,Link} from 'react-router-dom';
 
 
@@ -59,7 +59,7 @@ export default class Buscar_Producto extends Component {
                     <Contenido/>
                     <div className="overlay"></div>
                   </div>
-                </div>              
+                </div>            
  
         )
     };

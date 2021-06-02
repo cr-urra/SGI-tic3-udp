@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Usuarios from '../JasonDePruebas/Usuarios.json'
-import Listado from '../Componentes/Componentes Usuarios/Listado'
-import Tabla from '../Componentes/Componentes Usuarios/Tabla'
+import Usuarios from '../../../JasonDePruebas/Usuarios.json'
+import Listado from './Componentes_Buscar_Usuario/Listado'
+import Tabla from './Componentes_Buscar_Usuario/Tabla'
 
 
 
