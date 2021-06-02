@@ -58,14 +58,14 @@ export const updateRoles = async (req, res) => {
 export const deleteRoles = async (req, res) => {
     try{
         const {id} = req.params;
-        await usuarios.destroy({
+        await roles.destroy({
             where: {
                 id
             }
         });
         res.json({
             resultado: true, 
-            message: 'Usuario eliminado correctamente'
+            message: 'Rol eliminado correctamente'
         });
     }catch(e){
         console.log(e);
