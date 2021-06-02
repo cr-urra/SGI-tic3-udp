@@ -13,8 +13,8 @@ export default class Contenido_Ingresar_Producto extends Component {
         tipo:null
     }
 
-    addAgente = async (empresa,contacto,banco,cuenta_corriente) =>{
-        const Agente_Aduanta ={
+    addAgente = async (nombre,codigo,descripcion,precio,tipo,proveedor) =>{
+        const Producto ={
             
         }
     }
