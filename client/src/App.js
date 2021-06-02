@@ -7,45 +7,45 @@ import "css-pro-layout/dist/css/css-pro-layout.min.css";
 import './styles/App.scss';
 
 
-import Init from './components/Init';
+import Init from './components/Vistas/Inicio/Init';
 
-import AdminInterface from './components/AdminHome';
+import AdminInterface from './components/Vistas/Administrador/AdminHome';
 import SuperUserInterface from './components/SuperUserHome';
 import UserInterface from './components/UserHome';
 
-import Dashboard from './components/Dashboard'
+import Dashboard from './components/Vistas/Administrador/Dashboard'
 
-import Buscar_Pedido from './components/Buscar_Pedido';
-import Crear_Pedido from './components/Crear_Pedido';
-import Pedido_Finalizado from "./components/Pedido_Finalizado";
-import Pedido_Ingreso from "./components/Pedido_Ingreso";
-import Pedido_Internacional from "./components/Pedido_Internacional";
-import Pedido_Nacional from "./components/Pedido_Nacional";
-import Pedido_Produccion from "./components/Pedido_Produccion";
-
-
-import Buscar_Proveedor from './components/Buscar_Proveedor';
-import Ingresar_Proveedor from './components/Ingresar_Proveedor';
-
-import Buscar_Producto from './components/Buscar_Producto';
-import Ingresar_Producto from './components/Ingresar_Producto';
-import Ingresar_Producto_lote from './components/Ingresar_Producto_lote';
-import Historial_Producto_precio from './components/Historial_Producto_precio';
+import Buscar_Pedido from './components/Vistas/Administrador/Buscar_Pedido';
+import Crear_Pedido from './components/Vistas/Administrador/Crear_Pedido';
+import Pedido_Finalizado from "./components/Vistas/Administrador/Pedido_Finalizado";
+import Pedido_Ingreso from "./components/Vistas/Administrador/Pedido_Ingreso";
+import Pedido_Internacional from "./components/Vistas/Administrador/Pedido_Internacional";
+import Pedido_Nacional from "./components/Vistas/Administrador/Pedido_Nacional";
+import Pedido_Produccion from "./components/Vistas/Administrador/Pedido_Produccion";
 
 
-import Reporte_Costos_Finales from './components/Reporte_Costos_Finales'
-import Reporte_Importacion_Producto from './components/Reporte_Importacion_Producto'
-import Reporte_Importacion_Proveedor from './components/Reporte_Importacion_Proveedor'
-import Reporte_Status_Agente_Aduana from './components/Reporte_Status_Agente_Aduana'
+import Buscar_Proveedor from './components/Vistas/Administrador/Buscar_Proveedor';
+import Ingresar_Proveedor from './components/Vistas/Administrador/Ingresar_Proveedor';
 
-import Buscar_Usuario from './components/Buscar_Usuario';
-import Crear_Usuario from './components/Crear_Usuario';
+import Buscar_Producto from './components/Vistas/Administrador/Buscar_Producto';
+import Ingresar_Producto from './components/Vistas/Administrador/Ingresar_Producto';
+import Ingresar_Producto_lote from './components/Vistas/Administrador/Ingresar_Producto_lote';
+import Historial_Producto_precio from './components/Vistas/Administrador/Historial_Producto_precio';
 
-import Buscar_Agente_Aduana from './components/Buscar_Agente_Aduana';
-import Historial_Agente_Aduana from './components/Historial_Agente_Aduana';
-import Ingresar_Agente_Aduana from './components/Ingresar_Agente_Aduana';
 
-import Bancos from './components/Bancos'
+import Reporte_Costos_Finales from './components/Vistas/Administrador/Reporte_Costos_Finales'
+import Reporte_Importacion_Producto from './components/Vistas/Administrador/Reporte_Importacion_Producto'
+import Reporte_Importacion_Proveedor from './components/Vistas/Administrador/Reporte_Importacion_Proveedor'
+import Reporte_Status_Agente_Aduana from './components/Vistas/Administrador/Reporte_Status_Agente_Aduana'
+
+import Buscar_Usuario from './components/Vistas/Administrador/Buscar_Usuario';
+import Crear_Usuario from './components/Vistas/Administrador/Crear_Usuario';
+
+import Buscar_Agente_Aduana from './components/Vistas/Administrador/Buscar_Agente_Aduana';
+import Historial_Agente_Aduana from './components/Vistas/Administrador/Historial_Agente_Aduana';
+import Ingresar_Agente_Aduana from './components/Vistas/Administrador/Ingresar_Agente_Aduana';
+
+import Bancos from './components/Vistas/Administrador/Bancos'
 
 
 
@@ -72,10 +72,10 @@ function App() {
       <Route path="/users/Ingresar_Proveedor" exact component={Ingresar_Proveedor}/>
 
       <Route path="/users/Buscar_Producto" exact component={Buscar_Producto}/>
+      <Route path="/users/Buscar_Producto/Historial_Producto_Precio" exact component={Historial_Producto_precio}/>
       <Route path="/users/Ingresar_Producto/Ingreso_unidad" exact component={Ingresar_Producto}/>
       <Route path="/users/Ingresar_Producto/Ingreso_lote" exact component={Ingresar_Producto_lote}/>
-
-      <Route path="/users/Buscar_Producto/Historial_Producto_Precio" exact component={Historial_Producto_precio}/>
+      
 
       <Route path="/users/Reporte_Costos_Finales" exact component={Reporte_Costos_Finales}/>
       <Route path="/users/Reporte_Importacion_Producto" exact component={Reporte_Importacion_Producto}/>
