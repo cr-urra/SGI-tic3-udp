@@ -61,30 +61,63 @@ export const signUp = async (req, res) => {
 };
 
 export const signIn = async (req, res) => {
-    const {rut} = req.body;
-    const user = await usuarios.findOne({
-        where: {rut},
-        attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'contraseña']
-    });
-    if(user){
-        const matchPassword = await comparePassword(req.body.contraseña, user.contraseña);
-        let user_token = null;
-        if(matchPassword){
-            user_token = jwt.sign({id: user.id, antiCsrf: req.get('CSRF-Token')}, config.SECRET, {expiresIn: 1200000000});
-            res.cookie('token', user_token, {httpOnly: true});
-            const codRol = await consulRol(user.roles_id);
-            const result = {
-                nombre: user.nombre,
-                apellido: user.apellido,
-                cod_rol: codRol.cod_rol
-            };
-            res.json({resultado: true ,usuario: result});
+    try{
+        const {rut} = req.body;
+        const user = await usuarios.findOne({
+            where: {rut},
+            attributes: [
+                'id', 
+                'rut', 
+                'nombre', 
+                'apellido', 
+                'roles_id', 
+                'contraseña'
+            ]
+        });
+        if(user){
+            const matchPassword = await comparePassword(req.body.contraseña, user.contraseña);
+            let user_token = null;
+            if(matchPassword){
+                user_token = jwt.sign({
+                    id: user.id, 
+                    antiCsrf: req.get('CSRF-Token')}, 
+                    config.SECRET, 
+                    {
+                        expiresIn: 1200000000
+                    }
+                );
+                res.cookie('token', user_token, {
+                    httpOnly: true
+                });
+                const codRol = await consulRol(user.roles_id);
+                const result = {
+                    nombre: user.nombre,
+                    apellido: user.apellido,
+                    cod_rol: codRol.cod_rol
+                };
+                res.json({
+                    resultado: true ,
+                    usuario: result
+                });
+            }else{
+                res.json({
+                    resultado: false ,
+                    message: "Usuario o contraseña incorrectos"
+                });
+            };     
         }else{
-            res.json({resultado: false ,message: "Usuario o contraseña incorrectos"});
-        };     
-    }else{
-        res.json({resultado: false ,message: "Usuario o contraseña incorrectos"});
-    };
+            res.json({
+                resultado: false ,
+                message: "Usuario o contraseña incorrectos"
+            });
+        };
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false
+        })
+    }
 };
 
 export const verifyAdm = async (req, res) => {
