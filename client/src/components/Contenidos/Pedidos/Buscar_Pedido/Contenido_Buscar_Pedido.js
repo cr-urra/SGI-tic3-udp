@@ -6,7 +6,7 @@ export default class Init extends Component {
     render() {
         return (
             <main className="content">
-                <h1 className="display-5 titulo">Buscar Agente de Aduana</h1>
+                <h1 className="display-5 titulo">Buscar Pedidos</h1>
                 <div className="container separacion">
                     <div>
                         <div className="container separacion">

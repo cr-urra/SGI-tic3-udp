@@ -35,6 +35,11 @@
     color: #2d60b8 !important;
 }
 
+.color_escritura2{
+    color: #F18B31 !important
+    
+}
+
 
 
 .head{
@@ -82,5 +87,8 @@
     flex-wrap: initial !important;
 }
 
+.borde_estado{
+    border-color: #F18B31 !important;
+}
 
 

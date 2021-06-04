@@ -6,6 +6,10 @@ export default class Crear_Usuario extends Component {
 
     state ={
         nombre: null,
+        apellido: null,
+        rut: null,
+        correo: null,        
+        telefono: null,
         contraseña: null,
         r_contraseña: null,
         rol: null
@@ -66,6 +70,82 @@ export default class Crear_Usuario extends Component {
                                             aria-describedby="inputGroup-sizing-default"
                                             onChange={this.onChange}
                                             value={this.state.nombre}
+                                            />
+                                        </div>
+                                    </div> 
+
+                                    <div className="input-group mb-3">
+                                        <div className="col-2">
+                                            <div className="input-group-prepend ancho2">
+                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Apellido</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-10">
+                                            <input 
+                                            type="text" 
+                                            name="apellido"
+                                            className="form-control" 
+                                            aria-label="Default" 
+                                            aria-describedby="inputGroup-sizing-default"
+                                            onChange={this.onChange}
+                                            value={this.state.apellido}
+                                            />
+                                        </div>
+                                    </div> 
+
+                                    <div className="input-group mb-3">
+                                        <div className="col-2">
+                                            <div className="input-group-prepend ancho2">
+                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Rut</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-10">
+                                            <input 
+                                            type="text" 
+                                            name="nombre"
+                                            className="form-control" 
+                                            aria-label="Default" 
+                                            aria-describedby="inputGroup-sizing-default"
+                                            onChange={this.onChange}
+                                            value={this.state.nombre}
+                                            />
+                                        </div>
+                                    </div> 
+
+                                    <div className="input-group mb-3">
+                                        <div className="col-2">
+                                            <div className="input-group-prepend ancho2">
+                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Correo</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-10">
+                                            <input 
+                                            type="text" 
+                                            name="rut"
+                                            className="form-control" 
+                                            aria-label="Default" 
+                                            aria-describedby="inputGroup-sizing-default"
+                                            onChange={this.onChange}
+                                            value={this.state.rut}
+                                            />
+                                        </div>
+                                    </div> 
+
+                                    <div className="input-group mb-3">
+                                        <div className="col-2">
+                                            <div className="input-group-prepend ancho2">
+                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Teléfono</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-10">
+                                            <input 
+                                            type="text" 
+                                            name="telefono"
+                                            className="form-control" 
+                                            aria-label="Default" 
+                                            aria-describedby="inputGroup-sizing-default"
+                                            onChange={this.onChange}
+                                            value={this.state.telefono}
                                             />
                                         </div>
                                     </div> 
