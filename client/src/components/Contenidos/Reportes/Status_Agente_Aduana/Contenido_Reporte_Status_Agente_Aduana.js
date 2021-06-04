@@ -1,8 +1,22 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
+import AgentesAduana from '../../../JasonDePruebas/AgenteAduana.json';
+import Listado from './Componentes_Buscar/Listado';
+import Tabla from './Componentes_Buscar/Tabla';
 
 
 export default class Init extends Component {
+
+    state = {
+        AgentesAduana: AgentesAduana,
+        AgenteAduana: "",
+    }
+    onChangeAgente = (event) => {
+        this.setState({
+            AgenteAduana: event.target.value
+        })
+    }
+    
     render() {
         return (
             <main className="content">
@@ -22,17 +36,7 @@ export default class Init extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="container separacion"  >
-                            <div className="input-group no_flex" style={{margin:"0 30px"}}>
-                                <label className="input-group-text col-2 " for="inputGroupSelect01">Agente de Aduana</label>
-                                <input className="form-control ancho col-6" list="datalistOptions" id="exampleDataList" placeholder="Escribe Aquí para Buscar..." ></input>
-                                <datalist id="datalistOptions">
-                                    <option value="Agente Aduana 1"/>
-                                    <option value="Agente Aduana 2"/>
-                                    <option value="Agente Aduana 3"/>
-                                </datalist>
-                            </div>
-                        </div>
+                        <Listado AgentesAduana= {this.state.AgentesAduana} onChangeAgente={this.onChangeAgente} AgenteAduana={this.state.AgenteAduana}/>
                 
                         <div className="container separacion">
                             <div className="row">
@@ -88,50 +92,7 @@ export default class Init extends Component {
 
                                 
                             </div>
-
-                            <div className="container mt-4">
-                                <table className="table text-center table-striped table-bordered">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Id Pedido</th>
-                                      <th scope="col">Fecha</th>
-                                      <th scope="col">Debe</th>
-                                      <th scope="col">Haber</th>
-                                      <th scope="col">Descripción</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>24/05/2021</td>
-                                        <td>$400.000</td>
-                                        <td>$0</td>
-                                        <td>Pago de Aduana</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>23/05/2021</td>                                        
-                                        <td>$0</td>
-                                        <td>$400.000</td>
-                                        <td>Pago de Aduana</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>15/05/2021</td>
-                                        <td>$200.000</td>
-                                        <td>$0</td>
-                                        <td>Pago de Aduana</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>01/05/2021</td>
-                                        <td>$0</td>
-                                        <td>$200.000</td>
-                                        <td>Pago de Aduana</td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                            </div>
+                            <Tabla AgentesAduana={this.state.AgentesAduana} AgenteAduana={this.state.AgenteAduana}/>
                         </div>                     
                     </div> 
                         <div className="container separacion">
