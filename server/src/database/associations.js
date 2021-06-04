@@ -22,6 +22,7 @@ import telefonos_agentes_aduana from '../models/telefonos_agentes_aduana';
 import telefonos_proveedores from '../models/telefonos_proveedores';
 import telefonos_usuarios from '../models/telefonos_usuarios';
 import usuarios from '../models/usuarios';
+import bancos_agentes_aduana from '../models/bancos_agentes_aduana';
 
 // 1:1
 
@@ -89,6 +90,9 @@ proveedores.belongsTo(productos, {foreingKey: 'proveedores_id', sourceKey: 'id'}
 
 telefonos_agentes_aduana.hasMany(agentes_aduana, {foreingKey: 'agentes_aduana_id', sourceKey: 'id'});
 agentes_aduana.belongsTo(telefonos_agentes_aduana, {foreingKey: 'agentes_aduana_id', sourceKey: 'id'});
+
+bancos_agentes_aduana.hasMany(agentes_aduana, {foreingKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
+agentes_aduana.belongsTo(telefonos_agentes_aduana, {foreingKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 
 movimientos.hasMany(cuentas_corrientes, {foreingKey: 'cuentas_corrientes_id', sourceKey: 'id'});
 cuentas_corrientes.belongsTo(movimientos, {foreingKey: 'cuentas_corrientes_id', sourceKey: 'id'});
