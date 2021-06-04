@@ -2,7 +2,7 @@ import roles from '../models/roles';
 import agentes_aduana from '../models/agentes_aduana';
 
 
-export const createAgenteAduana = async (req, res) => {
+export const createAgentesAduana = async (req, res) => {
     try{
         const {nombre, apellido, correo} = req.body;
         let newAgenteAduana = await agentes_aduana.create({
@@ -32,7 +32,7 @@ export const createAgenteAduana = async (req, res) => {
 };
 
 
-export const updateAgenteAduana = async (req, res) => {
+export const updateAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
         const {nombre, apellido, correo} =  req.body;
@@ -59,7 +59,7 @@ export const updateAgenteAduana = async (req, res) => {
     }
 };
 
-export const deleteAgenteAduana = async (req, res) => {
+export const deleteAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
         await agentes_aduana.destroy({
@@ -109,7 +109,7 @@ export const getAllAgentesAduana = async (req, res) => {
     };
 };
 
-export const getAgenteAduanaId = async (req, res) => {
+export const getAgentesAduanaId = async (req, res) => {
     try{
         const {id} = req.params;
         const agente_aduana = await agentes_aduana.findOne({

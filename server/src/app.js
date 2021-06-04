@@ -2,29 +2,27 @@ import '@babel/polyfill';
 
 const express = require('express');
 const morgan = require('morgan');
-const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const csurf = require('csurf');
-const os = require('os');
 require('./database/associations');
 
-//inicialización
+// inicialización
 
 const app = express();
 const csrf = csurf({cookie: true});
 
-//settings
+// settings
 
 app.set('port', process.env.PORT || 4000);
 
-//variables globales
+// variables globales
 
 app.use((req,res,next) => {
     next();
 });
 
-//middlewares server
+// middlewares server
 
 app.use(cookieParser());
 app.use(cors());
@@ -35,17 +33,31 @@ app.use(express.urlencoded({
     extended: false
 }));
 
-//Importar rutas
+// Importar rutas
 
 import roles from './routes/roles.routes.js';
-import usuarios from './routes/usuarios.routes.js';
-import auth from './routes/auth.routes.js';
+import usuarios from './routes/usuarios.routes';
+import auth from './routes/auth.routes';
+import telefonosUsuarios from './routes/telefonos_usuarios.routes';
+import proveedores from './routes/proveedores.routes';
+import productos from './routes/productos.routes';
+import cuentasBancos from './routes/cuentas_bancos.routes';
+import agentesAduana from './routes/agentes_aduana.routes';
+import telefonosProveedores from './routes/telefonos_proveedores.routes';
+import telefonosAgentesAduana from './routes/telefonos_agentes_aduana.routes';
 
-//routes
+// routes
 
 app.use('/usuarios', usuarios);
 app.use('/auth', auth);
 app.use('/roles', roles);
+app.use('/telefonosUsuarios', telefonosUsuarios);
+app.use('/proveedores', proveedores);
+app.use('/productos', productos);
+app.use('/cuentasBancos', cuentasBancos);
+app.use('/agentesAduana', agentesAduana);
+app.use('/telefonosProveedores', telefonosProveedores);
+app.use('/telefonosAgentesAduana', telefonosAgentesAduana);
 
 app.get('/csrf', (req, res) => { 
     res.send({csrfToken: req.csrfToken()})

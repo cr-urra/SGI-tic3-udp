@@ -123,7 +123,7 @@ export const getAllCuentasBancos = async (req, res) => {
     };
 };
 
-export const getCuentaBancoId = async (req, res) => {
+export const getCuentasBancosId = async (req, res) => {
     try{
         const {id} = req.params;
         const cuenta_banco = await cuentas_bancos.findOne({

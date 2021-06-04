@@ -116,7 +116,7 @@ export const getAllProveedores = async (req, res) => {
     };
 };
 
-export const getProveedorId = async (req, res) => {
+export const getProveedoresId = async (req, res) => {
     try{
         const {id} = req.params;
         const proveedor = await proveedores.findOne({
