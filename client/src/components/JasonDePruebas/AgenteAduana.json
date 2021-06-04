@@ -7,7 +7,27 @@
         "n_cuenta": "Numero de Cuenta A",
         "correo": "Correo A",
         "tipo_cuenta": "Tipo de Cuenta A",
-        "saldo": "Saldo A"
+        "saldo": "Saldo A",
+        "cuenta_corriente": [
+            {
+                "debe": "400.000",
+                "haber": "0",
+                "fecha": "20/20/21",
+                "id_pedido":"1"
+            },
+            {
+                "debe": "0",
+                "haber": "400.000",
+                "fecha": "22/20/21",
+                "id_pedido":"2"
+            },
+            {
+                "debe": "500.000",
+                "haber": "0",
+                "fecha": "23/20/21",
+                "id_pedido":"1"
+            }
+        ]
     },
 
     {
@@ -18,7 +38,27 @@
         "banco": "Banco B",
         "n_cuenta": "Numero de Cuenta B",
         "correo": "Correo B",
-        "saldo": "Saldo B"
+        "saldo": "Saldo B",
+        "cuenta_corriente": [
+            {
+                "debe": "400.000",
+                "haber": "0",
+                "fecha": "20/20/21",
+                "id_pedido":"1"
+            },
+            {
+                "debe": "0",
+                "haber": "400.000",
+                "fecha": "22/20/21",
+                "id_pedido":"2"
+            },
+            {
+                "debe": "500.000",
+                "haber": "0",
+                "fecha": "23/20/21",
+                "id_pedido":"1"
+            }
+        ]
     },
 
     {
@@ -29,17 +69,57 @@
         "banco": "Banco C",
         "correo": "Correo C",
         "n_cuenta": "Numero de Cuenta C",
-        "saldo": "Saldo C"
+        "saldo": "Saldo C",
+        "cuenta_corriente": [
+            {
+                "debe": "400.000",
+                "haber": "0",
+                "fecha": "20/20/21",
+                "id_pedido":"1"
+            },
+            {
+                "debe": "0",
+                "haber": "400.000",
+                "fecha": "22/20/21",
+                "id_pedido":"2"
+            },
+            {
+                "debe": "500.000",
+                "haber": "0",
+                "fecha": "23/20/21",
+                "id_pedido":"1"
+            }
+        ]
     },
 
     {
-        "nombre": "Nombre D",
+        "nombre": "Agente D",
         "apellido": "Apellido D",
         "telefono": "Telefono D",
         "banco": "Banco D",
         "tipo_cuenta": "Tipo de Cuenta D",
         "correo": "Correo D",
         "n_cuenta": "Numero de Cuenta D",
-        "saldo": "Saldo D"
+        "saldo": "Saldo D",
+        "cuenta_corriente": [
+            {
+                "debe": "400.000",
+                "haber": "0",
+                "fecha": "20/20/21",
+                "id_pedido":"1"
+            },
+            {
+                "debe": "0",
+                "haber": "400.000",
+                "fecha": "22/20/21",
+                "id_pedido":"2"
+            },
+            {
+                "debe": "500.000",
+                "haber": "0",
+                "fecha": "23/20/21",
+                "id_pedido":"1"
+            }
+        ]
     }
 ]

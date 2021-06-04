@@ -1,9 +1,26 @@
 import React, { Component } from 'react'
 import Card from '../Ingresar_Producto/Componentes_Ingresar_Producto/Card_Form';
+import {Link} from 'react-router-dom';
 
 
 
 export default class Init extends Component {
+
+    state = {
+
+        file: null
+    }
+
+    handleFile(e){
+
+        let file = e.target.files[0]
+        this.setState({file : file})
+    }
+
+    handleUpload(e){
+        console.log(this.state, 'The fucking File $$$$');
+    }
+
     render() {
         return (
             <main className="content">
@@ -15,52 +32,23 @@ export default class Init extends Component {
                     <div className="card-header" >
                         Ingresar Productos Por Lote
                     </div>
-
-
                     <div className="container separacion">
+                        <label for="formFile" class="form-label">Descargar Plantilla Excel</label>
+                        <div className="mb-2">
+                            <a href="#" download>
+                                <button type="button" className="btn btn-primary rounded-pill mt-1 ml-3">Download Excel</button>
+                            </a>
+                        </div>
                         <form>
-                            <div class="input-group mb-3">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="inputGroupFile02"/>
-                                    <label class="custom-file-label" for="inputGroupFile02">Choose file csv</label>
-                                </div>
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="">Upload</span>
-                                </div>
+                            <div className="mb-1">
+                                <label for="formFile" class="form-label mt-3">Seleccione su Archivo</label>
+                                <input class="form-control" type="file" id="formFile" onChange={(e)=>this.handleFile(e)}/>
                             </div>
+                            <button onClick={(e) =>this.handleUpload(e)} type="button" className="btn btn-primary rounded-pill mt-3 ml-3" >
+                                Subir Archivo
+                            </button>
                         </form>
-                            <h1 style={{fontSize:"35px"}}>Ejemplo de tabla para importar</h1>
-                            <table class="table">
-                                <thead class="thead-dark">
-                                    <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Descripcion</th>
-                                    <th scope="col">Precio</th>
-                                    <th scope="col">Proveedor</th>
-                                    <th scope="col">Tipo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <th scope="row">2132</th>
-                                    <td>Plastico </td>
-                                    <td>Resistencia negro</td>
-                                    <td>$1,02</td>
-                                    <td>JJ plastalloy</td>
-                                    <td>Plastico</td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">23412</th>
-                                    <td>Aditivo</td>
-                                    <td>Aditivo para color</td>
-                                    <td>$0,90</td>
-                                    <td>Karina</td>
-                                    <td>Aditivo</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        
+                            
 
                     </div>
 

@@ -54,64 +54,64 @@ export default class Init extends Component {
                                     <tr>
                                         <td>15678</td>
                                         <td>Producto 1</td>
-                                        <td>45.000Kg</td>
-                                        <td>46.000Kg</td>
-                                        <td>47.000Kg</td>
-                                        <td>138.000Kg</td>
-                                        <td>45.000Kg</td>
-                                        <td>46.000Kg</td>
-                                        <td>47.000Kg</td>
-                                        <td>138.000Kg</td>
+                                        <td>$1.000.000</td>
+                                        <td>$2.000.000</td>
+                                        <td>$3.000.000</td>
+                                        <td>$6.000.000</td>
+                                        <td>1.400$</td>
+                                        <td>2.800$</td>
+                                        <td>4.200$</td>
+                                        <td>8.400$</td>
 
                                     </tr>
                                     <tr>
                                         <td>15679</td>
                                         <td>Producto 2</td>
-                                        <td>45.000Kg</td>
-                                        <td>46.000Kg</td>
-                                        <td>47.000Kg</td>
-                                        <td>138.000Kg</td>
-                                        <td>45.000Kg</td>
-                                        <td>46.000Kg</td>
-                                        <td>47.000Kg</td>
-                                        <td>138.000Kg</td>
+                                        <td>$1.000.000</td>
+                                        <td>$2.000.000</td>
+                                        <td>$3.000.000</td>
+                                        <td>$6.000.000</td>
+                                        <td>1.400$</td>
+                                        <td>2.800$</td>
+                                        <td>4.200$</td>
+                                        <td>8.400$</td>
 
                                     </tr>
                                     <tr>
                                         <td>15680</td>
                                         <td>Producto 3</td>
-                                        <td>45.000Kg</td>
-                                        <td>46.000Kg</td>
-                                        <td>47.000Kg</td>
-                                        <td>138.000Kg</td>
-                                        <td>45.000Kg</td>
-                                        <td>46.000Kg</td>
-                                        <td>47.000Kg</td>
-                                        <td>138.000Kg</td>
+                                        <td>$1.000.000</td>
+                                        <td>$2.000.000</td>
+                                        <td>$3.000.000</td>
+                                        <td>$6.000.000</td>
+                                        <td>1.400$</td>
+                                        <td>2.800$</td>
+                                        <td>4.200$</td>
+                                        <td>8.400$</td>
 
                                     </tr>
                                     <tr>
                                         <td>15681</td>
                                         <td>Producto 4</td>
-                                        <td>45.000Kg</td>
-                                        <td>46.000Kg</td>
-                                        <td>47.000Kg</td>
-                                        <td>138.000Kg</td>
-                                        <td>45.000Kg</td>
-                                        <td>46.000Kg</td>
-                                        <td>47.000Kg</td>
-                                        <td>138.000Kg</td>
+                                        <td>$1.000.000</td>
+                                        <td>$2.000.000</td>
+                                        <td>$3.000.000</td>
+                                        <td>$6.000.000</td>
+                                        <td>1.400$</td>
+                                        <td>2.800$</td>
+                                        <td>4.200$</td>
+                                        <td>8.400$</td>
                                     </tr>
                                     <tr>
                                         <th colSpan="2" className="text-right">Total</th>
-                                        <td>180.000Kg</td>
-                                        <td>184.000Kg</td>
-                                        <td>188.000Kg</td>
-                                        <td>552.000Kg</td>
-                                        <td>180.000Kg</td>
-                                        <td>184.000Kg</td>
-                                        <td>188.000Kg</td>
-                                        <td>552.000Kg</td>
+                                        <td>$4.000.000</td>
+                                        <td>$8.000.000</td>
+                                        <td>$12.000.000</td>
+                                        <td>$24.000.000</td>
+                                        <td>5.600$</td>
+                                        <td>11.200$</td>
+                                        <td>16.800$</td>
+                                        <td>33.600$</td>
                                     </tr>
                                 </tbody>
                                 </table>
