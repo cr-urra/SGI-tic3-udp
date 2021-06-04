@@ -19,14 +19,16 @@ export default class Tabla extends Component {
                     <div className="container separacion">
                         <div className="card border-primary  shadow-lg">
                           <div className="card-header text-primary">
-                            Agente Aduana: {this.props.proveedoresData[j].nombre}
+                            Proveedor: {this.props.proveedoresData[j].nombre}
                           </div>
                             <ul className="list-group list-group-flush">
                                 <DatoTabla contenido = {"Nombre"} contenido2={this.props.proveedoresData[j].nombre}/>
+                                <DatoTabla contenido = {"País"} contenido2={this.props.proveedoresData[j].pais}/>                                
                                 <DatoTabla contenido = {"Direccion"} contenido2={this.props.proveedoresData[j].direccion}/>
                                 <DatoTabla contenido = {"Correo"} contenido2={this.props.proveedoresData[j].correo}/>
                                 <DatoTabla contenido = {"Moneda"} contenido2={this.props.proveedoresData[j].moneda}/>
                                 <DatoTabla contenido = {"Telefono"} contenido2={this.props.proveedoresData[j].telefono}/>
+                                <DatoTabla contenido = {"Banco"} contenido2={this.props.proveedoresData[j].banco}/>
                             </ul>
                         </div>
                         <div className="row g-2 mt-4 mb-2">

@@ -52,6 +52,7 @@ import Bancos from './components/Vistas/Administrador/Bancos'
 function App() {
   return (
     <BrowserRouter>
+
       <Route path="/" exact component={Init}/>
 
       <Route path="/users/adm" exact component={AdminInterface}/>

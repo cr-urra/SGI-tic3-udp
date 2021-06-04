@@ -63,6 +63,10 @@
     margin: 3%;
 }
 
+.margen{
+    margin: 8%;
+}
+
 .ancho{
     width: 100%;
 }
@@ -90,5 +94,25 @@
 .borde_estado{
     border-color: #F18B31 !important;
 }
+
+.custom1 { height: 350px; }
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .center2 {
+    margin: 0;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
 
 

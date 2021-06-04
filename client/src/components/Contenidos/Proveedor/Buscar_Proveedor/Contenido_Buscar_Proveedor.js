@@ -4,9 +4,6 @@ import ProveedoresData from '../../../JasonDePruebas/Proveedores.json';
 import Tabla from './Componentes_Buscar_Proveedor/Tabla';
 
 
-
-
-
 export default class Init extends Component {
 
     state= {

@@ -1,32 +1,5 @@
 import React, { Component } from 'react'
 
- /* 
-                                
-                                <div className="input-group mb-3">
-                                    <div className="col-2">
-                                        <div className="input-group-prepend ancho2">
-                                            <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Cuenta Corriente</span>
-                                        </div>
-                                    </div>
-                                    <div className="col-10">
-                                        <input 
-                                        type="text" 
-                                        name="cuenta_corriente"
-                                        className="form-control" 
-                                        aria-label="Default" 
-                                        aria-describedby="inputGroup-sizing-default"
-                                        onChange={this.onChange}
-                                        value={this.state.cuenta_corriente}
-                                        />
-                                    </div>   
-                                </div> 
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stop-fill" viewBox="0 0 16 16">
-                                  <path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/>
-                                </svg>
-                                
-                                */
-
 
 export default class Init extends Component {
     render() {
@@ -244,6 +217,9 @@ export default class Init extends Component {
                                     </div>                                   
                                 </div>                               
                             </div>
+                            <button className="btn separacion color_sitio2">
+                                Guardar Pedido
+                            </button>
                         </form>
                     </div>
                 </div>

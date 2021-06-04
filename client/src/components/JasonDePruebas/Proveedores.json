@@ -1,15 +1,19 @@
 [
     {
         "nombre": "Nombre Prov A",
+        "pais": "País A",
+        "banco": "Banco A",
         "direccion": "Ciudidad A",
         "correo": "correo A",
         "moneda":"Dolar",
         "telefono": "Telefono A"
-
+        
     },
 
     {
         "nombre": "Nombre Prov B",
+        "pais": "País B",
+        "banco": "Banco B",
         "direccion": "Ciudidad B",
         "correo": "correo B",
         "moneda":"Dolar",
@@ -18,6 +22,8 @@
 
     {
         "nombre": "Nombre Prov C",
+        "pais": "País C",
+        "banco": "Banco C",
         "direccion": "Ciudidad C",
         "correo": "correo C",
         "moneda":"Dolar",
@@ -26,50 +32,11 @@
 
     {
         "nombre": "Nombre Prov D",
+        "pais": "País D",
+        "banco": "Banco D",
         "direccion": "Ciudidad D",
         "correo": "correo D",
         "moneda":"Dolar",
         "telefono": "Telefono A"       
-    },
-    {
-        "nombre": "asdasd",
-        "direccion": "Ciudidad A",
-        "correo": "correo A",
-        "moneda":"Dolar",
-        "telefono": "Telefono A"
-
-    },
-    {
-        "nombre": "sadfasd",
-        "direccion": "Ciudidad A",
-        "correo": "correo A",
-        "moneda":"Dolar",
-        "telefono": "Telefono A"
-
-    },
-    {
-        "nombre": "aaasdsdas",
-        "direccion": "Ciudidad A",
-        "correo": "correo A",
-        "moneda":"Dolar",
-        "telefono": "Telefono A"
-
-    },
-    {
-        "nombre": "dasfas Prov A",
-        "direccion": "Ciudidad A",
-        "correo": "correo A",
-        "moneda":"Dolar",
-        "telefono": "Telefono A"
-
-    },
-    {
-        "nombre": "asdasd Prov A",
-        "direccion": "Ciudidad A",
-        "correo": "correo A",
-        "moneda":"Dolar",
-        "telefono": "Telefono A"
-
     }
-    
 ]

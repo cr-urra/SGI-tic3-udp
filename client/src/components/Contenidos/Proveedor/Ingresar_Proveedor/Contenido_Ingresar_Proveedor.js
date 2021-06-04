@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import Filtro from './Componentes_Ingresar_Proveedor/Filtro'
 
 
 export default class Ingresar_Usuario extends Component {
@@ -7,9 +8,11 @@ export default class Ingresar_Usuario extends Component {
         nombre: null,
         ciudad: null,
         pais: null,
+        correo: null,
         contacto: null,
         moneda: null,
-        banco: null
+        banco: null,
+        filtro: null,
     }
 
     addProveedor = async () =>{
@@ -29,6 +32,12 @@ export default class Ingresar_Usuario extends Component {
             [e.target.name]: e.target.value
         })        
     }
+
+    onChangeFiltro = (event) => {
+        this.setState({
+            filtro: event.target.value
+        })
+      }
 
 
     render() {
@@ -61,24 +70,7 @@ export default class Ingresar_Usuario extends Component {
                                             />
                                         </div>
                                     </div>
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Ciudad</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="text" 
-                                            name="ciudad"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.ciudad}
-                                            />
-                                        </div>
-                                    </div>
+                                    
                                     <div className="input-group mb-3">
                                         <div className="col-2">
                                             <div className="input-group-prepend ancho2">
@@ -100,7 +92,43 @@ export default class Ingresar_Usuario extends Component {
                                     <div className="input-group mb-3">
                                         <div className="col-2">
                                             <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Contacto</span>
+                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Dirección</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-10">
+                                            <input 
+                                            type="text" 
+                                            name="ciudad"
+                                            className="form-control" 
+                                            aria-label="Default" 
+                                            aria-describedby="inputGroup-sizing-default"
+                                            onChange={this.onChange}
+                                            value={this.state.ciudad}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="input-group mb-3">
+                                        <div className="col-2">
+                                            <div className="input-group-prepend ancho2">
+                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Correo</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-10">
+                                            <input 
+                                            type="text" 
+                                            name="correo"
+                                            className="form-control" 
+                                            aria-label="Default" 
+                                            aria-describedby="inputGroup-sizing-default"
+                                            onChange={this.onChange}
+                                            value={this.state.correo}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="input-group mb-3">
+                                        <div className="col-2">
+                                            <div className="input-group-prepend ancho2">
+                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Teléfono</span>
                                             </div>
                                         </div>
                                         <div className="col-10">
@@ -139,7 +167,7 @@ export default class Ingresar_Usuario extends Component {
                                         </div>
                                         <div className = "col-2" >
                                             <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioBanco"/>                                             
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioBanco" value={"old"} onChange={this.onChangeFiltro}/>                                             
                                               <label class="form-check-label form-label" for="flexRadioBanco">
                                                 Elegir Banco                                                
                                               </label>                                                                                          
@@ -157,7 +185,7 @@ export default class Ingresar_Usuario extends Component {
                                         </div>
                                         <div className = "col-3 text-center">
                                             <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioNuevoBanco"/>
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioNuevoBanco" value={"new"} onChange={this.onChangeFiltro}/>
                                               <label class="form-check-label" for="flexRadioNuevoBanco">
                                                 Nuevo Banco
                                               </label>
@@ -165,6 +193,10 @@ export default class Ingresar_Usuario extends Component {
                                         </div>
                                     </div>
                                 </div>
+
+                                <Filtro filtro={this.state.filtro} />
+
+                                
                             </form>
                         </div>
                     </div>
