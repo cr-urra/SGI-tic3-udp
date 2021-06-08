@@ -44,6 +44,7 @@ export default class Banco extends Component {
                                             </div>
                                         </div>                                        
                                     </div>
+                                    <Datos nombre={"Nombre"} contenido={this.props.bancos[j].nombre}/>
                                     <Datos nombre={"Cuenta Corriente"} contenido={this.props.bancos[j].cuenta}/>
                                     <Datos nombre={"IBAN"} contenido={this.props.bancos[j].IBAN}/>
                                     <Datos nombre={"País"} contenido={this.props.bancos[j].pais}/>
