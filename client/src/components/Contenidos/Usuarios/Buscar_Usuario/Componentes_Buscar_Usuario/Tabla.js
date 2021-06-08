@@ -32,7 +32,7 @@ export default class Tabla extends Component {
                         </div>
                         <div className="row g-2 mt-5 mb-4">
                             <div className="col-6 text-center">
-                            <button type="button" className="btn btn-primary rounded-pill ancho3" >
+                            <button type="button" className="btn btn-primary rounded-pill ancho3" value={true} onClick={this.props.change} >
                                 Editar Usuario 
                             </button>
                             </div>
