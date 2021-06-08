@@ -4,10 +4,29 @@ import {Link} from 'react-router-dom';
 
 export default class Banco extends Component {
     
-    onSubmit = () => {
-
+    state ={
+        nombre: null,
+        cuenta_corriente: null,
+        iban: null,
+        pais: null,
+        n_aba: null,
+        referencia: null,
+        banco_beneficiario: null,
+        codigo_swift: null,
+        codigo_ifcs: null,
+        cuenta_interbancaria: null,
+        banco_intermediario: null
     }
-
+    
+    onSubmit = () => {
+        
+    }
+    
+    onChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })        
+    }
 
     render() {
 
@@ -44,17 +63,17 @@ export default class Banco extends Component {
                                             </div>
                                         </div>                                        
                                     </div>
-                                    <Datos nombre={"Nombre"} contenido={this.props.bancos[j].nombre}/>
-                                    <Datos nombre={"Cuenta Corriente"} contenido={this.props.bancos[j].cuenta}/>
-                                    <Datos nombre={"IBAN"} contenido={this.props.bancos[j].IBAN}/>
-                                    <Datos nombre={"País"} contenido={this.props.bancos[j].pais}/>
-                                    <Datos nombre={"Número ABA"} contenido={this.props.bancos[j].ABA}/>
-                                    <Datos nombre={"Referencia"} contenido={this.props.bancos[j].referencia}/>
-                                    <Datos nombre={"Banco Beneficiario"} contenido={this.props.bancos[j].banco_beneficiario}/>
-                                    <Datos nombre={"Código SWIFT"} contenido={this.props.bancos[j].SWIFT}/>
-                                    <Datos nombre={"Código IFCS"} contenido={this.props.bancos[j].IFCS}/>
-                                    <Datos nombre={"Cuenta Interbancaria"} contenido={this.props.bancos[j].cuenta_interbancaria}/>
-                                    <Datos nombre={"Banco Intermediario"} contenido={this.props.bancos[j].banco_intermediario}/>
+                                    <Datos nombre={"Nombre"} contenido={this.props.bancos[j].nombre} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
+                                    <Datos nombre={"Cuenta Corriente"} contenido={this.props.bancos[j].cuenta} name={"cuenta_corriente"} name2={this.state.cuenta_corriente} onChange={this.onChange}/>
+                                    <Datos nombre={"IBAN"} contenido={this.props.bancos[j].IBAN} name={"iban"} name2={this.state.iban} onChange={this.onChange}/>
+                                    <Datos nombre={"País"} contenido={this.props.bancos[j].pais} name={"pais"} name2={this.state.pais} onChange={this.onChange}/>
+                                    <Datos nombre={"Número ABA"} contenido={this.props.bancos[j].ABA} name={"n_aba"} name2={this.state.n_aba} onChange={this.onChange}/>
+                                    <Datos nombre={"Referencia"} contenido={this.props.bancos[j].referencia} name={"referencia"} name2={this.state.referencia} onChange={this.onChange}/>
+                                    <Datos nombre={"Banco Beneficiario"} contenido={this.props.bancos[j].banco_beneficiario} name={"banco_beneficiario"} name2={this.state.banco_beneficiario} onChange={this.onChange}/>
+                                    <Datos nombre={"Código SWIFT"} contenido={this.props.bancos[j].SWIFT} name={"codigo_swift"} name2={this.state.codigo_swift} onChange={this.onChange}/>
+                                    <Datos nombre={"Código IFCS"} contenido={this.props.bancos[j].IFCS} name={"codigo_ifcs"} name2={this.state.codigo_ifcs} onChange={this.onChange}/>
+                                    <Datos nombre={"Cuenta Interbancaria"} contenido={this.props.bancos[j].cuenta_interbancaria} name={"cuenta_interbancaria"} name2={this.state.cuenta_interbancaria} onChange={this.onChange}/>
+                                    <Datos nombre={"Banco Intermediario"} contenido={this.props.bancos[j].banco_intermediario} name={"banco_intermediario"} name2={this.state.banco_intermediario} onChange={this.onChange}/>
                                 </form>
                             </div>
                             

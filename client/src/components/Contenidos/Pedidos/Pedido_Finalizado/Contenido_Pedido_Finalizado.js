@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import Head_Card from './Componentes_Pedido_Finalizado/Head_Card'
-import Costos from './Componentes_Pedido_Finalizado/Costos'
-import Datos_Produccion from './Componentes_Pedido_Finalizado/Datos_Produccion'
-import Datos_Internacional from './Componentes_Pedido_Finalizado/Datos_Internacional'
-import Datos_Ingreso from './Componentes_Pedido_Finalizado/Datos_Ingreso'
-import Datos_Nacional from './Componentes_Pedido_Finalizado/Datos_Nacional'
-import Observaciones from './Componentes_Pedido_Finalizado/Observaciones'
+import Head_Card from '../Pedido_Componentes/Head_Card'
+import Costos from '../Pedido_Componentes/Costos'
+import Datos_Produccion from '../Pedido_Componentes/Datos_Produccion'
+import Datos_Internacional from '../Pedido_Componentes/Datos_Internacional'
+import Datos_Ingreso from '../Pedido_Componentes/Datos_Ingreso'
+import Datos_Nacional from '../Pedido_Componentes/Datos_Nacional'
+import Observaciones from '../Pedido_Componentes/Observaciones'
+import Gastos from '../Pedido_Componentes/Gastos'
 
 
 
@@ -33,6 +34,8 @@ export default class Init extends Component {
                     <Datos_Nacional iva={"IVA A"} dolar_aduana={"Valor Dolar A"} />
 
                     <Observaciones />
+
+                    <Gastos />
 
                   </div>
                 </div> 

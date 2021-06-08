@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import Head_Card from './Componentes_Pedido_Nacional/Head_Card'
-import Costos from './Componentes_Pedido_Nacional/Costos'
-import Datos_Produccion from './Componentes_Pedido_Nacional/Datos_Produccion'
-import Datos_Internacional from './Componentes_Pedido_Nacional/Datos_Internacional'
-import Datos_Ingreso from './Componentes_Pedido_Nacional/Datos_Ingreso'
-import Datos_Nacional from './Componentes_Pedido_Nacional/Datos_Nacional'
-import Observaciones from './Componentes_Pedido_Nacional/Observaciones'
-import Crear_Observacion from './Componentes_Pedido_Nacional/Crear_Observacion'
-import Estados from './Componentes_Pedido_Nacional/Estados'
-import Requisitos from './Componentes_Pedido_Nacional/Requisistos'
+import Head_Card from '../Pedido_Componentes/Head_Card'
+import Costos from '../Pedido_Componentes/Costos'
+import Datos_Produccion from '../Pedido_Componentes/Datos_Produccion'
+import Datos_Internacional from '../Pedido_Componentes/Datos_Internacional'
+import Datos_Ingreso from '../Pedido_Componentes/Datos_Ingreso'
+import Datos_Nacional from '../Pedido_Componentes/Datos_Nacional'
+import Observaciones from '../Pedido_Componentes/Observaciones'
+import Gastos from '../Pedido_Componentes/Gastos'
+import Crear_Observacion from '../Pedido_Componentes/Crear_Observacion'
+import Estados from '../Pedido_Componentes/Estados'
 
 export default class Init extends Component {
     render() {
@@ -34,6 +34,8 @@ export default class Init extends Component {
                     <Datos_Nacional iva={"IVA A"} dolar_aduana={"Valor Dolar A"} />
 
                     <Observaciones />
+
+                    <Gastos />
 
                     <Crear_Observacion />
 

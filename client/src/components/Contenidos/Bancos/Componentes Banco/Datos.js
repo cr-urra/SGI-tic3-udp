@@ -13,11 +13,13 @@ export default class Datos extends Component {
               <div className="col-6">
                 <input 
                 type="text" 
-                name={this.props.nombre}
-                className="form-control  ancho" 
+                name={this.props.name}
+                className="form-control ancho" 
                 aria-label="Default" 
                 aria-describedby="inputGroup-sizing-default"
                 defaultValue={this.props.contenido}
+                value={this.props.name2}
+                onChange={this.props.onChange}
                 />
               </div>
             </div>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import Head_Card from './Componentes_Pedido_Produccion/Head_Card'
-import Costos from './Componentes_Pedido_Produccion/Costos'
-import Datos_Produccion from './Componentes_Pedido_Produccion/Datos_Produccion'
-import Observaciones from './Componentes_Pedido_Produccion/Observaciones'
-import Crear_Observacion from './Componentes_Pedido_Produccion/Crear_Observacion'
-import Estados from './Componentes_Pedido_Produccion/Estados'
-import Requisitos from './Componentes_Pedido_Produccion/Requisistos'
+import Head_Card from '../Pedido_Componentes/Head_Card'
+import Costos from '../Pedido_Componentes/Costos'
+import Datos_Produccion from '../Pedido_Componentes/Datos_Produccion'
+import Observaciones from '../Pedido_Componentes/Observaciones'
+import Gastos from '../Pedido_Componentes/Gastos'
+import Crear_Observacion from '../Pedido_Componentes/Crear_Observacion'
+import Estados from '../Pedido_Componentes/Estados'
+import Requisitos from '../Pedido_Componentes/Requisistos'
 
 export default class Init extends Component {
     render() {
@@ -25,6 +26,8 @@ export default class Init extends Component {
                     <Datos_Produccion pago={"Pago A"} fecha={"Fecha A"} transporte={"Tipo A"} pago_inicial={"Pago A"} cambio={"Cambio A"} /> 
 
                     <Observaciones />
+
+                    <Gastos />
 
                     <Crear_Observacion />
 
