@@ -1,6 +1,7 @@
 [
     {
         "nombre": "Banco A",
+        "cuenta": "Cuenta A",
         "IBAN": "IBAN A",
         "pais": "Chile A",
         "ABA": "ABA A",
@@ -14,6 +15,7 @@
 
     {
         "nombre": "Banco B",
+        "cuenta": "Cuenta B",
         "IBAN": "IBAN B",
         "pais": "Chile B",
         "ABA": "ABA B",
@@ -27,6 +29,7 @@
 
     {
         "nombre": "Banco C",
+        "cuenta": "Cuenta C",
         "IBAN": "IBAN C",
         "pais": "Chile C",
         "ABA": "ABA C",
@@ -40,6 +43,7 @@
 
     {
         "nombre": "Banco D",
+        "cuenta": "Cuenta C",
         "IBAN": "IBAN D",
         "pais": "Chile D",
         "ABA": "ABA D",

@@ -27,7 +27,8 @@ export default class Banco extends Component {
                                 <h4>{this.props.bancos[j].nombre}</h4>
                               </div>
                                 <ul className="list-group list-group-flush">
-                                    <Lista nombre={"Cuenta Corriente (IBAN)"} contenido={this.props.bancos[j].IBAN}/>
+                                    <Lista nombre={"Cuenta Corriente"} contenido={this.props.bancos[j].cuenta}/>
+                                    <Lista nombre={"IBAN"} contenido={this.props.bancos[j].IBAN}/>
                                     <Lista nombre={"País"} contenido={this.props.bancos[j].pais}/>
                                     <Lista nombre={"Número ABA"} contenido={this.props.bancos[j].ABA}/>
                                     <Lista nombre={"Referencia"} contenido={this.props.bancos[j].referencia}/>

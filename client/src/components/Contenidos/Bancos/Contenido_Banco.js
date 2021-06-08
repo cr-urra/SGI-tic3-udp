@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import Listado from './Componentes Banco/Listado'
 import Banco from './Componentes Banco/Banco'
 import bancos from '../../JasonDePruebas/Banco.json'
-import { Accordion} from 'react-bootstrap';
-
-
+import Editar_Banco from './Componentes Banco/Editar_Banco'
 
 
 
@@ -13,11 +11,14 @@ export default class Contenido_Banco extends Component {
     state = {
         bancos: bancos,
         banco: "",
+        editar: "false",
  
     }
 
-    change = () => {
-        /*  Funcion del boton editar banco  */
+    change = (event) => {
+       this.setState({
+           editar: event.target.value
+       })
     }
 
     delete = () => {
@@ -33,14 +34,23 @@ export default class Contenido_Banco extends Component {
 
 
     render() {
-        return (
-            <main className="content">
-                <h1 className="display-5 titulo">Bancos</h1>
-                <Listado bancos={this.state.bancos} banco = {this.state.banco} onChangeBanco = {this.onChangeBanco} />
-            
-                        <Banco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change} delete = {this.delete}/>
 
-            </main>
-        )
+        if(this.state.editar==="true"){
+            return (
+                <main className="content">
+                    <h1 className="display-5 titulo">Editar Banco {this.state.banco}</h1>
+                    <Editar_Banco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change}/>
+                </main>
+            )
+        }else {
+            return (
+                <main className="content">
+                    <h1 className="display-5 titulo">Bancos</h1>
+                    <Listado bancos={this.state.bancos} banco = {this.state.banco} onChangeBanco = {this.onChangeBanco} />
+
+                    <Banco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change} delete = {this.delete}/>
+                </main>
+            )
+        }
     }
 }
