@@ -51,7 +51,7 @@ export default class Tabla extends Component {
                                 </button>
                             </div>
                             <div className="col-4 text-center">
-                                <button type="submit" className="btn btn-primary rounded-pill ancho3"> 
+                                <button type="submit" className="btn btn-primary rounded-pill ancho3" value={true} onClick={this.props.change} > 
                                     Editar
                                 </button>
                             </div>

@@ -24,7 +24,10 @@ export default class Tabla extends Component {
                             <ul className="list-group list-group-flush">
                                 <DatoTabla contenido = {"Nombre"} contenido2={this.props.productsData[j].nombre}/>
                                 <DatoTabla contenido = {"Codigo"} contenido2={this.props.productsData[j].codigo}/>
+                                <DatoTabla contenido = {"Descripcion"} contenido2={this.props.productsData[j].descripcion}/>
+
                                 <DatoTabla contenido = {"Precio"} contenido2={this.props.productsData[j].precio}/>
+                                <DatoTabla contenido = {"Proveedor"} contenido2={this.props.productsData[j].proveedor}/>
                                 <DatoTabla contenido = {"Tipo"} contenido2={this.props.productsData[j].tipo}/>
                                 <li className = "list-group-item">
                                     <div className="row">
@@ -48,7 +51,7 @@ export default class Tabla extends Component {
                                 </button>
                             </div>
                             <div className="col-4 text-center">
-                                <button type="submit" className="btn btn-primary rounded-pill ancho3"> 
+                                <button type="submit" className="btn btn-primary rounded-pill ancho3" value={true} onClick={this.props.change}> 
                                     Editar
                                 </button>
                             </div>
