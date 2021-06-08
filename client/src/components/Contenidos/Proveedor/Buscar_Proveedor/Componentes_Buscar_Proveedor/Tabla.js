@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
 import DatoTabla from './DatoTabla'
 
 
@@ -24,10 +23,10 @@ export default class Tabla extends Component {
                             <ul className="list-group list-group-flush">
                                 <DatoTabla contenido = {"Nombre"} contenido2={this.props.proveedoresData[j].nombre}/>
                                 <DatoTabla contenido = {"País"} contenido2={this.props.proveedoresData[j].pais}/>                                
-                                <DatoTabla contenido = {"Direccion"} contenido2={this.props.proveedoresData[j].direccion}/>
-                                <DatoTabla contenido = {"Correo"} contenido2={this.props.proveedoresData[j].correo}/>
+                                <DatoTabla contenido = {"Dirección"} contenido2={this.props.proveedoresData[j].direccion}/>
+                                <DatoTabla contenido = {"Correo"} contenido2={this.props.proveedoresData[j].correo}/>                                
+                                <DatoTabla contenido = {"Teléfono"} contenido2={this.props.proveedoresData[j].telefono}/>
                                 <DatoTabla contenido = {"Moneda"} contenido2={this.props.proveedoresData[j].moneda}/>
-                                <DatoTabla contenido = {"Telefono"} contenido2={this.props.proveedoresData[j].telefono}/>
                                 <DatoTabla contenido = {"Banco"} contenido2={this.props.proveedoresData[j].banco}/>
                             </ul>
                         </div>

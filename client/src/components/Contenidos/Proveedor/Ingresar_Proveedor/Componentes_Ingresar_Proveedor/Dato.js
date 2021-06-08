@@ -14,21 +14,21 @@ export default class Dato extends Component {
 
     render() {
       return (
-        <div className="input-group mb-3">
-            <div className="col-2">
+        <div className="row">
+            <div className="col-4">
                 <div className="input-group-prepend ancho2">
-                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">{this.props.nombre}</span>
+                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">{this.props.nombre} </span>
                 </div>
             </div>
-            <div className="col-10">
+            <div className="col-8">
                 <input 
                 type="text" 
-                name="contacto"
+                name={this.props.name}
                 className="form-control" 
                 aria-label="Default" 
                 aria-describedby="inputGroup-sizing-default"
-                /*onChange={this.onChange}
-                value={this.state.contacto} */
+                onChange={this.props.onChange}
+                value={this.props.name2} 
                 />
             </div>
         </div>        

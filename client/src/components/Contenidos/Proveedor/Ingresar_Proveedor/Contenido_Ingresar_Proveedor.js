@@ -1,18 +1,30 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Filtro from './Componentes_Ingresar_Proveedor/Filtro'
+import Dato from './Componentes_Ingresar_Proveedor/Dato'
+
 
 
 export default class Ingresar_Usuario extends Component {
     state ={
         nombre: null,
-        ciudad: null,
         pais: null,
+        direccion: null,        
         correo: null,
-        contacto: null,
+        telefono: null,
         moneda: null,
-        banco: null,
-        filtro: null,
+
+        nombre_b: null,
+        cuenta_corriente: null,
+        iban: null,
+        pais_b: null,
+        n_aba: null,
+        referencia: null,
+        banco_beneficiario: null,
+        codigo_swift: null,
+        codigo_ifcs: null,
+        cuenta_interbancaria: null,
+        banco_intermediario: null
+        
     }
 
     addProveedor = async () =>{
@@ -43,163 +55,78 @@ export default class Ingresar_Usuario extends Component {
     render() {
         return (
             <main className="content">
-                <h1 className="display-5 titulo">Ingresar Proveedor</h1>
+                <h1 className="display-5 titulo">Crear Proveedor</h1>
                 <div className = "container separacion" >
                     <div className = "card shadow-lg">
                         <div className="card-header">
-                            Formulario de creación de Usuario
+                            <h5> Formulario de creación de Usuario</h5>
                         </div>
-                        <div className = "container separacion" >
-                            <form onSubmit = {this.onSubmit}>
-                                <div className="row g-2 mt-2 mb-2">
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Nombre</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="text" 
-                                            name="nombre"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.nombre}
-                                            />
-                                        </div>
+                        <form onSubmit = {this.onSubmit}>
+                            <div className = "container separacion" >
+                            
+                                <div className="row mt-2 mb-2">         
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Nombre"} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
                                     </div>
-                                    
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">País</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="text" 
-                                            name="pais"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.pais}
-                                            />
-                                        </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"País"} name={"pais"} name2={this.state.pais} onChange={this.onChange}/>
                                     </div>
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Dirección</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="text" 
-                                            name="ciudad"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.ciudad}
-                                            />
-                                        </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Dirección"} name={"direccion"} name2={this.state.direccion} onChange={this.onChange}/>
                                     </div>
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Correo</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="text" 
-                                            name="correo"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.correo}
-                                            />
-                                        </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Correo"} name={"correo"} name2={this.state.correo} onChange={this.onChange}/>
                                     </div>
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Teléfono</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="text" 
-                                            name="contacto"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.contacto}
-                                            />
-                                        </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Teléfono"} name={"telefono"} name2={this.state.telefono} onChange={this.onChange}/>
                                     </div>
-                                    <div className="input-group mb-3">
-                                        <div className="col-2">
-                                            <div className="input-group-prepend ancho2">
-                                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Moneda</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-10">
-                                            <input 
-                                            type="text" 
-                                            name="moneda"
-                                            className="form-control" 
-                                            aria-label="Default" 
-                                            aria-describedby="inputGroup-sizing-default"
-                                            onChange={this.onChange}
-                                            value={this.state.moneda}
-                                            />
-                                        </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Moneda"} name={"moneda"} name2={this.state.moneda} onChange={this.onChange}/>
                                     </div>
-                                    <div className="input-group mb-3">
-                                        <div className = "col-2 text-center">
-                                            <h5> Banco </h5>
-                                        </div>
-                                        <div className = "col-2" >
-                                            <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioBanco" value={"old"} onChange={this.onChangeFiltro}/>                                             
-                                              <label class="form-check-label form-label" for="flexRadioBanco">
-                                                Elegir Banco                                                
-                                              </label>                                                                                          
-                                            </div>  
-                                        </div>
-                                        <div className = "col-4" > 
-                                            <input className="form-control " list="datalistOptions" id="exampleDataList" placeholder="Type to search..."/>
-                                            <datalist id="datalistOptions">
-                                              <option value="San Francisco"/>
-                                              <option value="New York"/>
-                                              <option value="Seattle"/>
-                                              <option value="Los Angeles"/>
-                                              <option value="Chicago"/>
-                                            </datalist>
-                                        </div>
-                                        <div className = "col-3 text-center">
-                                            <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioNuevoBanco" value={"new"} onChange={this.onChangeFiltro}/>
-                                              <label class="form-check-label" for="flexRadioNuevoBanco">
-                                                Nuevo Banco
-                                              </label>
-                                            </div> 
-                                        </div>
+                                </div>    
+                                <h5 className="separacion"> Datos Bancarios</h5>                                                    
+
+                                <div className="row ">
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Nombre"} name={"nombre_b"} name2={this.state.nombre_b} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Cuenta Corriente"}  name={"cuenta_corriente"} name2={this.state.cuenta_corriente} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"IBAN"}  name={"iban"} name2={this.state.iban} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"País"}  name={"pais_b"} name2={this.state.pais_b} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Número ABA"}  name={"n_aba"} name2={this.state.n_aba} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Referencia"}  name={"referencia"} name2={this.state.referencia} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Banco Beneficiario"}  name={"banco_beneficiario"} name2={this.state.banco_beneficiario} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Código SWIFT"}  name={"codigo_swift"} name2={this.state.codigo_swift} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Código IFCS"}  name={"codigo_ifcs"} name2={this.state.codigo_ifcs} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">                                    
+                                        <Dato nombre={"Cuenta Interbancaria"}  name={"cuenta_interbancaria"} name2={this.state.cuenta_interbancaria} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
+                                        <Dato nombre={"Banco Intermediario"}  name={"banco_intermediario"} name2={this.state.banco_intermediario} onChange={this.onChange}/>
                                     </div>
                                 </div>
-
-                                <Filtro filtro={this.state.filtro} />
-
-                                
-                            </form>
-                        </div>
+                            </div>
+                        </form>                        
                     </div>
+                    <button className="btn color_sitio2 separacion">
+                        Guardar Proveedor
+                    </button>
                 </div>
             </main>
         )
