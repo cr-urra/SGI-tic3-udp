@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import InputForm from './InputForm'
 
 
 export default class Contenido_Ingresar_Producto extends Component {
@@ -36,124 +37,14 @@ export default class Contenido_Ingresar_Producto extends Component {
             <div className="container separacion">
                 <form onSubmit ={this.onSubmit}>
                     
-                    <div className="row g-2 mt-2 mb-2">
-                        <div className="input-group mb-3">
-                            <div className="col-2">
-                                <div className="input-group-prepend ancho2">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Nombre</span>
-                                </div>
-                            </div>
-                            <div className="col-10">
-                                <input 
-                                type="text" 
-                                name="nombre"
-                                className="form-control" 
-                                aria-label="Default" 
-                                aria-describedby="inputGroup-sizing-default"
-                                onChange={this.onChange}
-                                value={this.state.nombre}
-                                />
-                            </div>   
-                        </div> 
-                        <div className="input-group mb-3">
-                            <div className="col-2">
-                                <div className="input-group-prepend ancho2 ">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Codigo</span>
-                                </div>
-                                
-                            </div>
-                            <div className="col-10">
-                                <input 
-                                type="text" 
-                                name="contacto"
-                                className="form-control " 
-                                aria-label="Default" 
-                                aria-describedby="inputGroup-sizing-default"
-                                onChange={this.onChange}
-                                value={this.state.codigo}
-                                />
-                            </div>
-                            
-                        </div>
-                        
-                        <div className="input-group mb-3">
-                            
-                            <div className="col-2">
-                                <div className="input-group-prepend ancho2">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Descripcion</span>
-                                </div>
-                            </div>
-                            <div className="col-10">
-                                <input 
-                                type="text" 
-                                name="banco"
-                                className="form-control" 
-                                aria-label="Default" 
-                                aria-describedby="inputGroup-sizing-default"
-                                onChange={this.onChange}
-                                value={this.state.descripcion}
-                                />
-                            </div>
-                            
-                        </div>
-                        
-                        <div className="input-group mb-3">
-                            <div className="col-2">
-                                <div className="input-group-prepend ancho2">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Precio</span>
-                                </div>
-                            </div>
-                            <div className="col-10">
-                                <input 
-                                type="text" 
-                                name="cuenta_corriente"
-                                className="form-control" 
-                                aria-label="Default" 
-                                aria-describedby="inputGroup-sizing-default"
-                                onChange={this.onChange}
-                                value={this.state.precio}
-                                />
-                            </div>   
-                        </div>  
-
-                        <div className="input-group mb-3">
-                            <div className="col-2">
-                                <div className="input-group-prepend ancho2">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Proveedor</span>
-                                </div>
-                            </div>
-                            <div className="col-10">
-                                <input 
-                                type="text" 
-                                name="cuenta_corriente"
-                                className="form-control" 
-                                aria-label="Default" 
-                                aria-describedby="inputGroup-sizing-default"
-                                onChange={this.onChange}
-                                value={this.state.proveedor}
-                                />
-                            </div>   
-                        </div>    
-
-                        <div className="input-group mb-3">
-                            <div className="col-2">
-                                <div className="input-group-prepend ancho2">
-                                    <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Tipo</span>
-                                </div>
-                            </div>
-                            <div className="col-10">
-                                <input 
-                                type="text" 
-                                name="cuenta_corriente"
-                                className="form-control" 
-                                aria-label="Default" 
-                                aria-describedby="inputGroup-sizing-default"
-                                onChange={this.onChange}
-                                value={this.state.tipo}
-                                />
-                            </div>   
-                        </div>   
-                    </div> 
+                    <div className="row g-2 mt-2 mb-2">                 
+                        <InputForm field ="Nombre" onChange = {this.onChange} field2 = {this.state.nombre} name="nombre"></InputForm>                       
+                        <InputForm field ="Codigo" onChange = {this.onChange} field2 = {this.state.codigo} name="codigo"></InputForm>
+                        <InputForm field ="Descripcion" onChange = {this.onChange} field2 = {this.state.descripcion} name="descripcion"></InputForm>
+                        <InputForm field ="Precio" onChange = {this.onChange} field2 = {this.state.precio} name="precio"></InputForm>
+                        <InputForm field ="Proveedor" onChange = {this.onChange} field2 = {this.state.proveedor} name="proveedor"></InputForm>
+                        <InputForm field ="Tipo" onChange = {this.onChange} field2 = {this.state.tipo} name="tipo"></InputForm>
+                    </div>
                     <button type="button" className="btn btn-primary rounded-pill mt-3 ml-3" >
                         Guardar Productos
                     </button>                              
