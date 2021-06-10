@@ -9,6 +9,9 @@ const agentes_aduana = database.define('agentes_aduana',{
     nombre:{
         type: sequelize.STRING
     },
+    rut:{
+        type: sequelize.STRING
+    },
     apellido:{
         type: sequelize.STRING
     },

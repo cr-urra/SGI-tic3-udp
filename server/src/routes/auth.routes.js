@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-import * as auth from '../controllers/auth.controller.js';
-import * as verifySignUp from '../middlewares/verifyUsr.js';
+import * as auth from '../controllers/auth.controller';
+import * as verifySignUp from '../middlewares/verifyUsr';
 import * as authJwt from '../middlewares/authJwt';
 
 // auth

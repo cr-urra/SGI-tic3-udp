@@ -8,6 +8,9 @@ const dolar_mensual = database.define('dolar_mensual',{
     },
     valor_mensual:{
         type: sequelize.DOUBLE
+    },
+    fecha_registro:{
+        type: sequelize.DATE
     }
 },{
     timestamps: false

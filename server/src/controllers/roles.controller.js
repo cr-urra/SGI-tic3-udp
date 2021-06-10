@@ -31,11 +31,9 @@ export const createRoles = async (req, res) => {
 export const updateRoles = async (req, res) => {
     try{
         const {id} = req.params;
-        const {cod_rol, nombre} =  req.body;
+        const body =  req.body;
         const rolUpdate = await roles.update({
-            rut,
-            cod_rol,
-            nombre
+            body
         },
         {
             where: {id}

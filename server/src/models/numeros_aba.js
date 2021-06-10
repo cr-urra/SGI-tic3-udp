@@ -9,7 +9,7 @@ const numeros_aba = database.define('numeros_aba',{
     nombre_banco:{
         type: sequelize.STRING
     },
-    pedidos_id:{
+    numero_aba:{
         type: sequelize.INTEGER
     }
 },{

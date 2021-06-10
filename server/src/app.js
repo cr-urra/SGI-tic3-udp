@@ -35,7 +35,7 @@ app.use(express.urlencoded({
 
 // Importar rutas
 
-import roles from './routes/roles.routes.js';
+import roles from './routes/roles.routes';
 import usuarios from './routes/usuarios.routes';
 import auth from './routes/auth.routes';
 import telefonosUsuarios from './routes/telefonos_usuarios.routes';
@@ -45,6 +45,24 @@ import cuentasBancos from './routes/cuentas_bancos.routes';
 import agentesAduana from './routes/agentes_aduana.routes';
 import telefonosProveedores from './routes/telefonos_proveedores.routes';
 import telefonosAgentesAduana from './routes/telefonos_agentes_aduana.routes';
+import pedidos from './routes/pedidos.routes';
+import paises from './routes/paises.routes';
+import observaciones from './routes/observaciones.routes';
+import numerosAba from './routes/numeros_aba.routes';
+import movimientos from './routes/movimientos.routes';
+import monedas from './routes/monedas.routes';
+import ips from './routes/ips.routes';
+import historialPrecios from './routes/historial_precios.routes';
+import historialDolar from './routes/historial_dolar.routes';
+import gastosExtras from './routes/gastos_extras.routes';
+import efectua from './routes/efectua.routes';
+import dolarMensual from './routes/dolar_mensual.routes';
+import documentos from './routes/documentos.routes';
+import detallesPedidos from './routes/detalles_pedidos.routes';
+import detallesDolar from './routes/detalles_dolar.routes';
+import cuentasCorrientes from './routes/cuentas_corrientes.routes';
+import unidadProductos from './routes/unidad_productos.routes';
+import bancosAgentesAduana from './routes/bancos_agentes_aduana.routes';
 
 // routes
 
@@ -58,6 +76,24 @@ app.use('/cuentasBancos', cuentasBancos);
 app.use('/agentesAduana', agentesAduana);
 app.use('/telefonosProveedores', telefonosProveedores);
 app.use('/telefonosAgentesAduana', telefonosAgentesAduana);
+app.use('/pedidos', pedidos);
+app.use('/paises', paises);
+app.use('/observaciones', observaciones);
+app.use('/numerosAba', numerosAba);
+app.use('/movimientos', movimientos);
+app.use('/monedas', monedas);
+app.use('/ips', ips);
+app.use('/historialPrecios', historialPrecios);
+app.use('/historialDolar', historialDolar);
+app.use('/gastosExtras', gastosExtras);
+app.use('/efectua', efectua);
+app.use('/dolarMensual', dolarMensual);
+app.use('/documentos', documentos);
+app.use('/detallesPedidos', detallesPedidos);
+app.use('/detallesDolar', detallesDolar);
+app.use('/cuentasCorrientes', cuentasCorrientes);
+app.use('/unidadProductos', unidadProductos);
+app.use('/bancosAgentesAduana', bancosAgentesAduana);
 
 app.get('/csrf', (req, res) => { 
     res.send({csrfToken: req.csrfToken()})

@@ -12,7 +12,7 @@ const pedidos = database.define('pedidos',{
     cantidad:{
         type: sequelize.BIGINT
     },
-    nomnbre:{
+    nombre:{
         type: sequelize.STRING
     },
     pago_inicial:{
@@ -22,22 +22,25 @@ const pedidos = database.define('pedidos',{
         type: sequelize.FLOAT
     },
     fecha_inicial:{
-        type: sequelize.DATE
+        type: sequelize.DATEONLY
     },
     fecha_pago:{
-        type: sequelize.DATE
+        type: sequelize.DATEONLY
     },
     fecha_salida:{
-        type: sequelize.DATE
+        type: sequelize.DATEONLY
     },
     fecha_llegada_real:{
-        type: sequelize.DATE
+        type: sequelize.DATEONLY
     },
     fecha_llegada_estimada:{
-        type: sequelize.DATE
+        type: sequelize.DATEONLY
     },
     fecha_aduana:{
-        type: sequelize.DATE
+        type: sequelize.DATEONLY
+    },
+    fecha_vencimiento:{
+        type: sequelize.DATEONLY
     },
     estado:{
         type: sequelize.STRING
@@ -74,6 +77,9 @@ const pedidos = database.define('pedidos',{
     },
     dolar_mensual_id:{
         type: sequelize.INTEGER
+    },
+    tipo_pago:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

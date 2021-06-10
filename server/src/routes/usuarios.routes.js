@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-import * as usuarios from '../controllers/usuarios.controller.js';
+import * as usuarios from '../controllers/usuarios.controller';
 
 // usuarios
 

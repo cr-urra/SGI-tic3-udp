@@ -1,6 +1,5 @@
 import proveedores from '../models/proveedores';
 
-
 export const createProveedores = async (req, res) => {
     try{
         const {nombre, direccion, correo, pais, monedas_id} = req.body;
@@ -38,13 +37,9 @@ export const createProveedores = async (req, res) => {
 export const updateProveedores = async (req, res) => {
     try{
         const {id} = req.params;
-        const {nombre, direccion, correo, pais, monedas_id} =  req.body;
+        const body =  req.body;
         const proveedorUpdate = await proveedores.update({
-            nombre,
-            direccion,
-            correo,
-            pais,
-            monedas_id
+            body
         },
         {
             where: {id}

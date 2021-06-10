@@ -12,8 +12,8 @@ const productos = database.define('productos',{
     nombre:{
         type: sequelize.STRING
     },
-    precio_por_kg:{
-        type: sequelize.FLOAT
+    unidad_productos_id:{
+        type: sequelize.INTEGER
     },
     tipo:{
         type: sequelize.STRING

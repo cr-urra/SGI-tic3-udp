@@ -6,7 +6,7 @@ const paises = database.define('paises',{
         type: sequelize.INTEGER,
         primaryKey: true
     },
-    paises:{
+    pais:{
         type: sequelize.STRING
     },
     codigo_iban:{

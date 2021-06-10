@@ -2,20 +2,21 @@ import productos from '../models/productos';
 
 export const createProductos = async (req, res) => {
     try{
-        const {codigo, nombre, precio_por_kg, tipo, proveedores_id} = req.body;
+        const {codigo, nombre, tipo, proveedores_id, unidad_productos_id} = req.body;
         let newProducto = await productos.create({
             codigo,
             nombre,
-            precio_por_kg,
             tipo,
-            proveedores_id
+            proveedores_id,
+            unidad_productos_id
         },{
             fields: [
                 'codigo',
                 'nombre',
                 'precio_por_kg',
                 'tipo',
-                'proveedores_id'
+                'proveedores_id',
+                'unidad_productos_id'
             ]
         });
         res.json({
@@ -37,13 +38,9 @@ export const createProductos = async (req, res) => {
 export const updateProductos = async (req, res) => {
     try{
         const {id} = req.params;
-        const {codigo, nombre, precio_por_kg, tipo, proveedores_id} =  req.body;
+        const body =  req.body;
         const productoUpdate = await productos.update({
-            codigo,
-            nombre,
-            precio_por_kg,
-            tipo,
-            proveedores_id
+            body
         },
         {
             where: {id}
@@ -92,9 +89,9 @@ export const getAllProductos = async (req, res) => {
                 'id', 
                 'codigo', 
                 'nombre',
-                'precio_por_kg',
                 'tipo',
-                'proveedores_id'
+                'proveedores_id',
+                'unidad_productos_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -110,7 +107,7 @@ export const getAllProductos = async (req, res) => {
         res.json({
             resultado: false, 
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            roles: null
+            productos: null
         });
     };
 };
@@ -126,9 +123,9 @@ export const getProductosId = async (req, res) => {
                 'id', 
                 'codigo', 
                 'nombre',
-                'precio_por_kg',
                 'tipo',
-                'proveedores_id'
+                'proveedores_id',
+                'unidad_productos_id'
             ]
         });
         res.json({
@@ -141,7 +138,7 @@ export const getProductosId = async (req, res) => {
         res.json({
             resultado: false, 
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            roles: null
+            productos: null
         });
     };
 };

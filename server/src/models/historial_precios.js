@@ -10,7 +10,7 @@ const historial_precios = database.define('historial_precios',{
         type: sequelize.FLOAT
     },
     fecha:{
-        type: sequelize.STRING
+        type: sequelize.DATE
     },
     productos_id:{
         type: sequelize.INTEGER

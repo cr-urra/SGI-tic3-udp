@@ -1,19 +1,21 @@
-import roles from '../models/roles';
 import agentes_aduana from '../models/agentes_aduana';
-
 
 export const createAgentesAduana = async (req, res) => {
     try{
-        const {nombre, apellido, correo} = req.body;
+        const {nombre, apellido, correo, numero_cuenta, rut} = req.body;
         let newAgenteAduana = await agentes_aduana.create({
             nombre,
             apellido,
-            correo
+            correo,
+            numero_cuenta, 
+            rut
         },{
             fields: [
                 'nombre',
                 'apellido',
-                'correo'
+                'correo',
+                'numero_cuenta', 
+                'rut'
             ]
         });
         res.json({
@@ -88,7 +90,9 @@ export const getAllAgentesAduana = async (req, res) => {
                 'id', 
                 'nombre', 
                 'apellido',
-                'correo'
+                'correo',
+                'numero_cuenta', 
+                'rut'
             ],
             order: [
                 ['id', 'DESC']
@@ -120,7 +124,9 @@ export const getAgentesAduanaId = async (req, res) => {
                 'id', 
                 'nombre', 
                 'apellido',
-                'correo'
+                'correo',
+                'numero_cuenta', 
+                'rut'
             ]
         });
         res.json({

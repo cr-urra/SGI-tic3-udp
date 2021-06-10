@@ -23,14 +23,13 @@ import telefonos_proveedores from '../models/telefonos_proveedores';
 import telefonos_usuarios from '../models/telefonos_usuarios';
 import usuarios from '../models/usuarios';
 import bancos_agentes_aduana from '../models/bancos_agentes_aduana';
+import efectua from '../models/efectua';
+import unidad_productos from '../models/unidad_productos';
 
 // 1:1
 
 pedidos.hasOne(detalles_pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 detalles_pedidos.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
-
-productos.hasOne(historial_precios, {foreignKey: 'productos_id', sourceKey: 'id'});
-historial_precios.belongsTo(productos, {foreignKey: 'productos_id', sourceKey: 'id'});
 
 historial_dolar.hasOne(detalles_dolar, {foreignKey: 'historial_dolar_id', sourceKey: 'id'});
 detalles_dolar.belongsTo(historial_dolar, {foreignKey: 'historial_dolar_id', sourceKey: 'id'});
@@ -39,6 +38,12 @@ agentes_aduana.hasOne(cuentas_corrientes, {foreignKey: 'agentes_aduana_id', sour
 cuentas_corrientes.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 
 // 1:N
+
+productos.hasMany(productos, {foreignKey: 'productos_id', sourceKey: 'id'});
+historial_precios.belongsTo(historial_precios, {foreignKey: 'productos_id', sourceKey: 'id'});
+
+productos.hasMany(productos, {foreignKey: 'unidad_productos_id', sourceKey: 'id'});
+unidad_productos.belongsTo(productos, {foreignKey: 'productos_id', sourceKey: 'id'});
 
 gastos_extras.hasMany(observaciones, {foreingKey: 'observaciones_id', sourceKey: 'id'});
 observaciones.belongsTo(gastos_extras, {foreingKey: 'observaciones_id', sourceKey: 'id'});
@@ -111,3 +116,13 @@ productos.belongsToMany(pedidos, {through: 'tiene', foreignKey: 'productos_id'})
 
 pedidos.belongsToMany(historial_dolar, {through: 'cobra', foreignKey: 'pedidos_id'});
 historial_dolar.belongsToMany(pedidos, {through: 'cobra', foreignKey: 'historial_dolar_id'});
+
+// Parciales
+
+agentes_aduana.hasMany(efectua, {foreingKey: 'agentes_aduana_id', sourceKey: 'id'});
+efectua.belongsTo(agentes_aduana, {foreingKey: 'agentes_aduana_id', sourceKey: 'id'});
+
+observaciones.hasMany(agentes_aduana, {foreingKey: 'observaciones_id', sourceKey: 'id'});
+agentes_aduana.belongsTo(observaciones, {foreingKey: 'observaciones_id', sourceKey: 'id'});
+
+

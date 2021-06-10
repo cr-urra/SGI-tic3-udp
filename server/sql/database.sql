@@ -30,7 +30,8 @@ CREATE TABLE public.agentes_aduana (
     apellido character varying(30),
     correo character varying(30),
     numero_cuenta character varying(30),
-    tipo_cuenta character varying(30)
+    bancos_agentes_aduana_id integer,
+    rut character varying(30)
 );
 
 
@@ -56,6 +57,42 @@ ALTER TABLE public.agentes_aduana_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.agentes_aduana_id_seq OWNED BY public.agentes_aduana.id;
+
+
+--
+-- Name: bancos_agentes_aduana; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.bancos_agentes_aduana (
+    id integer NOT NULL,
+    numero_cuenta character varying(30),
+    tipo_cuenta character varying(30),
+    nombre_banco character varying(30)
+);
+
+
+ALTER TABLE public.bancos_agentes_aduana OWNER TO postgres;
+
+--
+-- Name: bancos_agentes_aduana_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.bancos_agentes_aduana_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bancos_agentes_aduana_id_seq OWNER TO postgres;
+
+--
+-- Name: bancos_agentes_aduana_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.bancos_agentes_aduana_id_seq OWNED BY public.bancos_agentes_aduana.id;
 
 
 --
@@ -286,6 +323,18 @@ ALTER TABLE public.dolar_mensual_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.dolar_mensual_id_seq OWNED BY public.dolar_mensual.id;
 
+
+--
+-- Name: efectua; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.efectua (
+    observaciones_id integer NOT NULL,
+    agentes_aduana_id integer NOT NULL
+);
+
+
+ALTER TABLE public.efectua OWNER TO postgres;
 
 --
 -- Name: gastos_extras; Type: TABLE; Schema: public; Owner: postgres
@@ -638,7 +687,9 @@ CREATE TABLE public.pedidos (
     cuentas_bancos_id integer,
     agentes_aduana_id integer,
     proveedores_id integer,
-    dolar_mensual_id integer
+    dolar_mensual_id integer,
+    tipo_pago boolean,
+    fecha_vencimiento date
 );
 
 
@@ -674,9 +725,9 @@ CREATE TABLE public.productos (
     id integer NOT NULL,
     codigo character varying(30),
     nombre character varying(30),
-    precio_por_kg double precision,
     tipo character varying(30),
-    proveedores_id integer
+    proveedores_id integer,
+    unidad_productos_id integer
 );
 
 
@@ -911,6 +962,41 @@ CREATE TABLE public.tiene (
 ALTER TABLE public.tiene OWNER TO postgres;
 
 --
+-- Name: unidad_productos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.unidad_productos (
+    id integer NOT NULL,
+    tipo character varying(30),
+    valor_unidad double precision
+);
+
+
+ALTER TABLE public.unidad_productos OWNER TO postgres;
+
+--
+-- Name: unidad_productos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.unidad_productos_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.unidad_productos_id_seq OWNER TO postgres;
+
+--
+-- Name: unidad_productos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.unidad_productos_id_seq OWNED BY public.unidad_productos.id;
+
+
+--
 -- Name: usuarios; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -955,6 +1041,13 @@ ALTER SEQUENCE public.usuarios_id_seq OWNED BY public.usuarios.id;
 --
 
 ALTER TABLE ONLY public.agentes_aduana ALTER COLUMN id SET DEFAULT nextval('public.agentes_aduana_id_seq'::regclass);
+
+
+--
+-- Name: bancos_agentes_aduana id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bancos_agentes_aduana ALTER COLUMN id SET DEFAULT nextval('public.bancos_agentes_aduana_id_seq'::regclass);
 
 
 --
@@ -1112,6 +1205,13 @@ ALTER TABLE ONLY public.telefonos_usuarios ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: unidad_productos id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.unidad_productos ALTER COLUMN id SET DEFAULT nextval('public.unidad_productos_id_seq'::regclass);
+
+
+--
 -- Name: usuarios id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1122,7 +1222,15 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id SET DEFAULT nextval('public.usu
 -- Data for Name: agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, tipo_cuenta) FROM stdin;
+COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_agentes_aduana_id, rut) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bancos_agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco) FROM stdin;
 \.
 
 
@@ -1179,6 +1287,14 @@ COPY public.documentos (id, nombre_documento, pedidos_id) FROM stdin;
 --
 
 COPY public.dolar_mensual (id, valor_mensual) FROM stdin;
+\.
+
+
+--
+-- Data for Name: efectua; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.efectua (observaciones_id, agentes_aduana_id) FROM stdin;
 \.
 
 
@@ -1258,7 +1374,7 @@ COPY public.paises (id, pais, codigo_iban) FROM stdin;
 -- Data for Name: pedidos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id) FROM stdin;
+COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento) FROM stdin;
 \.
 
 
@@ -1266,7 +1382,7 @@ COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fec
 -- Data for Name: productos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.productos (id, codigo, nombre, precio_por_kg, tipo, proveedores_id) FROM stdin;
+COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_productos_id) FROM stdin;
 \.
 
 
@@ -1328,6 +1444,14 @@ COPY public.tiene (pedidos_id, productos_id, created_at, updated_at) FROM stdin;
 
 
 --
+-- Data for Name: unidad_productos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.unidad_productos (id, tipo, valor_unidad) FROM stdin;
+\.
+
+
+--
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1341,6 +1465,13 @@ COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id
 --
 
 SELECT pg_catalog.setval('public.agentes_aduana_id_seq', 1, false);
+
+
+--
+-- Name: bancos_agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.bancos_agentes_aduana_id_seq', 1, false);
 
 
 --
@@ -1498,6 +1629,13 @@ SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 1, false);
 
 
 --
+-- Name: unidad_productos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.unidad_productos_id_seq', 1, false);
+
+
+--
 -- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -1510,6 +1648,14 @@ SELECT pg_catalog.setval('public.usuarios_id_seq', 2, true);
 
 ALTER TABLE ONLY public.agentes_aduana
     ADD CONSTRAINT agentes_aduana_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bancos_agentes_aduana bancos_agentes_aduana_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bancos_agentes_aduana
+    ADD CONSTRAINT bancos_agentes_aduana_pkey PRIMARY KEY (id);
 
 
 --
@@ -1566,6 +1712,14 @@ ALTER TABLE ONLY public.documentos
 
 ALTER TABLE ONLY public.dolar_mensual
     ADD CONSTRAINT dolar_mensual_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: efectua efectua_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.efectua
+    ADD CONSTRAINT efectua_pkey PRIMARY KEY (observaciones_id, agentes_aduana_id);
 
 
 --
@@ -1713,11 +1867,27 @@ ALTER TABLE ONLY public.tiene
 
 
 --
+-- Name: unidad_productos unidad_productos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.unidad_productos
+    ADD CONSTRAINT unidad_productos_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: usuarios usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.usuarios
     ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agentes_aduana agentes_aduana_bancos_agentes_aduana_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.agentes_aduana
+    ADD CONSTRAINT agentes_aduana_bancos_agentes_aduana_id_fkey FOREIGN KEY (bancos_agentes_aduana_id) REFERENCES public.bancos_agentes_aduana(id);
 
 
 --
@@ -1782,6 +1952,22 @@ ALTER TABLE ONLY public.detalles_pedidos
 
 ALTER TABLE ONLY public.documentos
     ADD CONSTRAINT documentos_pedidos_id_fkey FOREIGN KEY (pedidos_id) REFERENCES public.pedidos(id);
+
+
+--
+-- Name: efectua efectua_agentes_aduana_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.efectua
+    ADD CONSTRAINT efectua_agentes_aduana_id_fkey FOREIGN KEY (agentes_aduana_id) REFERENCES public.agentes_aduana(id);
+
+
+--
+-- Name: efectua efectua_observaciones_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.efectua
+    ADD CONSTRAINT efectua_observaciones_id_fkey FOREIGN KEY (observaciones_id) REFERENCES public.observaciones(id);
 
 
 --
@@ -1878,6 +2064,14 @@ ALTER TABLE ONLY public.pedidos
 
 ALTER TABLE ONLY public.productos
     ADD CONSTRAINT productos_proveedores_id_fkey FOREIGN KEY (proveedores_id) REFERENCES public.proveedores(id);
+
+
+--
+-- Name: productos productos_unidad_productos_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.productos
+    ADD CONSTRAINT productos_unidad_productos_id_fkey FOREIGN KEY (unidad_productos_id) REFERENCES public.unidad_productos(id);
 
 
 --
