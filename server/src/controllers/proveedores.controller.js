@@ -2,20 +2,22 @@ import proveedores from '../models/proveedores';
 
 export const createProveedores = async (req, res) => {
     try{
-        const {nombre, direccion, correo, pais, monedas_id} = req.body;
+        const {nombre, direccion, correo, pais, monedas_id, rut} = req.body;
         let newProveedor = await proveedores.create({
             nombre,
             direccion,
             correo,
             pais,
-            monedas_id
+            monedas_id,
+            rut
         },{
             fields: [
                 'nombre',
                 'direccion',
                 'correo',
                 'pais',
-                'monedas_id'
+                'monedas_id',
+                'rut'
             ]
         });
         res.json({
@@ -90,7 +92,8 @@ export const getAllProveedores = async (req, res) => {
                 'direccion',
                 'correo',
                 'pais',
-                'monedas_id'
+                'monedas_id',
+                'rut'
             ],
             order: [
                 ['id', 'DESC']
@@ -124,7 +127,8 @@ export const getProveedoresId = async (req, res) => {
                 'direccion',
                 'correo',
                 'pais',
-                'monedas_id'
+                'monedas_id',
+                'rut'
             ]
         });
         res.json({

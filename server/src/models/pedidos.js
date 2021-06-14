@@ -63,7 +63,7 @@ const pedidos = database.define('pedidos',{
     gastos_agencia:{
         type: sequelize.FLOAT
     },
-    numeros_din:{
+    numero_din:{
         type: sequelize.STRING
     },
     cuentas_bancos_id:{
@@ -82,7 +82,8 @@ const pedidos = database.define('pedidos',{
         type: sequelize.BOOLEAN
     }
 },{
-    timestamps: false
+    timestamps: false,
+    underscored: true
 });
 
 export default pedidos;

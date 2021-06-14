@@ -1,13 +1,16 @@
 import dolarMensual from '../models/dolar_mensual';
+import sequelize from 'sequelize';
 
 export const createDolarMensual = async (req, res) => {
     try{
         const {valor_mensual} = req.body;
         let newDolarMensual = await dolarMensual.create({
-            valor_mensual
+            valor_mensual,
+            fecha_registro: sequelize.literal('CURRENT_TIMESTAMP'),
         },{
             fields: [
-                'valor_mensual'
+                'valor_mensual',
+                'fecha_registro'
             ]
         });
         res.json({

@@ -14,7 +14,7 @@ export const createPaises = async (req, res) => {
         });
         res.json({
             resultado: true,
-            message: "Agente de aduana creado correctamente",
+            message: "País creado correctamente",
             paises: newPais
         });
     } catch (e) {
@@ -63,7 +63,7 @@ export const deletePaises = async (req, res) => {
         });
         res.json({
             resultado: true, 
-            message: 'Agente de aduana eliminado correctamente'
+            message: 'País eliminado correctamente'
         });
     }catch(e){
         console.log(e);

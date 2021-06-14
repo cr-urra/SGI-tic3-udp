@@ -2,14 +2,16 @@ import historialPrecios from '../models/historial_precios';
 
 export const createHistorialPrecios = async (req, res) => {
     try{
-        const {precio, productos_id} = req.body;
+        const {precio, productos_id,fecha} = req.body;
         let newHistorialPrecios = await historialPrecios.create({
             precio, 
-            productos_id
+            productos_id,
+            fecha
         },{
             fields: [
                 'precio', 
-                'productos_id'
+                'productos_id',
+                'fecha'
             ]
         });
         res.json({

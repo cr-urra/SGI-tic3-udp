@@ -39,71 +39,74 @@ cuentas_corrientes.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', s
 
 // 1:N
 
-productos.hasMany(productos, {foreignKey: 'productos_id', sourceKey: 'id'});
-historial_precios.belongsTo(historial_precios, {foreignKey: 'productos_id', sourceKey: 'id'});
+productos.hasMany(historial_precios, {foreignKey: 'productos_id', sourceKey: 'id'});
+historial_precios.belongsTo(productos, {foreignKey: 'productos_id', sourceKey: 'id'});
 
-productos.hasMany(productos, {foreignKey: 'unidad_productos_id', sourceKey: 'id'});
-unidad_productos.belongsTo(productos, {foreignKey: 'productos_id', sourceKey: 'id'});
+unidad_productos.hasMany(productos, {foreignKey: 'unidad_productos_id', sourceKey: 'id'});
+productos.belongsTo(unidad_productos, {foreignKey: 'unidad_productos_id', sourceKey: 'id'});
 
-gastos_extras.hasMany(observaciones, {foreingKey: 'observaciones_id', sourceKey: 'id'});
-observaciones.belongsTo(gastos_extras, {foreingKey: 'observaciones_id', sourceKey: 'id'});
+observaciones.hasMany(gastos_extras, {foreignKey: 'observaciones_id', sourceKey: 'id'});
+gastos_extras.belongsTo(gastos_extras, {foreignKey: 'observaciones_id', sourceKey: 'id'});
 
-gastos_extras.hasMany(pedidos, {foreingKey: 'pedidos_id', sourceKey: 'id'});
-pedidos.belongsTo(gastos_extras, {foreingKey: 'pedidos_id', sourceKey: 'id'});
+pedidos.hasMany(gastos_extras, {foreignKey: 'pedidos_id', sourceKey: 'id'});
+gastos_extras.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 
-observaciones.hasMany(pedidos, {foreingKey: 'pedidos_id', sourceKey: 'id'});
-pedidos.belongsTo(observaciones, {foreingKey: 'pedidos_id', sourceKey: 'id'});
+pedidos.hasMany(observaciones, {foreignKey: 'pedidos_id', sourceKey: 'id'});
+observaciones.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 
-telefonos_usuarios.hasMany(usuarios, {foreingKey: 'usuarios_id', sourceKey: 'id'});
-usuarios.belongsTo(telefonos_usuarios, {foreingKey: 'usuarios_id', sourceKey: 'id'});
+usuarios.hasMany(telefonos_usuarios, {foreignKey: 'usuarios_id', sourceKey: 'id'});
+telefonos_usuarios.belongsTo(usuarios, {foreignKey: 'usuarios_id', sourceKey: 'id'});
 
-usuarios.hasMany(roles, {foreingKey: 'roles_id', sourceKey: 'id'});
-roles.belongsTo(usuarios, {foreingKey: 'roles_id', sourceKey: 'id'});
+roles.hasMany(usuarios, {foreignKey: 'roles_id', sourceKey: 'id'});
+usuarios.belongsTo(roles, {foreignKey: 'roles_id', sourceKey: 'id'});
 
-historial_dolar.hasMany(dolar_mensual, {foreingKey: 'dolar_mensual_id', sourceKey: 'id'});
-dolar_mensual.belongsTo(historial_dolar, {foreingKey: 'dolar_mensual_id', sourceKey: 'id'});
+dolar_mensual.hasMany(historial_dolar, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
+historial_dolar.belongsTo(dolar_mensual, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
 
-pedidos.hasMany(dolar_mensual, {foreingKey: 'dolar_mensual_id', sourceKey: 'id'});
-dolar_mensual.belongsTo(pedidos, {foreingKey: 'dolar_mensual_id', sourceKey: 'id'});
+dolar_mensual.hasMany(pedidos, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
+pedidos.belongsTo(dolar_mensual, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
 
-pedidos.hasMany(agentes_aduana, {foreingKey: 'pedidos_id', sourceKey: 'id'});
-agentes_aduana.belongsTo(pedidos, {foreingKey: 'pedidos_id', sourceKey: 'id'});
+agentes_aduana.hasMany(pedidos, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+pedidos.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 
-documentos.hasMany(pedidos, {foreingKey: 'pedidos_id', sourceKey: 'id'});
-pedidos.belongsTo(documentos, {foreingKey: 'pedidos_id', sourceKey: 'id'});
+pedidos.hasMany(documentos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
+documentos.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 
-pedidos.hasMany(cuentas_bancos, {foreingKey: 'pedidos_id', sourceKey: 'id'});
-cuentas_bancos.belongsTo(pedidos, {foreingKey: 'pedidos_id', sourceKey: 'id'});
+cuentas_bancos.hasMany(pedidos, {foreignKey: 'cuentas_bancos_id', sourceKey: 'id'});
+pedidos.belongsTo(cuentas_bancos, {foreignKey: 'cuentas_bancos_id', sourceKey: 'id'});
 
-pedidos.hasMany(proveedores, {foreingKey: 'pedidos_id', sourceKey: 'id'});
-proveedores.belongsTo(pedidos, {foreingKey: 'pedidos_id', sourceKey: 'id'});
+proveedores.hasMany(pedidos, {foreignKey: 'proveedores_id', sourceKey: 'id'});
+pedidos.belongsTo(proveedores, {foreignKey: 'proveedores_id', sourceKey: 'id'});
 
-proveedores.hasMany(monedas, {foreingKey: 'monedas_id', sourceKey: 'id'});
-monedas.belongsTo(proveedores, {foreingKey: 'monedas_id', sourceKey: 'id'});
+monedas.hasMany(proveedores, {foreignKey: 'monedas_id', sourceKey: 'id'});
+proveedores.belongsTo(monedas, {foreignKey: 'monedas_id', sourceKey: 'id'});
 
-telefonos_proveedores.hasMany(proveedores, {foreingKey: 'proveedores_id', sourceKey: 'id'});
-proveedores.belongsTo(telefonos_proveedores, {foreingKey: 'proveedores_id', sourceKey: 'id'});
+proveedores.hasMany(telefonos_proveedores, {foreignKey: 'proveedores_id', sourceKey: 'id'});
+telefonos_proveedores.belongsTo(proveedores, {foreignKey: 'proveedores_id', sourceKey: 'id'});
 
-cuentas_bancos.hasMany(paises, {foreingKey: 'paises_id', sourceKey: 'id'});
-paises.belongsTo(cuentas_bancos, {foreingKey: 'paises_id', sourceKey: 'id'});
+paises.hasMany(cuentas_bancos, {foreignKey: 'paises_id', sourceKey: 'id'});
+cuentas_bancos.belongsTo(paises, {foreignKey: 'paises_id', sourceKey: 'id'});
 
-cuentas_bancos.hasMany(numeros_aba, {foreingKey: 'numeros_aba_id', sourceKey: 'id'});
-numeros_aba.belongsTo(cuentas_bancos, {foreingKey: 'numeros_aba_id', sourceKey: 'id'});
+numeros_aba.hasMany(cuentas_bancos, {foreignKey: 'numeros_aba_id', sourceKey: 'id'});
+cuentas_bancos.belongsTo(numeros_aba, {foreignKey: 'numeros_aba_id', sourceKey: 'id'});
 
-productos.hasMany(proveedores, {foreingKey: 'proveedores_id', sourceKey: 'id'});
-proveedores.belongsTo(productos, {foreingKey: 'proveedores_id', sourceKey: 'id'});
+proveedores.hasMany(productos, {foreignKey: 'proveedores_id', sourceKey: 'id'});
+productos.belongsTo(proveedores, {foreignKey: 'proveedores_id', sourceKey: 'id'});
 
-telefonos_agentes_aduana.hasMany(agentes_aduana, {foreingKey: 'agentes_aduana_id', sourceKey: 'id'});
-agentes_aduana.belongsTo(telefonos_agentes_aduana, {foreingKey: 'agentes_aduana_id', sourceKey: 'id'});
+agentes_aduana.hasMany(telefonos_agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+telefonos_agentes_aduana.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 
-bancos_agentes_aduana.hasMany(agentes_aduana, {foreingKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
-agentes_aduana.belongsTo(telefonos_agentes_aduana, {foreingKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
+agentes_aduana.hasMany(telefonos_agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+telefonos_agentes_aduana.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 
-movimientos.hasMany(cuentas_corrientes, {foreingKey: 'cuentas_corrientes_id', sourceKey: 'id'});
-cuentas_corrientes.belongsTo(movimientos, {foreingKey: 'cuentas_corrientes_id', sourceKey: 'id'});
+movimientos.hasMany(cuentas_corrientes, {foreignKey: 'cuentas_corrientes_id', sourceKey: 'id'});
+cuentas_corrientes.belongsTo(movimientos, {foreignKey: 'cuentas_corrientes_id', sourceKey: 'id'});
 
-ips.hasMany(usuarios, {foreingKey: 'usuarios_id', sourceKey: 'id'});
-usuarios.belongsTo(ips, {foreingKey: 'usuarios_id', sourceKey: 'id'});
+usuarios.hasMany(ips, {foreignKey: 'usuarios_id', sourceKey: 'id'});
+ips.belongsTo(usuarios, {foreignKey: 'usuarios_id', sourceKey: 'id'});
+
+bancos_agentes_aduana.hasMany(agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
+agentes_aduana.belongsTo(bancos_agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 
 
 // N:M
@@ -119,10 +122,10 @@ historial_dolar.belongsToMany(pedidos, {through: 'cobra', foreignKey: 'historial
 
 // Parciales
 
-agentes_aduana.hasMany(efectua, {foreingKey: 'agentes_aduana_id', sourceKey: 'id'});
-efectua.belongsTo(agentes_aduana, {foreingKey: 'agentes_aduana_id', sourceKey: 'id'});
+agentes_aduana.hasMany(efectua, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+efectua.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 
-observaciones.hasMany(agentes_aduana, {foreingKey: 'observaciones_id', sourceKey: 'id'});
-agentes_aduana.belongsTo(observaciones, {foreingKey: 'observaciones_id', sourceKey: 'id'});
+observaciones.hasMany(efectua, {foreignKey: 'observaciones_id', sourceKey: 'id'});
+efectua.belongsTo(observaciones, {foreignKey: 'observaciones_id', sourceKey: 'id'});
 
 

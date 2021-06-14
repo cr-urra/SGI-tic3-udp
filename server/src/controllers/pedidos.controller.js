@@ -7,11 +7,13 @@ export const createPedidos = async (req, res) => {
                 cantidad, 
                 nombre, 
                 pago_inicial, 
+                pago_final, 
                 fecha_pago, 
                 fecha_salida, 
                 fecha_llegada_real, 
                 fecha_llegada_estimada, 
                 fecha_aduana,
+                fecha_inicial,
                 estado,
                 tipo_de_envio,
                 flete,
@@ -19,7 +21,7 @@ export const createPedidos = async (req, res) => {
                 honorarios,
                 arancel,
                 gastos_agencia,
-                numeros_din,
+                numero_din,
                 cuentas_bancos_id,
                 agentes_aduana_id,
                 proveedores_id,
@@ -32,6 +34,7 @@ export const createPedidos = async (req, res) => {
                 cantidad, 
                 nombre, 
                 pago_inicial, 
+                pago_final,
                 fecha_pago, 
                 fecha_salida, 
                 fecha_llegada_real, 
@@ -44,19 +47,21 @@ export const createPedidos = async (req, res) => {
                 honorarios,
                 arancel,
                 gastos_agencia,
-                numeros_din,
+                numero_din,
                 cuentas_bancos_id,
                 agentes_aduana_id,
                 proveedores_id,
                 dolar_mensual_id,
                 fecha_vencimiento,
-                tipo_pago
+                tipo_pago,
+                fecha_inicial
         },{
             fields: [
                 'codigo', 
                 'cantidad', 
                 'nombre', 
                 'pago_inicial', 
+                'pago_final',
                 'fecha_pago', 
                 'fecha_salida', 
                 'fecha_llegada_real', 
@@ -69,13 +74,14 @@ export const createPedidos = async (req, res) => {
                 'honorarios',
                 'arancel',
                 'gastos_agencia',
-                'numeros_din',
+                'numero_din',
                 'cuentas_bancos_id',
                 'agentes_aduana_id',
                 'proveedores_id',
                 'dolar_mensual_id',
                 'fecha_vencimiento',
-                'tipo_pago'
+                'tipo_pago',
+                'fecha_inicial'
             ]
         });
         res.json({
@@ -148,6 +154,7 @@ export const getAllPedidos = async (req, res) => {
                 'cantidad', 
                 'nombre', 
                 'pago_inicial', 
+                'pago_final',
                 'fecha_pago', 
                 'fecha_salida', 
                 'fecha_llegada_real', 
@@ -160,13 +167,14 @@ export const getAllPedidos = async (req, res) => {
                 'honorarios',
                 'arancel',
                 'gastos_agencia',
-                'numeros_din',
+                'numero_din',
                 'cuentas_bancos_id',
                 'agentes_aduana_id',
                 'proveedores_id',
                 'dolar_mensual_id',
                 'fecha_vencimiento',
-                'tipo_pago'
+                'tipo_pago',
+                'fecha_inicial'
             ],
             order: [
                 ['id', 'DESC']
@@ -199,6 +207,7 @@ export const getPedidosId = async (req, res) => {
                 'cantidad', 
                 'nombre', 
                 'pago_inicial', 
+                'pago_final',
                 'fecha_pago', 
                 'fecha_salida', 
                 'fecha_llegada_real', 
@@ -211,13 +220,14 @@ export const getPedidosId = async (req, res) => {
                 'honorarios',
                 'arancel',
                 'gastos_agencia',
-                'numeros_din',
+                'numero_din',
                 'cuentas_bancos_id',
                 'agentes_aduana_id',
                 'proveedores_id',
                 'dolar_mensual_id',
                 'fecha_vencimiento',
-                'tipo_pago'
+                'tipo_pago',
+                'fecha_inicial'
             ]
         });
         res.json({

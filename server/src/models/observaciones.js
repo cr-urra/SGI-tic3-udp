@@ -10,7 +10,7 @@ const observaciones = database.define('observaciones',{
         type: sequelize.TEXT
     },
     fecha:{
-        type: sequelize.DATE
+        type: sequelize.DATEONLY
     },
     gasto:{
         type: sequelize.BOOLEAN

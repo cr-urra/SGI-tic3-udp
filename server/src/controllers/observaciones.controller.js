@@ -10,11 +10,10 @@ export const createObservaciones = async (req, res) => {
             pedidos_id
         },{
             fields: [
-                'codigo',
-                'nombre',
-                'precio_por_kg',
-                'tipo',
-                'proveedores_id'
+                'observacion', 
+                'fecha', 
+                'gasto', 
+                'pedidos_id'
             ]
         });
         res.json({
@@ -84,11 +83,11 @@ export const getAllObservaciones = async (req, res) => {
     try{
         const allObservaciones = await observaciones.findAll({
             attributes: [
-                'codigo',
-                'nombre',
-                'precio_por_kg',
-                'tipo',
-                'proveedores_id'
+                'id',
+                'observacion', 
+                'fecha', 
+                'gasto', 
+                'pedidos_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -109,7 +108,7 @@ export const getAllObservaciones = async (req, res) => {
     };
 };
 
-export const getobservacionesId = async (req, res) => {
+export const getObservacionesId = async (req, res) => {
     try{
         const {id} = req.params;
         const observaciones = await observaciones.findOne({
@@ -117,11 +116,11 @@ export const getobservacionesId = async (req, res) => {
                 id
             },
             attributes: [
-                'codigo',
-                'nombre',
-                'precio_por_kg',
-                'tipo',
-                'proveedores_id'
+                'id',
+                'observacion', 
+                'fecha', 
+                'gasto', 
+                'pedidos_id'
             ]
         });
         res.json({

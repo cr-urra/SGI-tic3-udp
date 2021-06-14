@@ -2,20 +2,22 @@ import agentes_aduana from '../models/agentes_aduana';
 
 export const createAgentesAduana = async (req, res) => {
     try{
-        const {nombre, apellido, correo, numero_cuenta, rut} = req.body;
+        const {nombre, apellido, correo, numero_cuenta, rut, bancos_agentes_aduana_id} = req.body;
         let newAgenteAduana = await agentes_aduana.create({
             nombre,
             apellido,
             correo,
             numero_cuenta, 
-            rut
+            rut,
+            bancos_agentes_aduana_id
         },{
             fields: [
                 'nombre',
                 'apellido',
                 'correo',
                 'numero_cuenta', 
-                'rut'
+                'rut',
+                'bancos_agentes_aduana_id'
             ]
         });
         res.json({
@@ -37,17 +39,15 @@ export const createAgentesAduana = async (req, res) => {
 export const updateAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
-        const {nombre, apellido, correo} =  req.body;
+        const body =  req.body;
         const agenteAduanaUpdate = await agentes_aduana.update({
-            nombre,
-            apellido,
-            correo
+            body
         },
         {
             where: {id}
         });
         res.json({
-            message: 'Agente de aduana actualizado',
+            message: 'Agente de aduana actualizado correctamente',
             resultado: true,
             agentes_aduana: agenteAduanaUpdate
         });
@@ -92,7 +92,8 @@ export const getAllAgentesAduana = async (req, res) => {
                 'apellido',
                 'correo',
                 'numero_cuenta', 
-                'rut'
+                'rut',
+                'bancos_agentes_aduana_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -126,7 +127,8 @@ export const getAgentesAduanaId = async (req, res) => {
                 'apellido',
                 'correo',
                 'numero_cuenta', 
-                'rut'
+                'rut',
+                'bancos_agentes_aduana_id'
             ]
         });
         res.json({

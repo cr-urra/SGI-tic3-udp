@@ -1,15 +1,18 @@
 import historialDolar from '../models/historial_dolar';
+import sequelize from 'sequelize';
 
 export const createHistorialDolar = async (req, res) => {
     try{
         const {precio, dolar_mensual_id} = req.body;
         let newHistorialDolar = await historialDolar.create({
             precio, 
-            dolar_mensual_id
+            dolar_mensual_id,
+            fecha: sequelize.literal('CURRENT_TIMESTAMP')
         },{
             fields: [
                 'precio', 
-                'dolar_mensual_id'
+                'dolar_mensual_id',
+                'fecha'
             ]
         });
         res.json({

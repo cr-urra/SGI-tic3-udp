@@ -9,7 +9,7 @@ export const createTelefonosAgentesAduana = async (req, res) => {
         },{
             fields: [
                 'telefono',
-                'agentes_aduana',
+                'agentes_aduana_id',
             ]
         });
         res.json({

@@ -11,6 +11,6 @@ router.get('/', observaciones.getAllObservaciones);
 
 router.put('/:id', observaciones.updateObservaciones);
 router.delete('/:id', observaciones.deleteObservaciones);
-router.get('/:id', observaciones.getobservacionesId);
+router.get('/:id', observaciones.getObservacionesId);
 
 module.exports = router;

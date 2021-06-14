@@ -20,10 +20,14 @@ const proveedores = database.define('proveedores',{
     },
     monedas_id:{
         type: sequelize.INTEGER
+    },
+    rut:{
+        type: sequelize.STRING
     }
 
 },{
-    timestamps: false
+    timestamps: false,
+    underscored: true
 });
 
 export default proveedores;
