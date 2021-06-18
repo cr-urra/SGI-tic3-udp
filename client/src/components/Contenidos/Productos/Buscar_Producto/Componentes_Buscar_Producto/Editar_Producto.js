@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal'   
 
 export default class EditProduct extends Component {
 
@@ -11,6 +12,8 @@ export default class EditProduct extends Component {
         precio : null,
         proveedor: null,
         tipo: null,
+
+        show: false
     }
     
     onSubmit = () => {
@@ -21,6 +24,18 @@ export default class EditProduct extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })        
+    }
+
+    handleClose = () =>{
+        this.setState({
+            show: false
+        })
+    }
+
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
     }
 
     render() {
@@ -64,10 +79,24 @@ export default class EditProduct extends Component {
                                     <Datos nombre={"Precio"} contenido={this.props.productsData[j].precio} name={"precio"} name2={this.state.precio} onChange={this.onChange}/>
                                     <Datos nombre={"Proveedor"} contenido={this.props.productsData[j].proveedor} name={"proveedor"} name2={this.state.proveedor} onChange={this.onChange}/>
                                     <Datos nombre={"Tipo"} contenido={this.props.productsData[j].tipo} name={"tipo"} name2={this.state.tipo} onChange={this.onChange}/>
+
+                                    <Modal show={this.state.show} onHide={this.handleClose} >
+                                        <Modal.Header closeButton>
+                                          <Modal.Title className="text-primary">Editar Producto</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <div>Estas apunto de cambiar los datos del siguiente Producto ¿Estas Seguro? </div>
+                                            <h5 className="separacion text-center text-danger" > {this.props.productsData[j].nombre}</h5>                       
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                          <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                          <button type="button" class="btn color_sitio2" onClick={this.onSubmit}> Guardar Cambios</button>
+                                        </Modal.Footer>
+                                    </Modal>
                                 </form>
                             </div>
                             
-                            <button className="btn color_sitio2 separacion" >
+                            <button className="btn color_sitio2 separacion" onClick={this.handleShow} >
                                 Guardar Producto
                             </button>
                         </div>

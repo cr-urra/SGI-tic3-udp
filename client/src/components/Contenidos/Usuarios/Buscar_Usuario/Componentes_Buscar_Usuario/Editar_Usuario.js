@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal'
 
 export default class EditUsuario extends Component {
 
@@ -11,6 +12,8 @@ export default class EditUsuario extends Component {
         telefono: null,
         correo: null,
         rol: null,
+
+        show: false
     }
     
     onSubmit = () => {
@@ -21,6 +24,18 @@ export default class EditUsuario extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })        
+    }
+
+    handleClose = () =>{
+        this.setState({
+            show: false
+        })
+    }
+
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
     }
 
 
@@ -65,10 +80,24 @@ export default class EditUsuario extends Component {
                                     <Datos nombre={"Telefono"} contenido={this.props.Usuarios[j].telefono} name={"telefono"} name2={this.state.telefono} onChange={this.onChange}/>
                                     <Datos nombre={"Correo"} contenido={this.props.Usuarios[j].correo} name={"correo"} name2={this.state.correo} onChange={this.onChange}/>
                                     <Datos nombre={"Rol"} contenido={this.props.Usuarios[j].rol} name={"rol"} name2={this.state.rol} onChange={this.onChange}/>
+
+                                    <Modal show={this.state.show} onHide={this.handleClose} >
+                                        <Modal.Header closeButton>
+                                          <Modal.Title className="text-primary">Editar Usuario</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <div>Estas apunto de cambiar los datos del siguiente Usuario ¿Estas Seguro? </div>
+                                            <h5 className="separacion text-center text-danger" > {this.props.Usuarios[j].nombre}</h5>                       
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                          <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                          <button type="button" class="btn color_sitio2" onClick={this.onSubmit}> Guardar Cambios</button>
+                                        </Modal.Footer>
+                                    </Modal>
                                 </form>
                             </div>
                             
-                            <button className="btn color_sitio2 separacion" >
+                            <button className="btn color_sitio2 separacion" onClick={this.handleShow}>
                                 Guardar Usuario
                             </button>
                         </div>

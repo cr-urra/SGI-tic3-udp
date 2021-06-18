@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Datos from './Datos'
 import {Link} from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal'
 
 export default class Banco extends Component {
     
@@ -15,7 +16,9 @@ export default class Banco extends Component {
         codigo_swift: null,
         codigo_ifcs: null,
         cuenta_interbancaria: null,
-        banco_intermediario: null
+        banco_intermediario: null,
+
+        show:false
     }
     
     onSubmit = () => {
@@ -26,6 +29,18 @@ export default class Banco extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })        
+    }
+
+    handleClose = () =>{
+        this.setState({
+            show: false
+        })
+    }
+
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
     }
 
     render() {
@@ -74,12 +89,27 @@ export default class Banco extends Component {
                                     <Datos nombre={"Código IFCS"} contenido={this.props.bancos[j].IFCS} name={"codigo_ifcs"} name2={this.state.codigo_ifcs} onChange={this.onChange}/>
                                     <Datos nombre={"Cuenta Interbancaria"} contenido={this.props.bancos[j].cuenta_interbancaria} name={"cuenta_interbancaria"} name2={this.state.cuenta_interbancaria} onChange={this.onChange}/>
                                     <Datos nombre={"Banco Intermediario"} contenido={this.props.bancos[j].banco_intermediario} name={"banco_intermediario"} name2={this.state.banco_intermediario} onChange={this.onChange}/>
+
+                                    <Modal show={this.state.show} onHide={this.handleClose} >
+                                        <Modal.Header closeButton>
+                                          <Modal.Title className="text-primary">Editar Banco</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <div>Estas apunto de cambiar los datos del siguiente banco ¿Estas Seguro? </div>
+                                            <h5 className="separacion text-center text-danger" > {this.props.bancos[j].nombre}</h5>                       
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                          <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                          <button type="button" class="btn color_sitio2" onClick={this.onSubmit}> Guardar Cambios</button>
+                                        </Modal.Footer>
+                                    </Modal>
                                 </form>
                             </div>
                             
-                            <button className="btn color_sitio2 separacion" >
+                            <button className="btn color_sitio2 separacion" onClick={this.handleShow}>
                                 Guardar Banco
                             </button>
+                            
                         </div>
 
                     </div>

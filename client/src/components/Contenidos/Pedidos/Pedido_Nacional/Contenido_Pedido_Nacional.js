@@ -14,7 +14,7 @@ export default class Init extends Component {
     render() {
         return (
             <main className="content">
-                <h1 className="display-5 titulo">Pedido en Proceso de Ingresar a Aduana</h1>             
+                <h1 className="display-5 titulo">Pedido en Tránsito Nacional</h1>             
                 <div className="container separacion">           
                   <div className="card border-primary mb-5 shadow-lg">
 

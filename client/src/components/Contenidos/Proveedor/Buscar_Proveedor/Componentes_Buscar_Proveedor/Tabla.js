@@ -1,8 +1,25 @@
 import React, { Component } from 'react'
 import DatoTabla from './DatoTabla'
+import Modal from 'react-bootstrap/Modal'
 
 
 export default class Tabla extends Component {
+
+    state ={
+        show: false
+    }
+
+    handleClose = () =>{
+        this.setState({
+            show: false
+        })
+    }
+
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
+    }
 
     render() {
         if(this.props.proveedor !== ""){
@@ -42,9 +59,22 @@ export default class Tabla extends Component {
                                 </button>
                             </div>
                             <div className="col-4 text-center">
-                                <button type="submit" className="btn btn-danger rounded-pill ancho3"> 
+                                <button type="submit" className="btn btn-danger rounded-pill ancho3" onClick={this.handleShow}> 
                                     Eliminar
                                 </button>
+                                <Modal show={this.state.show} onHide={this.handleClose} >
+                                    <Modal.Header closeButton>
+                                    <Modal.Title className="text-danger"> Eliminar Proveedor</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div>Estas apunto de eliminar el siguiente Proveedor ¿Estas Seguro? </div>
+                                        <h5 className="separacion text-center text-danger" > {this.props.proveedoresData[j].nombre}</h5>                       
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                    <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                    <button type="button" class="btn btn-danger" onClick={this.delete} >Eliminar Proveedor</button>
+                                    </Modal.Footer>
+                                </Modal>
                             </div>
                         </div>
                     </div>

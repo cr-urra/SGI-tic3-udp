@@ -1,0 +1,26 @@
+[
+    {
+        "codigo": "codigo A",
+        "precio": "precio A"
+    },
+
+    {
+        "codigo": "codigo B",
+        "precio": "precio B"
+    },
+
+    {
+        "codigo": "codigo C",
+        "precio": "precio C"
+    },
+
+    {
+        "codigo": "codigo D",
+        "precio": "precio D"
+    },
+
+    {
+        "codigo": "codigo E",
+        "precio": "precio E"
+    }
+]

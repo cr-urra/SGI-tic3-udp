@@ -40,7 +40,7 @@ export default class Banco extends Component {
                                 </ul>
                             </div>
                         </div>
-                        <Botones change = {this.props.change} delete={this.props.delete}/>
+                        <Botones change = {this.props.change} delete={this.props.delete} nombre={this.props.bancos[j].nombre}/>
                     </div>
                 )
             }else{

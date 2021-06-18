@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import InputForm from './Componentes_crear_usuario/InputForm'
-import InputFormPass from './Componentes_crear_usuario/InputFormPass'
 import InputFormOption from './Componentes_crear_usuario/InputFormOption'
+import Modal from 'react-bootstrap/Modal'
 
 
 export default class Crear_Usuario extends Component {
@@ -15,7 +15,9 @@ export default class Crear_Usuario extends Component {
         telefono: null,
         contraseña: null,
         r_contraseña: null,
-        rol: null
+        rol: null,
+
+        show: false
     }
 
     addUsuario = async (nombre, contraseña, r_contraseña, rol) =>{
@@ -42,6 +44,18 @@ export default class Crear_Usuario extends Component {
         })
     }
 
+    handleClose = () =>{
+        this.setState({
+            show: false
+        })
+    }
+
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
+    }
+
     render() {
         return (
             <main className="content">
@@ -58,20 +72,32 @@ export default class Crear_Usuario extends Component {
                         <div className="container separacion">
                             <form onSubmit ={this.onSubmit}>
                                 <div className="row g-2 mt-2 mb-2">
-                                    <InputForm field ="Nombre" onChange = {this.onChange} field2 = {this.state.nombre} name="nombre"></InputForm>
-                                    <InputForm field ="Apellido" onChange = {this.onChange} field2 = {this.state.apellido} name="apellido"></InputForm>
-                                    <InputForm field ="Rut" onChange = {this.onChange} field2 = {this.state.rut} name="rut"></InputForm> 
-                                    <InputForm field ="Correo" onChange = {this.onChange} field2 = {this.state.correo} name="correo"></InputForm> 
-                                    <InputForm field ="Telefono" onChange = {this.onChange} field2 = {this.state.telefono} name="telefono"></InputForm> 
-                                    <InputFormPass field ="Contraseña" onChange = {this.onChange} field2 = {this.state.contraseña} name="contraseña"></InputFormPass>
-                                    <InputFormPass field ="Repetir Contraseña" onChange = {this.onChange} field2 = {this.state.r_contraseña} name="r_contraseña"></InputFormPass>
-                                    <InputFormOption field ="Rol" onChange = {this.onChangeRol} field2 = {this.state.rol} name="rol"></InputFormOption>
-                                    
+                                    <InputForm field ="Nombre" onChange = {this.onChange} field2 = {this.state.nombre} name="nombre" type={"text"}/>
+                                    <InputForm field ="Apellido" onChange = {this.onChange} field2 = {this.state.apellido} name="apellido"type={"text"}/>
+                                    <InputForm field ="Rut" onChange = {this.onChange} field2 = {this.state.rut} name="rut"type={"text"}/>
+                                    <InputForm field ="Correo" onChange = {this.onChange} field2 = {this.state.correo} name="correo"type={"text"}/>
+                                    <InputForm field ="Telefono" onChange = {this.onChange} field2 = {this.state.telefono} name="telefono"type={"text"}/>
+                                    <InputFormOption field ="Rol" onChange = {this.onChangeRol} field2 = {this.state.rol} name="rol"type={"text"}/>
+                                    <InputForm field ="Contraseña" onChange = {this.onChange} field2 = {this.state.contraseña} name="contraseña"type={"password"}/>
+                                    <InputForm field ="Repetir Contraseña" onChange = {this.onChange} field2 = {this.state.r_contraseña} name="r_contraseña"type={"password"}/>
                                     <div className = "container mt-4 ml-3"> 
-                                        <button type="button" className="btn btn-primary rounded-pill" >
+                                        <button type="button" className="btn btn-primary rounded-pill" onClick={this.handleShow}>
                                             Guardar Usuario
                                         </button>
                                     </div> 
+
+                                    <Modal show={this.state.show} onHide={this.handleClose} >
+                                        <Modal.Header closeButton>
+                                          <Modal.Title className="text-primary">Ingresar Nuevo Usuario</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <div>Estas apunto de crear un nuevo Usuario ¿Estas Seguro que los datos ingresados son correctos? </div>                 
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                          <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                          <button type="button" class="btn btn-primary" onClick={this.onSubmit} >Guardar Usuario</button>
+                                        </Modal.Footer>
+                                    </Modal> 
                                 </div>                            
                             </form>
                         </div>

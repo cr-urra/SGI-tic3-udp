@@ -79,8 +79,8 @@ function App() {
       
 
       <Route path="/users/Reporte_Costos_Finales" exact component={Reporte_Costos_Finales}/>
-      <Route path="/users/Reporte_Importacion_Producto" exact component={Reporte_Importacion_Producto}/>
-      <Route path="/users/Reporte_Importacion_Proveedor" exact component={Reporte_Importacion_Proveedor}/>
+      <Route path="/users/Reporte_Importacion_Peso" exact component={Reporte_Importacion_Producto}/>
+      <Route path="/users/Reporte_Importacion_Dinero" exact component={Reporte_Importacion_Proveedor}/>
       <Route path="/users/Reporte_Status_Agente_Aduana" exact component={Reporte_Status_Agente_Aduana}/>
 
       <Route path="/users/Buscar_Usuario" exact component={Buscar_Usuario}/>

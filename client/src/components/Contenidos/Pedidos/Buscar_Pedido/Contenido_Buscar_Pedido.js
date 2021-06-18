@@ -30,24 +30,24 @@ export default class Init extends Component {
                                     <div className="row ml-3 mr-3 mt-4 mb-4">
                                         <div className="col-4">
                                             <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioBanco" onChange={this.onChangeEleccion} value={"estado"}/>                                             
-                                              <label class="form-check-label form-label" for="flexRadioBanco">
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="estado" onChange={this.onChangeEleccion} value={"estado"}/>                                             
+                                              <label class="form-check-label form-label" for="estado">
                                                 Busqueda por Estado                                               
                                               </label>                                         
                                             </div> 
                                         </div>
                                         <div className="col-4">
                                             <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioBanco" onChange={this.onChangeEleccion} value={"fecha"}/>                                             
-                                              <label class="form-check-label form-label" for="flexRadioBanco">
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="fecha" onChange={this.onChangeEleccion} value={"fecha"}/>                                             
+                                              <label class="form-check-label form-label" for="fecha">
                                                 Busqueda por Fecha                                               
                                               </label>                                             
                                             </div> 
                                         </div>
                                         <div className="col-4">
                                             <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioBanco" onChange={this.onChangeEleccion} value={"producto"}/>                                             
-                                              <label class="form-check-label form-label" for="flexRadioBanco">
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="producto" onChange={this.onChangeEleccion} value={"producto"}/>                                             
+                                              <label class="form-check-label form-label" for="producto">
                                                 Busqueda por Producto                                          
                                               </label>                                             
                                             </div> 

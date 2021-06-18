@@ -17,7 +17,7 @@ export default class Observacion extends Component {
             <div className="row">
               <div className="col-2">Fecha: {this.props.fecha}</div>
               <div className="col-5">{this.props.descripcion}</div>
-              <div className="col-3">Rut Agente: {this.props.agente}</div>
+              <div className="col-3">RUT: {this.props.agente}</div>
               <div className="col-2">Pago: {this.props.pago}</div>
             </div>
           </li>     

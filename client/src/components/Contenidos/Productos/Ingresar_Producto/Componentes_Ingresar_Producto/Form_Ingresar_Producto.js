@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import InputForm from './InputForm'
+import Modal from 'react-bootstrap/Modal'
 
 
 export default class Contenido_Ingresar_Producto extends Component {
@@ -11,18 +12,13 @@ export default class Contenido_Ingresar_Producto extends Component {
         descripcion: null,
         precio: null,
         proveedor:null,
-        tipo:null
+        tipo:null,
+
+        show: false
     }
 
-    addAgente = async (nombre,codigo,descripcion,precio,tipo,proveedor) =>{
-        const Producto ={
-            
-        }
-    }
 
     onSubmit = async e => {
-        e.preventDefault();
-        const res = await axios.get()
 
     }
 
@@ -30,6 +26,18 @@ export default class Contenido_Ingresar_Producto extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })        
+    }
+
+    handleClose = () =>{
+        this.setState({
+            show: false
+        })
+    }
+
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
     }
 
     render() {
@@ -45,9 +53,22 @@ export default class Contenido_Ingresar_Producto extends Component {
                         <InputForm field ="Proveedor" onChange = {this.onChange} field2 = {this.state.proveedor} name="proveedor"></InputForm>
                         <InputForm field ="Tipo" onChange = {this.onChange} field2 = {this.state.tipo} name="tipo"></InputForm>
                     </div>
-                    <button type="button" className="btn btn-primary rounded-pill mt-3 ml-3" >
+                    <button type="button" className="btn btn-primary rounded-pill mt-3 ml-3" onClick={this.handleShow}>
                         Guardar Productos
-                    </button>                              
+                    </button>  
+
+                    <Modal show={this.state.show} onHide={this.handleClose} >
+                        <Modal.Header closeButton>
+                          <Modal.Title className="text-primary">Ingresar Producto</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div>Estas apunto de crear un nuevo Producto ¿Estas Seguro que los datos ingresados son correctos? </div>                 
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                          <button type="button" class="btn btn-primary" onClick={this.onSubmit} >Guardar Producto</button>
+                        </Modal.Footer>
+                    </Modal>                            
                 </form>
                 
             </div>

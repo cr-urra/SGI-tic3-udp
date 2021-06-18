@@ -21,6 +21,7 @@ export default class Contenido_Agente_Aduana extends Component {
                         name={this.props.name}
                         className="form-control " 
                         aria-label="Default" 
+                        placeholder={this.props.placeholder}
                         aria-describedby="inputGroup-sizing-default"
                         onChange={this.props.onChange}
                         value={this.props.field2}

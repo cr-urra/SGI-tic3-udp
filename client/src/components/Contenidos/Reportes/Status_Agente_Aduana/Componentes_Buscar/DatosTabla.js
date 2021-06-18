@@ -1,17 +1,9 @@
 import React, { Component } from 'react'
+import DatoTabla from './DatoTabla'
 
 
 export default class Tabla extends Component {
     render() {
-        return (      
-            <tr>
-              {console.log(this.props.AgentesAduana[0].cuenta_corriente)}
-              <td>15678</td>
-              <td>24/05/2021</td>
-              <td>{this.props.AgentesAduana[0].cuenta_corriente[0].debe}</td>
-              <td>$0</td>
-              <td>Pago de Aduana</td>
-            </tr>
-        )
+        return  this.props.AgenteAduana.cuenta_corriente.map(cuenta_corriente => <DatoTabla f_inicio= {this.props.f_inicio} f_termino={this.props.f_termino}cuenta_corriente={cuenta_corriente} key={cuenta_corriente.id_pedido}/>) 
     }
 }

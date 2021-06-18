@@ -12,20 +12,23 @@
             {
                 "debe": "400.000",
                 "haber": "0",
-                "fecha": "20/20/21",
-                "id_pedido":"1"
+                "fecha": "20-02-2021",
+                "id_pedido":"1",
+                "descripcion": "descripcion 1"
             },
             {
                 "debe": "0",
                 "haber": "400.000",
-                "fecha": "22/20/21",
-                "id_pedido":"2"
+                "fecha": "22-02-2021",
+                "id_pedido":"2",
+                "descripcion": "descripcion 2"
             },
             {
                 "debe": "500.000",
                 "haber": "0",
-                "fecha": "23/20/21",
-                "id_pedido":"1"
+                "fecha": "23-02-2021",
+                "id_pedido":"3",
+                "descripcion": "descripcion 3"
             }
         ]
     },
@@ -43,20 +46,23 @@
             {
                 "debe": "400.000",
                 "haber": "0",
-                "fecha": "20/20/21",
-                "id_pedido":"1"
+                "fecha": "20-02-2021",
+                "id_pedido":"1",
+                "descripcion": "descripcion 1"
             },
             {
                 "debe": "0",
                 "haber": "400.000",
-                "fecha": "22/20/21",
-                "id_pedido":"2"
+                "fecha": "22-02-2021",
+                "id_pedido":"2",
+                "descripcion": "descripcion 2"
             },
             {
                 "debe": "500.000",
                 "haber": "0",
-                "fecha": "23/20/21",
-                "id_pedido":"1"
+                "fecha": "23-02-2021",
+                "id_pedido":"3",
+                "descripcion": "descripcion 3"
             }
         ]
     },
@@ -74,26 +80,30 @@
             {
                 "debe": "400.000",
                 "haber": "0",
-                "fecha": "20/20/21",
-                "id_pedido":"1"
+                "fecha": "20-02-2021",
+                "id_pedido":"1",
+                "descripcion": "descripcion 1"
+
             },
             {
                 "debe": "0",
                 "haber": "400.000",
-                "fecha": "22/20/21",
-                "id_pedido":"2"
+                "fecha": "22-02-2021",
+                "id_pedido":"2",
+                "descripcion": "descripcion 2"
             },
             {
                 "debe": "500.000",
                 "haber": "0",
-                "fecha": "23/20/21",
-                "id_pedido":"1"
+                "fecha": "23-02-2021",
+                "id_pedido":"3",
+                "descripcion": "descripcion 3"
             }
         ]
     },
 
     {
-        "nombre": "Agente D",
+        "nombre": "Nombre D",
         "apellido": "Apellido D",
         "telefono": "Telefono D",
         "banco": "Banco D",
@@ -105,20 +115,24 @@
             {
                 "debe": "400.000",
                 "haber": "0",
-                "fecha": "20/20/21",
-                "id_pedido":"1"
+                "fecha": "20-02-2021",
+                "id_pedido":"1",
+                "descripcion": "descripcion "
             },
             {
                 "debe": "0",
                 "haber": "400.000",
-                "fecha": "22/20/21",
-                "id_pedido":"2"
+                "fecha": "22-02-2021",
+                "id_pedido":"2",
+                "descripcion": "descripcion 2"
             },
             {
                 "debe": "500.000",
                 "haber": "0",
-                "fecha": "23/20/21",
-                "id_pedido":"1"
+                "fecha": "23-02-2021",
+                "id_pedido":"3",
+                "descripcion": "descripcion 3"
+
             }
         ]
     }

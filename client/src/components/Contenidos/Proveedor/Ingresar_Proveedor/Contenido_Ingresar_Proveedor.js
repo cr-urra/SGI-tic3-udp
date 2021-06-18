@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import Dato from './Componentes_Ingresar_Proveedor/Dato'
+import Modal from 'react-bootstrap/Modal'
 
 
 
@@ -23,7 +24,9 @@ export default class Ingresar_Usuario extends Component {
         codigo_swift: null,
         codigo_ifcs: null,
         cuenta_interbancaria: null,
-        banco_intermediario: null
+        banco_intermediario: null,
+
+        show: false,
         
     }
 
@@ -50,6 +53,18 @@ export default class Ingresar_Usuario extends Component {
             filtro: event.target.value
         })
       }
+
+      handleClose = () =>{
+        this.setState({
+            show: false
+        })
+    }
+
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
+    }
 
 
     render() {
@@ -120,11 +135,23 @@ export default class Ingresar_Usuario extends Component {
                                     <div className="col-6 mb-3">
                                         <Dato nombre={"Banco Intermediario"}  name={"banco_intermediario"} name2={this.state.banco_intermediario} onChange={this.onChange}/>
                                     </div>
+                                    <Modal show={this.state.show} onHide={this.handleClose} >
+                                        <Modal.Header closeButton>
+                                          <Modal.Title className="text-primary">Ingresar Proveedor</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <div>Estas apunto de crear un nuevo Proveedor ¿Estas Seguro que los datos ingresados son correctos? </div>                 
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                          <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                          <button type="button" class="btn btn-primary" onClick={this.onSubmit} >Guardar Proveedor</button>
+                                        </Modal.Footer>
+                                    </Modal> 
                                 </div>
                             </div>
                         </form>                        
                     </div>
-                    <button className="btn color_sitio2 separacion">
+                    <button className="btn color_sitio2 separacion" onClick={this.handleShow}>
                         Guardar Proveedor
                     </button>
                 </div>

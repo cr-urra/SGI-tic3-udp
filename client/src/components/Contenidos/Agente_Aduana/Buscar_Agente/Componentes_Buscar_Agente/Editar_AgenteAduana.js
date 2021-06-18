@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal'
 
 export default class EditAgenteAduana extends Component {
 
@@ -11,6 +12,8 @@ export default class EditAgenteAduana extends Component {
         tipo_cuenta : null,
         n_cuenta: null,
         saldo: null,
+
+        show: false
     }
     
     onSubmit = () => {
@@ -21,6 +24,18 @@ export default class EditAgenteAduana extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })        
+    }
+
+    handleClose = () =>{
+        this.setState({
+            show: false
+        })
+    }
+
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
     }
 
 
@@ -66,10 +81,24 @@ export default class EditAgenteAduana extends Component {
                                     <Datos nombre={"Tipo Cuenta"} contenido={this.props.AgentesAduana[j].tipo_cuenta} name={"tipo_cuenta"} name2={this.state.tipo_cuenta} onChange={this.onChange}/>
                                     <Datos nombre={"Numero Cuenta"} contenido={this.props.AgentesAduana[j].n_cuenta} name={"n_cuenta"} name2={this.state.n_cuenta} onChange={this.onChange}/>
                                     <Datos nombre={"Saldo Cuenta"} contenido={this.props.AgentesAduana[j].saldo} name={"saldo"} name2={this.state.saldo} onChange={this.onChange}/>
+
+                                    <Modal show={this.state.show} onHide={this.handleClose} >
+                                        <Modal.Header closeButton>
+                                          <Modal.Title className="text-primary">Editar Agente de Aduana</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <div>Estas apunto de cambiar los datos del siguiente Agente de Aduana ¿Estas Seguro? </div>
+                                            <h5 className="separacion text-center text-danger" > {this.props.AgentesAduana[j].nombre}</h5>                       
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                          <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                          <button type="button" class="btn color_sitio2" onClick={this.onSubmit}> Guardar Cambios</button>
+                                        </Modal.Footer>
+                                    </Modal>
                                 </form>
                             </div>
                             
-                            <button className="btn color_sitio2 separacion" >
+                            <button className="btn color_sitio2 separacion" onClick={this.handleShow}>
                                 Guardar Agente Aduana
                             </button>
                         </div>

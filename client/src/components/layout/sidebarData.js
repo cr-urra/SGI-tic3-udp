@@ -89,12 +89,12 @@ export const SidebarData = [
                 //path: '/reportes/monto_import',
                 subsubNav: [
                     {
-                        title:'Por proveedor',
-                        path: '/users/Reporte_Importacion_Proveedor'
+                        title:'Por Dinero',
+                        path: '/users/Reporte_Importacion_Dinero'
                     },
                     {
-                        title:'Por producto',
-                        path: '/users/Reporte_Importacion_Producto'
+                        title:'Por Peso',
+                        path: '/users/Reporte_Importacion_Peso'
                     }
                 ]
 

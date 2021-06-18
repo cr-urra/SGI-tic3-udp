@@ -21,9 +21,11 @@ export default class Contenido_Banco extends Component {
        })
     }
 
-    delete = () => {
-        /*  Funcion del boton eliminar banco   */
+    edit = () => {
+        /* funcion del boton guardar edit banco */
     }
+
+    
 
     onChangeBanco = (event) => {
         this.setState({
@@ -49,6 +51,7 @@ export default class Contenido_Banco extends Component {
                     <Listado bancos={this.state.bancos} banco = {this.state.banco} onChangeBanco = {this.onChangeBanco} />
 
                     <Banco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change} delete = {this.delete}/>
+                    
                 </main>
             )
         }
