@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios'
 
 export default class EditAgenteAduana extends Component {
 
@@ -16,7 +17,20 @@ export default class EditAgenteAduana extends Component {
         show: false
     }
     
-    onSubmit = () => {
+    onSubmit = async e => {
+        e.preventDefault();
+        const Agente = {
+            nombre: this.state.nombre,
+            apellido: this.state.apellido,
+            telefono: this.state.telefono,
+            banco: this.state.banco,
+            n_cuenta: this.state.n_cuenta,
+            tipo_cuenta: this.state.tipo_cuenta,
+            correo: this.state.correo            
+        }
+        console.log(Agente)
+        const res = await axios.post("/sacate-la-url/", Agente)        
+        alert(res.data.message)
 
     }
 
@@ -80,7 +94,7 @@ export default class EditAgenteAduana extends Component {
                                     <Datos nombre={"Banco"} contenido={this.props.AgentesAduana[j].banco} name={"banco"} name2={this.state.banco} onChange={this.onChange}/>
                                     <Datos nombre={"Tipo Cuenta"} contenido={this.props.AgentesAduana[j].tipo_cuenta} name={"tipo_cuenta"} name2={this.state.tipo_cuenta} onChange={this.onChange}/>
                                     <Datos nombre={"Numero Cuenta"} contenido={this.props.AgentesAduana[j].n_cuenta} name={"n_cuenta"} name2={this.state.n_cuenta} onChange={this.onChange}/>
-                                    <Datos nombre={"Saldo Cuenta"} contenido={this.props.AgentesAduana[j].saldo} name={"saldo"} name2={this.state.saldo} onChange={this.onChange}/>
+                                    
 
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>

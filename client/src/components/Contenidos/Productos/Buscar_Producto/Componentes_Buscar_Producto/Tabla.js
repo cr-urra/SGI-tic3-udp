@@ -52,7 +52,7 @@ export default class Tabla extends Component {
                                         <div className="col-6 text-center">
                                             <Link to = '/users/Buscar_Producto/Historial_Producto_Precio'>
                                                 <button type="button" className="btn btn-outline-success rounded-pill ancho ">                                                  
-                                                    Ver Historial del Saldo
+                                                    Ver Historial de Precio
                                                 </button>
                                             </Link> 
                                         </div>
@@ -85,8 +85,8 @@ export default class Tabla extends Component {
                                         <h5 className="separacion text-center text-danger" > {this.props.productsData[j].nombre}</h5>                       
                                     </Modal.Body>
                                     <Modal.Footer>
-                                    <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
-                                    <button type="button" class="btn btn-danger" onClick={this.delete} >Eliminar Producto</button>
+                                    <button type="button" className="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                    <button type="button" className="btn btn-danger" onClick={this.delete} >Eliminar Producto</button>
                                     </Modal.Footer>
                                 </Modal>
                             </div>

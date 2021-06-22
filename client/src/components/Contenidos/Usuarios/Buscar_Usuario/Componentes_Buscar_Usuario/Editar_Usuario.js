@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios'
 
 export default class EditUsuario extends Component {
 
@@ -16,7 +17,21 @@ export default class EditUsuario extends Component {
         show: false
     }
     
-    onSubmit = () => {
+    onSubmit = async e => {
+        e.preventDefault();
+        const Usuario = {
+            nombre: this.state.nombre,
+            apellido: this.state.apellido,
+            rut: this.state.rut,
+            correo: this.state.correo,
+            telefono: this.state.telefono,
+            contraseña: this.state.contraseña,
+            r_contraseña: this.state.r_contraseña,
+            rol: this.state.rol
+        }
+        console.log(Usuario)
+        const res = await axios.post("/sacate-la-url/", Usuario)        
+        alert(res.data.message) 
 
     }
 

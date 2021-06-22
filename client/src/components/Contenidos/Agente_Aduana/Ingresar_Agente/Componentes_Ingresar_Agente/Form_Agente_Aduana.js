@@ -16,11 +16,9 @@ export default class Contenido_Agente_Aduana extends Component {
         n_cuenta: null,
         tipo_cuenta: null,
         correo: null,
-
         show: false
     }
 
- 
 
     handleClose = () =>{
         this.setState({
@@ -37,7 +35,18 @@ export default class Contenido_Agente_Aduana extends Component {
 
     onSubmit = async e => {
         e.preventDefault();
-        const res = await axios.get()
+        const Agente = {
+            nombre: this.state.nombre,
+            apellido: this.state.apellido,
+            telefono: this.state.telefono,
+            banco: this.state.banco,
+            n_cuenta: this.state.n_cuenta,
+            tipo_cuenta: this.state.tipo_cuenta,
+            correo: this.state.correo            
+        }
+        console.log(Agente)
+        const res = await axios.post("/sacate-la-url/", Agente)        
+        alert(res.data.message)
 
     }
 
@@ -73,8 +82,8 @@ export default class Contenido_Agente_Aduana extends Component {
                             <div>Estas apunto de crear un nuevo Agente de Aduana ¿Estas Seguro que los datos ingresados son correctos? </div>                 
                         </Modal.Body>
                         <Modal.Footer>
-                          <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
-                          <button type="button" class="btn btn-primary" onClick={this.onSubmit} >Guardar Agente de Aduana</button>
+                          <button type="button" className="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                          <button type="submit" className="btn btn-primary" onClick={this.onSubmit}  >Guardar Agente de Aduana</button>
                         </Modal.Footer>
                     </Modal>                           
                 </form>

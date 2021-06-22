@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Datos from './EditDatos'
 import {Link} from 'react-router-dom'; 
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios'
 
 export default class Banco extends Component {
     
@@ -17,8 +18,19 @@ export default class Banco extends Component {
         show: false
     }
     
-    onSubmit = () => {
-        
+    onSubmit = async e => {
+        e.preventDefault();
+        const Proveedor = {
+            nombre: this.state.nombre,
+            pais: this.state.pais,
+            direccion: this.state.direccion,
+            correo: this.state.correo,
+            telefono: this.state.telefono,
+            moneda: this.state.moneda            
+        }    
+        console.log(Proveedor)
+        const res = await axios.post("/sacate-la-url/", Proveedor)                     
+        alert(res.data.message) 
     }
     
     onChange = e => {

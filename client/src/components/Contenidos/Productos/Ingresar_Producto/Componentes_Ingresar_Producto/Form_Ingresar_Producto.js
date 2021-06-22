@@ -19,7 +19,18 @@ export default class Contenido_Ingresar_Producto extends Component {
 
 
     onSubmit = async e => {
-
+        e.preventDefault();
+        const Producto = {
+            nombre: this.state.nombre,
+            codigo: this.state.codigo,
+            descripcion: this.state.descripcion,
+            precio: this.state.precio,
+            proveedor: this.state.proveedor,
+            tipo: this.state.tipo 
+        }
+        console.log(Producto)
+        const res = await axios.post("/sacate-la-url/", Producto)        
+        alert(res.data.message) 
     }
 
     onChange = e => {

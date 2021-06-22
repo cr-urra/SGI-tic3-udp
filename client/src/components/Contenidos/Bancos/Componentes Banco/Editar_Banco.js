@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Datos from './Datos'
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios';
 
 export default class Banco extends Component {
     
@@ -21,7 +22,24 @@ export default class Banco extends Component {
         show:false
     }
     
-    onSubmit = () => {
+    onSubmit = async (e) => { 
+        e.preventDefault();
+        const banco = {
+            nombre: this.state.nombre,
+            cuenta_corriente: this.state.cuenta_corriente,
+            iban: this.state.iban,
+            pais: this.state.pais,
+            n_aba: this.state.n_aba,
+            referencia: this.state.referencia,
+            banco_beneficiario: this.state.banco_beneficiario,
+            codigo_swift: this.state.codigo_swift,
+            codigo_ifcs: this.state.codigo_ifcs,
+            cuenta_interbancaria: this.state.cuenta_interbancaria,
+            banco_intermediario: this.state.banco_intermediario,
+        }
+        console.log(banco)
+        const res = await axios.post("/sacate-la-url/", banco)        
+        alert(res.data.message)
         
     }
     
@@ -100,7 +118,7 @@ export default class Banco extends Component {
                                         </Modal.Body>
                                         <Modal.Footer>
                                           <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
-                                          <button type="button" class="btn color_sitio2" onClick={this.onSubmit}> Guardar Cambios</button>
+                                          <button type="submit" class="btn color_sitio2"> Guardar Cambios</button>
                                         </Modal.Footer>
                                     </Modal>
                                 </form>

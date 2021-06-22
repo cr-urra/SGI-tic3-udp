@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+
 
 
 export default class Contenido_Agente_Aduana extends Component {
@@ -11,7 +11,7 @@ export default class Contenido_Agente_Aduana extends Component {
                 <div className="row">
                     <div className="col-4">
                         <div className="input-group-prepend ancho2 ">
-                            <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">{this.props.field}</span>
+                            <span className="input-group-text ancho rounded-pill" id={this.props.name}>{this.props.field}</span>
                         </div>
                         
                     </div>
@@ -22,10 +22,14 @@ export default class Contenido_Agente_Aduana extends Component {
                         className="form-control " 
                         aria-label="Default" 
                         placeholder={this.props.placeholder}
-                        aria-describedby="inputGroup-sizing-default"
+                        aria-describedby={this.props.name}
                         onChange={this.props.onChange}
                         value={this.props.field2}
+                        required
                         />
+                    </div>
+                    <div class="invalid-feedback">
+                      Please choose a username.
                     </div>
                                 
                 </div>

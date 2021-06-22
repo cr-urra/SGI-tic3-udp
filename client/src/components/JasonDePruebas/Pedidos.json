@@ -1,0 +1,657 @@
+[
+    {
+        "n_pedido": "n_pedido A",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha A",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago A",
+        "pago_inicial": "Pago Inicial A",
+        "cambio_inicial": "cambio inicial A",
+        "estado": "produccion",
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ]          
+    },
+
+    {
+        "n_pedido": "n_pedido B",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha B",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago B",
+        "pago_inicial": "Pago Inicial B",
+        "cambio_inicial": "cambio inicial B",
+        "estado": "produccion", 
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],  
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ]              
+                    
+    },
+
+    {
+        "n_pedido": "n_pedido C",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha C",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago C",
+        "pago_inicial": "Pago Inicial C",
+        "cambio_inicial": "cambio inicial C",
+        "estado": "internacional",
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ],          
+        "fecha_salida": "fecha salida C",
+        "fecha_arribo": "fecha arribo C",
+        "adjuntos": "archivos adjuntos"
+    },
+
+    {
+        "n_pedido": "n_pedido D",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha D",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago D",
+        "pago_inicial": "Pago Inicial D",
+        "cambio_inicial": "cambio inicial D",
+        "estado": "internacional",
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ],          
+        "fecha_salida": "fecha salida D",
+        "fecha_arribo": "fecha arribo D",
+        "adjuntos": "archivos adjuntos"
+    },
+
+    {
+        "n_pedido": "n_pedido E",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha E",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago E",
+        "pago_inicial": "Pago Inicial E",
+        "cambio_inicial": "cambio inicial E",
+        "estado": "ingreso",
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ],          
+        "fecha_salida": "fecha salida E",
+        "fecha_arribo": "fecha arribo E",
+        "adjuntos": "archivos adjuntos",
+        "pago_final": "pago final E",
+        "cambio final": "cambio final E",
+        "agente_aduanta": "rut E",
+        "abono": "abono E",
+        "din": "din E"        
+    },
+
+    {
+        "n_pedido": "n_pedido F",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha F",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago F",
+        "pago_inicial": "Pago Inicial F",
+        "cambio_inicial": "cambio inicial F",
+        "estado": "ingreso",
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ],          
+        "fecha_salida": "fecha salida F",
+        "fecha_arribo": "fecha arribo F",
+        "adjuntos": "archivos adjuntos",
+        "pago_final": "pago final F",
+        "cambio final": "cambio final F",
+        "agente_aduanta": "rut F",
+        "abono": "abono F",
+        "din": "din F"        
+    },
+
+    {
+        "n_pedido": "n_pedido G",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha G",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago G",
+        "pago_inicial": "Pago Inicial G",
+        "cambio_inicial": "cambio inicial G",
+        "estado": "nacional",
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ],          
+        "fecha_salida": "fecha salida G",
+        "fecha_arribo": "fecha arribo G",
+        "adjuntos": "archivos adjuntos",
+        "pago_final": "pago final G",
+        "cambio final": "cambio final G",
+        "agente_aduanta": "rut G",
+        "abono": "abono G",
+        "din": "din G",
+        "iva": "iva G",
+        "dolar_aduana": "dolar aduana G"        
+    },
+
+    {
+        "n_pedido": "n_pedido H",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha H",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago H",
+        "pago_inicial": "Pago Inicial H",
+        "cambio_inicial": "cambio inicial H",
+        "estado": "nacional",
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ],          
+        "fecha_salida": "fecha salida H",
+        "fecha_arribo": "fecha arribo H",
+        "adjuntos": "archivos adjuntos",
+        "pago_final": "pago final H",
+        "cambio final": "cambio final H",
+        "agente_aduanta": "rut H",
+        "abono": "abono H",
+        "din": "din H",
+        "iva": "iva H",
+        "dolar_aduana": "dolar aduana H"        
+    },
+
+    {
+        "n_pedido": "n_pedido I",
+        "tipo_pago": "transferencia",
+        "fecha_entrega": "fecha I",
+        "tipo_transporte": "CIF",
+        "pago_transporte": "Pago I",
+        "pago_inicial": "Pago Inicial I",
+        "cambio_inicial": "cambio inicial I",
+        "estado": "finalizado",
+        "productos": [
+            {
+                "nombre": "Producto A",
+                "codigo": "Codigo A",
+                "precio": "55",
+                "tipo": "Tipo A",
+                "kilo": "1220",
+                "descripcion": "Descripcion A"
+            },
+            {
+                "nombre": "Producto B",
+                "codigo": "Codigo B",
+                "precio": "56",
+                "tipo": "Tipo B",
+                "kilo": "1220",
+                "descripcion": "Descripcion B"
+            },
+            {
+                "nombre": "Producto C",
+                "codigo": "Codigo C",
+                "precio": "57",
+                "tipo": "Tipo C",
+                "kilo": "1220",
+                "descripcion": "Descripcion C"
+            }
+        ],
+        "observacion": [
+            {
+                "pago": false,
+                "fecha": "fecha A",
+                "descripcion": "descripcion A"
+            },
+
+            {
+                "pago": false,
+                "fecha": "fecha B",
+                "descripcion": "descripcion B"
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha C",
+                "descripcion": "descripcion C",
+                "rut": "12345678-1",
+                "pago_rut": "pago C"                
+            },
+
+            {
+                "pago": true,
+                "fecha": "fecha D",
+                "descripcion": "descripcion D",
+                "rut": "12345678-1",
+                "pago_rut": "pago D"                
+            }
+
+        ],          
+        "fecha_salida": "fecha salida I",
+        "fecha_arribo": "fecha arribo I",
+        "adjuntos": "archivos adjuntos",
+        "pago_final": "pago final I",
+        "cambio final": "cambio final I",
+        "agente_aduanta": "rut I",
+        "abono": "abono I",
+        "din": "din I",
+        "iva": "iva I",
+        "dolar_aduana": "dolar aduana I"        
+    }
+]

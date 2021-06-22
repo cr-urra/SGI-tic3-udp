@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'   
+import axios from 'axios'
 
 export default class EditProduct extends Component {
 
@@ -16,8 +17,19 @@ export default class EditProduct extends Component {
         show: false
     }
     
-    onSubmit = () => {
-
+    onSubmit = async e => {
+        e.preventDefault();
+        const Producto = {
+            nombre: this.state.nombre,
+            codigo: this.state.codigo,
+            descripcion: this.state.descripcion,
+            precio: this.state.precio,
+            proveedor: this.state.proveedor,
+            tipo: this.state.tipo 
+        }
+        console.log(Producto)
+        const res = await axios.post("/sacate-la-url/", Producto)        
+        alert(res.data.message) 
     }
 
     onChange = e => {

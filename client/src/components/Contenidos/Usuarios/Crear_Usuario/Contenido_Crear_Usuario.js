@@ -20,16 +20,22 @@ export default class Crear_Usuario extends Component {
         show: false
     }
 
-    addUsuario = async (nombre, contraseña, r_contraseña, rol) =>{
-        const Agente_Aduanta ={
-
-        }
-    }
 
     onSubmit = async e => {
         e.preventDefault();
-        const res = await axios.get()
-
+        const Usuario = {
+            nombre: this.state.nombre,
+            apellido: this.state.apellido,
+            rut: this.state.rut,
+            correo: this.state.correo,
+            telefono: this.state.telefono,
+            contraseña: this.state.contraseña,
+            r_contraseña: this.state.r_contraseña,
+            rol: this.state.rol
+        }
+        console.log(Usuario)
+        const res = await axios.post("/sacate-la-url/", Usuario)        
+        alert(res.data.message) 
     }
 
     onChange = e => {

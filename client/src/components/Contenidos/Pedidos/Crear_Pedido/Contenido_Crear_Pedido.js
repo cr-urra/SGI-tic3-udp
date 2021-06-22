@@ -91,6 +91,9 @@ export default class Init extends Component {
     }
 
     onSubmit = () => {
+        const Banco ={ 
+            
+        }
 
     }
 
@@ -109,7 +112,7 @@ export default class Init extends Component {
                                 <div className="container mb-5 mt-5" >
                                     <div className="input-group no_flex">
                                       <label className="input-group-text " for="inputGroupSelect01">Buscar un Proveedor </label>
-                                      <input class="form-control ancho" list="datalistOptions" id="exampleDataList" placeholder="Escribe Aquí para Buscar..." value = {this.props.banco} onChange={this.props.onChange} ></input>
+                                      <input className="form-control ancho" list="datalistOptions" id="exampleDataList" placeholder="Escribe Aquí para Buscar..." value = {this.props.banco} onChange={this.props.onChange} ></input>
                                       <datalist id="datalistOptions">
                                         <option value="San Francisco"/>
                                         <option value="New York"/>
@@ -139,7 +142,7 @@ export default class Init extends Component {
                                         </div>  
                                         <div className="col-2" />
                                         <div className="col-5">
-                                        <div class="form-check mb-3">
+                                        <div className="form-check mb-3">
                                           <input type="checkbox" className="form-check-input" id="validationFormCheck1" onClick={this.new}/>
                                           <label className="form-check-label" for="validationFormCheck1">Agregar Nuevo Producto</label>                                          
                                         </div>
@@ -272,8 +275,8 @@ export default class Init extends Component {
                                         <div>Estas apunto de crear un nuevo Pedido ¿Estas Seguro que los datos ingresados son correctos? </div>                 
                                     </Modal.Body>
                                     <Modal.Footer>
-                                      <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
-                                      <button type="button" class="btn btn-primary" onClick={this.onSubmit} >Guardar Pedido</button>
+                                      <button type="button" className="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
+                                      <button type="button" className="btn btn-primary" onClick={this.onSubmit} >Guardar Pedido</button>
                                     </Modal.Footer>
                                 </Modal>                         
                             </div>                            

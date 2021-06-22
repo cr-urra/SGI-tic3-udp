@@ -30,16 +30,34 @@ export default class Ingresar_Usuario extends Component {
         
     }
 
-    addProveedor = async () =>{
-        const Proveedor ={
-
-        }
-    }
-
     onSubmit = async e => {
         e.preventDefault();
-        const res = await axios.get()
+        const Proveedor = {
+            nombre: this.state.nombre,
+            pais: this.state.pais,
+            direccion: this.state.direccion,
+            correo: this.state.correo,
+            telefono: this.state.telefono,
+            moneda: this.state.moneda            
+        }
+        const Banco = {
+            nombre_b: this.state.nombre_b,
+            cuenta_corriente: this.state.cuenta_corriente,
+            iban: this.state.iban,
+            pais_b: this.state.pais_b,
+            n_aba: this.state.n_aba,
+            referencia: this.state.referencia,
+            banco_beneficiario: this.state.banco_beneficiario,
+            codigo_swift: this.state.codigo_swift,
+            codigo_ifcs: this.state.codigo_ifcs,
+            cuenta_interbancaria: this.state.cuenta_interbancaria,
+            banco_intermediario: this.state.banco_intermediario
+        }
 
+        console.log(Proveedor, Banco)
+        const res = await axios.post("/sacate-la-url/", Proveedor)        
+        const res2 = await axios.post("/sacate-la-url/", Banco)        
+        alert(res.data.message,res2.data.message) 
     }
 
     onChange = e => {
