@@ -1,33 +1,5 @@
 import roles from '../models/roles';
 
-export const createRoles = async (req, res) => {
-    try{
-        const {cod_rol, nombre} = req.body;
-        let newRol = await roles.create({
-            cod_rol,
-            nombre,
-        },{
-            fields: [
-                'cod_rol',
-                'nombre'
-            ]
-        });
-        res.json({
-            resultado: true,
-            message: "Rol creado correctamente",
-            roles: newRol
-        });
-    } catch (e) {
-        console.log(e);
-        res.json({
-            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            resultado: false, 
-            roles: null
-        });
-    };
-};
-
-
 export const updateRoles = async (req, res) => {
     try{
         const {id} = req.params;
@@ -51,28 +23,6 @@ export const updateRoles = async (req, res) => {
             roles: null
         });
     }
-};
-
-export const deleteRoles = async (req, res) => {
-    try{
-        const {id} = req.params;
-        await roles.destroy({
-            where: {
-                id
-            }
-        });
-        res.json({
-            resultado: true, 
-            message: 'Rol eliminado correctamente'
-        });
-    }catch(e){
-        console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
-        });
-    };
-    
 };
 
 export const getAllRoles = async (req, res) => {

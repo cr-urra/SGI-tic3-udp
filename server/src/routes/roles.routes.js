@@ -4,13 +4,11 @@ import * as roles from '../controllers/roles.controller';
 
 // roles
 
-router.post('/', roles.createRoles);
 router.get('/', roles.getAllRoles);
 
 // roles/:id
 
 router.put('/:id', roles.updateRoles);
-router.delete('/:id', roles.deleteRoles);
 router.get('/:id', roles.getRolesId);
 
 module.exports = router;

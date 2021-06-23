@@ -2,6 +2,11 @@ import pedidos from '../models/pedidos';
 import usuarios from '../models/usuarios';
 import historialDolar from '../models/historial_dolar';
 import productos from '../models/productos';
+import detallesPedidosController from './detalles_pedidos.controller'
+import detallesPedidos from '../models/detalles_pedidos';
+import documentos from '../models/documentos';
+import observaciones from '../models/observaciones';
+import gastosExtras from '../models/gastos_extras';
 import jwt from 'jsonwebtoken';
 
 export const createPedidos = async (req, res) => {
@@ -166,6 +171,21 @@ export const updatePedidos = async (req, res) => {
 export const deletePedidos = async (req, res) => {
     try{
         const {id} = req.params;
+        const pedido = await pedidos.findOne({
+            where: {
+                id
+            },
+            attributes: [
+                'id',
+                'codigo', 
+            ],
+            include: [
+                detallesPedidos,
+                documentos,
+                observaciones,
+                gastosExtras
+            ]
+        });
         await pedidos.destroy({
             where: {
                 id
@@ -236,7 +256,7 @@ export const getAllPedidos = async (req, res) => {
 export const getPedidosId = async (req, res) => {
     try{
         const {id} = req.params;
-        const pedidos = await pedidos.findOne({
+        const pedido = await pedidos.findOne({
             where: {
                 id
             },
@@ -271,8 +291,9 @@ export const getPedidosId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            pedidos: productos
+            pedidos: pedido
         }); 
+
     }catch(e){
         console.log(e);
         res.json({
