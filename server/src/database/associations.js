@@ -108,7 +108,6 @@ ips.belongsTo(usuarios, {foreignKey: 'usuarios_id', sourceKey: 'id'});
 bancos_agentes_aduana.hasMany(agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 agentes_aduana.belongsTo(bancos_agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 
-
 // N:M
 
 pedidos.belongsToMany(usuarios, {through: 'realiza', foreignKey: 'pedidos_id'});

@@ -83,7 +83,7 @@ const pedidos = database.define('pedidos',{
     }
 },{
     timestamps: false,
-    underscored: true
+    underscored: true,
 });
 
 export default pedidos;

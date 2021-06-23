@@ -1,4 +1,8 @@
 import pedidos from '../models/pedidos';
+import usuarios from '../models/usuarios';
+import historialDolar from '../models/historial_dolar';
+import productos from '../models/productos';
+import jwt from 'jsonwebtoken';
 
 export const createPedidos = async (req, res) => {
     try{
@@ -27,8 +31,13 @@ export const createPedidos = async (req, res) => {
                 proveedores_id,
                 dolar_mensual_id,
                 fecha_vencimiento,
-                tipo_pago
+                tipo_pago,
+                productos_cod,
+                fecha_actual
             } = req.body;
+        const token = req.cookies.token;
+        const decoded = jwt.verify(token, config.SECRET);
+        const user_id = decoded.id;
         const newPedido = await pedidos.create({
                 codigo, 
                 cantidad, 
@@ -84,12 +93,41 @@ export const createPedidos = async (req, res) => {
                 'fecha_inicial'
             ]
         });
+        const user = await usuarios.findOne({
+            where: {
+                id: user_id
+            },
+            attributes: [
+                'id'
+            ]
+        });
+        const productos = await productos.findAll({
+            where: {
+                codigo: {
+                    [productos.in]: productos_cod
+                }
+            },
+            attributes: [
+                'id'
+            ]
+        });
+        const historial_dolar = await historialDolar.findOne({
+            where: {
+                fecha_actual
+            },
+            attributes: [
+                'id'
+            ]
+        });
+        newPedido.addProductos([productos])
+        newPedido.addUsuarios([user]);
+        newPedido.addHistorial_dolar([historial_dolar]);
         res.json({
             resultado: true,
             message: "Pedido creado correctamente",
             pedido: newPedido 
         });
-    } catch (e) {
+    }catch(e){
         console.log(e);
         res.json({
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
