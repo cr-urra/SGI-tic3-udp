@@ -13,7 +13,7 @@ export default class Contenido_Agente_Aduana extends Component {
                         <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">{this.props.field}</label>
                     </div>
                     <div className="col-8">
-                        <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.props.field2} onChange={this.props.onChange} >
+                        <select className="form-select ancho alto" name={this.props.name} id="inputGroupSelect01" value = {this.props.field2} onChange={this.props.onChange} >
                           <option defaultValue>Tipo de Cuenta</option>
                           <option value="1">Cuenta Corriente</option>
                           <option value="2">Cuenta de Ahorros</option>

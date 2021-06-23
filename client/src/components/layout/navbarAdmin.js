@@ -16,7 +16,7 @@ export default class Navbar extends Component {
         return (     
             <nav className="navbar navbar-expand-lg color_sitio navbar-dark">
                 <img src={Logo} alt="logo" />
-                <span className="navbar-brand" to="#">Hola, Administrador</span> 
+                <span className="ml-3 navbar-brand" to="#">Hola, Administrador</span> 
                     <div className="container text-center">
                         <div className="container ">
                             <div className="row">

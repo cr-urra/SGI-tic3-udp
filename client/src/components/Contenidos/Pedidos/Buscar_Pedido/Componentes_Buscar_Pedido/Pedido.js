@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Accordion, Card, Button } from 'react-bootstrap';
 import Productos from './Productos'
+import Button2 from './Button'
 
 
 export default class Init extends Component {
     render() {
         return (
             
-            <div className="container separacion">
-              {console.log(this.props.pedido)}
+            <div className="container separacion">              
               <div className="row">
                 <div className="input-group no_flex">
                   <div className="col-9">
@@ -31,7 +31,7 @@ export default class Init extends Component {
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
                           <Card.Body>                        
-                            <h5 className="mb-4 ml-4 text-primary">Crystal Master</h5>                                                      
+                            <h5 className="mb-4 ml-4 text-primary">{this.props.pedido.proveedor}</h5>                                                      
                             <table className="table text-center table-striped table-bordered">
                               <thead>
                                 <tr>
@@ -50,11 +50,7 @@ export default class Init extends Component {
                       </Card>
                     </Accordion>
                   </div>
-                  <div className="col-3 text-center">
-                      <button className="btn color_sitio2 mt-2">
-                        Editar Pedido
-                      </button>
-                  </div>
+                  <Button2 estado = {this.props.pedido.estado} />
                 </div>
               </div>
             </div>            

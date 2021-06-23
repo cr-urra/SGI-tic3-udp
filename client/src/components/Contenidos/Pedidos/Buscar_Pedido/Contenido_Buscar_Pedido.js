@@ -48,7 +48,7 @@ export default class Init extends Component {
                                             <div class="form-check">
                                               <input class="form-check-input" type="radio" name="flexRadioDefault" id="producto" onChange={this.onChangeEleccion} value={"producto"}/>                                             
                                               <label class="form-check-label form-label" for="producto">
-                                                Busqueda por Producto                                          
+                                                Busqueda por Proveedor                                         
                                               </label>                                             
                                             </div> 
                                         </div>

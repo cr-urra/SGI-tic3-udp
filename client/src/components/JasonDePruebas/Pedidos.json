@@ -1,6 +1,7 @@
 [
     {
         "n_pedido": "n_pedido A",
+        "proveedor": "Nombre Prov C",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha A",
         "tipo_transporte": "CIF",
@@ -68,6 +69,7 @@
 
     {
         "n_pedido": "n_pedido B",
+        "proveedor": "Nombre Prov A",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha B",
         "tipo_transporte": "CIF",
@@ -136,6 +138,7 @@
 
     {
         "n_pedido": "n_pedido C",
+        "proveedor": "Nombre Prov A",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha C",
         "tipo_transporte": "CIF",
@@ -206,6 +209,7 @@
 
     {
         "n_pedido": "n_pedido D",
+        "proveedor": "Nombre Prov B",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha D",
         "tipo_transporte": "CIF",
@@ -276,6 +280,7 @@
 
     {
         "n_pedido": "n_pedido E",
+        "proveedor": "Nombre Prov B",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha E",
         "tipo_transporte": "CIF",
@@ -351,6 +356,7 @@
 
     {
         "n_pedido": "n_pedido F",
+        "proveedor": "Nombre Prov B",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha F",
         "tipo_transporte": "CIF",
@@ -426,6 +432,7 @@
 
     {
         "n_pedido": "n_pedido G",
+        "proveedor": "Nombre Prov C",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha G",
         "tipo_transporte": "CIF",
@@ -503,6 +510,7 @@
 
     {
         "n_pedido": "n_pedido H",
+        "proveedor": "Nombre Prov C",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha H",
         "tipo_transporte": "CIF",
@@ -580,6 +588,7 @@
 
     {
         "n_pedido": "n_pedido I",
+        "proveedor": "Nombre Prov D",
         "tipo_pago": "transferencia",
         "fecha_entrega": "fecha I",
         "tipo_transporte": "CIF",

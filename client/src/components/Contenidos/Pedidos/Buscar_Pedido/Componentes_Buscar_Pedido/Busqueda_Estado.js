@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
-import { Accordion, Card, Button } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 import Pedidos from './Pedidos'
 import pedidos from '../../../../JasonDePruebas/Pedidos.json'
+import Filtro from './FiltroEstado'
 
 export default class Init extends Component {
 
   state = {
-    pedidos: pedidos
+    pedidos: pedidos,
+    filtro: "0"
   }
+
+  onChange = e => {
+    this.setState({
+        [e.target.name]: e.target.value
+    })        
+  }
+
     render() {
         return (
           <li className="list-group-item">
@@ -20,19 +27,19 @@ export default class Init extends Component {
                     <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Estado</label>
                   </div>                  
                   <div className="col-4">
-                    <select className="form-select ancho alto"  id="inputGroupSelect01" >
-                      <option defaultValue>Estado del Pedido</option>
-                      <option value="1">En Producción</option>
-                      <option value="2">En Transito (Internacional)</option>
-                      <option value="3">Ingreso al País</option>
-                      <option value="4">En Transito (Nacional)</option>
-                      <option value="5">Finalizado</option>
+                    <select className="form-select ancho alto"  id="inputGroupSelect01" name="filtro" value={this.state.filtro} onChange={this.onChange}>
+                      <option defaultValue value="0">Estado del Pedido</option>
+                      <option value="produccion">En Producción</option>
+                      <option value="internacional">En Transito (Internacional)</option>
+                      <option value="ingreso">Ingreso al País</option>
+                      <option value="nacional">En Transito (Nacional)</option>
+                      <option value="finalizado">Finalizado</option>
                     </select>
                   </div>
                 </div>
               </div>
             </div>
-            <Pedidos Pedidos ={ this.state.pedidos} />                                     
+            <Filtro Pedidos ={this.state.pedidos} filtro = {this.state.filtro}/>                                           
           </li>
         )
     }
