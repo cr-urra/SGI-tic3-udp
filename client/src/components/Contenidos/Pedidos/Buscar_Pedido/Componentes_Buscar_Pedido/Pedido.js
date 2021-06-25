@@ -22,7 +22,7 @@ export default class Init extends Component {
                               </Accordion.Toggle>
                             </div>
                             <div className="col-3 text.center mt-2">
-                              Fecha: {this.props.pedido.fecha_entrega}
+                              Fecha: {this.props.pedido.fecha_entrega.dia + "-" + this.props.pedido.fecha_entrega.mes + "-" + this.props.pedido.fecha_entrega.año } 
                             </div>
                             <div className="col-5 text.center mt-2">
                               Estado: {this.props.pedido.estado}
