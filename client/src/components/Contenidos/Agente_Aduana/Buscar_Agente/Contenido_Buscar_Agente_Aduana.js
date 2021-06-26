@@ -1,15 +1,59 @@
 import React, { Component } from 'react'
-import AgentesAduana from '../../../JasonDePruebas/AgenteAduana.json'
 import Listado from './Componentes_Buscar_Agente/Listado'
 import Tabla from './Componentes_Buscar_Agente/Tabla'
 import Editar_Agente from './Componentes_Buscar_Agente/Editar_AgenteAduana'
+import axios from 'axios'
 
 export default class Init extends Component {
 
     state = {
-        AgentesAduana: AgentesAduana,
+        AgentesAduana: [],
         AgenteAduana: "",
         editar: "false",
+    }
+
+    componentDidMount = async () => {
+        const res = await axios.get("/agentesAduana/",{}) 
+        console.log(res,"agentes");
+        for (let i= 0; i < res.data.agentes_aduana.length ; i++){
+            const agente = {
+                nombre: res.data.agentes_aduana[i].nombre,
+                apellido: res.data.agentes_aduana[i].apellido,
+                telefono: "falta conectar dato",
+                banco: res.data.agentes_aduana[i].bancos_agentes_aduana_id,
+                n_cuenta: res.data.agentes_aduana[i].numero_cuenta,
+                correo: res.data.agentes_aduana[i].correo,
+                tipo_cuenta: "falta conectar dato",
+                saldo: "falta conectar dato",
+                cuenta_corriente: [
+                    {
+                        debe: "400.000",
+                        haber: "0",
+                        fecha: "20-02-2021",
+                        id_pedido:"1",
+                        descripcion: "descripcion 1"
+                    },
+                    {
+                        debe: "0",
+                        haber: "400.000",
+                        fecha: "22-02-2021",
+                        id_pedido:"2",
+                        descripcion: "descripcion 2"
+                    },
+                    {
+                        debe: "500.000",
+                        haber: "0",
+                        fecha: "23-02-2021",
+                        id_pedido:"3",
+                        descripcion: "descripcion 3"
+                    }
+                ]
+                
+            }
+            this.setState({
+                AgentesAduana: [...this.state.AgentesAduana, agente]
+            })
+        }
     }
 
     onChangeAgente = (event) => {

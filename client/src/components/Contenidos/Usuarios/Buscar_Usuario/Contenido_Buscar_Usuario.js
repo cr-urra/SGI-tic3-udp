@@ -1,16 +1,34 @@
 import React, { Component } from 'react'
-import Usuarios from '../../../JasonDePruebas/Usuarios.json'
 import Listado from './Componentes_Buscar_Usuario/Listado'
 import Tabla from './Componentes_Buscar_Usuario/Tabla'
 import Editar_usuario from './Componentes_Buscar_Usuario/Editar_Usuario'
+import axios from 'axios'
 
 
 
 export default class Init extends Component {
     state ={
-        Usuarios: Usuarios,
+        Usuarios: [],
         Usuario: "",
         editar: "false",
+    }
+
+    componentDidMount = async () => {
+        const res = await axios.get("/usuarios/",{}) 
+        console.log(res,"usuarios");
+        for (let i= 0; i < res.data.usuarios.length ; i++){
+            const usuario = {
+                nombre:  res.data.usuarios[i].nombre,
+                apellido:  res.data.usuarios[i].apellido,
+                telefono:  "falta conectar dato",
+                correo:  res.data.usuarios[i].correo,
+                rut: res.data.usuarios[i].rut,
+                rol:  res.data.usuarios[i].roles_id
+            }
+            this.setState({
+                Usuarios: [...this.state.Usuarios, usuario]
+            })
+        }
     }
 
     onChangeUsuario = (event) => {

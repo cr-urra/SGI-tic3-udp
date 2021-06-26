@@ -1,17 +1,36 @@
 import React, { Component } from 'react';
 import Listado from './Componentes_Buscar_Proveedor/Listado';
-import ProveedoresData from '../../../JasonDePruebas/Proveedores.json';
 import Tabla from './Componentes_Buscar_Proveedor/Tabla';
 import Editar_proveedor from './Componentes_Buscar_Proveedor/Editar_Proveedor'
+import axios from 'axios'
 
 
 export default class Init extends Component {
 
     state= {
-      proveedores: ProveedoresData,
+      proveedores: [],
       proveedor : "",
       editar: "false",
     }
+
+    componentDidMount = async () => {
+      const res = await axios.get("/proveedores/",{})
+      console.log(res,"proveedores");
+      for (let i= 0; i < res.data.proveedores.length ; i++){
+          const proveedor = {
+            nombre:  res.data.proveedores[i].nombre,
+            pais:  res.data.proveedores[i].pais,
+            banco:  "falta conectar el dato",
+            direccion:  res.data.proveedores[i].direccion,
+            correo:  res.data.proveedores[i].correo,
+            moneda: res.data.proveedores[i].monedas_id,
+            telefono:  "falta conectar el dato"
+          }
+          this.setState({
+            proveedores: [...this.state.proveedores, proveedor]
+          })
+      }
+  }
 
     change = (event) =>{
       this.setState({

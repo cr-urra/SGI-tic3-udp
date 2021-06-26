@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
 import Listado from './Componentes_Buscar_Producto/Listado';
-import ProductsData from '../../../JasonDePruebas/Productos.json';
 import Tabla from './Componentes_Buscar_Producto/Tabla';
 import Editar_Producto from './Componentes_Buscar_Producto/Editar_Producto'
+import axios from 'axios'
 
 
 
@@ -11,9 +10,27 @@ import Editar_Producto from './Componentes_Buscar_Producto/Editar_Producto'
 export default class Init extends Component {
 
     state = {
-        productsData : ProductsData,
+        productsData : [],
         product : "",
         editar : "false",
+    }
+
+    componentDidMount = async () => {
+        const res = await axios.get("/productos/",{})
+        console.log(res,"productos");
+        for (let i= 0; i < res.data.productos.length ; i++){
+            const producto = {
+                 nombre :  res.data.productos[i].nombre,
+                 codigo :  res.data.productos[i].codigo,
+                 precio :  "falta conectar dato",
+                 tipo :  res.data.productos[i].tipo,
+                 descripcion :  "falta conectar dato",
+                 proveedor : res.data.productos[i].proveedores_id
+            }
+            this.setState({
+                productsData: [...this.state.productsData, producto]
+            })
+        }
     }
 
     onChangeProduct = (event) => {
