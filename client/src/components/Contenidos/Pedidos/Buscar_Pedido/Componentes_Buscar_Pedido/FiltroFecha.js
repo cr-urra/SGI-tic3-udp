@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Pedidos from './Pedidos'
+import Fecha from './Fecha_Doble'
 /*
   filtro 22-04-2022
 
@@ -11,10 +12,6 @@ import Pedidos from './Pedidos'
    21-03-2022
    22-04-2022 -- corte
    18-05-2022
-
-
-
-
 
 */
 
@@ -63,9 +60,14 @@ export default class Init extends Component {
               </div>           
         }else{
          return <div>
-         <Pedidos Pedidos = {this.props.Pedidos.filter(pedido => pedido.fecha_entrega.año == this.props.fecha1.año && pedido.fecha_entrega.mes == this.props.fecha1.mes && pedido.fecha_entrega.dia >= this.props.fecha1.dia)}/>
-         <Pedidos Pedidos = {this.props.Pedidos.filter(pedido => pedido.fecha_entrega.año == this.props.fecha1.año && pedido.fecha_entrega.mes > this.props.fecha1.mes)}/>                
-         <Pedidos Pedidos = {this.props.Pedidos.filter(pedido => pedido.fecha_entrega.año == this.props.fecha2.año && pedido.fecha_entrega.mes == this.props.fecha2.mes && pedido.fecha_entrega.dia <= this.props.fecha2.dia)}/>
+           
+        <Fecha 
+          Pedido1={this.props.Pedidos.filter(pedido => pedido.fecha_entrega.año < this.props.fecha2.año)} 
+          Pedido2={this.props.Pedidos.filter(pedido => pedido.fecha_entrega.año == this.props.fecha2.año && pedido.fecha_entrega.mes < this.props.fecha2.mes)}
+          Pedido3={this.props.Pedidos.filter(pedido => pedido.fecha_entrega.año == this.props.fecha2.año && pedido.fecha_entrega.mes == this.props.fecha2.mes && pedido.fecha_entrega.dia <= this.props.fecha2.dia)}
+          fecha={this.props.fecha1}
+        />    
+          
        </div>    
         }
       }                            
