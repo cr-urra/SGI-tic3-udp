@@ -111,9 +111,8 @@ export const getPaisesId = async (req, res) => {
             },
             attributes: [
                 'id', 
-                'nombre', 
-                'apellido',
-                'correo'
+                'pais', 
+                'codigo_iban'
             ]
         });
         res.json({
