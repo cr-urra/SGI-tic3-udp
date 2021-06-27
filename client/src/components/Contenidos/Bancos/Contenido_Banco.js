@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import Listado from './Componentes Banco/Listado'
 import Banco from './Componentes Banco/Banco'
-import bancos from '../../JasonDePruebas/Banco.json'
 import Editar_Banco from './Componentes Banco/Editar_Banco'
+import axios from 'axios'
 
 
 
 export default class Contenido_Banco extends Component {
 
     state = {
-        bancos: bancos,
+        bancos: [],
         banco: "",
         editar: "false",
  
@@ -21,11 +21,28 @@ export default class Contenido_Banco extends Component {
        })
     }
 
-    edit = () => {
-        /* funcion del boton guardar edit banco */
+    componentDidMount = async () => {
+        const res = await axios.get("/cuentasBancos/",{})  
+        console.log(res,"bancos");
+        for (let i= 0; i < res.data.cuentas_bancos.length ; i++){
+            const banco = {
+                nombre:   res.data.cuentas_bancos[i].nombre_banco,
+                cuenta: res.data.cuentas_bancos[i].numero_cuenta,
+                IBAN: res.data.cuentas_bancos[i].codigo_iban,
+                pais: res.data.cuentas_bancos[i].paises_id,
+                ABA:  res.data.cuentas_bancos[i].numeros_aba_id,
+                referencia:  res.data.cuentas_bancos[i].referencia,
+                banco_beneficiario: "falta conectar dato",
+                SWIFT:  res.data.cuentas_bancos[i].swift_code,
+                IFCS:  "falta conectar dato",
+                cuenta_interbancaria:  "falta conectar dato",
+                banco_intermediario: "falta conectar dato",
+            }
+            this.setState({
+                bancos: [...this.state.bancos, banco]
+            })
+        }
     }
-
-    
 
     onChangeBanco = (event) => {
         this.setState({

@@ -7,7 +7,7 @@ import Observaciones from '../Pedido_Componentes/Observaciones'
 import Gastos from '../Pedido_Componentes/Gastos'
 import Crear_Observacion from '../Pedido_Componentes/Crear_Observacion'
 import Estados from '../Pedido_Componentes/Estados'
-import Requisitos from '../Pedido_Componentes/Requisistos'
+import Requisitos from './Requisistos'
 
 export default class Init extends Component {
     render() {
@@ -37,12 +37,6 @@ export default class Init extends Component {
                     <Estados contenido1={"En Tránsito (Internacional)"} contenido2={"Ingreso al País"}/>
 
                     <Requisitos />
-
-                    <button className="btn color_sitio2">
-                      Cambiar Estado
-                    </button>
-
-                    
 
                   </div>
                 </div> 

@@ -66,17 +66,12 @@ export default class Tabla extends Component {
                             </ul>
                         </div>
                         <div className="row g-2 mt-4 mb-2">
-                            <div className="col-4 text-center">
-                                <button type="submit" className="btn rounded-pill color_sitio2 ancho3"> 
-                                    Pedidos
-                                </button>
-                            </div>
-                            <div className="col-4 text-center">
+                            <div className="col-6 text-center">
                                 <button type="submit" className="btn btn-primary rounded-pill ancho3" value={true} onClick={this.props.change} > 
                                     Editar
                                 </button>
                             </div>
-                            <div className="col-4 text-center">
+                            <div className="col-6 text-center">
                                 <button type="submit" className="btn btn-danger rounded-pill ancho3" onClick={this.handleShow}> 
                                     Eliminar
                                 </button>
