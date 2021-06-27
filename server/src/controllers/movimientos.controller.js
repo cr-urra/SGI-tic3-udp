@@ -111,7 +111,7 @@ export const getAllMovimientos = async (req, res) => {
 export const getMovimientosId = async (req, res) => {
     try{
         const {id} = req.params;
-        const movimientos = await movimientos.findOne({
+        const movimiento = await movimientos.findOne({
             where: {
                 id
             },
@@ -126,8 +126,8 @@ export const getMovimientosId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            movimientos: movimientos
-        }); 
+            movimientos: movimiento
+        });
     }catch(e){
         console.log(e);
         res.json({

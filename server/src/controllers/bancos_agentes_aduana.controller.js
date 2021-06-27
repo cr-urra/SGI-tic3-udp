@@ -6,12 +6,14 @@ export const createBancosAgentesAduana = async (req, res) => {
         let newBancoAgenteAduana = await bancosAgentesAduana.create({
             numero_cuenta, 
             tipo_cuenta, 
-            nombre_banco
+            nombre_banco,
+            vigencia: true
         },{
             fields: [
                 'numero_cuenta', 
                 'tipo_cuenta', 
-                'nombre_banco'
+                'nombre_banco',
+                'vigencia'
             ]
         });
         res.json({
@@ -38,7 +40,10 @@ export const updateBancosAgentesAduana = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Banco de agente de aduana actualizado correctamente',
@@ -80,6 +85,9 @@ export const deleteBancosAgentesAduana = async (req, res) => {
 export const getAllBancosAgentesAduana = async (req, res) => {
     try{
         const allBancosAgentesAduana = await bancosAgentesAduana.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'numero_cuenta', 
@@ -108,9 +116,10 @@ export const getAllBancosAgentesAduana = async (req, res) => {
 export const getBancosAgentesAduanaId = async (req, res) => {
     try{
         const {id} = req.params;
-        const bancosAgentesAduana = await bancosAgentesAduana.findOne({
+        const bancoAgentesAduana = await bancosAgentesAduana.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -122,8 +131,36 @@ export const getBancosAgentesAduanaId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            bancosAgentesAduana: bancosAgentesAduana
+            bancosAgentesAduana: bancoAgentesAduana
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            bancosAgentesAduana: null
+        });
+    };
+};
+
+export const getAllBancosAgentesAduanaWithFalse = async (req, res) => {
+    try{
+        const allBancosAgentesAduana = await bancosAgentesAduana.findAll({
+            attributes: [
+                'id',
+                'numero_cuenta', 
+                'tipo_cuenta', 
+                'nombre_banco'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            bancosAgentesAduana: allBancosAgentesAduana
+        });
     }catch(e){
         console.log(e);
         res.json({

@@ -1,4 +1,7 @@
 import usuarios from '../models/usuarios';
+import ips from '../models/ips';
+import telefonoUsuarios from '../models/telefonos_usuarios';
+import * as ct from './telefonos_usuarios.controller';
 
 export const updateUsuarios = async (req, res) => {
     try{
@@ -30,15 +33,35 @@ export const updateUsuarios = async (req, res) => {
 export const deleteUsuarios = async (req, res) => {
     try{
         const {id} = req.params;
-        await usuarios.destroy({
+        const user = usuarios.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id'
+            ],
+            include: [
+                ips,
+                telefonoUsuarios
+            ]
         });
-        res.json({
-            message: 'Usuario eliminado correctamente',
-            resultado: true
-        });
+        if(user){
+            await usuarios.destroy({
+                where: {
+                    id
+                }
+            });
+            res.json({
+                message: 'Usuario eliminado correctamente',
+                resultado: true
+            });
+        }else{
+            res.json({
+                message: 'El usuario ingresado no se encuentra',
+                resultado: false
+            });
+        }
+        
     }catch(e){
         console.log(e);
         res.json({
@@ -101,6 +124,10 @@ export const getAllUsuarios = async (req, res) => {
                 ]
             ]
         });
+        req.body = {
+            hello: "jkhasbdflijbsefik"
+        };
+        await ct.getConsole(req,res);
         res.json({
             resultado: true,
             message: "",

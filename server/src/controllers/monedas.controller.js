@@ -105,7 +105,7 @@ export const getAllMonedas = async (req, res) => {
 export const getMonedasId = async (req, res) => {
     try{
         const {id} = req.params;
-        const monedas = await monedas.findOne({
+        const moneda = await monedas.findOne({
             where: {
                 id
             },
@@ -118,7 +118,7 @@ export const getMonedasId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            monedas: monedas
+            monedas: moneda
         }); 
     }catch(e){
         console.log(e);

@@ -105,7 +105,8 @@ export const getAllNumerosAba = async (req, res) => {
 export const getNumerosAbaId = async (req, res) => {
     try{
         const {id} = req.params;
-        const numerosAba = await numerosAba.findOne({
+        console.log(id);
+        const numeroAba = await numerosAba.findOne({
             where: {
                 id
             },
@@ -118,7 +119,7 @@ export const getNumerosAbaId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            numerosAba: numerosAba
+            numerosAba: numeroAba
         }); 
     }catch(e){
         console.log(e);
@@ -128,4 +129,4 @@ export const getNumerosAbaId = async (req, res) => {
             numerosAba: null
         });
     };
-};
+};umerosAba 

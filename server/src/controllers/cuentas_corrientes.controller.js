@@ -6,7 +6,8 @@ export const createCuentasCorrientes = async (req, res) => {
         let newCuentasCorrientes = await cuentasCorrientes.create({
             debe, 
             haber, 
-            agentes_aduana_id
+            agentes_aduana_id,
+            vigencia: true
         },{
             fields: [
                 'debe', 
@@ -38,7 +39,10 @@ export const updateCuentasCorrientes = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Cuenta corriente actualizada correctamente',
@@ -80,6 +84,9 @@ export const deleteCuentasCorrientes = async (req, res) => {
 export const getAllCuentasCorrientes = async (req, res) => {
     try{
         const allCuentasCorrientes = await cuentasCorrientes.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'debe', 
@@ -108,9 +115,10 @@ export const getAllCuentasCorrientes = async (req, res) => {
 export const getCuentasCorrientesId = async (req, res) => {
     try{
         const {id} = req.params;
-        const cuentasCorrientes = await cuentasCorrientes.findOne({
+        const cuentaCorriente = await cuentasCorrientes.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -122,8 +130,36 @@ export const getCuentasCorrientesId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            cuentasCorrientes: cuentasCorrientes
+            cuentasCorrientes: cuentaCorriente
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            cuentasCorrientes: null
+        });
+    };
+};
+
+export const getAllCuentasCorrientesWithFalse = async (req, res) => {
+    try{
+        const allCuentasCorrientes = await cuentasCorrientes.findAll({
+            attributes: [
+                'id',
+                'debe', 
+                'haber', 
+                'agentes_aduana_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            cuentasCorrientes: allCuentasCorrientes
+        });
     }catch(e){
         console.log(e);
         res.json({

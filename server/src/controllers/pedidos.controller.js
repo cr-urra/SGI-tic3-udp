@@ -2,12 +2,13 @@ import pedidos from '../models/pedidos';
 import usuarios from '../models/usuarios';
 import historialDolar from '../models/historial_dolar';
 import productos from '../models/productos';
-import detallesPedidosController from './detalles_pedidos.controller'
 import detallesPedidos from '../models/detalles_pedidos';
 import documentos from '../models/documentos';
 import observaciones from '../models/observaciones';
 import gastosExtras from '../models/gastos_extras';
+import efectua from '../models/efectua';
 import jwt from 'jsonwebtoken';
+import sequelize from 'sequelize';
 
 export const createPedidos = async (req, res) => {
     try{
@@ -106,10 +107,10 @@ export const createPedidos = async (req, res) => {
                 'id'
             ]
         });
-        const productos = await productos.findAll({
+        const products = await productos.findAll({
             where: {
                 codigo: {
-                    [productos.in]: productos_cod
+                    [sequelize.in]: productos_cod
                 }
             },
             attributes: [
@@ -124,7 +125,7 @@ export const createPedidos = async (req, res) => {
                 'id'
             ]
         });
-        newPedido.addProductos([productos])
+        newPedido.addProductos([products])
         newPedido.addUsuarios([user]);
         newPedido.addHistorial_dolar([historial_dolar]);
         res.json({
@@ -176,8 +177,7 @@ export const deletePedidos = async (req, res) => {
                 id
             },
             attributes: [
-                'id',
-                'codigo', 
+                'id' 
             ],
             include: [
                 detallesPedidos,
@@ -186,15 +186,60 @@ export const deletePedidos = async (req, res) => {
                 gastosExtras
             ]
         });
-        await pedidos.destroy({
-            where: {
-                id
-            }
-        });
-        res.json({
-            resultado: true, 
-            message: 'Pedido eliminado correctamente'
-        });
+        if(pedido){
+            let idsObservaciones = [];
+            let idsDocumentos = [];
+            let idsGastosExtras = [];
+            const pedidoDetId = pedido.dataValues.detalles_pedido.dataValues.id;
+            pedido.dataValues.observaciones.forEach(element => {
+                idsObservaciones.push(parseInt(element.dataValues.id));
+            });
+            pedido.dataValues.documentos.forEach(element => {
+                idsDocumentos.push(parseInt(element.dataValues.id));
+            });
+            pedido.dataValues.gastos_extras.forEach(element => {
+                idsGastosExtras.push(parseInt(element.dataValues.id));
+            });
+            await detallesPedidos.destroy({
+                where: {
+                    id: pedidoDetId
+                }
+            });
+            await documentos.destroy({
+                where: {
+                    id: idsDocumentos
+                }
+            });
+            await gastosExtras.destroy({
+                where: {
+                    id: idsGastosExtras
+                }
+            });
+            await efectua.destroy({
+                where: {
+                    observaciones_id: idsObservaciones
+                }
+            });
+            await observaciones.destroy({
+                where: {
+                    id: idsObservaciones
+                }
+            });
+            await pedidos.destroy({
+                where: {
+                    id
+                }
+            });
+            res.json({
+                resultado: true, 
+                message: 'Pedido eliminado correctamente'
+            });
+        }else{
+            res.json({
+                resultado: false, 
+                message: "El pedido ingresado no existe"
+            });
+        };
     }catch(e){
         console.log(e);
         res.json({

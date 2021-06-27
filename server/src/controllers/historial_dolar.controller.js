@@ -7,7 +7,8 @@ export const createHistorialDolar = async (req, res) => {
         let newHistorialDolar = await historialDolar.create({
             precio, 
             dolar_mensual_id,
-            fecha: sequelize.literal('CURRENT_TIMESTAMP')
+            fecha: sequelize.literal('CURRENT_TIMESTAMP'),
+            vigencia: true
         },{
             fields: [
                 'precio', 
@@ -39,7 +40,10 @@ export const updateHistorialDolar = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Dolar actualizado correctamente en historial',
@@ -81,6 +85,9 @@ export const deleteHistorialDolar = async (req, res) => {
 export const getAllHistorialDolar = async (req, res) => {
     try{
         const allHistorialDolar = await historialDolar.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'fecha', 
@@ -109,7 +116,7 @@ export const getAllHistorialDolar = async (req, res) => {
 export const getHistorialDolarId = async (req, res) => {
     try{
         const {id} = req.params;
-        const historialDolar = await historialDolar.findOne({
+        const getHistorialDolar = await historialDolar.findOne({
             where: {
                 id
             },
@@ -123,8 +130,36 @@ export const getHistorialDolarId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            historialDolar: historialDolar
+            historialDolar: getHistorialDolar
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            historialDolar: null
+        });
+    };
+};
+
+export const getAllHistorialDolarWithFalse = async (req, res) => {
+    try{
+        const allHistorialDolar = await historialDolar.findAll({
+            attributes: [
+                'id',
+                'fecha', 
+                'precio', 
+                'dolar_mensual_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            historialDolar: allHistorialDolar
+        });
     }catch(e){
         console.log(e);
         res.json({

@@ -105,7 +105,7 @@ export const getAllPaises = async (req, res) => {
 export const getPaisesId = async (req, res) => {
     try{
         const {id} = req.params;
-        const agente_aduana = await paises.findOne({
+        const pais = await paises.findOne({
             where: {
                 id
             },
@@ -118,7 +118,7 @@ export const getPaisesId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            paises: agente_aduana
+            paises: pais
         }); 
     }catch(e){
         console.log(e);

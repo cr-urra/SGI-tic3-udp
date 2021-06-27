@@ -105,7 +105,7 @@ export const getAllIps = async (req, res) => {
 export const getIpsId = async (req, res) => {
     try{
         const {id} = req.params;
-        const ips = await ips.findOne({
+        const ip = await ips.findOne({
             where: {
                 id
             },
@@ -118,7 +118,7 @@ export const getIpsId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            ips: ips
+            ips: ip
         }); 
     }catch(e){
         console.log(e);

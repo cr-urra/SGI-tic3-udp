@@ -5,7 +5,8 @@ export const createDocumentos = async (req, res) => {
         const {nombre_documento, pedidos_id} = req.body;
         let newDocumento = await documentos.create({
             nombre_documento, 
-            pedidos_id
+            pedidos_id,
+            vigencia: true
         },{
             fields: [
                 'nombre_documento', 
@@ -36,7 +37,10 @@ export const updateDocumentos = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Documento actualizado correctamente',
@@ -78,6 +82,9 @@ export const deleteDocumentos = async (req, res) => {
 export const getAllDocumentos = async (req, res) => {
     try{
         const allDocumentos = await documentos.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'nombre_documento', 
@@ -105,9 +112,10 @@ export const getAllDocumentos = async (req, res) => {
 export const getDocumentosId = async (req, res) => {
     try{
         const {id} = req.params;
-        const documentos = await documentos.findOne({
+        const documento = await documentos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -118,8 +126,35 @@ export const getDocumentosId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            documentos: documentos
+            documentos: documento
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            documentos: null
+        });
+    };
+};
+
+export const getAllDocumentosWithFalse = async (req, res) => {
+    try{
+        const allDocumentos = await documentos.findAll({
+            attributes: [
+                'id',
+                'nombre_documento', 
+                'pedidos_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            documentos: allDocumentos
+        });
     }catch(e){
         console.log(e);
         res.json({

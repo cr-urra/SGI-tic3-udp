@@ -7,6 +7,7 @@ export const createDolarMensual = async (req, res) => {
         let newDolarMensual = await dolarMensual.create({
             valor_mensual,
             fecha_registro: sequelize.literal('CURRENT_TIMESTAMP'),
+            vigencia: true
         },{
             fields: [
                 'valor_mensual',
@@ -37,7 +38,10 @@ export const updateDolarMensual = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Dolar mensual actualizado correctamente',
@@ -79,6 +83,9 @@ export const deleteDolarMensual = async (req, res) => {
 export const getAllDolarMensual = async (req, res) => {
     try{
         const allDolarMensual = await dolarMensual.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'valor_mensual', 
@@ -106,9 +113,10 @@ export const getAllDolarMensual = async (req, res) => {
 export const getDolarMensualId = async (req, res) => {
     try{
         const {id} = req.params;
-        const dolarMensual = await dolarMensual.findOne({
+        const getDolarMensual = await dolarMensual.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -119,8 +127,35 @@ export const getDolarMensualId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            dolarMensual: dolarMensual
+            dolarMensual: getDolarMensual
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            dolarMensual: null
+        });
+    };
+};
+
+export const getAllDolarMensualWithFalse = async (req, res) => {
+    try{
+        const allDolarMensual = await dolarMensual.findAll({
+            attributes: [
+                'id',
+                'valor_mensual', 
+                'fecha_registro',
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            dolarMensual: allDolarMensual
+        });
     }catch(e){
         console.log(e);
         res.json({

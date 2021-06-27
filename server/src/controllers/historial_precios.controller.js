@@ -108,7 +108,7 @@ export const getAllHistorialPrecios = async (req, res) => {
 export const getHistorialPreciosId = async (req, res) => {
     try{
         const {id} = req.params;
-        const historialPrecios = await historialPrecios.findOne({
+        const historialPrecio = await historialPrecios.findOne({
             where: {
                 id
             },
@@ -122,7 +122,7 @@ export const getHistorialPreciosId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            historialPrecios: historialPrecios
+            historialPrecios: historialPrecio
         }); 
     }catch(e){
         console.log(e);

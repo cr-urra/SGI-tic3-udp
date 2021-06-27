@@ -55,7 +55,7 @@ export const getAllRoles = async (req, res) => {
 export const getRolesId = async (req, res) => {
     try{
         const {id} = req.params;
-        const roles = await roles.findOne({
+        const rol = await roles.findOne({
             where: {
                 id
             },
@@ -68,7 +68,7 @@ export const getRolesId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            roles: roles
+            roles: rol
         }); 
     }catch(e){
         console.log(e);

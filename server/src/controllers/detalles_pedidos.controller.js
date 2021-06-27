@@ -5,7 +5,8 @@ export const createDetallesPedidos = async (req, res) => {
         const {diferencia_de_costos, pedidos_id} = req.body;
         let newDetallePedido = await detallesPedidos.create({
             diferencia_de_costos, 
-            pedidos_id
+            pedidos_id,
+            vigencia: true
         },{
             fields: [
                 'diferencia_de_costos', 
@@ -36,7 +37,10 @@ export const updateDetallesPedidos = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Detalles de pedido actualizado correctamente',
@@ -78,6 +82,9 @@ export const deleteDetallesPedidos = async (req, res) => {
 export const getAllDetallesPedidos = async (req, res) => {
     try{
         const allDetallesPedidos = await detallesPedidos.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'diferencia_de_costos', 
@@ -105,9 +112,10 @@ export const getAllDetallesPedidos = async (req, res) => {
 export const getDetallesPedidosId = async (req, res) => {
     try{
         const {id} = req.params;
-        const detallesPedidos = await detallesPedidos.findOne({
+        const detallePedido = await detallesPedidos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -118,8 +126,35 @@ export const getDetallesPedidosId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            detallesPedidos: detallesPedidos
+            detallesPedidos: detallePedido
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            detallesPedidos: null
+        });
+    };
+};
+
+export const getAllDetallesPedidosWithFalse = async (req, res) => {
+    try{
+        const allDetallesPedidos = await detallesPedidos.findAll({
+            attributes: [
+                'id',
+                'diferencia_de_costos', 
+                'pedidos_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            detallesPedidos: allDetallesPedidos
+        });
     }catch(e){
         console.log(e);
         res.json({

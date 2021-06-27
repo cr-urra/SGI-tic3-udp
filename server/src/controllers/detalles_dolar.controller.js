@@ -5,7 +5,8 @@ export const createDetallesDolar = async (req, res) => {
         const {precio_compra, historial_dolar_id} = req.body;
         let newDetalleDolar = await detallesDolar.create({
             precio_compra, 
-            historial_dolar_id
+            historial_dolar_id,
+            vigencia: true
         },{
             fields: [
                 'precio_compra', 
@@ -36,7 +37,10 @@ export const updateDetallesDolar = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Detalle de dólar actualizado correctamente',
@@ -78,10 +82,13 @@ export const deleteDetallesDolar = async (req, res) => {
 export const getAllDetallesDolar = async (req, res) => {
     try{
         const allDetallesDolar = await detallesDolar.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
-                'ip', 
-                'usuarios_id'
+                'precio_compra', 
+                'historial_dolar_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -105,9 +112,10 @@ export const getAllDetallesDolar = async (req, res) => {
 export const getDetallesDolarId = async (req, res) => {
     try{
         const {id} = req.params;
-        const detallesDolar = await detallesDolar.findOne({
+        const detalleDolar = await detallesDolar.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -118,8 +126,35 @@ export const getDetallesDolarId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            detallesDolar: detallesDolar
+            detallesDolar: detalleDolar
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            detallesDolar: null
+        });
+    };
+};
+
+export const getAllDetallesDolarWithFalse = async (req, res) => {
+    try{
+        const allDetallesDolar = await detallesDolar.findAll({
+            attributes: [
+                'id',
+                'precio_compra', 
+                'historial_dolar_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            detallesDolar: allDetallesDolar
+        });
     }catch(e){
         console.log(e);
         res.json({

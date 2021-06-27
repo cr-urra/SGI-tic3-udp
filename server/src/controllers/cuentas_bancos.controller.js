@@ -10,7 +10,8 @@ export const createCuentasBancos = async (req, res) => {
             codigo_iban,
             referencia,
             paises_id,
-            numeros_aba_id
+            numeros_aba_id,
+            vigencia: true
         },{
             fields: [
                 'numero_cuenta',
@@ -52,7 +53,10 @@ export const updateCuentasBancos = async (req, res) => {
             numeros_aba_id
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Cuenta de banco actualizada',
@@ -94,6 +98,9 @@ export const deleteCuentasBancos = async (req, res) => {
 export const getAllCuentasBancos = async (req, res) => {
     try{
         const allCuentasBancos = await cuentas_bancos.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id', 
                 'numero_cuenta', 
@@ -102,7 +109,7 @@ export const getAllCuentasBancos = async (req, res) => {
                 'codigo_iban',
                 'referencia',
                 'paises_id',
-                'numeros_aba_id'
+                'numeros_aba_id',
             ],
             order: [
                 ['id', 'DESC']
@@ -128,7 +135,8 @@ export const getCuentasBancosId = async (req, res) => {
         const {id} = req.params;
         const cuenta_banco = await cuentas_bancos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -146,6 +154,38 @@ export const getCuentasBancosId = async (req, res) => {
             message: "", 
             cuentas_bancos: cuenta_banco
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            cuentas_bancos: null
+        });
+    };
+};
+
+export const getAllCuentasBancosWithFalse = async (req, res) => {
+    try{
+        const allCuentasBancos = await cuentas_bancos.findAll({
+            attributes: [
+                'id', 
+                'numero_cuenta', 
+                'nombre_banco',
+                'swift_code',
+                'codigo_iban',
+                'referencia',
+                'paises_id',
+                'numeros_aba_id',
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            cuentas_bancos: allCuentasBancos
+        });
     }catch(e){
         console.log(e);
         res.json({

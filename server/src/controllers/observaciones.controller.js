@@ -111,7 +111,7 @@ export const getAllObservaciones = async (req, res) => {
 export const getObservacionesId = async (req, res) => {
     try{
         const {id} = req.params;
-        const observaciones = await observaciones.findOne({
+        const observacion = await observaciones.findOne({
             where: {
                 id
             },
@@ -126,7 +126,7 @@ export const getObservacionesId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            observaciones: observaciones
+            observaciones: observacion
         }); 
     }catch(e){
         console.log(e);

@@ -27,32 +27,6 @@ export const createEfectua = async (req, res) => {
     };
 };
 
-
-export const updateEfectua = async (req, res) => {
-    try{
-        const {id} = req.params;
-        const body =  req.body;
-        const efectuaUpdate = await efectua.update({
-            body
-        },
-        {
-            where: {id}
-        });
-        res.json({
-            message: 'Relación efectua actualizada correctamente',
-            resultado: true,
-            efectua: efectuaUpdate
-        });
-    }catch(e){
-        console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador",
-            efectua: null
-        });
-    }
-};
-
 export const deleteEfectua = async (req, res) => {
     try{
         const {id} = req.params;
@@ -73,59 +47,4 @@ export const deleteEfectua = async (req, res) => {
         });
     };
     
-};
-
-export const getAllEfectua = async (req, res) => {
-    try{
-        const allEfectua = await efectua.findAll({
-            attributes: [
-                'id',
-                'observaciones_id', 
-                'agentes_aduana_id'
-            ],
-            order: [
-                ['id', 'DESC']
-            ]
-        });
-        res.json({
-            resultado: true, 
-            message: "",
-            efectua: allEfectua
-        });
-    }catch(e){
-        console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            efectua: null
-        });
-    };
-};
-
-export const getEfectuaId = async (req, res) => {
-    try{
-        const {id} = req.params;
-        const efectua = await efectua.findOne({
-            where: {
-                id
-            },
-            attributes: [
-                'id',
-                'observaciones_id', 
-                'agentes_aduana_id'
-            ]
-        });
-        res.json({
-            resultado: true, 
-            message: "", 
-            efectua: efectua
-        }); 
-    }catch(e){
-        console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            efectua: null
-        });
-    };
 };

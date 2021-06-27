@@ -6,7 +6,8 @@ export const createGastosExtras = async (req, res) => {
         let newGastoExtra = await gastosExtras.create({
             monto, 
             pedidos_id, 
-            observaciones_id
+            observaciones_id,
+            vigencia: true
         },{
             fields: [
                 'monto', 
@@ -38,7 +39,10 @@ export const updateGastosExtras = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Gasto extra actualizado correctamente',
@@ -80,6 +84,9 @@ export const deleteGastosExtras = async (req, res) => {
 export const getAllGastosExtras = async (req, res) => {
     try{
         const allGastosExtras = await gastosExtras.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'monto', 
@@ -108,9 +115,10 @@ export const getAllGastosExtras = async (req, res) => {
 export const getGastosExtrasId = async (req, res) => {
     try{
         const {id} = req.params;
-        const gastosExtras = await gastosExtras.findOne({
+        const gastoExtra = await gastosExtras.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -122,8 +130,36 @@ export const getGastosExtrasId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            gastosExtras: gastosExtras
+            gastosExtras: gastoExtra
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            gastosExtras: null
+        });
+    };
+};
+
+export const getAllGastosExtrasWithFalse = async (req, res) => {
+    try{
+        const allGastosExtras = await gastosExtras.findAll({
+            attributes: [
+                'id',
+                'monto', 
+                'pedidos_id', 
+                'observaciones_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            gastosExtras: allGastosExtras
+        });
     }catch(e){
         console.log(e);
         res.json({

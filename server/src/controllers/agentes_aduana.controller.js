@@ -9,7 +9,8 @@ export const createAgentesAduana = async (req, res) => {
             correo,
             numero_cuenta, 
             rut,
-            bancos_agentes_aduana_id
+            bancos_agentes_aduana_id,
+            vigencia: true
         },{
             fields: [
                 'nombre',
@@ -17,7 +18,8 @@ export const createAgentesAduana = async (req, res) => {
                 'correo',
                 'numero_cuenta', 
                 'rut',
-                'bancos_agentes_aduana_id'
+                'bancos_agentes_aduana_id',
+                'vigencia'
             ]
         });
         res.json({
@@ -44,7 +46,10 @@ export const updateAgentesAduana = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Agente de aduana actualizado correctamente',
@@ -86,6 +91,40 @@ export const deleteAgentesAduana = async (req, res) => {
 export const getAllAgentesAduana = async (req, res) => {
     try{
         const allAgentesAduana = await agentes_aduana.findAll({
+            where: {
+                vigencia: true
+            },
+            attributes: [
+                'id', 
+                'nombre', 
+                'apellido',
+                'correo',
+                'numero_cuenta', 
+                'rut',
+                'bancos_agentes_aduana_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            agentes_aduana: allAgentesAduana
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            agentes_aduana: null
+        });
+    };
+};
+
+export const getAllAgentesAduanaWithFalse = async (req, res) => {
+    try{
+        const allAgentesAduana = await agentes_aduana.findAll({
             attributes: [
                 'id', 
                 'nombre', 
@@ -119,7 +158,8 @@ export const getAgentesAduanaId = async (req, res) => {
         const {id} = req.params;
         const agente_aduana = await agentes_aduana.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 

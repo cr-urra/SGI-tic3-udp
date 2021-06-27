@@ -115,7 +115,7 @@ export const getAllProductos = async (req, res) => {
 export const getProductosId = async (req, res) => {
     try{
         const {id} = req.params;
-        const productos = await productos.findOne({
+        const producto = await productos.findOne({
             where: {
                 id
             },
@@ -131,7 +131,7 @@ export const getProductosId = async (req, res) => {
         res.json({
             resultado: true, 
             message: "", 
-            productos: productos
+            productos: producto
         }); 
     }catch(e){
         console.log(e);
