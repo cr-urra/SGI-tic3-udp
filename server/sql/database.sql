@@ -31,7 +31,8 @@ CREATE TABLE public.agentes_aduana (
     correo character varying(30),
     numero_cuenta character varying(30),
     bancos_agentes_aduana_id integer,
-    rut character varying(30)
+    rut character varying(30),
+    vigencia boolean
 );
 
 
@@ -67,7 +68,8 @@ CREATE TABLE public.bancos_agentes_aduana (
     id integer NOT NULL,
     numero_cuenta character varying(30),
     tipo_cuenta character varying(30),
-    nombre_banco character varying(30)
+    nombre_banco character varying(30),
+    vigencia boolean
 );
 
 
@@ -121,7 +123,8 @@ CREATE TABLE public.cuentas_bancos (
     codigo_iban character varying(30),
     referencia text,
     paises_id integer,
-    numeros_aba_id integer
+    numeros_aba_id integer,
+    vigencia boolean
 );
 
 
@@ -157,7 +160,8 @@ CREATE TABLE public.cuentas_corrientes (
     id integer NOT NULL,
     debe double precision,
     haber double precision,
-    agentes_aduana_id integer
+    agentes_aduana_id integer,
+    vigencia boolean
 );
 
 
@@ -192,7 +196,8 @@ ALTER SEQUENCE public.cuentas_corrientes_id_seq OWNED BY public.cuentas_corrient
 CREATE TABLE public.detalles_dolar (
     id integer NOT NULL,
     precio_compra double precision,
-    historial_dolar_id integer
+    historial_dolar_id integer,
+    vigencia boolean
 );
 
 
@@ -262,7 +267,8 @@ ALTER SEQUENCE public.detalles_pedidos_id_seq OWNED BY public.detalles_pedidos.i
 CREATE TABLE public.documentos (
     id integer NOT NULL,
     nombre_documento character varying(30),
-    pedidos_id integer
+    pedidos_id integer,
+    vigencia boolean
 );
 
 
@@ -297,7 +303,8 @@ ALTER SEQUENCE public.documentos_id_seq OWNED BY public.documentos.id;
 CREATE TABLE public.dolar_mensual (
     id integer NOT NULL,
     valor_mensual double precision,
-    fecha_registro timestamp without time zone
+    fecha_registro timestamp without time zone,
+    vigencia boolean
 );
 
 
@@ -345,7 +352,8 @@ CREATE TABLE public.gastos_extras (
     id integer NOT NULL,
     monto double precision,
     pedidos_id integer,
-    observaciones_id integer
+    observaciones_id integer,
+    vigencia boolean
 );
 
 
@@ -381,7 +389,8 @@ CREATE TABLE public.historial_dolar (
     id integer NOT NULL,
     fecha timestamp without time zone,
     precio double precision,
-    dolar_mensual_id integer
+    dolar_mensual_id integer,
+    vigencia boolean
 );
 
 
@@ -417,7 +426,8 @@ CREATE TABLE public.historial_precios (
     id integer NOT NULL,
     precio double precision,
     fecha timestamp without time zone,
-    productos_id integer
+    productos_id integer,
+    vigencia boolean
 );
 
 
@@ -487,7 +497,8 @@ ALTER SEQUENCE public.ips_id_seq OWNED BY public.ips.id;
 CREATE TABLE public.monedas (
     id integer NOT NULL,
     pais character varying(30),
-    moneda character varying(15)
+    moneda character varying(15),
+    vigencia boolean
 );
 
 
@@ -524,7 +535,8 @@ CREATE TABLE public.movimientos (
     monto double precision,
     fecha date,
     descripcion text,
-    cuentas_corrientes_id integer
+    cuentas_corrientes_id integer,
+    vigencia boolean
 );
 
 
@@ -559,7 +571,8 @@ ALTER SEQUENCE public.movimientos_id_seq OWNED BY public.movimientos.id;
 CREATE TABLE public.numeros_aba (
     id integer NOT NULL,
     nombre_banco character varying(30),
-    numero_aba numeric(9,0)
+    numero_aba numeric(9,0),
+    vigencia boolean
 );
 
 
@@ -596,7 +609,8 @@ CREATE TABLE public.observaciones (
     observacion text,
     fecha date,
     gasto boolean,
-    pedidos_id integer
+    pedidos_id integer,
+    vigencia boolean
 );
 
 
@@ -631,7 +645,8 @@ ALTER SEQUENCE public.observaciones_id_seq OWNED BY public.observaciones.id;
 CREATE TABLE public.paises (
     id integer NOT NULL,
     pais character varying(30),
-    codigo_iban character varying(30)
+    codigo_iban character varying(30),
+    vigencia boolean
 );
 
 
@@ -690,7 +705,8 @@ CREATE TABLE public.pedidos (
     proveedores_id integer,
     dolar_mensual_id integer,
     tipo_pago boolean,
-    fecha_vencimiento date
+    fecha_vencimiento date,
+    vigencia boolean
 );
 
 
@@ -728,7 +744,8 @@ CREATE TABLE public.productos (
     nombre character varying(30),
     tipo character varying(30),
     proveedores_id integer,
-    unidad_productos_id integer
+    unidad_productos_id integer,
+    vigencia boolean
 );
 
 
@@ -767,7 +784,8 @@ CREATE TABLE public.proveedores (
     correo character varying(30),
     pais character varying(30),
     monedas_id integer,
-    rut character varying(30)
+    rut character varying(30),
+    vigencia boolean
 );
 
 
@@ -851,7 +869,8 @@ ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 CREATE TABLE public.telefonos_agentes_aduana (
     id integer NOT NULL,
     telefono numeric(9,0),
-    agentes_aduana_id integer
+    agentes_aduana_id integer,
+    vigencia boolean
 );
 
 
@@ -886,7 +905,8 @@ ALTER SEQUENCE public.telefonos_agentes_aduana_id_seq OWNED BY public.telefonos_
 CREATE TABLE public.telefonos_proveedores (
     id integer NOT NULL,
     telefono integer,
-    proveedores_id integer
+    proveedores_id integer,
+    vigencia boolean
 );
 
 
@@ -970,7 +990,8 @@ ALTER TABLE public.tiene OWNER TO postgres;
 CREATE TABLE public.unidad_productos (
     id integer NOT NULL,
     tipo character varying(30),
-    valor_unidad double precision
+    valor_unidad double precision,
+    vigencia boolean
 );
 
 
@@ -1224,9 +1245,9 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id SET DEFAULT nextval('public.usu
 -- Data for Name: agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_agentes_aduana_id, rut) FROM stdin;
-1	Jose	Perez	jose@gmail.com	1C	\N	123456789
-5	Eustaquio	Salvatore	eustaquio@gmail.com	8984445	2	111223334
+COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_agentes_aduana_id, rut, vigencia) FROM stdin;
+1	Jose	Perez	jose@gmail.com	1C	\N	123456789	t
+5	Eustaquio	Salvatore	eustaquio@gmail.com	8984445	2	111223334	t
 \.
 
 
@@ -1234,9 +1255,9 @@ COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_
 -- Data for Name: bancos_agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco) FROM stdin;
-1	1C	Cuenta corriente	Banco 1
-2	8984445	Cuenta RUT	Banco Santander
+COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco, vigencia) FROM stdin;
+1	1C	Cuenta corriente	Banco 1	t
+2	8984445	Cuenta RUT	Banco Santander	t
 \.
 
 
@@ -1252,10 +1273,10 @@ COPY public.cobra (pedidos_id, historial_dolar_id, created_at, updated_at) FROM 
 -- Data for Name: cuentas_bancos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id) FROM stdin;
-1	1	Banco estado	A	B	C	\N	\N
-2	245	Banco de Chile	234	2	Referencia 1	3	3
-4	345	Banco ITU	3D4	1	Referencia 345	4	4
+COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, vigencia) FROM stdin;
+2	245	Banco de Chile	234	2	Referencia 1	3	3	t
+4	345	Banco ITU	3D4	1	Referencia 345	4	4	t
+1	1	Banco estado	A	B	C	3	3	t
 \.
 
 
@@ -1263,8 +1284,8 @@ COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_
 -- Data for Name: cuentas_corrientes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id) FROM stdin;
-3	928374657	532323	5
+COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FROM stdin;
+3	928374657	532323	5	t
 \.
 
 
@@ -1272,9 +1293,9 @@ COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id) FROM stdin;
 -- Data for Name: detalles_dolar; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.detalles_dolar (id, precio_compra, historial_dolar_id) FROM stdin;
-1	1	1
-2	234	2
+COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FROM stdin;
+1	1	1	t
+2	234	2	t
 \.
 
 
@@ -1283,8 +1304,6 @@ COPY public.detalles_dolar (id, precio_compra, historial_dolar_id) FROM stdin;
 --
 
 COPY public.detalles_pedidos (id, diferencia_de_costos, pedidos_id) FROM stdin;
-1	1	1
-2	3	1
 \.
 
 
@@ -1292,9 +1311,7 @@ COPY public.detalles_pedidos (id, diferencia_de_costos, pedidos_id) FROM stdin;
 -- Data for Name: documentos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.documentos (id, nombre_documento, pedidos_id) FROM stdin;
-1	Registro de camello	1
-2	Certificación de burro	1
+COPY public.documentos (id, nombre_documento, pedidos_id, vigencia) FROM stdin;
 \.
 
 
@@ -1302,9 +1319,9 @@ COPY public.documentos (id, nombre_documento, pedidos_id) FROM stdin;
 -- Data for Name: dolar_mensual; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.dolar_mensual (id, valor_mensual, fecha_registro) FROM stdin;
-1	1	2021-06-13 22:43:24.006961
-3	378274	2021-06-14 22:53:06.621046
+COPY public.dolar_mensual (id, valor_mensual, fecha_registro, vigencia) FROM stdin;
+1	1	2021-06-13 22:43:24.006961	t
+3	378274	2021-06-14 22:53:06.621046	t
 \.
 
 
@@ -1313,7 +1330,6 @@ COPY public.dolar_mensual (id, valor_mensual, fecha_registro) FROM stdin;
 --
 
 COPY public.efectua (observaciones_id, agentes_aduana_id) FROM stdin;
-3	5
 \.
 
 
@@ -1321,8 +1337,7 @@ COPY public.efectua (observaciones_id, agentes_aduana_id) FROM stdin;
 -- Data for Name: gastos_extras; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id) FROM stdin;
-1	12893	1	3
+COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FROM stdin;
 \.
 
 
@@ -1330,9 +1345,9 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id) FROM stdin;
 -- Data for Name: historial_dolar; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.historial_dolar (id, fecha, precio, dolar_mensual_id) FROM stdin;
-1	2021-06-13 22:44:50.910426	1	1
-2	2021-06-14 22:58:20.755816	123	3
+COPY public.historial_dolar (id, fecha, precio, dolar_mensual_id, vigencia) FROM stdin;
+1	2021-06-13 22:44:50.910426	1	1	t
+2	2021-06-14 22:58:20.755816	123	3	t
 \.
 
 
@@ -1340,8 +1355,8 @@ COPY public.historial_dolar (id, fecha, precio, dolar_mensual_id) FROM stdin;
 -- Data for Name: historial_precios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.historial_precios (id, precio, fecha, productos_id) FROM stdin;
-3	122	2021-06-14 00:00:00	1
+COPY public.historial_precios (id, precio, fecha, productos_id, vigencia) FROM stdin;
+3	122	2021-06-14 00:00:00	1	t
 \.
 
 
@@ -1358,10 +1373,10 @@ COPY public.ips (id, ip, usuarios_id) FROM stdin;
 -- Data for Name: monedas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.monedas (id, pais, moneda) FROM stdin;
-1	Chile	CLP
-2	Estados Unidos	USD
-3	Argentina	ARS
+COPY public.monedas (id, pais, moneda, vigencia) FROM stdin;
+1	Chile	CLP	t
+2	Estados Unidos	USD	t
+3	Argentina	ARS	t
 \.
 
 
@@ -1369,9 +1384,9 @@ COPY public.monedas (id, pais, moneda) FROM stdin;
 -- Data for Name: movimientos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.movimientos (id, monto, fecha, descripcion, cuentas_corrientes_id) FROM stdin;
-1	6873478	2021-06-14	Descripcion 2	3
-3	2323	2021-06-14	Descripcion 4	3
+COPY public.movimientos (id, monto, fecha, descripcion, cuentas_corrientes_id, vigencia) FROM stdin;
+1	6873478	2021-06-14	Descripcion 2	3	t
+3	2323	2021-06-14	Descripcion 4	3	t
 \.
 
 
@@ -1379,10 +1394,10 @@ COPY public.movimientos (id, monto, fecha, descripcion, cuentas_corrientes_id) F
 -- Data for Name: numeros_aba; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.numeros_aba (id, nombre_banco, numero_aba) FROM stdin;
-1	Banco estado	1
-3	Banco de Chile	4
-4	Banco ITU	9
+COPY public.numeros_aba (id, nombre_banco, numero_aba, vigencia) FROM stdin;
+1	Banco estado	1	t
+3	Banco de Chile	4	t
+4	Banco ITU	9	t
 \.
 
 
@@ -1390,9 +1405,7 @@ COPY public.numeros_aba (id, nombre_banco, numero_aba) FROM stdin;
 -- Data for Name: observaciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.observaciones (id, observacion, fecha, gasto, pedidos_id) FROM stdin;
-2	El camello explotó	2021-06-14	f	1
-3	El camello perdió la cabeza	2021-06-14	t	1
+COPY public.observaciones (id, observacion, fecha, gasto, pedidos_id, vigencia) FROM stdin;
 \.
 
 
@@ -1400,10 +1413,9 @@ COPY public.observaciones (id, observacion, fecha, gasto, pedidos_id) FROM stdin
 -- Data for Name: paises; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.paises (id, pais, codigo_iban) FROM stdin;
-1	Chile	123
-3	Estados Unidos	2
-4	Argentina	1
+COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
+3	Estados Unidos	2	t
+4	Argentina	1	t
 \.
 
 
@@ -1411,9 +1423,8 @@ COPY public.paises (id, pais, codigo_iban) FROM stdin;
 -- Data for Name: pedidos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento) FROM stdin;
-1	1	1	pedido1	10000	\N	\N	2021-06-13	2021-06-13	2021-06-13	2021-06-13	2021-06-13	F	Camello	1	\N	1	1	1	1	\N	1	1	1	1	t	2021-06-13
-7	3	4	pedido3	10000	100	2021-06-13	2021-06-13	2021-06-13	2021-06-13	2021-06-13	2021-06-13	F	Camello	1	\N	1	1	1	1	1	1	1	1	1	t	2021-06-13
+COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
+7	3	4	pedido3	10000	100	2021-06-13	2021-06-13	2021-06-13	2021-06-13	2021-06-13	2021-06-13	F	Camello	1	\N	1	1	1	1	1	1	1	1	1	t	2021-06-13	t
 \.
 
 
@@ -1421,8 +1432,8 @@ COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fec
 -- Data for Name: productos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_productos_id) FROM stdin;
-1	PL1	Plastico 1	Plastico	7	1
+COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_productos_id, vigencia) FROM stdin;
+1	PL1	Plastico 1	Plastico	7	1	t
 \.
 
 
@@ -1430,11 +1441,11 @@ COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_producto
 -- Data for Name: proveedores; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut) FROM stdin;
-1	Colun	Calle 123	colun@gmail.com	Chile	\N	123456888
-2	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	\N
-3	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	\N
-7	Soprole	Av. Alvaro Gamboa 1313	soprole@gmail.com	Argentina	3	123432563
+COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, vigencia) FROM stdin;
+1	Colun	Calle 123	colun@gmail.com	Chile	\N	123456888	t
+2	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	\N	t
+3	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	\N	t
+7	Soprole	Av. Alvaro Gamboa 1313	soprole@gmail.com	Argentina	3	123432563	t
 \.
 
 
@@ -1461,9 +1472,9 @@ COPY public.roles (id, nombre, cod_rol) FROM stdin;
 -- Data for Name: telefonos_agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.telefonos_agentes_aduana (id, telefono, agentes_aduana_id) FROM stdin;
-1	96184222	\N
-4	928374657	5
+COPY public.telefonos_agentes_aduana (id, telefono, agentes_aduana_id, vigencia) FROM stdin;
+1	96184222	\N	t
+4	928374657	5	t
 \.
 
 
@@ -1471,13 +1482,13 @@ COPY public.telefonos_agentes_aduana (id, telefono, agentes_aduana_id) FROM stdi
 -- Data for Name: telefonos_proveedores; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.telefonos_proveedores (id, telefono, proveedores_id) FROM stdin;
-1	962189955	1
-2	954106748	2
-3	\N	\N
-4	954106748	3
-5	932485947	7
-6	932485947	7
+COPY public.telefonos_proveedores (id, telefono, proveedores_id, vigencia) FROM stdin;
+1	962189955	1	t
+2	954106748	2	t
+3	\N	\N	t
+4	954106748	3	t
+5	932485947	7	t
+6	932485947	7	t
 \.
 
 
@@ -1502,8 +1513,8 @@ COPY public.tiene (pedidos_id, productos_id, created_at, updated_at) FROM stdin;
 -- Data for Name: unidad_productos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.unidad_productos (id, tipo, valor_unidad) FROM stdin;
-1	Toneladas	1000
+COPY public.unidad_productos (id, tipo, valor_unidad, vigencia) FROM stdin;
+1	Toneladas	1000	t
 \.
 
 
@@ -1556,14 +1567,14 @@ SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 2, true);
 -- Name: detalles_pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalles_pedidos_id_seq', 2, true);
+SELECT pg_catalog.setval('public.detalles_pedidos_id_seq', 10, true);
 
 
 --
 -- Name: documentos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.documentos_id_seq', 2, true);
+SELECT pg_catalog.setval('public.documentos_id_seq', 3, true);
 
 
 --
@@ -1577,7 +1588,7 @@ SELECT pg_catalog.setval('public.dolar_mensual_id_seq', 3, true);
 -- Name: gastos_extras_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.gastos_extras_id_seq', 1, true);
+SELECT pg_catalog.setval('public.gastos_extras_id_seq', 4, true);
 
 
 --
