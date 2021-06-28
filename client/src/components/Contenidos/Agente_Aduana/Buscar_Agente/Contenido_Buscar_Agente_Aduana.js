@@ -17,15 +17,16 @@ export default class Init extends Component {
         console.log(res,"agentes");
         for (let i= 0; i < res.data.agentes_aduana.length ; i++){
             const aux = await axios.get("/bancosAgentesAduana/"+res.data.agentes_aduana[i].bancos_agentes_aduana_id,{}) 
-            console.log(aux)
+            const aux2 = await axios.get("/telefonosAgentesAduana/agentes/"+res.data.agentes_aduana[i].id,{})       
+            console.log( await axios.get("/telefonosAgentesAduana/agentes/"+res.data.agentes_aduana[i].id,{}) )
             const agente = {
                 nombre: res.data.agentes_aduana[i].nombre,
                 apellido: res.data.agentes_aduana[i].apellido,
-                telefono: "falta conectar dato",
-                banco: res.data.agentes_aduana[i].bancos_agentes_aduana_id,
+                telefono: aux2.data.telefono[0].telefono,
+                banco: aux.data.bancosAgentesAduana.nombre_banco,
                 n_cuenta: res.data.agentes_aduana[i].numero_cuenta,
                 correo: res.data.agentes_aduana[i].correo,
-                tipo_cuenta: "falta conectar dato",
+                tipo_cuenta: aux.data.bancosAgentesAduana.tipo_cuenta,
                 saldo: "falta conectar dato",
                 cuenta_corriente: [
                     {

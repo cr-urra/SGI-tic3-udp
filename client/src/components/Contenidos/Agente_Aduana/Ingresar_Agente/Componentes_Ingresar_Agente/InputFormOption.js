@@ -15,9 +15,9 @@ export default class Contenido_Agente_Aduana extends Component {
                     <div className="col-8">
                         <select className="form-select ancho alto" name={this.props.name} id="inputGroupSelect01" value = {this.props.field2} onChange={this.props.onChange} >
                           <option defaultValue>Tipo de Cuenta</option>
-                          <option value="1">Cuenta Corriente</option>
-                          <option value="2">Cuenta de Ahorros</option>
-                          <option value="3">Cuenta Vista</option>
+                          <option value="Cuenta Corriente">Cuenta Corriente</option>
+                          <option value="Cuenta de Ahorros">Cuenta de Ahorros</option>
+                          <option value="Cuenta Vista">Cuenta Vista</option>
                         </select> 
                     </div>
                 </div>

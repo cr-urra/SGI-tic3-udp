@@ -3,8 +3,11 @@ import axios from 'axios';
 import InputForm from './InputForm'
 import InputFormOption  from './InputFormOption'
 import Modal from 'react-bootstrap/Modal'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
+toast.configure()
 
 export default class Contenido_Agente_Aduana extends Component {
 
@@ -16,7 +19,8 @@ export default class Contenido_Agente_Aduana extends Component {
         n_cuenta: null,
         tipo_cuenta: null,
         correo: null,
-        show: false
+        show: false,
+        rut: null
     }
 
 
@@ -32,22 +36,45 @@ export default class Contenido_Agente_Aduana extends Component {
         })
     }
 
+    notificacion = (data) =>{
+        if(data.message === "Agente de aduana creado correctamente") toast.success(data.message, {position: toast.POSITION.TOP_CENTER})
+
+        
+    }
+
 
     onSubmit = async e => {
         e.preventDefault();
+        axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')        
+        const banco = {
+            numero_cuenta: this.state.n_cuenta,
+            tipo_cuenta: this.state.tipo_cuenta,
+            nombre_banco: this.state.banco,
+        }                    
+        const id = await axios.post("/bancosAgentesAduana/", banco)              
         const Agente = {
             nombre: this.state.nombre,
-            apellido: this.state.apellido,
-            telefono: this.state.telefono,
-            banco: this.state.banco,
-            n_cuenta: this.state.n_cuenta,
-            tipo_cuenta: this.state.tipo_cuenta,
-            correo: this.state.correo            
+            apellido: this.state.apellido,  
+            numero_cuenta: this.state.n_cuenta,          
+            correo: this.state.correo,
+            bancos_agentes_aduana_id: id.data.bancosAgentesAduana.id,
+            rut: this.state.rut
         }
-        console.log(Agente)
-        const res = await axios.post("/sacate-la-url/", Agente)        
-        alert(res.data.message)
+        const res = await axios.post("/agentesAduana/", Agente)
+        console.log(res)
+        const telefono = {
+            telefono: this.state.telefono,
+            agentes_aduana_id: res.data.agentes_aduana.id
+        }
+        const aux = await axios.post("/telefonosAgentesAduana/",telefono)
 
+       
+        this.notificacion(res.data)
+       
+        this.setState({
+            show: false
+        })
+        
     }
 
     onChange = e => {
@@ -63,6 +90,7 @@ export default class Contenido_Agente_Aduana extends Component {
                     <div className="row g-2 mt-2 mb-2">
                         <InputForm field ="Nombre" onChange = {this.onChange} field2 = {this.state.nombre} name="nombre" />
                         <InputForm field ="Apellido" onChange = {this.onChange} field2 = {this.state.apellido} name="apellido" />
+                        <InputForm field ="Rut" onChange = {this.onChange} field2 = {this.state.rut} name="rut" />
                         <InputForm field ="Telefono" onChange = {this.onChange} field2 = {this.state.telefono} name="telefono" placeholder={"Ej: +569 12345678"}></InputForm>
                         <InputForm field ="Correo" onChange = {this.onChange} field2 = {this.state.correo} name="correo"></InputForm>
                         <InputForm field ="Banco" onChange = {this.onChange} field2 = {this.state.banco} name="banco"></InputForm>
