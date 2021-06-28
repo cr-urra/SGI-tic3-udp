@@ -124,10 +124,6 @@ export const getAllUsuarios = async (req, res) => {
                 ]
             ]
         });
-        req.body = {
-            hello: "jkhasbdflijbsefik"
-        };
-        await ct.getConsole(req,res);
         res.json({
             resultado: true,
             message: "",

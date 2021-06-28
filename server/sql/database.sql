@@ -868,7 +868,7 @@ ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 
 CREATE TABLE public.telefonos_agentes_aduana (
     id integer NOT NULL,
-    telefono numeric(9,0),
+    telefono integer,
     agentes_aduana_id integer,
     vigencia boolean
 );
@@ -904,7 +904,7 @@ ALTER SEQUENCE public.telefonos_agentes_aduana_id_seq OWNED BY public.telefonos_
 
 CREATE TABLE public.telefonos_proveedores (
     id integer NOT NULL,
-    telefono integer,
+    telefono character varying,
     proveedores_id integer,
     vigencia boolean
 );
@@ -940,7 +940,7 @@ ALTER SEQUENCE public.telefonos_proveedores_id_seq OWNED BY public.telefonos_pro
 
 CREATE TABLE public.telefonos_usuarios (
     id integer NOT NULL,
-    telefono numeric(9,0),
+    telefono character varying,
     usuarios_id integer
 );
 
@@ -1246,8 +1246,8 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id SET DEFAULT nextval('public.usu
 --
 
 COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_agentes_aduana_id, rut, vigencia) FROM stdin;
-1	Jose	Perez	jose@gmail.com	1C	\N	123456789	t
 5	Eustaquio	Salvatore	eustaquio@gmail.com	8984445	2	111223334	t
+1	Jose	Perez	jose@gmail.com	1C	1	123456789	t
 \.
 
 
@@ -1258,6 +1258,7 @@ COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_
 COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco, vigencia) FROM stdin;
 1	1C	Cuenta corriente	Banco 1	t
 2	8984445	Cuenta RUT	Banco Santander	t
+3	8974378374	Cuenta corriente	Banco ITAU	t
 \.
 
 
@@ -1473,8 +1474,10 @@ COPY public.roles (id, nombre, cod_rol) FROM stdin;
 --
 
 COPY public.telefonos_agentes_aduana (id, telefono, agentes_aduana_id, vigencia) FROM stdin;
-1	96184222	\N	t
 4	928374657	5	t
+1	96184222	1	t
+5	12676398	1	t
+6	89743783	\N	t
 \.
 
 
@@ -1539,7 +1542,7 @@ SELECT pg_catalog.setval('public.agentes_aduana_id_seq', 5, true);
 -- Name: bancos_agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.bancos_agentes_aduana_id_seq', 2, true);
+SELECT pg_catalog.setval('public.bancos_agentes_aduana_id_seq', 3, true);
 
 
 --
@@ -1679,7 +1682,7 @@ SELECT pg_catalog.setval('public.roles_id_seq', 3, true);
 -- Name: telefonos_agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 4, true);
+SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 6, true);
 
 
 --
