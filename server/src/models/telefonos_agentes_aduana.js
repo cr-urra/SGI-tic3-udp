@@ -11,6 +11,9 @@ const telefonos_agentes_aduana = database.define('telefonos_agentes_aduana',{
     },
     agentes_aduana_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

@@ -5,11 +5,13 @@ export const createPaises = async (req, res) => {
         const {pais, codigo_iban} = req.body;
         let newPais = await paises.create({
             pais,
-            codigo_iban
+            codigo_iban,
+            vigencia: true
         },{
             fields: [
                 'pais',
-                'codigo_iban'
+                'codigo_iban',
+                'vigencia'
             ]
         });
         res.json({
@@ -36,7 +38,10 @@ export const updatePaises = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'País actualizado',
@@ -78,6 +83,9 @@ export const deletePaises = async (req, res) => {
 export const getAllPaises = async (req, res) => {
     try{
         const allPaises = await paises.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id', 
                 'pais', 
@@ -120,6 +128,33 @@ export const getPaisesId = async (req, res) => {
             message: "", 
             paises: pais
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            paises: null
+        });
+    };
+};
+
+export const getAllPaisesWithFalse = async (req, res) => {
+    try{
+        const allPaises = await paises.findAll({
+            attributes: [
+                'id', 
+                'pais', 
+                'codigo_iban'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            paises: allPaises
+        });
     }catch(e){
         console.log(e);
         res.json({

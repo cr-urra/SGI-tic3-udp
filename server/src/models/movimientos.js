@@ -17,6 +17,9 @@ const movimientos = database.define('movimientos',{
     },
     descripcion:{
         type: sequelize.TEXT
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

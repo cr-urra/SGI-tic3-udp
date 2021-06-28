@@ -14,6 +14,9 @@ const cuentas_corrientes = database.define('cuentas_corrientes',{
     },
     agentes_aduana_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

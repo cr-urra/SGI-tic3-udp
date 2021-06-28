@@ -11,6 +11,9 @@ const telefonos_proveedores = database.define('telefonos_proveedores',{
     },
     proveedores_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

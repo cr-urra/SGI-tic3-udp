@@ -11,6 +11,9 @@ const monedas = database.define('monedas',{
     },
     moneda:{
         type: sequelize.STRING
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

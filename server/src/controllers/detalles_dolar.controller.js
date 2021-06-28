@@ -10,7 +10,8 @@ export const createDetallesDolar = async (req, res) => {
         },{
             fields: [
                 'precio_compra', 
-                'historial_dolar_id'
+                'historial_dolar_id',
+                'vigencia'
             ]
         });
         res.json({

@@ -6,11 +6,12 @@ import * as detallesDolar from '../controllers/detalles_dolar.controller';
 
 router.post('/', detallesDolar.createDetallesDolar);
 router.get('/', detallesDolar.getAllDetallesDolar);
+router.get('/all', detallesDolar.getAllDetallesDolarWithFalse);
 
 // detallesDolar/:id
 
 router.put('/:id', detallesDolar.updateDetallesDolar);
-router.delete('/:id', detallesDolar.deleteDetallesDolar);
+router.put('/delete/:id', detallesDolar.deleteDetallesDolar);
 router.get('/:id', detallesDolar.getDetallesDolarId);
 
 module.exports = router;

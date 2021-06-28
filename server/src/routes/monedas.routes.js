@@ -4,8 +4,9 @@ import * as monedas from '../controllers/monedas.controller';
 
 // monedas
 
-router.post('/', monedas.createmonedas);
+router.post('/', monedas.createMonedas);
 router.get('/', monedas.getAllMonedas);
+router.get('/all', monedas.getAllMonedasWithFalse);
 
 // monedas/:id
 

@@ -7,13 +7,15 @@ export const createObservaciones = async (req, res) => {
             observacion, 
             fecha, 
             gasto, 
-            pedidos_id
+            pedidos_id,
+            vigencia: true
         },{
             fields: [
                 'observacion', 
                 'fecha', 
                 'gasto', 
-                'pedidos_id'
+                'pedidos_id',
+                'vigencia'
             ]
         });
         res.json({
@@ -40,7 +42,10 @@ export const updateObservaciones = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Observación actualizada',
@@ -82,6 +87,9 @@ export const deleteObservaciones = async (req, res) => {
 export const getAllObservaciones = async (req, res) => {
     try{
         const allObservaciones = await observaciones.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'observacion', 
@@ -113,7 +121,8 @@ export const getObservacionesId = async (req, res) => {
         const {id} = req.params;
         const observacion = await observaciones.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -128,6 +137,35 @@ export const getObservacionesId = async (req, res) => {
             message: "", 
             observaciones: observacion
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            observaciones: null
+        });
+    };
+};
+
+export const getAllObservacionesWithFalse = async (req, res) => {
+    try{
+        const allObservaciones = await observaciones.findAll({
+            attributes: [
+                'id',
+                'observacion', 
+                'fecha', 
+                'gasto', 
+                'pedidos_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            observaciones: allObservaciones
+        });
     }catch(e){
         console.log(e);
         res.json({

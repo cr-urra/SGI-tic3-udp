@@ -13,7 +13,8 @@ export const createHistorialDolar = async (req, res) => {
             fields: [
                 'precio', 
                 'dolar_mensual_id',
-                'fecha'
+                'fecha',
+                'vigencia'
             ]
         });
         res.json({

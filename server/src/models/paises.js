@@ -11,6 +11,9 @@ const paises = database.define('paises',{
     },
     codigo_iban:{
         type: sequelize.STRING
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

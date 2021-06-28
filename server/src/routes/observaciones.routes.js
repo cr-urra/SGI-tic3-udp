@@ -6,11 +6,12 @@ import * as observaciones from '../controllers/observaciones.controller';
 
 router.post('/', observaciones.createObservaciones);
 router.get('/', observaciones.getAllObservaciones);
+router.get('/all', observaciones.getAllObservacionesWithFalse);
 
 // observaciones/:id
 
 router.put('/:id', observaciones.updateObservaciones);
-router.delete('/:id', observaciones.deleteObservaciones);
+router.put('/delete/:id', observaciones.deleteObservaciones);
 router.get('/:id', observaciones.getObservacionesId);
 
 module.exports = router;

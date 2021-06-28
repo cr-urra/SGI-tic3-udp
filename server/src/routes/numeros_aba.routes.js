@@ -6,11 +6,12 @@ import * as numerosAba from '../controllers/numeros_aba.controller';
 
 router.post('/', numerosAba.createNumerosAba);
 router.get('/', numerosAba.getAllNumerosAba);
+router.get('/all', numerosAba.getAllNumerosAbaWithFalse);
 
 // numerosAba/:id
 
 router.put('/:id', numerosAba.updateNumerosAba);
-router.delete('/:id', numerosAba.deleteNumerosAba);
+router.put('/delete/:id', numerosAba.deleteNumerosAba);
 router.get('/:id', numerosAba.getNumerosAbaId);
 
 module.exports = router;

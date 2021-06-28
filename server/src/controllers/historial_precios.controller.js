@@ -6,12 +6,14 @@ export const createHistorialPrecios = async (req, res) => {
         let newHistorialPrecios = await historialPrecios.create({
             precio, 
             productos_id,
-            fecha
+            fecha,
+            vigencia: true
         },{
             fields: [
                 'precio', 
                 'productos_id',
-                'fecha'
+                'fecha',
+                'vigencia'
             ]
         });
         res.json({
@@ -38,7 +40,10 @@ export const updateHistorialPrecios = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Precio actualizado correctamente en historial',
@@ -80,6 +85,9 @@ export const deleteHistorialPrecios = async (req, res) => {
 export const getAllHistorialPrecios = async (req, res) => {
     try{
         const allHistorialPrecios = await historialPrecios.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'precio', 
@@ -110,7 +118,8 @@ export const getHistorialPreciosId = async (req, res) => {
         const {id} = req.params;
         const historialPrecio = await historialPrecios.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -124,6 +133,34 @@ export const getHistorialPreciosId = async (req, res) => {
             message: "", 
             historialPrecios: historialPrecio
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            historialPrecios: null
+        });
+    };
+};
+
+export const getAllHistorialPreciosWithFalse = async (req, res) => {
+    try{
+        const allHistorialPrecios = await historialPrecios.findAll({
+            attributes: [
+                'id',
+                'precio', 
+                'fecha', 
+                'productos_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            historialPrecios: allHistorialPrecios
+        });
     }catch(e){
         console.log(e);
         res.json({

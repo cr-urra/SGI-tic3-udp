@@ -11,6 +11,9 @@ const numeros_aba = database.define('numeros_aba',{
     },
     numero_aba:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

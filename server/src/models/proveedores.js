@@ -23,6 +23,9 @@ const proveedores = database.define('proveedores',{
     },
     rut:{
         type: sequelize.STRING
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 
 },{

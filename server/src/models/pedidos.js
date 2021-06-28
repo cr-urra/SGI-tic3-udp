@@ -80,6 +80,9 @@ const pedidos = database.define('pedidos',{
     },
     tipo_pago:{
         type: sequelize.BOOLEAN
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false,

@@ -11,7 +11,8 @@ export const createDolarMensual = async (req, res) => {
         },{
             fields: [
                 'valor_mensual',
-                'fecha_registro'
+                'fecha_registro',
+                'vigencia'
             ]
         });
         res.json({
