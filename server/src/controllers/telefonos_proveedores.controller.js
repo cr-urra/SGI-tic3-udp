@@ -38,7 +38,8 @@ export const updateTelefonosProveedores = async (req, res) => {
         },
         {
             where: {
-                id
+                id,
+                vigencia: true
             }
         });
         res.json({
@@ -82,7 +83,8 @@ export const getTelefonosProveedoresId = async (req, res) => {
         const {id} = req.params;
         const telefono = await telefonosProveedores.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -106,6 +108,39 @@ export const getTelefonosProveedoresId = async (req, res) => {
 };
 
 export const getAllTelefonosProveedores = async (req, res) => {
+    try{
+        const allTelefonos = await telefonosProveedores.findAll({
+            where: {
+                vigencia: true
+            },
+            attributes: [
+                'id', 
+                'telefono', 
+                'proveedores_id'
+            ],
+            order: [
+                [
+                    'id', 
+                    'DESC'
+                ]
+            ]
+        });
+        res.json({
+            resultado: true,
+            message: "",
+            telefonos: allTelefonos
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false,
+            telefonos: null
+        });
+    }
+};
+
+export const getAllTelefonosProveedoresWithFalse = async (req, res) => {
     try{
         const allTelefonos = await telefonosProveedores.findAll({
             attributes: [

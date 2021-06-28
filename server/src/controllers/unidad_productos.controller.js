@@ -5,11 +5,13 @@ export const createUnidadProductos = async (req, res) => {
         const {tipo, valor_unidad} = req.body;
         let newUnidadProducto = await unidadProductos.create({
             tipo, 
-            valor_unidad
+            valor_unidad,
+            vigencia: true
         },{
             fields: [
                 'tipo', 
-                'valor_unidad'
+                'valor_unidad',
+                'vigencia'
             ]
         });
         res.json({
@@ -36,7 +38,10 @@ export const updateUnidadProductos = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Unidad de producto actualizada correctamente',
@@ -78,6 +83,9 @@ export const deleteUnidadProductos = async (req, res) => {
 export const getAllUnidadProductos = async (req, res) => {
     try{
         const allUnidadProductos = await unidadProductos.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'tipo', 
@@ -107,7 +115,8 @@ export const getUnidadProductosId = async (req, res) => {
         const {id} = req.params;
         const unidadProducto = await unidadProductos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -120,6 +129,33 @@ export const getUnidadProductosId = async (req, res) => {
             message: "", 
             unidadProductos: unidadProducto
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            unidadProductos: null
+        });
+    };
+};
+
+export const getAllUnidadProductosWithFalse = async (req, res) => {
+    try{
+        const allUnidadProductos = await unidadProductos.findAll({
+            attributes: [
+                'id',
+                'tipo', 
+                'valor_unidad'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            unidadProductos: allUnidadProductos
+        });
     }catch(e){
         console.log(e);
         res.json({
