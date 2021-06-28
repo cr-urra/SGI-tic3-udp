@@ -82,7 +82,7 @@ export const deletePaises = async (req, res) => {
                 cuentaBancosIds.push(parseInt(element.dataValues.id));
             });
             req.params = {
-                id = cuentaBancosIds
+                id : cuentaBancosIds
             };
             let aux = await cuentaBancosController.deleteCuentasBancos(req, res);
             let paisUpdate;

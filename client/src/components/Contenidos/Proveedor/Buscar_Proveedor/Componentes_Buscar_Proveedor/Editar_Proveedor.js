@@ -31,7 +31,7 @@ export default class Banco extends Component {
                     j = i;
                 }
             }
-            if(this.props.proveedores[j]!=null){                                
+            if(this.props.proveedores[j]!=null){                                 
                 this.setState({
                     nombre: this.props.proveedores[j].nombre,
                     pais: this.props.proveedores[j].pais,

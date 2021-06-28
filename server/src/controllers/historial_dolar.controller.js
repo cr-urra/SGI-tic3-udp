@@ -85,7 +85,7 @@ export const deleteHistorialDolar = async (req, res) => {
 
             let detallesDolarId = historial_dolar.dataValues.detalles_dolar.id
             req.params = {
-                id = detallesDolarId
+                id : detallesDolarId
             };
             let aux = await detallesDolarUpdate.deleteDetallesDolar(req, res);
             let historialDolarUpdate;
@@ -153,7 +153,7 @@ export const getHistorialDolarId = async (req, res) => {
         const getHistorialDolar = await historialDolar.findOne({
             where: {
                 id,
-                vigencia = true
+                vigencia : true
             },
             attributes: [
                 'id',

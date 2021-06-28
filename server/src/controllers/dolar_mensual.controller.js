@@ -91,11 +91,11 @@ export const deleteDolarMensual = async (req, res) => {
                 historialDolarIds.push(parseInt(element.dataValues.id));
             });
             req.params = {
-                id = pedidosIds 
+                id : pedidosIds 
             };
             let aux = await pedidosController.deletePedidos(req,res);
             req.params = {
-                id = historialDolarIds
+                id : historialDolarIds
             };
             aux.resultado ? aux = await historialDolarController.deleteHistorialDolar(req, res) : res.json({
                 resultado: false, 
