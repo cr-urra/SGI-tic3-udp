@@ -25,18 +25,18 @@ export default class Contenido_Banco extends Component {
         const res = await axios.get("/cuentasBancos/",{})  
         console.log(res,"bancos");
         for (let i= 0; i < res.data.cuentas_bancos.length ; i++){
+
+            const aux = await axios.get("/paises/" + res.data.cuentas_bancos[i].paises_id ,{})
+            const aux2= await axios.get("/numerosAba/"+res.data.cuentas_bancos[i].numeros_aba_id,{})
+            console.log(aux2)
             const banco = {
                 nombre:   res.data.cuentas_bancos[i].nombre_banco,
-                cuenta: res.data.cuentas_bancos[i].numero_cuenta,
                 IBAN: res.data.cuentas_bancos[i].codigo_iban,
-                pais: res.data.cuentas_bancos[i].paises_id,
+                pais: aux.data.paises.pais,
                 ABA:  res.data.cuentas_bancos[i].numeros_aba_id,
                 referencia:  res.data.cuentas_bancos[i].referencia,
-                banco_beneficiario: "falta conectar dato",
                 SWIFT:  res.data.cuentas_bancos[i].swift_code,
-                IFCS:  "falta conectar dato",
-                cuenta_interbancaria:  "falta conectar dato",
-                banco_intermediario: "falta conectar dato",
+                cuenta_interbancaria:  res.data.cuentas_bancos[i].numero_cuenta,
             }
             this.setState({
                 bancos: [...this.state.bancos, banco]

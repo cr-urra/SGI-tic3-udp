@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 
 
+// <Redirect to={{ pathname: '/users/usr', state: {rut: this.state.rut}}} />;
+
 export default class Init extends Component {
     render() {
         if(this.props.estado==="produccion"){

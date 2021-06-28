@@ -129,4 +129,4 @@ export const getNumerosAbaId = async (req, res) => {
             numerosAba: null
         });
     };
-};umerosAba 
+};
