@@ -3,6 +3,10 @@ import axios from 'axios';
 import InputForm from './Componentes_crear_usuario/InputForm'
 import InputFormOption from './Componentes_crear_usuario/InputFormOption'
 import Modal from 'react-bootstrap/Modal'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 
 export default class Crear_Usuario extends Component {
@@ -23,19 +27,43 @@ export default class Crear_Usuario extends Component {
 
     onSubmit = async e => {
         e.preventDefault();
-        const Usuario = {
-            nombre: this.state.nombre,
-            apellido: this.state.apellido,
-            rut: this.state.rut,
-            correo: this.state.correo,
-            telefono: this.state.telefono,
-            contraseña: this.state.contraseña,
-            r_contraseña: this.state.r_contraseña,
-            rol: this.state.rol
+        console.log(this.state)
+        if(
+            this.state.nombre != null &&
+            this.state.apellido != null &&
+            this.state.rut != null &&
+            this.state.correo != null &&        
+            this.state.telefono != null &&
+            this.state.contraseña != null &&
+            this.state.r_contraseña != null &&
+            this.state.rol != null
+
+        ){
+            if(this.state.contraseña === this.state.r_contraseña){
+                const Usuario = {
+                    nombre: this.state.nombre,
+                    apellido: this.state.apellido,
+                    rut: this.state.rut,
+                    correo: this.state.correo,
+                    telefono: this.state.telefono,
+                    contraseña: this.state.contraseña,
+                    r_contraseña: this.state.r_contraseña,
+                    rol: this.state.rol
+                }
+                console.log(Usuario)
+                const res = await axios.post("/sacate-la-url/", Usuario) 
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }else{
+                toast.error("Las contraseñas ingresadas no coinciden, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }            
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
-        console.log(Usuario)
-        const res = await axios.post("/sacate-la-url/", Usuario)        
-        alert(res.data.message) 
+        
+        this.setState({
+            show: false
+        })
+        
     }
 
     onChange = e => {

@@ -3,45 +3,92 @@ import Datos from './Datos'
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export default class Banco extends Component {
     
     state ={
-        nombre: null,
-        cuenta_corriente: null,
+        nombre: null,        
         iban: null,
         pais: null,
         n_aba: null,
-        referencia: null,
-        banco_beneficiario: null,
-        codigo_swift: null,
-        codigo_ifcs: null,
+        referencia: null,        
+        codigo_swift: null,        
         cuenta_interbancaria: null,
-        banco_intermediario: null,
+        
 
         show:false
     }
     
+    
+    
+    
+    
+    
+    
+    componentDidMount = async () => {
+        if(this.props.banco !== ""){
+            let j;
+            for(let i = 0 ; i < this.props.bancos.length ; i++){                
+                if(this.props.banco=== this.props.bancos[i].nombre){
+                    j = i;
+                }
+            }
+            if(this.props.bancos[j]!=null){
+                this.setState({
+                    nombre: this.props.bancos[j].nombre ,        
+                    iban:  this.props.bancos[j].IBAN,
+                    pais:  this.props.bancos[j].pais,
+                    n_aba: this.props.bancos[j].ABA ,
+                    referencia: this.props.bancos[j].referencia ,        
+                    codigo_swift:  this.props.bancos[j].SWIFT,        
+                    cuenta_interbancaria: this.props.bancos[j].cuenta_interbancaria
+                })
+            }
+        }    
+    }
+    
     onSubmit = async (e) => { 
         e.preventDefault();
-        const banco = {
-            nombre: this.state.nombre,
-            cuenta_corriente: this.state.cuenta_corriente,
-            iban: this.state.iban,
-            pais: this.state.pais,
-            n_aba: this.state.n_aba,
-            referencia: this.state.referencia,
-            banco_beneficiario: this.state.banco_beneficiario,
-            codigo_swift: this.state.codigo_swift,
-            codigo_ifcs: this.state.codigo_ifcs,
-            cuenta_interbancaria: this.state.cuenta_interbancaria,
-            banco_intermediario: this.state.banco_intermediario,
+        console.log(this.state)
+        if(
+            this.state.nombre != "" &&        
+            this.state.iban != "" &&
+            this.state.pais != "" &&
+            this.state.n_aba != "" &&
+            this.state.referencia != "" &&        
+            this.state.codigo_swift != "" &&        
+            this.state.cuenta_interbancaria != "" 
+        ){
+            const banco = {
+                nombre: this.state.nombre,            
+                iban: this.state.iban,
+                pais: this.state.pais,
+                n_aba: this.state.n_aba,
+                referencia: this.state.referencia,
+                codigo_swift: this.state.codigo_swift,
+                cuenta_interbancaria: this.state.cuenta_interbancaria,
+    
+            }
+            console.log(banco)
+            const res = await axios.post("/sacate-la-url/", banco) 
+
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
-        console.log(banco)
-        const res = await axios.post("/sacate-la-url/", banco)        
-        alert(res.data.message)
+               
+        this.setState({
+            show: false
+        })               
         
     }
+
+    
     
     onChange = e => {
         this.setState({
@@ -96,6 +143,7 @@ export default class Banco extends Component {
                                             </div>
                                         </div>                                        
                                     </div>
+                                   
                                     <Datos nombre={"Nombre"} contenido={this.props.bancos[j].nombre} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
                                     <Datos nombre={"Cuenta Interbancaria"} contenido={this.props.bancos[j].cuenta_interbancaria} name={"cuenta_interbancaria"} name2={this.state.cuenta_interbancaria} onChange={this.onChange}/>
                                     <Datos nombre={"País"} contenido={this.props.bancos[j].pais} name={"pais"} name2={this.state.pais} onChange={this.onChange}/>
@@ -113,7 +161,7 @@ export default class Banco extends Component {
                                         </Modal.Body>
                                         <Modal.Footer>
                                           <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
-                                          <button type="submit" class="btn color_sitio2"> Guardar Cambios</button>
+                                          <button type="submit" class="btn color_sitio2" onClick={this.onSubmit}> Guardar Cambios</button>
                                         </Modal.Footer>
                                     </Modal>
                                 </form>
