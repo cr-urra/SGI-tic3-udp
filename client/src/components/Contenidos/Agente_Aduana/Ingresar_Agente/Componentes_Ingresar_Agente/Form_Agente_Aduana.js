@@ -49,9 +49,16 @@ export default class Contenido_Agente_Aduana extends Component {
             this.state.banco != null &&
             this.state.n_cuenta != null &&
             this.state.tipo_cuenta != null &&
-            this.state.correo != null &&
-            this.state.show != false &&
-            this.state.rut != null
+            this.state.correo != null &&            
+            this.state.rut != null &&
+            this.state.nombre != "" &&
+            this.state.apellido != "" &&
+            this.state.telefono != "" &&
+            this.state.banco != "" &&
+            this.state.n_cuenta != "" &&
+            this.state.tipo_cuenta != "" &&
+            this.state.correo != "" &&            
+            this.state.rut != ""
         ){
             axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')        
             const banco = {
@@ -74,6 +81,7 @@ export default class Contenido_Agente_Aduana extends Component {
                 telefono: this.state.telefono,
                 agentes_aduana_id: res.data.agentes_aduana.id
             }
+            console.log(telefono)
             const aux = await axios.post("/telefonosAgentesAduana/",telefono)
 
         
