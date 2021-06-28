@@ -1,4 +1,6 @@
 import paises from '../models/paises';
+import cuentas_bancos from '../models/cuentas_bancos';
+import * as cuentaBancosController from './cuentas_bancos.controller';
 
 export const createPaises = async (req, res) => {
     try{
@@ -61,11 +63,42 @@ export const updatePaises = async (req, res) => {
 export const deletePaises = async (req, res) => {
     try{
         const {id} = req.params;
-        await paises.destroy({
+        const pais = await paises.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id', 
+                'pais', 
+                'codigo_iban'
+            ],
+            include = [
+                cuentas_bancos
+            ]
         });
+        if(pais){
+            let cuentaBancosIds = [];
+            pais.dataValues.cuentas_bancos.forEach(element => {
+                cuentaBancosIds.push(parseInt(element.dataValues.id));
+            });
+            req.params = {
+                id = cuentaBancosIds
+            };
+            let aux = await cuentaBancosController.deleteCuentasBancos(req, res);
+            let paisUpdate;
+            aux.resultado ? paisUpdate = await paises.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }): res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+        }
         res.json({
             resultado: true, 
             message: 'País eliminado correctamente'

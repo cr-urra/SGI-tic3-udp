@@ -65,11 +65,29 @@ export const updateMovimientos = async (req, res) => {
 export const deleteMovimientos = async (req, res) => {
     try{
         const {id} = req.params;
-        await movimientos.destroy({
+        const movimiento = await movimientos.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'monto', 
+                'fecha', 
+                'cuentas_corrientes_id', 
+                'descripcion'
+            ]
         });
+        if(movimiento){
+            const movimientoUpdate = await movimientos.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            });
+        }
         res.json({
             resultado: true, 
             message: 'Movimiento eliminado correctamente'

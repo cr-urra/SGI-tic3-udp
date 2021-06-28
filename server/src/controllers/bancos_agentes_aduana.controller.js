@@ -1,4 +1,6 @@
 import bancosAgentesAduana from '../models/bancos_agentes_aduana';
+import agentes_aduana from '../models/agentes_aduana';
+import * as agentesAduanaController from './agentes_aduana.controller'
 
 export const createBancosAgentesAduana = async (req, res) => {
     try{
@@ -63,11 +65,47 @@ export const updateBancosAgentesAduana = async (req, res) => {
 export const deleteBancosAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
-        await bancosAgentesAduana.destroy({
+        const bancoAgentesAduana = await bancosAgentesAduana.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'numero_cuenta', 
+                'tipo_cuenta', 
+                'nombre_banco'
+            ],
+            include:[
+                agentes_aduana
+            ]
         });
+        if(bancoAgentesAduana){
+            
+            let agentesAduanaIds = [];
+            bancoAgentesAduana.dataValues.agentesAduana.forEach(element => {
+                agentesAduanaIds.push(parseInt(element.dataValues.id));
+            });
+            req.params = {
+                id = agentesAduanaIds
+            };
+            let aux = await agentesAduanaController.deleteAgentesAduana(req, res);
+            let bancoAgenteAduanaUpdate;
+            aux.resultado ? bancoAgenteAduanaUpdate = await bancoAgentesAduana.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }) : res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+
+
+        }
         res.json({
             resultado: true, 
             message: 'Banco de agente de aduana eliminado correctamente'

@@ -1,4 +1,6 @@
 import cuentasCorrientes from '../models/cuentas_corrientes';
+import movimientos from '../models/movimientos';
+import * as movimientosController from './movimientos.controller';
 
 export const createCuentasCorrientes = async (req, res) => {
     try{
@@ -63,11 +65,44 @@ export const updateCuentasCorrientes = async (req, res) => {
 export const deleteCuentasCorrientes = async (req, res) => {
     try{
         const {id} = req.params;
-        await cuentasCorrientes.destroy({
+        const cuentaCorriente = await cuentasCorrientes.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'debe', 
+                'haber', 
+                'agentes_aduana_id'
+            ],
+            include: [
+                movimientos
+            ]
         });
+        if(cuentaCorriente){
+            let movimientosIds = [];
+            cuentaCorriente.dataValues.movimientos.forEach(element => {
+                movimientosIds.push(parseInt(element.dataValues.id));
+            });
+            req.params = {
+                id = movimientosIds
+            };
+            let aux = await movimientosController.deleteMovimientos(req, res);
+            let cuentaCorrienteUpdate;
+            aux.resultado ? cuentaCorrienteUpdate = await cuentasCorrientes.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }) : res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+        }
+
         res.json({
             resultado: true, 
             message: 'Cuenta corriente eliminada correctamente'

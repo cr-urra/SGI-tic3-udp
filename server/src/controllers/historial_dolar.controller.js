@@ -1,5 +1,8 @@
 import historialDolar from '../models/historial_dolar';
+import detalles_dolar from '../models/detalles_dolar';
+import * as detallesDolarUpdate from './detalles_dolar.controller';
 import sequelize from 'sequelize';
+import historial_dolar from '../models/historial_dolar';
 
 export const createHistorialDolar = async (req, res) => {
     try{
@@ -64,11 +67,41 @@ export const updateHistorialDolar = async (req, res) => {
 export const deleteHistorialDolar = async (req, res) => {
     try{
         const {id} = req.params;
-        await historialDolar.destroy({
+        const getHistorialDolar = await historialDolar.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'fecha', 
+                'precio', 
+                'dolar_mensual_id'
+            ],
+            include = [
+                detalles_dolar
+            ]
         });
+        if(getHistorialDolar){
+
+            let detallesDolarId = historial_dolar.dataValues.detalles_dolar.id
+            req.params = {
+                id = detallesDolarId
+            };
+            let aux = await detallesDolarUpdate.deleteDetallesDolar(req, res);
+            let historialDolarUpdate;
+            aux.resultado ? historialDolarUpdate = await historialDolar.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }): res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+        }
         res.json({
             resultado: true, 
             message: 'Dolar eliminado correctamente de historial'
@@ -119,7 +152,8 @@ export const getHistorialDolarId = async (req, res) => {
         const {id} = req.params;
         const getHistorialDolar = await historialDolar.findOne({
             where: {
-                id
+                id,
+                vigencia = true
             },
             attributes: [
                 'id',

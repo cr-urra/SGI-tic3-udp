@@ -1,4 +1,6 @@
 import unidadProductos from '../models/unidad_productos';
+import productos from '../models/productos';
+import * as productosController from './productos.controller';
 
 export const createUnidadProductos = async (req, res) => {
     try{
@@ -61,11 +63,44 @@ export const updateUnidadProductos = async (req, res) => {
 export const deleteUnidadProductos = async (req, res) => {
     try{
         const {id} = req.params;
-        await unidadProductos.destroy({
+        const unidadProducto = await unidadProductos.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'tipo', 
+                'valor_unidad'
+            ],
+            include = [
+                productos
+            ]
         });
+
+        if(unidadProducto){
+            let productosIds = []
+            unidadProducto.dataValues.productos.forEach(element => {
+                productosIds.push(parseInt(element.dataValues.id));
+            });
+            req.params = {
+                id = productosIds
+            };
+            let aux = await productosController.deleteProductos(req, res);
+            let unidadProductosUpdate;
+            aux.resultado ? unidadProductosUpdate = await unidadProductos.update({
+                vigencia = false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }): res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+        }
         res.json({
             resultado: true, 
             message: 'Unidad de producto eliminada correctamente'

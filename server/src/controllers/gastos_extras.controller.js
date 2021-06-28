@@ -63,11 +63,29 @@ export const updateGastosExtras = async (req, res) => {
 export const deleteGastosExtras = async (req, res) => {
     try{
         const {id} = req.params;
-        await gastosExtras.destroy({
+        const gastoExtra = await gastosExtras.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'monto', 
+                'pedidos_id', 
+                'observaciones_id'
+            ]
         });
+        if(gastoExtra){
+            const gastoExtraUpdate = await gastosExtras.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            });
+        }
+        
         res.json({
             resultado: true, 
             message: 'Gasto extra eliminado correctamente'
