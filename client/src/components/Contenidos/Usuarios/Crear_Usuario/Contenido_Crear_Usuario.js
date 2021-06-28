@@ -36,7 +36,15 @@ export default class Crear_Usuario extends Component {
             this.state.telefono != null &&
             this.state.contraseña != null &&
             this.state.r_contraseña != null &&
-            this.state.rol != null
+            this.state.rol != null &&
+            this.state.nombre != "" &&
+            this.state.apellido != "" &&
+            this.state.rut != "" &&
+            this.state.correo != "" &&        
+            this.state.telefono != "" &&
+            this.state.contraseña != "" &&
+            this.state.r_contraseña != "" &&
+            this.state.rol != ""
 
         ){
             if(this.state.contraseña === this.state.r_contraseña){

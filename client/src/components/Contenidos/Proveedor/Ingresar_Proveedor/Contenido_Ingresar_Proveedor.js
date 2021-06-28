@@ -44,7 +44,21 @@ export default class Ingresar_Usuario extends Component {
             this.state.n_aba != null &&
             this.state.referencia != null &&
             this.state.codigo_swift != null &&
-            this.state.cuenta_interbancaria != null
+            this.state.cuenta_interbancaria != null &&
+            this.state.nombre != "" &&
+            this.state.pais != "" &&
+            this.state.direccion != "" &&        
+            this.state.correo != "" &&
+            this.state.telefono != "" &&
+            this.state.moneda != "" &&            
+            this.state.nombre_b != "" &&
+            this.state.iban != "" &&
+            this.state.pais_b != "" &&
+            this.state.n_aba != "" &&
+            this.state.referencia != "" &&
+            this.state.codigo_swift != "" &&
+            this.state.cuenta_interbancaria != "" 
+            
         ){
             const Proveedor = {
                 nombre: this.state.nombre,

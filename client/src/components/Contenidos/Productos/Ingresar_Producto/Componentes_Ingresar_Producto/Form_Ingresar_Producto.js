@@ -25,14 +25,20 @@ export default class Contenido_Ingresar_Producto extends Component {
     onSubmit = async e => {
         e.preventDefault();
         if(
-            this.state.nombre !=  null &&
+            this.state.nombre !=  null && 
             this.state.codigo !=  null &&
             this.state.descripcion !=  null &&
             this.state.precio !=  null &&
             this.state.proveedor != null &&
-            this.state.tipo != null
+            this.state.tipo != null &&
+            this.state.nombre !=  "" && 
+            this.state.codigo !=  "" &&
+            this.state.descripcion !=  "" &&
+            this.state.precio !=  "" &&
+            this.state.proveedor != "" &&
+            this.state.tipo != ""
         ){
-            
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
             const Producto = {
                 nombre: this.state.nombre,
                 codigo: this.state.codigo,
