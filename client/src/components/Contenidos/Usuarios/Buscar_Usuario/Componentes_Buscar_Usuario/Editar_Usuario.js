@@ -3,12 +3,16 @@ import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export default class EditUsuario extends Component {
 
     state = {
         nombre: null,
-        apelldio:null,
+        apellido:null,
         rut:null,
         telefono: null,
         correo: null,
@@ -16,23 +20,58 @@ export default class EditUsuario extends Component {
 
         show: false
     }
+
+    componentDidMount = async () => {
+        if(this.props.Usuario !== ""){
+            let j;
+            for(let i = 0 ; i < this.props.Usuarios.length ; i++){
+                
+                if(this.props.Usuario=== this.props.Usuarios[i].nombre){
+                    j = i;
+                }
+            }            
+            if(this.props.Usuarios[j]!=null){              
+                this.setState({
+                    nombre: this.props.Usuarios[j].nombre,
+                    apellido: this.props.Usuarios[j].apellido,
+                    rut:this.props.Usuarios[j].rut,
+                    telefono: this.props.Usuarios[j].telefono,
+                    correo: this.props.Usuarios[j].correo,
+                    rol: this.props.Usuarios[j].rol
+                })
+            }
+        }    
+    }
     
     onSubmit = async e => {
         e.preventDefault();
-        const Usuario = {
-            nombre: this.state.nombre,
-            apellido: this.state.apellido,
-            rut: this.state.rut,
-            correo: this.state.correo,
-            telefono: this.state.telefono,
-            contraseña: this.state.contraseña,
-            r_contraseña: this.state.r_contraseña,
-            rol: this.state.rol
-        }
-        console.log(Usuario)
-        const res = await axios.post("/sacate-la-url/", Usuario)        
-        alert(res.data.message) 
+        if(
+            this.state.nombre != ""&&
+            this.state.apellido !=""&&
+            this.state.rut !=""&&
+            this.state.telefono != ""&&
+            this.state.correo != ""&&
+            this.state.rol != ""
+        ){
+            const Usuario = {
+                nombre: this.state.nombre,
+                apellido: this.state.apellido,
+                rut: this.state.rut,
+                correo: this.state.correo,
+                telefono: this.state.telefono,
+                rol: this.state.rol
+            }
+            console.log(Usuario)
+            const res = await axios.post("/sacate-la-url/", Usuario) 
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
 
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }
+               
+        this.setState({
+            show: false
+        })                          
     }
 
     onChange = e => {

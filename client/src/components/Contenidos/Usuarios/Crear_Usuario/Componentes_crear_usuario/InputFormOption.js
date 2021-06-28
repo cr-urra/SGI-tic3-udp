@@ -13,11 +13,11 @@ export default class Contenido_Agente_Aduana extends Component {
                         <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Rol</label>
                     </div>
                     <div className="col-8">
-                        <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.props.rol} onChange={this.props.onChangeRol} >
+                        <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.props.rol} onChange={this.props.onChange} >
                           <option defaultValue>Escoger el Rol del Usuario</option>
-                          <option value="1">Adminitrador</option>
-                          <option value="2">Operaciones</option>
-                          <option value="3">Finanzas</option>
+                          <option value="Administrador">Administrador</option>
+                          <option value="Operaciones">Operaciones</option>
+                          <option value="Finanzas">Finanzas</option>
                         </select>
                     </div>
                 </div>

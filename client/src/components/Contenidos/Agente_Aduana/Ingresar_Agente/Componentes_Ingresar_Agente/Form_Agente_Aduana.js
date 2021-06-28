@@ -3,7 +3,7 @@ import axios from 'axios';
 import InputForm from './InputForm'
 import InputFormOption  from './InputFormOption'
 import Modal from 'react-bootstrap/Modal'
-import { toast } from 'react-toastify'
+import { toast , Slide  } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 
@@ -36,41 +36,52 @@ export default class Contenido_Agente_Aduana extends Component {
         })
     }
 
-    notificacion = (data) =>{
-        if(data.message === "Agente de aduana creado correctamente") toast.success(data.message, {position: toast.POSITION.TOP_CENTER})
-
-        
-    }
+   
 
 
     onSubmit = async e => {
         e.preventDefault();
-        axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')        
-        const banco = {
-            numero_cuenta: this.state.n_cuenta,
-            tipo_cuenta: this.state.tipo_cuenta,
-            nombre_banco: this.state.banco,
-        }                    
-        const id = await axios.post("/bancosAgentesAduana/", banco)              
-        const Agente = {
-            nombre: this.state.nombre,
-            apellido: this.state.apellido,  
-            numero_cuenta: this.state.n_cuenta,          
-            correo: this.state.correo,
-            bancos_agentes_aduana_id: id.data.bancosAgentesAduana.id,
-            rut: this.state.rut
-        }
-        const res = await axios.post("/agentesAduana/", Agente)
-        console.log(res)
-        const telefono = {
-            telefono: this.state.telefono,
-            agentes_aduana_id: res.data.agentes_aduana.id
-        }
-        const aux = await axios.post("/telefonosAgentesAduana/",telefono)
 
-       
-        this.notificacion(res.data)
-       
+        if(
+            this.state.nombre != null &&
+            this.state.apellido != null &&
+            this.state.telefono != null &&
+            this.state.banco != null &&
+            this.state.n_cuenta != null &&
+            this.state.tipo_cuenta != null &&
+            this.state.correo != null &&
+            this.state.show != false &&
+            this.state.rut != null
+        ){
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')        
+            const banco = {
+                numero_cuenta: this.state.n_cuenta,
+                tipo_cuenta: this.state.tipo_cuenta,
+                nombre_banco: this.state.banco,
+            }                    
+            const id = await axios.post("/bancosAgentesAduana/", banco)              
+            const Agente = {
+                nombre: this.state.nombre,
+                apellido: this.state.apellido,  
+                numero_cuenta: this.state.n_cuenta,          
+                correo: this.state.correo,
+                bancos_agentes_aduana_id: id.data.bancosAgentesAduana.id,
+                rut: this.state.rut
+            }
+            const res = await axios.post("/agentesAduana/", Agente)
+            console.log(res)
+            const telefono = {
+                telefono: this.state.telefono,
+                agentes_aduana_id: res.data.agentes_aduana.id
+            }
+            const aux = await axios.post("/telefonosAgentesAduana/",telefono)
+
+        
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }
+
         this.setState({
             show: false
         })

@@ -3,6 +3,10 @@ import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'   
 import axios from 'axios'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export default class EditProduct extends Component {
 
@@ -16,20 +20,58 @@ export default class EditProduct extends Component {
 
         show: false
     }
+
+    componentDidMount = async () => {
+        if(this.props.product !== ""){
+            let j;
+            for(let i = 0 ; i < this.props.productsData.length ; i++){
+                
+                if(this.props.product=== this.props.productsData[i].nombre){
+                    j = i;
+                }
+            }
+            if(this.props.productsData[j]!=null){                        
+                this.setState({
+                    nombre: this.props.productsData[j].nombre,
+                    codigo: this.props.productsData[j].codigo,
+                    descripcion: this.props.productsData[j].descripcion,
+                    precio : this.props.productsData[j].precio,
+                    proveedor: this.props.productsData[j].proveedor,
+                    tipo: this.props.productsData[j].tipo
+                })
+            }
+        }    
+    }
     
     onSubmit = async e => {
         e.preventDefault();
-        const Producto = {
-            nombre: this.state.nombre,
-            codigo: this.state.codigo,
-            descripcion: this.state.descripcion,
-            precio: this.state.precio,
-            proveedor: this.state.proveedor,
-            tipo: this.state.tipo 
+        if(
+            this.state.nombre != ""&&
+            this.state.codigo !=""&&
+            this.state.descripcion !=""&&
+            this.state.precio  != ""&&
+            this.state.proveedor != ""&&
+            this.state.tipo != ""
+        ){
+            const Producto = {
+                nombre: this.state.nombre,
+                codigo: this.state.codigo,
+                descripcion: this.state.descripcion,
+                precio: this.state.precio,
+                proveedor: this.state.proveedor,
+                tipo: this.state.tipo 
+            }
+            console.log(Producto)
+            const res = await axios.post("/sacate-la-url/", Producto)  
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
-        console.log(Producto)
-        const res = await axios.post("/sacate-la-url/", Producto)        
-        alert(res.data.message) 
+               
+        this.setState({
+            show: false
+        })               
     }
 
     onChange = e => {

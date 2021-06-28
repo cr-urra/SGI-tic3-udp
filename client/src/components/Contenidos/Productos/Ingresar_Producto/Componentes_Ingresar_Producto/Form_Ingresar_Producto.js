@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import InputForm from './InputForm'
 import Modal from 'react-bootstrap/Modal'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 
 export default class Contenido_Ingresar_Producto extends Component {
@@ -20,17 +24,34 @@ export default class Contenido_Ingresar_Producto extends Component {
 
     onSubmit = async e => {
         e.preventDefault();
-        const Producto = {
-            nombre: this.state.nombre,
-            codigo: this.state.codigo,
-            descripcion: this.state.descripcion,
-            precio: this.state.precio,
-            proveedor: this.state.proveedor,
-            tipo: this.state.tipo 
+        if(
+            this.state.nombre !=  null &&
+            this.state.codigo !=  null &&
+            this.state.descripcion !=  null &&
+            this.state.precio !=  null &&
+            this.state.proveedor != null &&
+            this.state.tipo != null
+        ){
+            
+            const Producto = {
+                nombre: this.state.nombre,
+                codigo: this.state.codigo,
+                descripcion: this.state.descripcion,
+                precio: this.state.precio,
+                proveedor: this.state.proveedor,
+                tipo: this.state.tipo 
+            }
+            console.log(Producto)
+            const res = await axios.post("/sacate-la-url/", Producto)  
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
-        console.log(Producto)
-        const res = await axios.post("/sacate-la-url/", Producto)        
-        alert(res.data.message) 
+              
+        this.setState({
+            show: false
+        })
     }
 
     onChange = e => {

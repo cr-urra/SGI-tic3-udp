@@ -3,35 +3,77 @@ import Datos from './EditDatos'
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export default class EditAgenteAduana extends Component {
 
     state = {
         nombre: null,
-        apelldio:null,
+        apellido:null,
+        telefono:null,
         banco:null,
         tipo_cuenta : null,
         n_cuenta: null,
-        saldo: null,
+        
 
         show: false
+    }
+
+    componentDidMount = async () => {
+        if(this.props.AgenteAduana !== ""){
+            let j;
+            for(let i = 0 ; i < this.props.AgentesAduana.length ; i++){
+                
+                if(this.props.AgenteAduana=== this.props.AgentesAduana[i].nombre){
+                    j = i;
+                }
+            }
+            if(this.props.AgentesAduana[j]!=null){               
+                this.setState({
+                    nombre: this.props.AgentesAduana[j].nombre,
+                    apellido: this.props.AgentesAduana[j].apellido,
+                    telefono: this.props.AgentesAduana[j].telefono,
+                    banco: this.props.AgentesAduana[j].banco,
+                    tipo_cuenta : this.props.AgentesAduana[j].tipo_cuenta,
+                    n_cuenta: this.props.AgentesAduana[j].n_cuenta,
+                })
+            }
+        }    
     }
     
     onSubmit = async e => {
         e.preventDefault();
-        const Agente = {
-            nombre: this.state.nombre,
-            apellido: this.state.apellido,
-            telefono: this.state.telefono,
-            banco: this.state.banco,
-            n_cuenta: this.state.n_cuenta,
-            tipo_cuenta: this.state.tipo_cuenta,
-            correo: this.state.correo            
-        }
-        console.log(Agente)
-        const res = await axios.post("/sacate-la-url/", Agente)        
-        alert(res.data.message)
+        if(
+            this.state.nombre != "" &&
+            this.state.apellido !="" &&
+            this.state.telefono !="" &&
+            this.state.banco !="" &&
+            this.state.tipo_cuenta  != "" &&
+            this.state.n_cuenta != "" 
+        ){
+            const Agente = {
+                nombre: this.state.nombre,
+                apellido: this.state.apellido,
+                telefono: this.state.telefono,
+                banco: this.state.banco,
+                n_cuenta: this.state.n_cuenta,
+                tipo_cuenta: this.state.tipo_cuenta,
+           
+            }
+            console.log(Agente)
+            const res = await axios.post("/sacate-la-url/", Agente) 
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
 
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }
+               
+        this.setState({
+            show: false
+        })                    
     }
 
     onChange = e => {

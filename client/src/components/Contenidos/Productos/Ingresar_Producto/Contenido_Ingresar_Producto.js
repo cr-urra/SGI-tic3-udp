@@ -8,7 +8,7 @@ export default class Init extends Component {
         return (
             <main className="content">
                 <h1 className="display-5 titulo"> Ingresar Productos</h1>
-                <Card></Card>
+                <Card/>
             </main>
         )
     }

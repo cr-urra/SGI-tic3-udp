@@ -3,6 +3,10 @@ import Datos from './EditDatos'
 import {Link} from 'react-router-dom'; 
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export default class Banco extends Component {
     
@@ -17,20 +21,60 @@ export default class Banco extends Component {
 
         show: false
     }
-    
-    onSubmit = async e => {
-        e.preventDefault();
-        const Proveedor = {
-            nombre: this.state.nombre,
-            pais: this.state.pais,
-            direccion: this.state.direccion,
-            correo: this.state.correo,
-            telefono: this.state.telefono,
-            moneda: this.state.moneda            
+
+    componentDidMount = async () => {
+        if(this.props.proveedor !== ""){
+            let j;
+            for(let i = 0 ; i < this.props.proveedores.length ; i++){
+                
+                if(this.props.proveedor=== this.props.proveedores[i].nombre){
+                    j = i;
+                }
+            }
+            if(this.props.proveedores[j]!=null){                                
+                this.setState({
+                    nombre: this.props.proveedores[j].nombre,
+                    pais: this.props.proveedores[j].pais,
+                    direccion: this.props.proveedores[j].direccion,
+                    correo: this.props.proveedores[j].correo,
+                    telefono: this.props.proveedores[j].telefono,
+                    moneda: this.props.proveedores[j].moneda,
+                    banco: this.props.proveedores[j].banco  
+                })
+            }
         }    
-        console.log(Proveedor)
-        const res = await axios.post("/sacate-la-url/", Proveedor)                     
-        alert(res.data.message) 
+    }
+    
+    onSubmit = async e => {            
+        e.preventDefault();
+        if(
+            this.state.nombre != "" &&
+            this.state.pais != "" &&
+            this.state.direccion != "" &&
+            this.state.correo != "" &&
+            this.state.telefono != "" &&
+            this.state.moneda != "" &&
+            this.state.banco != "" 
+        ){
+            const Proveedor = {
+                nombre: this.state.nombre,
+                pais: this.state.pais,
+                direccion: this.state.direccion,
+                correo: this.state.correo,
+                telefono: this.state.telefono,
+                moneda: this.state.moneda            
+            }    
+            console.log(Proveedor)
+            const res = await axios.post("/sacate-la-url/", Proveedor) 
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }
+               
+        this.setState({
+            show: false
+        }) 
     }
     
     onChange = e => {
