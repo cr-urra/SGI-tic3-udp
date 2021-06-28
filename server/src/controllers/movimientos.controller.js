@@ -7,13 +7,15 @@ export const createMovimientos = async (req, res) => {
             monto, 
             fecha, 
             cuentas_corrientes_id, 
-            descripcion
+            descripcion,
+            vigencia: true
         },{
             fields: [
                 'monto', 
                 'fecha', 
                 'cuentas_corrientes_id', 
-                'descripcion'
+                'descripcion',
+                'vigencia'
             ]
         });
         res.json({
@@ -40,7 +42,10 @@ export const updateMovimientos = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Movimiento actualizado',
@@ -79,9 +84,9 @@ export const deleteMovimientos = async (req, res) => {
     
 };
 
-export const getAllMovimientos = async (req, res) => {
+export const getAllMovimientosWithFalse = async (req, res) => {
     try{
-        const allmovimientos = await movimientos.findAll({
+        const allMovimientos = await movimientos.findAll({
             attributes: [
                 'id',
                 'monto', 
@@ -96,7 +101,7 @@ export const getAllMovimientos = async (req, res) => {
         res.json({
             resultado: true, 
             message: "",
-            movimientos: allmovimientos
+            movimientos: allMovimientos
         });
     }catch(e){
         console.log(e);
@@ -113,7 +118,8 @@ export const getMovimientosId = async (req, res) => {
         const {id} = req.params;
         const movimiento = await movimientos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -127,6 +133,38 @@ export const getMovimientosId = async (req, res) => {
             resultado: true, 
             message: "", 
             movimientos: movimiento
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            movimientos: null
+        });
+    };
+};
+
+export const getAllMovimientos = async (req, res) => {
+    try{
+        const allMovimientos = await movimientos.findAll({
+            where: {
+                vigencia: true
+            },
+            attributes: [
+                'id',
+                'monto', 
+                'fecha', 
+                'cuentas_corrientes_id', 
+                'descripcion'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            movimientos: allMovimientos
         });
     }catch(e){
         console.log(e);

@@ -6,11 +6,12 @@ import * as historialDolar from '../controllers/historial_dolar.controller';
 
 router.post('/', historialDolar.createHistorialDolar);
 router.get('/', historialDolar.getAllHistorialDolar);
+router.get('/all', historialDolar.getAllHistorialDolar);
 
 // historialDolar/:id
 
 router.put('/:id', historialDolar.updateHistorialDolar);
-router.delete('/:id', historialDolar.deleteHistorialDolar);
+router.put('/delete/:id', historialDolar.deleteHistorialDolar);
 router.get('/:id', historialDolar.getHistorialDolarId);
 
 module.exports = router;

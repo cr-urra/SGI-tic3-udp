@@ -6,11 +6,12 @@ import * as movimientos from '../controllers/movimientos.controller';
 
 router.post('/', movimientos.createMovimientos);
 router.get('/', movimientos.getAllMovimientos);
+router.get('/all', movimientos.getAllMovimientosWithFalse);
 
 // movimientos/:id
 
 router.put('/:id', movimientos.updateMovimientos);
-router.delete('/:id', movimientos.deleteMovimientos);
+router.put('/delete/:id', movimientos.deleteMovimientos);
 router.get('/:id', movimientos.getMovimientosId);
 
 module.exports = router;

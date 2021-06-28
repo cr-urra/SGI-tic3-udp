@@ -12,7 +12,8 @@ export const createGastosExtras = async (req, res) => {
             fields: [
                 'monto', 
                 'pedidos_id', 
-                'observaciones_id'
+                'observaciones_id',
+                'vigencia'
             ]
         });
         res.json({

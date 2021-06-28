@@ -23,6 +23,9 @@ const agentes_aduana = database.define('agentes_aduana',{
     },
     bancos_agentes_aduana_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

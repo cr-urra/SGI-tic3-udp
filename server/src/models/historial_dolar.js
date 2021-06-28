@@ -14,6 +14,9 @@ const historial_dolar = database.define('historial_dolar',{
     },
     dolar_mensual_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

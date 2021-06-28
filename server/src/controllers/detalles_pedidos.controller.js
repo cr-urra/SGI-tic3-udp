@@ -10,7 +10,8 @@ export const createDetallesPedidos = async (req, res) => {
         },{
             fields: [
                 'diferencia_de_costos', 
-                'pedidos_id'
+                'pedidos_id',
+                'vigencia'
             ]
         });
         res.json({

@@ -11,6 +11,9 @@ const dolar_mensual = database.define('dolar_mensual',{
     },
     fecha_registro:{
         type: sequelize.DATE
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

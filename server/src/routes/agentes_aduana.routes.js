@@ -6,11 +6,12 @@ import * as agentesAduana from '../controllers/agentes_aduana.controller';
 
 router.post('/', agentesAduana.createAgentesAduana);
 router.get('/', agentesAduana.getAllAgentesAduana);
+router.get('/all', agentesAduana.getAllAgentesAduanaWithFalse);
 
 // agentesAduana/:id
 
 router.put('/:id', agentesAduana.updateAgentesAduana);
-router.delete('/:id', agentesAduana.deleteAgentesAduana);
+router.put('/delete/:id', agentesAduana.deleteAgentesAduana);
 router.get('/:id', agentesAduana.getAgentesAduanaId);
 
 module.exports = router;

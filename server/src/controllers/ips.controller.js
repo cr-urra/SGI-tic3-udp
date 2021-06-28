@@ -5,11 +5,13 @@ export const createIps = async (req, res) => {
         const {ip, usuarios_id} = req.body;
         let newIp = await ips.create({
             ip, 
-            usuarios_id
+            usuarios_id,
+            vigencia: true
         },{
             fields: [
                 'ip', 
-                'usuarios_id'
+                'usuarios_id',
+                'vigencia'
             ]
         });
         res.json({
@@ -36,7 +38,10 @@ export const updateIps = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Ip actualizada correctamente',
@@ -78,10 +83,13 @@ export const deleteIps = async (req, res) => {
 export const getAllIps = async (req, res) => {
     try{
         const allIps = await ips.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'ip', 
-                'usuarios_id'
+                'usuarios_id',
             ],
             order: [
                 ['id', 'DESC']
@@ -107,7 +115,8 @@ export const getIpsId = async (req, res) => {
         const {id} = req.params;
         const ip = await ips.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -120,6 +129,33 @@ export const getIpsId = async (req, res) => {
             message: "", 
             ips: ip
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            ips: null
+        });
+    };
+};
+
+export const getAllIpsWithFalse = async (req, res) => {
+    try{
+        const allIps = await ips.findAll({
+            attributes: [
+                'id',
+                'ip', 
+                'usuarios_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            ips: allIps
+        });
     }catch(e){
         console.log(e);
         res.json({

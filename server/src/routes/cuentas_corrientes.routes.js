@@ -6,11 +6,12 @@ import * as cuentasCorrientes from '../controllers/cuentas_corrientes.controller
 
 router.post('/', cuentasCorrientes.createCuentasCorrientes);
 router.get('/', cuentasCorrientes.getAllCuentasCorrientes);
+router.get('/all', cuentasCorrientes.getAllCuentasCorrientesWithFalse);
 
 // cuentasCorrientes/:id
 
 router.put('/:id', cuentasCorrientes.updateCuentasCorrientes);
-router.delete('/:id', cuentasCorrientes.deleteCuentasCorrientes);
+router.put('/delete/:id', cuentasCorrientes.deleteCuentasCorrientes);
 router.get('/:id', cuentasCorrientes.getCuentasCorrientesId);
 
 module.exports = router;

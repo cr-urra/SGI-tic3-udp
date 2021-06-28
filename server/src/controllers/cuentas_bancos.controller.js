@@ -20,7 +20,8 @@ export const createCuentasBancos = async (req, res) => {
                 'codigo_iban',
                 'referencia',
                 'paises_id',
-                'numeros_aba_id'
+                'numeros_aba_id',
+                'vigencia'
             ]
         });
         res.json({

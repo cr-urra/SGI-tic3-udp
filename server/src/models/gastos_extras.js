@@ -14,6 +14,9 @@ const gastos_extras = database.define('gastos_extras',{
     },
     observaciones_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

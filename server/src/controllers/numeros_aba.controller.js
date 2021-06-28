@@ -5,11 +5,13 @@ export const createNumerosAba = async (req, res) => {
         const {nombre_banco, numero_aba} = req.body;
         let newNumeroAba = await numerosAba.create({
             nombre_banco, 
-            numero_aba
+            numero_aba,
+            vigencia: true
         },{
             fields: [
                 'nombre_banco', 
-                'numero_aba'
+                'numero_aba',
+                'vigencia'
             ]
         });
         res.json({
@@ -36,7 +38,10 @@ export const updateNumerosAba = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Número ABA actualizado correctamente',
@@ -78,6 +83,9 @@ export const deleteNumerosAba = async (req, res) => {
 export const getAllNumerosAba = async (req, res) => {
     try{
         const allNumerosAba = await numerosAba.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id', 
                 'nombre_banco', 
@@ -108,7 +116,8 @@ export const getNumerosAbaId = async (req, res) => {
         console.log(id);
         const numeroAba = await numerosAba.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -129,4 +138,31 @@ export const getNumerosAbaId = async (req, res) => {
             numerosAba: null
         });
     };
-};umerosAba 
+};
+
+export const getAllNumerosAbaWithFalse = async (req, res) => {
+    try{
+        const allNumerosAba = await numerosAba.findAll({
+            attributes: [
+                'id', 
+                'nombre_banco', 
+                'numero_aba'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            numerosAba: allNumerosAba
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            numerosAba: null
+        });
+    };
+};

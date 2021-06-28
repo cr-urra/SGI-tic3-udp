@@ -11,6 +11,9 @@ const unidad_productos = database.define('unidad_productos',{
     },
     valor_unidad:{
         type: sequelize.FLOAT
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

@@ -1,15 +1,17 @@
 import monedas from '../models/monedas';
 
-export const createmonedas = async (req, res) => {
+export const createMonedas = async (req, res) => {
     try{
         const {pais, moneda} = req.body;
         let newMoneda = await monedas.create({
             pais, 
-            moneda
+            moneda,
+            vigencia: true
         },{
             fields: [
                 'pais', 
-                'moneda'
+                'moneda',
+                'vigencia'
             ]
         });
         res.json({
@@ -36,7 +38,10 @@ export const updateMonedas = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Moneda actualizada correctamente',
@@ -78,6 +83,9 @@ export const deleteMonedas = async (req, res) => {
 export const getAllMonedas = async (req, res) => {
     try{
         const allMonedas = await monedas.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id',
                 'pais', 
@@ -107,7 +115,8 @@ export const getMonedasId = async (req, res) => {
         const {id} = req.params;
         const moneda = await monedas.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -120,6 +129,33 @@ export const getMonedasId = async (req, res) => {
             message: "", 
             monedas: moneda
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            monedas: null
+        });
+    };
+};
+
+export const getAllMonedasWithFalse = async (req, res) => {
+    try{
+        const allMonedas = await monedas.findAll({
+            attributes: [
+                'id',
+                'pais', 
+                'moneda'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            monedas: allMonedas
+        });
     }catch(e){
         console.log(e);
         res.json({

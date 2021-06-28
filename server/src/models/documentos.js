@@ -11,6 +11,9 @@ const documentos = database.define('documentos',{
     },
     pedidos_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

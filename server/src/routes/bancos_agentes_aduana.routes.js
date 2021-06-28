@@ -6,11 +6,12 @@ import * as bancosAgentesAduana from '../controllers/bancos_agentes_aduana.contr
 
 router.post('/', bancosAgentesAduana.createBancosAgentesAduana);
 router.get('/', bancosAgentesAduana.getAllBancosAgentesAduana);
+router.get('/all', bancosAgentesAduana.getAllBancosAgentesAduanaWithFalse);
 
 // bancosAgentesAduana/:id
 
 router.put('/:id', bancosAgentesAduana.updateBancosAgentesAduana);
-router.delete('/:id', bancosAgentesAduana.deleteBancosAgentesAduana);
+router.put('/delete/:id', bancosAgentesAduana.deleteBancosAgentesAduana);
 router.get('/:id', bancosAgentesAduana.getBancosAgentesAduanaId);
 
 module.exports = router;

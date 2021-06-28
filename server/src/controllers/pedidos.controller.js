@@ -69,7 +69,8 @@ export const createPedidos = async (req, res) => {
                 dolar_mensual_id,
                 fecha_vencimiento,
                 tipo_pago,
-                fecha_inicial
+                fecha_inicial,
+                vigencia: true
         },{
             fields: [
                 'codigo', 
@@ -96,7 +97,8 @@ export const createPedidos = async (req, res) => {
                 'dolar_mensual_id',
                 'fecha_vencimiento',
                 'tipo_pago',
-                'fecha_inicial'
+                'fecha_inicial',
+                'vigencia'
             ]
         });
         const user = await usuarios.findOne({
@@ -152,7 +154,10 @@ export const updatePedidos = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Pedido actualizado',
@@ -252,6 +257,9 @@ export const deletePedidos = async (req, res) => {
 export const getAllPedidos = async (req, res) => {
     try{
         const allPedidos = await pedidos.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'codigo', 
                 'cantidad', 
@@ -303,7 +311,8 @@ export const getPedidosId = async (req, res) => {
         const {id} = req.params;
         const pedido = await pedidos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'codigo', 
@@ -339,6 +348,55 @@ export const getPedidosId = async (req, res) => {
             pedidos: pedido
         }); 
 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            pedidos: null
+        });
+    };
+};
+
+export const getAllPedidosWithFalse = async (req, res) => {
+    try{
+        const allPedidos = await pedidos.findAll({
+            attributes: [
+                'codigo', 
+                'cantidad', 
+                'nombre', 
+                'pago_inicial', 
+                'pago_final',
+                'fecha_pago', 
+                'fecha_salida', 
+                'fecha_llegada_real', 
+                'fecha_llegada_estimada', 
+                'fecha_aduana',
+                'estado',
+                'tipo_de_envio',
+                'flete',
+                'valor_cif',
+                'honorarios',
+                'arancel',
+                'gastos_agencia',
+                'numero_din',
+                'cuentas_bancos_id',
+                'agentes_aduana_id',
+                'proveedores_id',
+                'dolar_mensual_id',
+                'fecha_vencimiento',
+                'tipo_pago',
+                'fecha_inicial'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            pedidos: allPedidos
+        });
     }catch(e){
         console.log(e);
         res.json({

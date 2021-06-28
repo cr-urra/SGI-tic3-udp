@@ -20,6 +20,9 @@ const productos = database.define('productos',{
     },
     proveedores_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

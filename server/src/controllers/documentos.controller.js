@@ -10,7 +10,8 @@ export const createDocumentos = async (req, res) => {
         },{
             fields: [
                 'nombre_documento', 
-                'pedidos_id'
+                'pedidos_id',
+                'vigencia'
             ]
         });
         res.json({

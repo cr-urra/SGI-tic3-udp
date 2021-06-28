@@ -11,6 +11,9 @@ const detalles_dolar = database.define('detalles_dolar',{
     },
     historial_dolar_id:{
         type: sequelize.INTEGER
+    },
+    vigencia:{
+        type: sequelize.BOOLEAN
     }
 },{
     timestamps: false

@@ -12,7 +12,8 @@ export const createCuentasCorrientes = async (req, res) => {
             fields: [
                 'debe', 
                 'haber', 
-                'agentes_aduana_id'
+                'agentes_aduana_id',
+                'vigencia'
             ]
         });
         res.json({
