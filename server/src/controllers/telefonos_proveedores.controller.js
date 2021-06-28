@@ -60,11 +60,28 @@ export const updateTelefonosProveedores = async (req, res) => {
 export const deleteTelefonosProveedores = async (req, res) => {
     try{
         const {id} = req.params;
-        await telefonosProveedores.destroy({
+        const telefono = await telefonosProveedores.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id', 
+                'telefono', 
+                'proveedores_id'
+            ]
         });
+
+        if(telefono){
+            const telefonoUpdate = await telefonosProveedores.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            });
+        }
         res.json({
             message: 'Teléfono de proveedor eliminado correctamente',
             resultado: true

@@ -61,11 +61,27 @@ export const updateDetallesDolar = async (req, res) => {
 export const deleteDetallesDolar = async (req, res) => {
     try{
         const {id} = req.params;
-        await detallesDolar.destroy({
+        const detalleDolar = await detallesDolar.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'precio_compra', 
+                'historial_dolar_id'
+            ]
         });
+        if(detalleDolar){
+            const detalleDolarUpdate = await detallesDolar.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }); 
+        }
         res.json({
             resultado: true, 
             message: 'Detalle de dólar eliminado correctamente'

@@ -1,4 +1,6 @@
 import monedas from '../models/monedas';
+import proveedores from '../models/proveedores';
+import * as proveedoresController from './proveedores.controller';
 
 export const createMonedas = async (req, res) => {
     try{
@@ -61,11 +63,46 @@ export const updateMonedas = async (req, res) => {
 export const deleteMonedas = async (req, res) => {
     try{
         const {id} = req.params;
-        await monedas.destroy({
+        const moneda = await monedas.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'pais', 
+                'moneda'
+            ],
+            include = [
+                proveedores
+            ]
         });
+        if(moneda){
+
+            let proveedoresIds = []
+            moneda.dataValues.proveedores.forEach(element => {
+                proveedoresIds.push(parseInt(element.dataValues.id));
+            });
+            req.params = {
+                id = proveedoresIds
+            };
+
+            let aux = await proveedoresController.deleteProveedores(req, res);
+            let monedaUpdate;
+
+            aux.resultado ? monedaUpdate = await monedas.update({
+                vigencia = false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }): res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+        }
         res.json({
             resultado: true, 
             message: 'Moneda eliminada correctamente'

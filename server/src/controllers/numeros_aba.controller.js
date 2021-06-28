@@ -1,4 +1,6 @@
 import numerosAba from '../models/numeros_aba';
+import cuentas_bancos from '../models/cuentas_bancos';
+import * as cuentaBancosController from './cuentas_bancos.controller';
 
 export const createNumerosAba = async (req, res) => {
     try{
@@ -61,11 +63,44 @@ export const updateNumerosAba = async (req, res) => {
 export const deleteNumerosAba = async (req, res) => {
     try{
         const {id} = req.params;
-        await numerosAba.destroy({
+        const numeroAba = await numerosAba.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id', 
+                'nombre_banco', 
+                'numero_aba'
+            ],
+            include = [
+                cuentas_bancos
+            ]
         });
+        if(numeroAba){
+
+            let cuentaBancosIds = [];
+            numeroAba.dataValues.cuentas_bancos.forEach(element => {
+                cuentaBancosIds.push(parseInt(element.dataValues.id));
+            });
+            req.params = {
+                id = cuentaBancosIds
+            };
+            let aux = await cuentaBancosController.deleteCuentasBancos(req, res);
+            let numeroAbaUpdate;
+            aux.resultado ? numeroAbaUpdate = await numerosAba.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }): res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+        }
         res.json({
             resultado: true, 
             message: 'Número ABA eliminado correctamente'

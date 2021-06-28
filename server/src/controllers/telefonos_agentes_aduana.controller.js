@@ -60,11 +60,27 @@ export const updateTelefonosAgentesAduana = async (req, res) => {
 export const deleteTelefonosAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
-        await telefonosAgentesAduana.destroy({
+        const telefono = await telefonosAgentesAduana.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id', 
+                'telefono', 
+                'agentes_aduana_id'
+            ]
         });
+        if(telefono){
+            const telefonoUpdate = await telefonosAgentesAduana.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            });
+        }
         res.json({
             message: 'Teléfono de agente de aduana eliminado correctamente',
             resultado: true

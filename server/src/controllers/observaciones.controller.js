@@ -1,4 +1,6 @@
 import observaciones from '../models/observaciones';
+import gastos_extras from '../models/gastos_extras';
+import * as gastosExtrasController from './gastos_extras.controller';
 
 export const createObservaciones = async (req, res) => {
     try{
@@ -65,11 +67,53 @@ export const updateObservaciones = async (req, res) => {
 export const deleteObservaciones = async (req, res) => {
     try{
         const {id} = req.params;
-        await observaciones.destroy({
+        const observacion = await observaciones.findOne({
             where: {
                 id
-            }
+                
+            },
+            attributes: [
+                'id',
+                'observacion', 
+                'fecha', 
+                'gasto', 
+                'pedidos_id'
+            ],
+            include = [
+                gastos_extras
+            ]
         });
+        if(observacion){
+            let gastosExtrasIds = [];
+            observacion.dataValues.gastos_extras.forEach(element => {
+                gastosExtrasIds.push(parseInt(element.dataValues.id));
+            });
+            req.params = {
+                id = gastosExtrasIds
+            };
+            let aux = await gastosExtrasController.deleteGastosExtras(req, res);
+            let observacionUpdate;
+            aux.resultado ? observacionUpdate = await observaciones.update({
+                vigencia = false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+                
+            }): res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+            res.json({
+                message: 'Observación actualizada',
+                resultado: true,
+                observaciones: observacionUpdate
+            });
+        }
+        
         res.json({
             resultado: true, 
             message: 'Observación eliminada correctamente'

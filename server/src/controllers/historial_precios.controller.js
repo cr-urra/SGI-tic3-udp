@@ -63,11 +63,29 @@ export const updateHistorialPrecios = async (req, res) => {
 export const deleteHistorialPrecios = async (req, res) => {
     try{
         const {id} = req.params;
-        await historialPrecios.destroy({
+        const historialPrecio = await historialPrecios.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'precio', 
+                'fecha', 
+                'productos_id'
+            ]
         });
+        if(historialPrecio){
+            const historialPreciosUpdate = await historialPrecios.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }); 
+        }
+       
         res.json({
             resultado: true, 
             message: 'Precio eliminado correctamente de historial'
