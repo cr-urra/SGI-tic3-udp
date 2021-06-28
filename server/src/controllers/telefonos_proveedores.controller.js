@@ -5,11 +5,13 @@ export const createTelefonosProveedores = async (req, res) => {
         const {telefono, proveedores_id} = req.body;
         let newTelefonoProveedor = await telefonosProveedores.create({
             telefono,
-            proveedores_id
+            proveedores_id,
+            vigencia: true
         },{
             fields: [
                 'telefono',
                 'proveedores_id',
+                'vigencia'
             ]
         });
         res.json({

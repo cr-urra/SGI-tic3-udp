@@ -8,7 +8,8 @@ export const createProductos = async (req, res) => {
             nombre,
             tipo,
             proveedores_id,
-            unidad_productos_id
+            unidad_productos_id,
+            vigencia: true
         },{
             fields: [
                 'codigo',
@@ -16,7 +17,8 @@ export const createProductos = async (req, res) => {
                 'precio_por_kg',
                 'tipo',
                 'proveedores_id',
-                'unidad_productos_id'
+                'unidad_productos_id',
+                'vigencia'
             ]
         });
         res.json({
@@ -43,7 +45,10 @@ export const updateProductos = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Producto actualizado',
@@ -85,6 +90,9 @@ export const deleteProductos = async (req, res) => {
 export const getAllProductos = async (req, res) => {
     try{
         const allProductos = await productos.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id', 
                 'codigo', 
@@ -117,7 +125,8 @@ export const getProductosId = async (req, res) => {
         const {id} = req.params;
         const producto = await productos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -133,6 +142,36 @@ export const getProductosId = async (req, res) => {
             message: "", 
             productos: producto
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            productos: null
+        });
+    };
+};
+
+export const getAllProductosWithFalse = async (req, res) => {
+    try{
+        const allProductos = await productos.findAll({
+            attributes: [
+                'id', 
+                'codigo', 
+                'nombre',
+                'tipo',
+                'proveedores_id',
+                'unidad_productos_id'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            productos: allProductos
+        });
     }catch(e){
         console.log(e);
         res.json({

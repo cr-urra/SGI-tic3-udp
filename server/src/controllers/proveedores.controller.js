@@ -9,7 +9,8 @@ export const createProveedores = async (req, res) => {
             correo,
             pais,
             monedas_id,
-            rut
+            rut,
+            vigencia: true
         },{
             fields: [
                 'nombre',
@@ -17,7 +18,8 @@ export const createProveedores = async (req, res) => {
                 'correo',
                 'pais',
                 'monedas_id',
-                'rut'
+                'rut',
+                'vigencia'
             ]
         });
         res.json({
@@ -44,7 +46,10 @@ export const updateProveedores = async (req, res) => {
             body
         },
         {
-            where: {id}
+            where: {
+                id,
+                vigencia: true
+            }
         });
         res.json({
             message: 'Proveedor actualizado',
@@ -86,6 +91,9 @@ export const deleteProveedores = async (req, res) => {
 export const getAllProveedores = async (req, res) => {
     try{
         const allProveedores = await proveedores.findAll({
+            where: {
+                vigencia: true
+            },
             attributes: [
                 'id', 
                 'nombre', 
@@ -119,7 +127,8 @@ export const getProveedoresId = async (req, res) => {
         const {id} = req.params;
         const proveedor = await proveedores.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -136,6 +145,37 @@ export const getProveedoresId = async (req, res) => {
             message: "", 
             proveedores: proveedor
         }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            proveedores: null
+        });
+    };
+};
+
+export const getAllProveedoresWithFalse = async (req, res) => {
+    try{
+        const allProveedores = await proveedores.findAll({
+            attributes: [
+                'id', 
+                'nombre', 
+                'direccion',
+                'correo',
+                'pais',
+                'monedas_id',
+                'rut'
+            ],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            proveedores: allProveedores
+        });
     }catch(e){
         console.log(e);
         res.json({

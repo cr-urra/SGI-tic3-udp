@@ -5,11 +5,13 @@ export const createTelefonosAgentesAduana = async (req, res) => {
         const {telefono, agentes_aduana_id} = req.body;
         let newTelefonoUsuario = await telefonosAgentesAduana.create({
             telefono,
-            agentes_aduana_id
+            agentes_aduana_id,
+            vigencia: true
         },{
             fields: [
                 'telefono',
                 'agentes_aduana_id',
+                'vigencia'
             ]
         });
         res.json({
@@ -36,7 +38,8 @@ export const updateTelefonosAgentesAduana = async (req, res) => {
         },
         {
             where: {
-                id
+                id,
+                vigencia: true
             }
         });
         res.json({
@@ -80,7 +83,8 @@ export const getTelefonosAgentesAduanaId = async (req, res) => {
         const {id} = req.params;
         const telefono = await telefonosAgentesAduana.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -103,7 +107,7 @@ export const getTelefonosAgentesAduanaId = async (req, res) => {
     }
 };
 
-export const getAllTelefonosAgentesAduana = async (req, res) => {
+export const getAllTelefonosAgentesAduanaWithFalse = async (req, res) => {
     try{
         const allTelefonos = await telefonosAgentesAduana.findAll({
             attributes: [
@@ -129,6 +133,69 @@ export const getAllTelefonosAgentesAduana = async (req, res) => {
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
             resultado: false,
             telefonos: null
+        });
+    }
+};
+
+
+export const getAllTelefonosAgentesAduana = async (req, res) => {
+    try{
+        const allTelefonos = await telefonosAgentesAduana.findAll({
+            where: {
+                vigencia: true
+            },
+            attributes: [
+                'id', 
+                'telefono', 
+                'agentes_aduana_id'
+            ],
+            order: [
+                [
+                    'id', 
+                    'DESC'
+                ]
+            ]
+        });
+        res.json({
+            resultado: true,
+            message: "",
+            telefonos: allTelefonos
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false,
+            telefonos: null
+        });
+    }
+};
+
+export const getTelefonosAgentesAduanaForAgentesId = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const telefonos = await telefonosAgentesAduana.findAll({
+            where: {
+                agentes_aduana_id: id,
+                vigencia: true
+            },
+            attributes: [
+                'id', 
+                'telefono', 
+                'agentes_aduana_id'
+            ]
+        });
+        res.json({
+            resultado: true,
+            message: "",
+            telefono: telefonos
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false,
+            telefono: null
         });
     }
 };

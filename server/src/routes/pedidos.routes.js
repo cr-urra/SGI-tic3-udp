@@ -6,11 +6,12 @@ import * as pedidos from '../controllers/pedidos.controller';
 
 router.post('/', pedidos.createPedidos);
 router.get('/', pedidos.getAllPedidos);
+router.get('/all', pedidos.getAllPedidosWithFalse);
 
 // pedidos/:id
 
 router.put('/:id', pedidos.updatePedidos);
-router.delete('/:id', pedidos.deletePedidos);
+router.put('/delete/:id', pedidos.deletePedidos);
 router.get('/:id', pedidos.getPedidosId);
 
 module.exports = router;
