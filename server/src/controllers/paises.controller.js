@@ -72,7 +72,7 @@ export const deletePaises = async (req, res) => {
                 'pais', 
                 'codigo_iban'
             ],
-            include = [
+            include:[
                 cuentas_bancos
             ]
         });

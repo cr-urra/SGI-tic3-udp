@@ -72,7 +72,7 @@ export const deleteUnidadProductos = async (req, res) => {
                 'tipo', 
                 'valor_unidad'
             ],
-            include = [
+            include:[
                 productos
             ]
         });

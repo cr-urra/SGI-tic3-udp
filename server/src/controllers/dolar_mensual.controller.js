@@ -75,7 +75,7 @@ export const deleteDolarMensual = async (req, res) => {
                 'valor_mensual', 
                 'fecha_registro'
             ],
-            include = [
+            include: [
                 pedidos,
                 historial_dolar
             ]

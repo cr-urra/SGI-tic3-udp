@@ -77,7 +77,7 @@ export const deleteHistorialDolar = async (req, res) => {
                 'precio', 
                 'dolar_mensual_id'
             ],
-            include = [
+            include:[
                 detalles_dolar
             ]
         });

@@ -79,7 +79,7 @@ export const deleteObservaciones = async (req, res) => {
                 'gasto', 
                 'pedidos_id'
             ],
-            include = [
+            include:[
                 gastos_extras
             ]
         });

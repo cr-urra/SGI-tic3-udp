@@ -72,7 +72,7 @@ export const deleteMonedas = async (req, res) => {
                 'pais', 
                 'moneda'
             ],
-            include = [
+            include: [
                 proveedores
             ]
         });

@@ -72,7 +72,7 @@ export const deleteNumerosAba = async (req, res) => {
                 'nombre_banco', 
                 'numero_aba'
             ],
-            include = [
+            include:[
                 cuentas_bancos
             ]
         });
