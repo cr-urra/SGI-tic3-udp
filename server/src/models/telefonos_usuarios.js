@@ -7,7 +7,7 @@ const telefonos_usuarios = database.define('telefonos_usuarios',{
         primaryKey: true
     },
     telefono:{
-        type: sequelize.NUMBER
+        type: sequelize.STRING
     },
     usuarios_id:{
         type: sequelize.INTEGER

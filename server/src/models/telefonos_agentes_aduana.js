@@ -7,7 +7,7 @@ const telefonos_agentes_aduana = database.define('telefonos_agentes_aduana',{
         primaryKey: true
     },
     telefono:{
-        type: sequelize.NUMBER
+        type: sequelize.STRING
     },
     agentes_aduana_id:{
         type: sequelize.INTEGER
