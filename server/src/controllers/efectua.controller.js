@@ -27,12 +27,34 @@ export const createEfectua = async (req, res) => {
     };
 };
 
-export const deleteEfectua = async (req, res) => {
+export const deleteEfectuaAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
         await efectua.destroy({
             where: {
-                id
+                agentes_aduana_id: id
+            }
+        });
+        res.json({
+            resultado: true, 
+            message: 'Relación efectua eliminada correctamente'
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        });
+    };
+    
+};
+
+export const deleteEfectuaObservaciones = async (req, res) => {
+    try{
+        const {id} = req.params;
+        await efectua.destroy({
+            where: {
+                observaciones_id: id
             }
         });
         res.json({
