@@ -25,6 +25,7 @@ import usuarios from '../models/usuarios';
 import bancos_agentes_aduana from '../models/bancos_agentes_aduana';
 import efectua from '../models/efectua';
 import unidad_productos from '../models/unidad_productos';
+import tiene from '../models/tiene';
 
 // 1:1
 
@@ -111,13 +112,16 @@ ips.belongsTo(usuarios, {foreignKey: 'usuarios_id', sourceKey: 'id'});
 bancos_agentes_aduana.hasMany(agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 agentes_aduana.belongsTo(bancos_agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 
+pedidos.hasMany(tiene, {foreignKey: 'pedidos_id', sourceKey: 'id'});
+tiene.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
+
+productos.hasMany(tiene, {foreignKey: 'productos_id', sourceKey: 'id'});
+tiene.belongsTo(productos, {foreignKey: 'productos_id', sourceKey: 'id'});
+
 // N:M
 
 pedidos.belongsToMany(usuarios, {through: 'realiza', foreignKey: 'pedidos_id'});
 usuarios.belongsToMany(pedidos, {through: 'realiza', foreignKey: 'usuarios_id'});
-
-pedidos.belongsToMany(productos, {through: 'tiene', foreignKey: 'pedidos_id'});
-productos.belongsToMany(pedidos, {through: 'tiene', foreignKey: 'productos_id'});
 
 pedidos.belongsToMany(historial_dolar, {through: 'cobra', foreignKey: 'pedidos_id'});
 historial_dolar.belongsToMany(pedidos, {through: 'cobra', foreignKey: 'historial_dolar_id'});
