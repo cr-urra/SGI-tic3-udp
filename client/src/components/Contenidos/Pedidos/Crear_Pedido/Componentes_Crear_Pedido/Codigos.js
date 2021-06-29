@@ -4,6 +4,6 @@ import Codigo from './Codigo'
 
 export default class Codigos extends Component {
     render() {     
-            return this.props.codigos.slice(0,5).map(codigo => <Codigo codigo={codigo} key={codigo.codigo}/>) 
+            return this.props.codigos.map(codigo => <Codigo codigo={codigo} key={codigo.codigo}/>) 
     }
 }

@@ -82,6 +82,7 @@ export default class Ingresar_Usuario extends Component {
             this.state.cuenta_interbancaria != "" 
             
         ){
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')    
             const Proveedor = {
                 nombre: this.state.nombre,
                 pais: this.state.pais,
@@ -101,31 +102,31 @@ export default class Ingresar_Usuario extends Component {
                 nombre_banco: this.state.nombre_b
             }
 
-            const res = await axios.post("/sacate-la-url/", Proveedor)       
+            const res = await axios.post("/proveedores/", Proveedor)       
 
-            const res3 = await axios.post("/sacate-la-url/", Pais) 
-            const res4 = await axios.post("/sacate-la-url/", ABA) 
-
+            const res3 = await axios.post("/paises/", Pais) 
+            const res4 = await axios.post("/numerosAba/", ABA) 
+            console.log(res4)
             const Banco = {
                 nombre_banco: this.state.nombre_b,
                 numero_cuenta: this.state.cuenta_interbancaria,
                 codigo_iban: this.state.iban,
                 referencia: this.state.referencia,
                 paises_id: res3.data.paises.id,
-                numeros_aba_id: res4.data.numeros_aba.id,
+                numeros_aba_id: res4.data.numeroAba.id,
                 swift_code: this.state.codigo_swift,
                 proveedores_id: res.data.proveedores.id
             }
 
-            const res2 = await axios.post("/sacate-la-url/", Banco) 
+            const res2 = await axios.post("/cuentasBancos/", Banco) 
                   
             const Telefono = {
                 telefono: this.state.telefono,
                 proveedores_id: res.data.proveedores.id
             }
 
-            const res5 = await axios.post("/sacate-la-url/", Telefono) 
-                        
+            const res5 = await axios.post("/telefonosProveedores/", Telefono) 
+ 
             toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
 
         }else{

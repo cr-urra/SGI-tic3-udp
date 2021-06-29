@@ -1,60 +1,125 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
+import {Link , Redirect} from 'react-router-dom';
 
 
 // <Redirect to={{ pathname: '/users/usr', state: {rut: this.state.rut}}} />;
 
 export default class Init extends Component {
+
+    state = {
+      estado: null
+    }
+
+    nacional = () =>{
+      this.setState({
+        estado: "nacional"
+      })
+    }
+
+    internacional = () =>{
+      this.setState({
+        estado: "internacional"
+      })
+    }
+
+    ingreso = () =>{
+      this.setState({
+        estado: "ingreso"
+      })
+    }
+
+    finalizado = () =>{
+      this.setState({
+        estado: "finalizado"
+      })
+    }
+
+    produccion = () =>{
+      this.setState({
+        estado: "produccion"
+      })
+    }
+
     render() {
+        switch(this.state.estado) {
+          case "produccion":
+   
+              return <Redirect to={{pathname: '/users/Pedido_Produccion',
+                          state: {n_pedido: this.props.n_pedido}
+                      }} />;
+          case "internacional":
+            return <Redirect to={{ 
+                        pathname: '/users/Pedido_internacional',
+                        state :{n_pedido: this.props.n_pedido}
+                    }} />;
+          case "ingreso":
+            return <Redirect to={{ 
+                        pathname: '/users/Pedido_ingreso',
+                        state :{n_pedido: this.props.n_pedido}
+                    }} />;
+          case "nacional":
+            return <Redirect to={{ 
+                        pathname: '/users/Pedido_nacional',
+                        state :{n_pedido: this.props.n_pedido}
+                    }} />;
+          case "finalizado":
+            return <Redirect to={{ 
+                        pathname: '/users/Pedido_finalizado',
+                        state :{n_pedido: this.props.n_pedido}
+                    }} />;            
+          default:
+              break;
+      };
         if(this.props.estado==="produccion"){
           return (
-            <Link to={"/users/Pedido_Produccion"}>
+            
               <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2">
+                  <button className="btn color_sitio2 mt-2" onClick={this.produccion}>
                     Editar Pedido
+                    {console.log(this.props.n_pedido,"1")}
                   </button>
               </div>
-            </Link>
+            
           )
         }else if(this.props.estado==="internacional"){
           return (
-            <Link to={"/users/Pedido_Internacional"}>
+            
               <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2">
+                  <button className="btn color_sitio2 mt-2" onClick={this.internacional}>
                     Editar Pedido
                   </button>
               </div>
-            </Link>
+            
           )
         }else if(this.props.estado==="ingreso"){
           return (
-            <Link to={"/users/Pedido_Ingreso"}>
+           
               <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2">
+                  <button className="btn color_sitio2 mt-2" onClick={this.ingreso}>
                     Editar Pedido
                   </button>
               </div>
-            </Link>
+           
           )
         }else if(this.props.estado==="nacional"){
           return (
-            <Link to={"/users/Pedido_Nacional"}>
+           
               <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2">
+                  <button className="btn color_sitio2 mt-2" onClick={this.nacional}>
                     Editar Pedido
                   </button>
               </div>
-            </Link>
+           
           )
         }else if(this.props.estado==="finalizado"){
           return (
-            <Link to={"/users/Pedido_Finalizado"}>
+           
               <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2">
+                  <button className="btn color_sitio2 mt-2" onClick={this.finalizado}>
                     Editar Pedido
                   </button>
               </div>
-            </Link>
+            
           )
         }
     }

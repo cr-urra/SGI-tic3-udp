@@ -17,14 +17,19 @@ export default class Init extends Component {
       const res = await axios.get("/proveedores/",{})
       console.log(res,"proveedores");
       for (let i= 0; i < res.data.proveedores.length ; i++){
+          const moneda = await axios.get("/monedas/"+res.data.proveedores[i].monedas_id,{})
+          const Banco = await axios.get("/cuentasBancos/proveedores/"+res.data.proveedores[i].id,{}) 
+          const Telefono = await axios.get("/telefonosProveedores/proveedores/"+res.data.proveedores[i].id,{})
+          console.log(Banco,"banco")
+          console.log(Telefono,"telefono")
           const proveedor = {
             nombre:  res.data.proveedores[i].nombre,
             pais:  res.data.proveedores[i].pais,
-            banco:  "falta conectar el dato",
+            banco:  Banco.data.cuentas_bancos.nombre_banco,
             direccion:  res.data.proveedores[i].direccion,
             correo:  res.data.proveedores[i].correo,
-            moneda: res.data.proveedores[i].monedas_id,
-            telefono:  "falta conectar el dato"
+            moneda: moneda.data.monedas.pais + "-" +moneda.data.monedas.moneda,
+            telefono:  Telefono.data.telefono.telefono
           }
           this.setState({
             proveedores: [...this.state.proveedores, proveedor]

@@ -17,6 +17,7 @@ export default class Forma_Pago extends Component {
               name="pago_transporte"
               className="form-control" 
               aria-label="Default" 
+              placeholder="Dolar$"
               aria-describedby="inputGroup-sizing-default"
               onChange={this.props.onChange}
               value={this.props.pago_transporte} 
@@ -32,6 +33,7 @@ export default class Forma_Pago extends Component {
               type="text" 
               name="pago_seguro"
               className="form-control" 
+              placeholder="Dolar$"
               aria-label="Default" 
               aria-describedby="inputGroup-sizing-default"
               onChange={this.props.onChange}

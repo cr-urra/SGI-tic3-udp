@@ -20,13 +20,15 @@ export default class Init extends Component {
         console.log(res,"productos");
         for (let i= 0; i < res.data.productos.length ; i++){
             const medida = await axios.get("/unidadProductos/"+res.data.productos[i].unidad_productos_id,{})
-            console.log(medida)
+            const precio = await axios.get("/historialPrecios/maxDate/"+res.data.productos[i].id,{})
+            const proveedor = await axios.get("/proveedores/"+res.data.productos[i].proveedores_id,{})
+            console.log(precio)
             const producto = {
                  nombre :  res.data.productos[i].nombre,
                  codigo :  res.data.productos[i].codigo,
-                 precio :  "falta conectar dato",
+                 precio :  precio.data.historialPrecios.precio,
                  tipo :  res.data.productos[i].tipo,
-                 proveedor : res.data.productos[i].proveedores_id,
+                 proveedor : proveedor.data.proveedores.nombre,
                  medida: medida.data.unidadProductos.nombre_medida
             }
             this.setState({

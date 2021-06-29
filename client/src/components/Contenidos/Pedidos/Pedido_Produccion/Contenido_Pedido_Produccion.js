@@ -9,9 +9,13 @@ import Estados from '../Pedido_Componentes/Estados'
 import Requisitos from './Requisistos'
 
 export default class Init extends Component {
+
+    
+
     render() {
         return (
             <main className="content">
+              {console.log(this.props)}
                 <h1 className="display-5 titulo">Pedido en Producción</h1>             
                 <div className="container separacion">           
                   <div className="card border-primary mb-5 shadow-lg">

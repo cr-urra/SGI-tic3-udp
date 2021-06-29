@@ -132,8 +132,21 @@ export default class EditUsuario extends Component {
                                     <Datos nombre={"Apellido"} contenido={this.props.Usuarios[j].apellido} name={"apellido"} name2={this.state.apellido} onChange={this.onChange}/>
                                     <Datos nombre={"Rut"} contenido={this.props.Usuarios[j].rut} name={"rut"} name2={this.state.rut} onChange={this.onChange}/>
                                     <Datos nombre={"Telefono"} contenido={this.props.Usuarios[j].telefono} name={"telefono"} name2={this.state.telefono} onChange={this.onChange}/>
-                                    <Datos nombre={"Correo"} contenido={this.props.Usuarios[j].correo} name={"correo"} name2={this.state.correo} onChange={this.onChange}/>
-                                    <Datos nombre={"Rol"} contenido={this.props.Usuarios[j].rol} name={"rol"} name2={this.state.rol} onChange={this.onChange}/>
+                                    <Datos nombre={"Correo"} contenido={this.props.Usuarios[j].correo} name={"correo"} name2={this.state.correo} onChange={this.onChange}/>                                    
+                                    <div className="row separacion">
+                                        <div className="col-1"/>
+                                        <div className="col-4">
+                                            <label className="input-group-text ancho2 " for="inputGroupSelect01">Rol</label>
+                                        </div>
+                                        <div className="col-6">
+                                            <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.state.rol} onChange={this.onChange} name={"rol"}>
+                                              <option defaultValue value={""}>Valor Antiguo: {this.props.Usuarios[j].rol} - Debe cambiar este valor </option>
+                                              <option value={1}>Administrador</option>
+                                              <option value={3}>Operaciones</option>
+                                              <option value={2}>Finanzas</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>

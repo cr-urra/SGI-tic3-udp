@@ -15,6 +15,7 @@ export default class Buscar_Producto extends Component {
         message: null,
     };
 
+
     componentDidMount = async () => {
         const res = await axios.get('/auth/adm/');
         this.setState({
@@ -56,7 +57,7 @@ export default class Buscar_Producto extends Component {
                     </aside>                 
                   <div className="layout">
                     <header className="header"><Navbar logOut={this.logOut}/></header>
-                    <Contenido/>
+                    <Contenido auxiliar ={this.props.location.state} />
                     <div className="overlay"></div>
                   </div>
                 </div>            

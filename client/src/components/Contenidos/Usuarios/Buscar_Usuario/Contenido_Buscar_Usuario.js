@@ -17,13 +17,23 @@ export default class Init extends Component {
         const res = await axios.get("/usuarios/",{}) 
         console.log(res,"usuarios");
         for (let i= 0; i < res.data.usuarios.length ; i++){
+            let rol = res.data.usuarios[i].roles_id
+            if(rol === 1){
+                rol = "Administrador"
+            } else if( rol === 2){
+                rol = "Finanzas"
+            }else {
+                rol= "Operaciones"
+            }
+            const Telefono = await axios.get("/telefonosUsuarios/usuarios/"+res.data.usuarios[i].id,{}) 
+            console.log(Telefono)
             const usuario = {
                 nombre:  res.data.usuarios[i].nombre,
                 apellido:  res.data.usuarios[i].apellido,
-                telefono:  "falta conectar dato",
+                telefono:  Telefono.data.telefono.telefono,
                 correo:  res.data.usuarios[i].correo,
                 rut: res.data.usuarios[i].rut,
-                rol:  res.data.usuarios[i].roles_id
+                rol:  rol
             }
             this.setState({
                 Usuarios: [...this.state.Usuarios, usuario]

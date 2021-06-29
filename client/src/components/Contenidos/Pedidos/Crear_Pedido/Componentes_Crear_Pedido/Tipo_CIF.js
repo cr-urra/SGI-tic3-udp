@@ -15,6 +15,7 @@ export default class Forma_Pago extends Component {
               <input 
               type="text" 
               name="pago_transporte"
+              placeholder="Dolar$"
               className="form-control" 
               aria-label="Default" 
               aria-describedby="inputGroup-sizing-default"

@@ -8,7 +8,13 @@ import codigos from '../../../JasonDePruebas/codigos.json'
 import Codigos from './Componentes_Crear_Pedido/Codigos'
 import NewProduct from './Componentes_Crear_Pedido/NewProduct'
 import Producto from './Componentes_Crear_Pedido/Producto'
+import axios from 'axios'
+import Opciones from './Componentes_Crear_Pedido/opciones'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Filtro_codigo from './Componentes_Crear_Pedido/Filtro_Codigo'
 
+toast.configure()
 
 
 export default class Init extends Component {
@@ -21,13 +27,13 @@ export default class Init extends Component {
         codigo:null,
         new: false,
 
-        case: false,
-
         codigo_p: null,
         kilo: null,
-        precio_kilo: "555",
+        precio_kilo: null,
         descripcion: "hola soy un producto",
 
+
+        proveedor: null,
         tipo_pago: null,
         fecha_vencimiento: null,   
         fecha_entrega: null,
@@ -37,13 +43,44 @@ export default class Init extends Component {
         pago_transporte: null,
         pago_seguro: null,
 
-        show: false
+        show: false,
+        proveedores: [],
+        productos_all: []
     }
 
     new = (e) =>{
         this.setState(prevState =>({
             new: !this.state.new
         }))
+    }
+
+    componentDidMount = async () => {
+        const res = await axios.get("/proveedores/",{})
+        console.log(res,"proveedores");
+        for (let i= 0; i < res.data.proveedores.length ; i++){
+            const proveedor = {
+              nombre:  res.data.proveedores[i].nombre,
+              id: res.data.proveedores[i].id
+            }
+            this.setState({
+              proveedores: [...this.state.proveedores, proveedor]
+            })
+        }
+        const res2 = await axios.get("/productos/",{})
+        console.log(res2.data,"productos")
+        for (let j=0; j< res2.data.productos.length ; j++){
+            const producto = {
+                codigo: res2.data.productos[j].codigo,
+                id: res2.data.productos[j].id,
+                nombre: res2.data.productos[j].nombre,
+                proveedores_id: res2.data.productos[j].proveedores_id,
+                tipo: res2.data.productos[j].tipo,
+                unidad_productos_id: res2.data.productos[j].unidad_productos_id
+            }
+            this.setState({
+                productos_all: [...this.state.productos_all, producto]
+            })
+        }
     }
 
     agregarProducto = (codigo,peso,precio)  => {
@@ -70,7 +107,12 @@ export default class Init extends Component {
         console.log(this.state.productos)
     }
 
+    precio = (cod) => async (e) => {
+        const precio = await axios.get("/historialPrecios/maxDate/"+e,{})
+        console.log(precio,"5")
 
+        return precio.data.historialPrecios.precio
+    }
 
     onChange = e => {
         this.setState({
@@ -90,17 +132,57 @@ export default class Init extends Component {
         })
     }
 
-    onSubmit = () => {
-        const Banco ={ 
-            
-        }
+    onSubmit = async e => {
+        e.preventDefault();
+        if(
+            this.state.proveedor !==  null &&
+            this.state.tipo_pago !==  null &&
+            this.state.fecha_vencimiento !==  null &&   
+            this.state.fecha_entrega !==  null &&
+            this.state.pago_inicial !==  null &&
+            this.state.cambio_pago_inicial !==  null &&
+            this.state.tipo_transporte !==  null &&
+            this.state.pago_transporte !==  null &&
+            this.state.pago_seguro !==  null &&
+            this.state.productos !==  [] &&
+            this.state.codigo !== null &&
+            this.state.proveedor !==  "" &&
+            this.state.tipo_pago !==  "" &&
+            this.state.fecha_vencimiento !==  "" &&   
+            this.state.fecha_entrega !==  "" &&
+            this.state.pago_inicial !==  "" &&
+            this.state.cambio_pago_inicial !==  "" &&
+            this.state.tipo_transporte !==  "" &&
+            this.state.pago_transporte !==  "" &&
+            this.state.pago_seguro !==  "" &&
+            this.state.codigo !== ""
+        ){
 
+            const Pedido = {
+
+            }
+
+            const res = await axios.post("/sacate la url/",Pedido)
+            console.log(res)
+            
+            if(res.data.resultado==true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }else{
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }  
+        }else{
+            toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }
+        this.setState({
+            show: false
+        })
     }
 
 
     render() {
         return (
             <main className="content">
+                {console.log(this.state)}
                 <h1 className="display-5 titulo">Crear un Pedido</h1>
                 <div className = "container separacion" >
                     <div className = "card shadow-lg">
@@ -110,16 +192,16 @@ export default class Init extends Component {
                         <form onSubmit={this.onSubmit}  >
                             <div className = "container" >
                                 <div className="container mb-5 mt-5" >
-                                    <div className="input-group no_flex">
-                                      <label className="input-group-text " for="inputGroupSelect01">Buscar un Proveedor </label>
-                                      <input className="form-control ancho" list="datalistOptions" id="exampleDataList" placeholder="Escribe Aquí para Buscar..." value = {this.props.banco} onChange={this.props.onChange} ></input>
-                                      <datalist id="datalistOptions">
-                                        <option value="San Francisco"/>
-                                        <option value="New York"/>
-                                        <option value="Seattle"/>
-                                        <option value="Los Angeles"/>
-                                        <option value="Chicago"/>
-                                      </datalist>
+                                    <div className="row">
+                                        <div className="col-2">
+                                            <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Proveedor</label>
+                                        </div>
+                                        <div className="col-4">
+                                            <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.state.proveedor} onChange={this.onChange} name={"proveedor"} >
+                                              <option defaultValue value={"null"}>Escoger el Proveedor del producto</option>
+                                              <Opciones proveedores={this.state.proveedores} />
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -129,7 +211,7 @@ export default class Init extends Component {
                                                 <span className="input-group-text ancho" id="inputGroup-sizing-default">N° de Pedido</span>
                                             </div>
                                         </div>
-                                        <div className="col-3">
+                                        <div className="col-4">
                                             <input 
                                             type="text" 
                                             name="codigo"
@@ -142,31 +224,15 @@ export default class Init extends Component {
                                         </div>  
                                         <div className="col-2" />
                                         <div className="col-5">
-                                        <div className="form-check mb-3">
-                                          <input type="checkbox" className="form-check-input" id="validationFormCheck1" onClick={this.new}/>
-                                          <label className="form-check-label" for="validationFormCheck1">Agregar Nuevo Producto</label>                                          
+                                            
                                         </div>
-                                        </div>
+                                    </div>                                                                       
+                                    
+                                    <Filtro_codigo productos = {this.state.productos_all} filtro={this.state.proveedor} new={this.new}  onChange={this.onChange} codigo_p={this.state.codigo_p}/>
 
-                                    </div> 
-                                    {console.log(this.state.productos)}
-                                    <NewProduct new={this.state.new}/>                                    
+                                    <NewProduct new={this.state.new} codigo={this.state.codigo_p} productos = {this.state.productos_all}/> 
 
-                                    <div className="input-group  mt-2 ">
-                                        <div className="col-6" >
-                                            <div className="container mb-4" >
-                                                <div className="input-group no_flex">
-                                                  <label className="input-group-text" for="inputGroupSelect01">Buscar Producto</label>
-                                                  <input className="form-control ancho" list="datalistOptions2"  placeholder="Escribe Aquí para Buscar..." name={"codigo_p"} value ={this.state.codigo_p} onChange={this.onChange} />
-                                                  <datalist id="datalistOptions2" >
-                                                    <Codigos codigos={this.state.json} />
-                                                  </datalist>
-                                                </div>
-                                            </div>
-                                        </div>                                                                            
-                                    </div> 
-
-                                    <Producto onChange={this.onChange} kilo={this.state.kilo} descripcion={this.state.descripcion} precio_kilo={this.state.precio_kilo} filtro={this.state.codigo_p} activo={this.activo} />                                                                                                                                                                                                                                                    
+                                    <Producto precio={this.precio()} onChange={this.onChange}  producto = {this.state.productos_all.filter((producto)=> producto.codigo == this.state.codigo_p)}  kilo={this.state.kilo} descripcion={this.state.descripcion} precio_kilo={this.state.precio_kilo} filtro={this.state.codigo_p} activo={this.activo} />                                                                                                                                                                                                                                                    
 
                                     <Productos productos = {this.state.productos} eliminar ={this.eliminar}/>
 
@@ -176,7 +242,7 @@ export default class Init extends Component {
                                         </div>
                                         <div className="col-4">
                                             <select className="form-select ancho alto"  id="inputGroupSelect01" name={"tipo_pago"}  value = {this.state.tipo_pago} onChange={this.onChange} >
-                                              <option defaultValue value={"null"}>Escoger Forma de Pago</option>
+                                              <option defaultValue value={null}>Escoger Forma de Pago</option>
                                               <option value="1" >Credito</option>
                                               <option value="2">Transferencia</option>                                              
                                             </select>
@@ -211,7 +277,7 @@ export default class Init extends Component {
                                         </div>
                                         <div className="col-4">
                                             <select className="form-select ancho alto"   id="inputGroupSelect01" name={"tipo_transporte"} value = {this.state.tipo_transporte} onChange={this.onChange} >
-                                              <option defaultValue value="null">Escoger Tipo de Transporte</option>
+                                              <option defaultValue value={null}>Escoger Tipo de Transporte</option>
                                               <option value="1">CIF</option>
                                               <option value="2">FOB</option>
                                             </select>
@@ -238,10 +304,11 @@ export default class Init extends Component {
                                         </div>
                                         <div className="col-4">
                                             <input 
-                                            type="text" 
+                                            type="number" 
                                             name="pago_inicial"
                                             className="form-control" 
                                             aria-label="Default" 
+                                            placeholder="Dolar$"
                                             aria-describedby="inputGroup-sizing-default"
                                             onChange={this.onChange}
                                             value={this.state.pago_inicial}
@@ -255,10 +322,11 @@ export default class Init extends Component {
                                         </div>
                                         <div className="col-4">
                                             <input 
-                                            type="text" 
+                                            type="number" 
                                             name="cambio_pago_inicial"
                                             className="form-control" 
                                             aria-label="Default" 
+                                            placeholder="Valor Dolar"
                                             aria-describedby="inputGroup-sizing-default"
                                             onChange={this.onChange}
                                             value={this.state.cambio_pago_inicial}

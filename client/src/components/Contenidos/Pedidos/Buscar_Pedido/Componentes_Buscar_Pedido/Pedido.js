@@ -6,8 +6,7 @@ import Button2 from './Button'
 
 export default class Init extends Component {
     render() {
-        return (
-            
+        return (            
             <div className="container separacion">              
               <div className="row">
                 <div className="input-group no_flex">
@@ -50,7 +49,7 @@ export default class Init extends Component {
                       </Card>
                     </Accordion>
                   </div>
-                  <Button2 estado = {this.props.pedido.estado} />
+                  <Button2 estado = {this.props.pedido.estado} n_pedido={this.props.pedido.n_pedido} />
                 </div>
               </div>
             </div>            
