@@ -114,16 +114,6 @@ export const createPedidos = async (req, res) => {
                 'id'
             ]
         });
-        const products = await productos.findAll({
-            where: {
-                codigo: {
-                    [sequelize.in]: productos_cod
-                }
-            },
-            attributes: [
-                'id'
-            ]
-        });
         const historial_dolar = await historialDolar.findOne({
             where: {
                 fecha_actual
@@ -132,7 +122,6 @@ export const createPedidos = async (req, res) => {
                 'id'
             ]
         });
-        newPedido.addProductos([products])
         newPedido.addUsuarios([user]);
         newPedido.addHistorial_dolar([historial_dolar]);
         res.json({
