@@ -85,7 +85,7 @@ export const deleteCuentasCorrientes = async (req, res) => {
                 movimientosIds.push(parseInt(element.dataValues.id));
             });
             req.params = {
-                id = movimientosIds
+                id: movimientosIds
             };
             let aux = await movimientosController.deleteMovimientos(req, res);
             

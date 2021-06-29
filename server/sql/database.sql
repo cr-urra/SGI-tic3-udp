@@ -991,7 +991,8 @@ CREATE TABLE public.unidad_productos (
     id integer NOT NULL,
     tipo character varying(30),
     valor_unidad double precision,
-    vigencia boolean
+    vigencia boolean,
+    nombre_medida character varying
 );
 
 
@@ -1478,6 +1479,11 @@ COPY public.telefonos_agentes_aduana (id, telefono, agentes_aduana_id, vigencia)
 1	96184222	1	t
 5	12676398	1	t
 6	89743783	\N	t
+7	89743783	\N	t
+8	89743783	\N	t
+9	89743783	\N	t
+10	89743783	5	t
+11	89743783	5	t
 \.
 
 
@@ -1516,8 +1522,8 @@ COPY public.tiene (pedidos_id, productos_id, created_at, updated_at) FROM stdin;
 -- Data for Name: unidad_productos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.unidad_productos (id, tipo, valor_unidad, vigencia) FROM stdin;
-1	Toneladas	1000	t
+COPY public.unidad_productos (id, tipo, valor_unidad, vigencia, nombre_medida) FROM stdin;
+1	Toneladas	1000	t	\N
 \.
 
 
@@ -1682,7 +1688,7 @@ SELECT pg_catalog.setval('public.roles_id_seq', 3, true);
 -- Name: telefonos_agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 6, true);
+SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 11, true);
 
 
 --

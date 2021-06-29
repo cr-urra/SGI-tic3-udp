@@ -84,7 +84,7 @@ export const deleteNumerosAba = async (req, res) => {
             });
 
             req.params = {
-                id = cuentaBancosIds
+                id : cuentaBancosIds
             };
             let aux = await cuentaBancosController.deleteCuentasBancos(req, res);
             

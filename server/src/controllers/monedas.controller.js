@@ -84,14 +84,14 @@ export const deleteMonedas = async (req, res) => {
             });
 
             req.params = {
-                id = proveedoresIds
+                id : proveedoresIds
             };
 
             let aux = await proveedoresController.deleteProveedores(req, res);
             let monedaUpdate;
 
             aux.resultado ? monedaUpdate = await monedas.update({
-                vigencia = false
+                vigencia: false
             },
             {
                 where: {

@@ -4,15 +4,17 @@ import * as productosController from './productos.controller';
 
 export const createUnidadProductos = async (req, res) => {
     try{
-        const {tipo, valor_unidad} = req.body;
+        const {tipo, valor_unidad, nombre_medida} = req.body;
         let newUnidadProducto = await unidadProductos.create({
             tipo, 
             valor_unidad,
+            nombre_medida,
             vigencia: true
         },{
             fields: [
                 'tipo', 
                 'valor_unidad',
+                'nombre_medida',
                 'vigencia'
             ]
         });
@@ -70,6 +72,7 @@ export const deleteUnidadProductos = async (req, res) => {
             attributes: [
                 'id',
                 'tipo', 
+                'nombre_medida',
                 'valor_unidad'
             ],
             include:[
@@ -85,14 +88,14 @@ export const deleteUnidadProductos = async (req, res) => {
             });
 
             req.params = {
-                id = productosIds
+                id: productosIds
             };
 
             let aux = await productosController.deleteProductos(req, res);
             
             let unidadProductosUpdate;
             aux.resultado ? unidadProductosUpdate = await unidadProductos.update({
-                vigencia = false
+                vigencia: false
             },
             {
                 where: {
@@ -128,6 +131,7 @@ export const getAllUnidadProductos = async (req, res) => {
             attributes: [
                 'id',
                 'tipo', 
+                'nombre_medida',
                 'valor_unidad'
             ],
             order: [
@@ -160,6 +164,7 @@ export const getUnidadProductosId = async (req, res) => {
             attributes: [
                 'id',
                 'tipo', 
+                'nombre_medida',
                 'valor_unidad'
             ]
         });
@@ -184,6 +189,7 @@ export const getAllUnidadProductosWithFalse = async (req, res) => {
             attributes: [
                 'id',
                 'tipo', 
+                'nombre_medida',
                 'valor_unidad'
             ],
             order: [
