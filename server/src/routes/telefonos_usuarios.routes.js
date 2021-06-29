@@ -11,6 +11,7 @@ router.get('/', telefonosUsuarios.getAllTelefonosUsuarios);
 
 router.put('/:id', telefonosUsuarios.updateTelefonosUsuarios);
 router.delete('/:id', telefonosUsuarios.deleteTelefonosUsuarios);
-router.get('/:id', telefonosUsuarios.deleteTelefonosUsuarios);
+router.get('/:id', telefonosUsuarios.getTelefonosUsuariosId);
+router.get('/usuarios/:id', telefonosUsuarios.getTelefonosUsuariosIdForUsuariosId);
 
 module.exports = router;

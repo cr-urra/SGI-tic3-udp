@@ -12,7 +12,7 @@ router.get('/all', telefonosAgentesAduana.getAllTelefonosAgentesAduanaWithFalse)
 
 router.put('/:id', telefonosAgentesAduana.updateTelefonosAgentesAduana);
 router.put('/delete/:id', telefonosAgentesAduana.deleteTelefonosAgentesAduana);
-router.get('/:id', telefonosAgentesAduana.deleteTelefonosAgentesAduana);
+router.get('/:id', telefonosAgentesAduana.getTelefonosAgentesAduanaId);
 router.get('/agentes/:id', telefonosAgentesAduana.getTelefonosAgentesAduanaForAgentesId);
 
 module.exports = router;

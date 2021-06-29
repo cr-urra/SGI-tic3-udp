@@ -103,6 +103,34 @@ export const getTelefonosUsuariosId = async (req, res) => {
     }
 };
 
+export const getTelefonosUsuariosIdForUsuariosId = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const telefono = await telefonosUsuarios.findOne({
+            where: {
+                usuarios_id: id
+            },
+            attributes: [
+                'id', 
+                'telefono', 
+                'usuarios_id'
+            ]
+        });
+        res.json({
+            resultado: true,
+            message: "",
+            telefono: telefono
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false,
+            telefono: null
+        });
+    }
+};
+
 export const getAllTelefonosUsuarios = async (req, res) => {
     try{
         const allTelefonos = await telefonosUsuarios.findAll({
