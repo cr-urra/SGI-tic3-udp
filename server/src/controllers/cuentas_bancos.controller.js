@@ -4,7 +4,7 @@ import * as pedidosController from './pedidos.controller'
 
 export const createCuentasBancos = async (req, res) => {
     try{
-        const {numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id} = req.body;
+        const {numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, proveedores_id} = req.body;
         let newCuentaBanco = await cuentas_bancos.create({
             numero_cuenta,
             nombre_banco,
@@ -13,6 +13,7 @@ export const createCuentasBancos = async (req, res) => {
             referencia,
             paises_id,
             numeros_aba_id,
+            proveedores_id,
             vigencia: true
         },{
             fields: [
@@ -23,6 +24,7 @@ export const createCuentasBancos = async (req, res) => {
                 'referencia',
                 'paises_id',
                 'numeros_aba_id',
+                'proveedores_id',
                 'vigencia'
             ]
         });
@@ -45,15 +47,9 @@ export const createCuentasBancos = async (req, res) => {
 export const updateCuentasBancos = async (req, res) => {
     try{
         const {id} = req.params;
-        const {numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id} =  req.body;
+        const body =  req.body;
         const cuentaBancoUpdate = await cuentas_bancos.update({
-            numero_cuenta,
-            nombre_banco,
-            swift_code,
-            codigo_iban,
-            referencia,
-            paises_id,
-            numeros_aba_id
+            body
         },
         {
             where: {
@@ -91,7 +87,9 @@ export const deleteCuentasBancos = async (req, res) => {
                 'codigo_iban',
                 'referencia',
                 'paises_id',
-                'numeros_aba_id'
+                'numeros_aba_id',
+                'proveedores_id'
+                
             ],
             include:[
                 pedidos
@@ -154,6 +152,7 @@ export const getAllCuentasBancos = async (req, res) => {
                 'referencia',
                 'paises_id',
                 'numeros_aba_id',
+                'proveedores_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -190,7 +189,8 @@ export const getCuentasBancosId = async (req, res) => {
                 'codigo_iban',
                 'referencia',
                 'paises_id',
-                'numeros_aba_id'
+                'numeros_aba_id',
+                'proveedores_id'
             ]
         });
         res.json({
@@ -220,6 +220,7 @@ export const getAllCuentasBancosWithFalse = async (req, res) => {
                 'referencia',
                 'paises_id',
                 'numeros_aba_id',
+                'proveedores_id'
             ],
             order: [
                 ['id', 'DESC']

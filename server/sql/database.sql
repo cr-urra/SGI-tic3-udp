@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.6
--- Dumped by pg_dump version 12.6
+-- Dumped from database version 11.12 (Debian 11.12-1.pgdg100+1)
+-- Dumped by pg_dump version 11.12 (Debian 11.12-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,7 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET default_with_oids = false;
 
 --
 -- Name: agentes_aduana; Type: TABLE; Schema: public; Owner: postgres
@@ -124,7 +124,8 @@ CREATE TABLE public.cuentas_bancos (
     referencia text,
     paises_id integer,
     numeros_aba_id integer,
-    vigencia boolean
+    vigencia boolean,
+    proveedores_id integer
 );
 
 
@@ -1274,10 +1275,10 @@ COPY public.cobra (pedidos_id, historial_dolar_id, created_at, updated_at) FROM 
 -- Data for Name: cuentas_bancos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, vigencia) FROM stdin;
-2	245	Banco de Chile	234	2	Referencia 1	3	3	t
-4	345	Banco ITU	3D4	1	Referencia 345	4	4	t
-1	1	Banco estado	A	B	C	3	3	t
+COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, vigencia, proveedores_id) FROM stdin;
+2	245	Banco de Chile	234	2	Referencia 1	3	3	t	\N
+4	345	Banco ITU	3D4	1	Referencia 345	4	4	t	\N
+1	1	Banco estado	A	B	C	3	3	t	\N
 \.
 
 
@@ -1996,6 +1997,14 @@ ALTER TABLE ONLY public.cuentas_bancos
 
 ALTER TABLE ONLY public.cuentas_bancos
     ADD CONSTRAINT cuentas_bancos_paises_id_fkey FOREIGN KEY (paises_id) REFERENCES public.paises(id);
+
+
+--
+-- Name: cuentas_bancos cuentas_bancos_proveedores_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cuentas_bancos
+    ADD CONSTRAINT cuentas_bancos_proveedores_id_fkey FOREIGN KEY (proveedores_id) REFERENCES public.proveedores(id);
 
 
 --

@@ -31,6 +31,9 @@ import unidad_productos from '../models/unidad_productos';
 pedidos.hasOne(detalles_pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 detalles_pedidos.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 
+proveedores.hasOne(cuentas_bancos, {foreignKey: 'proveedores_id', sourceKey: 'id'});
+cuentas_bancos.belongsTo(proveedores, {foreignKey: 'proveedores_id', sourceKey: 'id'});
+
 historial_dolar.hasOne(detalles_dolar, {foreignKey: 'historial_dolar_id', sourceKey: 'id'});
 detalles_dolar.belongsTo(historial_dolar, {foreignKey: 'historial_dolar_id', sourceKey: 'id'});
 
