@@ -38,9 +38,9 @@ export const updateCuentasCorrientes = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const cuentasCorrientesUpdate = await cuentasCorrientes.update({
+        const cuentasCorrientesUpdate = await cuentasCorrientes.update(
             body
-        },
+        ,
         {
             where: {
                 id,

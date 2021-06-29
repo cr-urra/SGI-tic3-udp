@@ -36,9 +36,9 @@ export const updateMonedas = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const monedaUpdate = await monedas.update({
+        const monedaUpdate = await monedas.update(
             body
-        },
+        ,
         {
             where: {
                 id,

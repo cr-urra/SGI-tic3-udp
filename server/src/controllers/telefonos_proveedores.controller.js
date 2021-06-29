@@ -33,9 +33,9 @@ export const updateTelefonosProveedores = async (req, res) => {
     try{
         const {id} = req.params;
         const body = req.body;
-        const telefonoUpdate = await telefonosProveedores.update({
+        const telefonoUpdate = await telefonosProveedores.update(
             body
-        },
+        ,
         {
             where: {
                 id,

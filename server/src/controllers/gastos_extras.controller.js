@@ -36,9 +36,9 @@ export const updateGastosExtras = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const gastoExtraUpdate = await gastosExtras.update({
+        const gastoExtraUpdate = await gastosExtras.update(
             body
-        },
+        ,
         {
             where: {
                 id,

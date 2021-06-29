@@ -7,9 +7,9 @@ export const updateUsuarios = async (req, res) => {
     try{
         const {id} = req.params;
         const body = req.body;
-        const userUpdate = await usuarios.update({
+        const userUpdate = await usuarios.update(
             body
-        },
+        ,
         {
             where: {
                 id

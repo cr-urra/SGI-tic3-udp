@@ -38,9 +38,9 @@ export const updateMovimientos = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const movimientoUpdate = await movimientos.update({
+        const movimientoUpdate = await movimientos.update(
             body
-        },
+        ,
         {
             where: {
                 id,

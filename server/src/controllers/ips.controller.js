@@ -34,9 +34,9 @@ export const updateIps = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const ipUpdate = await ips.update({
+        const ipUpdate = await ips.update(
             body
-        },
+        ,
         {
             where: {
                 id,

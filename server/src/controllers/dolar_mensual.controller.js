@@ -39,9 +39,9 @@ export const updateDolarMensual = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const dolarMensualUpdate = await dolarMensual.update({
+        const dolarMensualUpdate = await dolarMensual.update(
             body
-        },
+        ,
         {
             where: {
                 id,

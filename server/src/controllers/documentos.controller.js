@@ -34,9 +34,9 @@ export const updateDocumentos = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const documentoUpdate = await documentos.update({
+        const documentoUpdate = await documentos.update(
             body
-        },
+        ,
         {
             where: {
                 id,

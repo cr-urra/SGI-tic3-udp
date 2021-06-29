@@ -155,9 +155,9 @@ export const updatePedidos = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const pedidoUpdate = await pedidos.update({
+        const pedidoUpdate = await pedidos.update(
             body
-        },
+        ,
         {
             where: {
                 id,

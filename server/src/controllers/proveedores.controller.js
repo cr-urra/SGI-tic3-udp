@@ -48,9 +48,9 @@ export const updateProveedores = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const proveedorUpdate = await proveedores.update({
+        const proveedorUpdate = await proveedores.update(
             body
-        },
+        ,
         {
             where: {
                 id,

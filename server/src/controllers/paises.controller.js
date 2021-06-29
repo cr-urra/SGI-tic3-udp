@@ -36,9 +36,9 @@ export const updatePaises = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const pais = await paises.update({
+        const pais = await paises.update(
             body
-        },
+        ,
         {
             where: {
                 id,

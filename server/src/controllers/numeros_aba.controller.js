@@ -36,9 +36,9 @@ export const updateNumerosAba = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const numeroAbaUpdate = await numerosAba.update({
+        const numeroAbaUpdate = await numerosAba.update(
             body
-        },
+        ,
         {
             where: {
                 id,

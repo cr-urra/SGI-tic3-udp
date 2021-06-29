@@ -51,9 +51,9 @@ export const updateAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const agenteAduanaUpdate = await agentes_aduana.update({
+        const agenteAduanaUpdate = await agentes_aduana.update(
             body
-        },
+        ,
         {
             where: {
                 id,

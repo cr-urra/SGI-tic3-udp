@@ -48,9 +48,9 @@ export const updateCuentasBancos = async (req, res) => {
     try{
         const {id} = req.params;
         const body =  req.body;
-        const cuentaBancoUpdate = await cuentas_bancos.update({
+        const cuentaBancoUpdate = await cuentas_bancos.update(
             body
-        },
+        ,
         {
             where: {
                 id,
