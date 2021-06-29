@@ -1,4 +1,5 @@
 import historialPrecios from '../models/historial_precios';
+import sequelize from 'sequelize';
 
 export const createHistorialPrecios = async (req, res) => {
     try{
@@ -6,7 +7,7 @@ export const createHistorialPrecios = async (req, res) => {
         let newHistorialPrecios = await historialPrecios.create({
             precio, 
             productos_id,
-            fecha,
+            fecha: sequelize.literal('CURRENT_TIMESTAMP'),
             vigencia: true
         },{
             fields: [
