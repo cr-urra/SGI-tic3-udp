@@ -124,6 +124,35 @@ export const getTelefonosProveedoresId = async (req, res) => {
     }
 };
 
+export const getTelefonosProveedoresForProveedoresId = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const telefono = await telefonosProveedores.findOne({
+            where: {
+                proveedores_id: id,
+                vigencia: true
+            },
+            attributes: [
+                'id', 
+                'telefono', 
+                'proveedores_id'
+            ]
+        });
+        res.json({
+            resultado: true,
+            message: "",
+            telefono: telefono
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false,
+            telefono: null
+        });
+    }
+};
+
 export const getAllTelefonosProveedores = async (req, res) => {
     try{
         const allTelefonos = await telefonosProveedores.findAll({

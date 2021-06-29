@@ -11,6 +11,7 @@ router.get('/all', cuentasBancos.getAllCuentasBancosWithFalse);
 // cuentasBancos/:id
 
 router.put('/:id', cuentasBancos.updateCuentasBancos);
+router.get('/proveedores/:id', cuentasBancos.getCuentasBancosForProovedoresId);
 router.put('/delete/:id', cuentasBancos.deleteCuentasBancos);
 router.get('/:id', cuentasBancos.getCuentasBancosId);
 

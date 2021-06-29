@@ -208,6 +208,41 @@ export const getCuentasBancosId = async (req, res) => {
     };
 };
 
+export const getCuentasBancosForProovedoresId = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const cuenta_banco = await cuentas_bancos.findOne({
+            where: {
+                proveedores_id: id,
+                vigencia: true
+            },
+            attributes: [
+                'id', 
+                'numero_cuenta', 
+                'nombre_banco',
+                'swift_code',
+                'codigo_iban',
+                'referencia',
+                'paises_id',
+                'numeros_aba_id',
+                'proveedores_id'
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "", 
+            cuentas_bancos: cuenta_banco
+        }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            cuentas_bancos: null
+        });
+    };
+};
+
 export const getAllCuentasBancosWithFalse = async (req, res) => {
     try{
         const allCuentasBancos = await cuentas_bancos.findAll({
