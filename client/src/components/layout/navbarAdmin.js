@@ -6,9 +6,9 @@ import Logo from '../../imagenes/logoNavbar.png';
 export default class Navbar extends Component {
 
     state = {
-        UF: "29.985,25",
-        Dolar: "700,69",
-        UTM: "57.581,15"
+        UF: "29.706,87",
+        Dolar: "732,25",
+        UTM: "52.005,00"
     }
 
 

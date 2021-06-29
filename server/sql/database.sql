@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.12 (Debian 11.12-1.pgdg100+1)
--- Dumped by pg_dump version 11.12 (Debian 11.12-1.pgdg100+1)
+-- Dumped from database version 12.6
+-- Dumped by pg_dump version 12.6
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,7 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: agentes_aduana; Type: TABLE; Schema: public; Owner: postgres
@@ -1276,9 +1276,9 @@ COPY public.cobra (pedidos_id, historial_dolar_id, created_at, updated_at) FROM 
 --
 
 COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, vigencia, proveedores_id) FROM stdin;
-2	245	Banco de Chile	234	2	Referencia 1	3	3	t	\N
-4	345	Banco ITU	3D4	1	Referencia 345	4	4	t	\N
-1	1	Banco estado	A	B	C	3	3	t	\N
+2	245	Banco de Chile	234	2	Referencia 1	3	3	t	2
+4	345	Banco ITU	3D4	1	Referencia 345	4	4	t	7
+1	1	Banco estado	A	B	C	3	3	t	3
 \.
 
 
@@ -1444,10 +1444,10 @@ COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_producto
 --
 
 COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, vigencia) FROM stdin;
-1	Colun	Calle 123	colun@gmail.com	Chile	\N	123456888	t
 2	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	\N	t
 3	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	\N	t
 7	Soprole	Av. Alvaro Gamboa 1313	soprole@gmail.com	Argentina	3	123432563	t
+1	Colun	Calle 123	colun@gmail.com	Chile	2	123456888	t
 \.
 
 

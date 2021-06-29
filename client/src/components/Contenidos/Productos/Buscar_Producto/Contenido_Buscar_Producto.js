@@ -19,13 +19,15 @@ export default class Init extends Component {
         const res = await axios.get("/productos/",{})
         console.log(res,"productos");
         for (let i= 0; i < res.data.productos.length ; i++){
+            const medida = await axios.get("/unidadProductos/"+res.data.productos[i].unidad_productos_id,{})
+            console.log(medida)
             const producto = {
                  nombre :  res.data.productos[i].nombre,
                  codigo :  res.data.productos[i].codigo,
                  precio :  "falta conectar dato",
                  tipo :  res.data.productos[i].tipo,
                  proveedor : res.data.productos[i].proveedores_id,
-                 medida: "falta"
+                 medida: medida.data.unidadProductos.nombre_medida
             }
             this.setState({
                 productsData: [...this.state.productsData, producto]

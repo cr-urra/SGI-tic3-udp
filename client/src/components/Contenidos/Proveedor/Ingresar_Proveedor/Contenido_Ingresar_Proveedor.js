@@ -19,6 +19,7 @@ export default class Ingresar_Usuario extends Component {
         correo: null,
         telefono: null,
         moneda: null,
+        rut: null,
 
         nombre_b: null,
         iban: null,
@@ -64,6 +65,7 @@ export default class Ingresar_Usuario extends Component {
             this.state.referencia != null &&
             this.state.codigo_swift != null &&
             this.state.cuenta_interbancaria != null &&
+            this.state.rut != null &&
             this.state.nombre != "" &&
             this.state.pais != "" &&
             this.state.direccion != "" &&        
@@ -76,30 +78,54 @@ export default class Ingresar_Usuario extends Component {
             this.state.n_aba != "" &&
             this.state.referencia != "" &&
             this.state.codigo_swift != "" &&
+            this.state.rut != "" &&
             this.state.cuenta_interbancaria != "" 
             
         ){
             const Proveedor = {
                 nombre: this.state.nombre,
                 pais: this.state.pais,
+                rut: this.state.rut,
                 direccion: this.state.direccion,
                 correo: this.state.correo,
-                telefono: this.state.telefono,
-                moneda: this.state.moneda            
+                monedas_id: this.state.moneda            
             }
+            
+            const Pais ={
+                codigo_iban: this.state.iban,
+                pais: this.state.pais_b
+            }
+
+            const ABA = {
+                numero_aba: this.state.n_aba,
+                nombre_banco: this.state.nombre_b
+            }
+
+            const res = await axios.post("/sacate-la-url/", Proveedor)       
+
+            const res3 = await axios.post("/sacate-la-url/", Pais) 
+            const res4 = await axios.post("/sacate-la-url/", ABA) 
+
             const Banco = {
-                nombre_b: this.state.nombre_b,
-                cuenta_interbancaria: this.state.cuenta_interbancaria,
-                iban: this.state.iban,
-                pais_b: this.state.pais_b,
-                n_aba: this.state.n_aba,
+                nombre_banco: this.state.nombre_b,
+                numero_cuenta: this.state.cuenta_interbancaria,
+                codigo_iban: this.state.iban,
                 referencia: this.state.referencia,
-                codigo_swift: this.state.codigo_swift,
+                paises_id: res3.data.paises.id,
+                numeros_aba_id: res4.data.numeros_aba.id,
+                swift_code: this.state.codigo_swift,
+                proveedores_id: res.data.proveedores.id
             }
-    
-            console.log(Proveedor, Banco)
-            const res = await axios.post("/sacate-la-url/", Proveedor)        
+
             const res2 = await axios.post("/sacate-la-url/", Banco) 
+                  
+            const Telefono = {
+                telefono: this.state.telefono,
+                proveedores_id: res.data.proveedores.id
+            }
+
+            const res5 = await axios.post("/sacate-la-url/", Telefono) 
+                        
             toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
 
         }else{
@@ -162,6 +188,9 @@ export default class Ingresar_Usuario extends Component {
                                         <Dato nombre={"País"} name={"pais"} name2={this.state.pais} onChange={this.onChange}/>
                                     </div>
                                     <div className="col-6 mb-3">
+                                        <Dato nombre={"Rut"} name={"rut"} name2={this.state.rut} onChange={this.onChange}/>
+                                    </div>
+                                    <div className="col-6 mb-3">
                                         <Dato nombre={"Dirección"} name={"direccion"} name2={this.state.direccion} onChange={this.onChange}/>
                                     </div>
                                     <div className="col-6 mb-3">
@@ -173,7 +202,7 @@ export default class Ingresar_Usuario extends Component {
                                     <div className="col-6 mb-3">
                                         <DatoMoneda name={"moneda"} name2={this.state.moneda} onChange={this.onChange} monedas = {this.state.monedas}/>
                                     </div>
-                                    <div className="col-7"/>
+                                    <div className="col-1"/>
                                     <div className="col-5">
                                         <div className="form-check separacion">
                                           <input type="checkbox" className="form-check-input" id="validationFormCheck1" onClick={this.new}/>

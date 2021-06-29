@@ -42,11 +42,11 @@ export default class Contenido_Ingresar_Producto extends Component {
         }
 
         const res2 = await axios.get("/unidadProductos/",{})
-        console.log(res2)
+        console.log(res2,"unidad")
         for (let j= 0; j < res2.data.unidadProductos.length ; j++){
             const medida = {
                 id: res2.data.unidadProductos[j].id,
-                tipo: res2.data.unidadProductos[j].tipo,
+                tipo: res2.data.unidadProductos[j].nombre_medida,
                 valor_unidad: res2.data.unidadProductos[j].valor_unidad
             }
             this.setState({
@@ -76,13 +76,21 @@ export default class Contenido_Ingresar_Producto extends Component {
             const Producto = {
                 nombre: this.state.nombre,
                 codigo: this.state.codigo,                
-                precio: this.state.precio,
-                medida: this.state.medida,
+                
+                unidad_productos_id: this.state.medida,
                 proveedores_id: this.state.proveedor,
                 tipo: this.state.tipo 
             }
             console.log(Producto)
             const res = await axios.post("/productos/", Producto)  
+            const Precio ={
+                precio: this.state.precio,
+                productos_id: res.data.productos.id
+            }
+            const res2 = await axios.post("/historialPrecios/",Precio)
+            console.log(res2)
+            
+
             if(res.data.resultado==true){
                 toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }else{

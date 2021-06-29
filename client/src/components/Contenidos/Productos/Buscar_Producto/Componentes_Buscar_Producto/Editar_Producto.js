@@ -12,8 +12,7 @@ export default class EditProduct extends Component {
 
     state = {
         nombre: null,
-        codigo:null,
-        descripcion:null,
+        codigo: null,
         precio : null,
         proveedor: null,
         tipo: null,
@@ -47,8 +46,7 @@ export default class EditProduct extends Component {
         e.preventDefault();
         if(
             this.state.nombre != ""&&
-            this.state.codigo !=""&&
-            this.state.descripcion !=""&&
+            this.state.codigo !=""&&           
             this.state.precio  != ""&&
             this.state.proveedor != ""&&
             this.state.tipo != ""
@@ -57,7 +55,6 @@ export default class EditProduct extends Component {
             const Producto = {
                 nombre: this.state.nombre,
                 codigo: this.state.codigo,
-                descripcion: this.state.descripcion,
                 precio: this.state.precio,
                 proveedor: this.state.proveedor,
                 tipo: this.state.tipo 
@@ -129,8 +126,7 @@ export default class EditProduct extends Component {
                                         </div>                                        
                                     </div>
                                     <Datos nombre={"Nombre"} contenido={this.props.productsData[j].nombre} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
-                                    <Datos nombre={"Codigo"} contenido={this.props.productsData[j].codigo} name={"codigo"} name2={this.state.codigo} onChange={this.onChange}/>
-                                    <Datos nombre={"Descripción"} contenido={this.props.productsData[j].descripcion} name={"descripcion"} name2={this.state.descripcion} onChange={this.onChange}/>
+                                    <Datos nombre={"Codigo"} contenido={this.props.productsData[j].codigo} name={"codigo"} name2={this.state.codigo} onChange={this.onChange}/>                                
                                     <Datos nombre={"Precio"} contenido={this.props.productsData[j].precio} name={"precio"} name2={this.state.precio} onChange={this.onChange}/>
                                     <Datos nombre={"Proveedor"} contenido={this.props.productsData[j].proveedor} name={"proveedor"} name2={this.state.proveedor} onChange={this.onChange}/>
                                     <Datos nombre={"Tipo"} contenido={this.props.productsData[j].tipo} name={"tipo"} name2={this.state.tipo} onChange={this.onChange}/>

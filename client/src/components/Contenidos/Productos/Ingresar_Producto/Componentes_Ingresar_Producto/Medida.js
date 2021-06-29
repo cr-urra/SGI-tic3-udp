@@ -14,7 +14,7 @@ const sleep = (milliseconds) => {
 export default class Contenido_Agente_Aduana extends Component {
 
     state ={
-        tipo: null,
+        nombre_medida: null,
         valor_unidad: null,
 
         show: false
@@ -34,14 +34,14 @@ export default class Contenido_Agente_Aduana extends Component {
     onSubmit = async e => {
         e.preventDefault();
         if(
-            this.state.tipo != null &&
+            this.state.nombre_medida != null &&
             this.state.valor_unidad != null &&
-            this.state.tipo != "" &&
+            this.state.nombre_medida != "" &&
             this.state.valor_unidad != ""
         ){
             axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
             const Medida = {
-                tipo: this.state.tipo,
+                nombre_medida: this.state.nombre_medida,
                 valor_unidad: this.state.valor_unidad
             }
             const res = await axios.post("/unidadProductos/", Medida)  
@@ -84,7 +84,7 @@ export default class Contenido_Agente_Aduana extends Component {
                         </div>
                         <form onSubmit={this.onSubmit}>
                             <div className="row  ml-2 mr-2 mt-5">
-                                <InputForm field ="Nombre" onChange = {this.onChange} field2 = {this.state.tipo} name="tipo" type={"text"}/>
+                                <InputForm field ="Nombre" onChange = {this.onChange} field2 = {this.state.nombre_medida} name="nombre_medida" type={"text"}/>
                                 <InputForm field ="Valor Unidad" onChange = {this.onChange} field2 = {this.state.valor_unidad} name="valor_unidad" type={"number"} placeholder={"EJ=> Kilo=1 ; Tonelada = 1000"}/>                                               
                             </div>
                             <button type="button" className="btn btn-primary rounded-pill separacion" onClick={this.handleShow}>
