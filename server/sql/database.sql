@@ -1279,6 +1279,7 @@ COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_
 2	245	Banco de Chile	234	2	Referencia 1	3	3	t	2
 4	345	Banco ITU	3D4	1	Referencia 345	4	4	t	7
 1	1	Banco estado	A	B	C	3	3	t	3
+5	123123	prueba 1	123123	123123	123123	5	5	t	9
 \.
 
 
@@ -1359,6 +1360,9 @@ COPY public.historial_dolar (id, fecha, precio, dolar_mensual_id, vigencia) FROM
 
 COPY public.historial_precios (id, precio, fecha, productos_id, vigencia) FROM stdin;
 3	122	2021-06-14 00:00:00	1	t
+4	123	2021-06-29 05:59:59.273286	4	t
+5	12345	2021-06-29 06:00:13.353436	5	t
+6	12345456	2021-06-29 06:00:30.371052	6	t
 \.
 
 
@@ -1400,6 +1404,7 @@ COPY public.numeros_aba (id, nombre_banco, numero_aba, vigencia) FROM stdin;
 1	Banco estado	1	t
 3	Banco de Chile	4	t
 4	Banco ITU	9	t
+5	prueba 1	123123	t
 \.
 
 
@@ -1418,6 +1423,7 @@ COPY public.observaciones (id, observacion, fecha, gasto, pedidos_id, vigencia) 
 COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 3	Estados Unidos	2	t
 4	Argentina	1	t
+5	Chile	123123	t
 \.
 
 
@@ -1426,7 +1432,6 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 --
 
 COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
-7	3	4	pedido3	10000	100	2021-06-13	2021-06-13	2021-06-13	2021-06-13	2021-06-13	2021-06-13	F	Camello	1	\N	1	1	1	1	1	1	1	1	1	t	2021-06-13	t
 \.
 
 
@@ -1436,6 +1441,9 @@ COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fec
 
 COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_productos_id, vigencia) FROM stdin;
 1	PL1	Plastico 1	Plastico	7	1	t
+4	13	producto soprole	12315	7	1	t
+5	1345	producto prueba 1	1231564	9	1	t
+6	1345456	producto USPS	1231564456	3	1	t
 \.
 
 
@@ -1447,7 +1455,7 @@ COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, v
 2	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	\N	t
 3	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	\N	t
 7	Soprole	Av. Alvaro Gamboa 1313	soprole@gmail.com	Argentina	3	123432563	t
-1	Colun	Calle 123	colun@gmail.com	Chile	2	123456888	t
+9	prueba 1	Alsino 4571	hola@gmail.com	Chile	1	12345678	t
 \.
 
 
@@ -1492,12 +1500,11 @@ COPY public.telefonos_agentes_aduana (id, telefono, agentes_aduana_id, vigencia)
 --
 
 COPY public.telefonos_proveedores (id, telefono, proveedores_id, vigencia) FROM stdin;
-1	962189955	1	t
-2	954106748	2	t
-3	\N	\N	t
 4	954106748	3	t
 5	932485947	7	t
 6	932485947	7	t
+2	954106748	2	t
+7	56966718004	9	t
 \.
 
 
@@ -1507,6 +1514,7 @@ COPY public.telefonos_proveedores (id, telefono, proveedores_id, vigencia) FROM 
 
 COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 1	27234984	3
+2	345784937	2
 \.
 
 
@@ -1532,8 +1540,8 @@ COPY public.unidad_productos (id, valor_unidad, vigencia, nombre_medida) FROM st
 --
 
 COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id, verificacion) FROM stdin;
-2	123456781	admin	01	nombre.apellido@mail.cl	$2a$10$FLCHmK7KDzK8aDWq7HqstuxzQOjaTKLq42rGy/tKSUuhWwLcATN7G	1	f
-3	123456786	Roberto	Manfinfla	roberto@gmail.com	$2a$10$7wDJz0nmcmLoVDq3YwnFD.ysBfdrYSx.MIfDK5jc8WgpcU4ajm7zi	3	f
+2	123456781	admin	01	nombre.apellido@mail.cl	$2a$10$FLCHmK7KDzK8aDWq7HqstuxzQOjaTKLq42rGy/tKSUuhWwLcATN7G	1	t
+3	123456786	Roberto	Manfinfla	roberto@gmail.com	$2a$10$7wDJz0nmcmLoVDq3YwnFD.ysBfdrYSx.MIfDK5jc8WgpcU4ajm7zi	3	t
 \.
 
 
@@ -1555,7 +1563,7 @@ SELECT pg_catalog.setval('public.bancos_agentes_aduana_id_seq', 3, true);
 -- Name: cuentas_bancos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cuentas_bancos_id_seq', 4, true);
+SELECT pg_catalog.setval('public.cuentas_bancos_id_seq', 5, true);
 
 
 --
@@ -1611,7 +1619,7 @@ SELECT pg_catalog.setval('public.historial_dolar_id_seq', 2, true);
 -- Name: historial_precios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_precios_id_seq', 3, true);
+SELECT pg_catalog.setval('public.historial_precios_id_seq', 6, true);
 
 
 --
@@ -1639,7 +1647,7 @@ SELECT pg_catalog.setval('public.movimientos_id_seq', 3, true);
 -- Name: numeros_aba_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.numeros_aba_id_seq', 4, true);
+SELECT pg_catalog.setval('public.numeros_aba_id_seq', 5, true);
 
 
 --
@@ -1653,7 +1661,7 @@ SELECT pg_catalog.setval('public.observaciones_id_seq', 3, true);
 -- Name: paises_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.paises_id_seq', 4, true);
+SELECT pg_catalog.setval('public.paises_id_seq', 5, true);
 
 
 --
@@ -1667,14 +1675,14 @@ SELECT pg_catalog.setval('public.pedidos_id_seq', 7, true);
 -- Name: productos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.productos_id_seq', 3, true);
+SELECT pg_catalog.setval('public.productos_id_seq', 6, true);
 
 
 --
 -- Name: proveedores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.proveedores_id_seq', 8, true);
+SELECT pg_catalog.setval('public.proveedores_id_seq', 9, true);
 
 
 --
@@ -1695,14 +1703,14 @@ SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 11, true);
 -- Name: telefonos_proveedores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_proveedores_id_seq', 6, true);
+SELECT pg_catalog.setval('public.telefonos_proveedores_id_seq', 7, true);
 
 
 --
 -- Name: telefonos_usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 1, true);
+SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 2, true);
 
 
 --

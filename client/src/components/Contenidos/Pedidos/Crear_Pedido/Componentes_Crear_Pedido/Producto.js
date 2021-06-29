@@ -9,9 +9,8 @@ export default class Lista extends Component {
     }
 
     getPrecio = async (id) =>{
-        const res = await axios.get("/historialPrecios/maxDate/"+id,{})
-        
-        console.log(res,"6")
+        const res = await axios.get("/historialPrecios/maxDate/"+id,{})        
+        console.log(res.data.historialPrecios.precio,"6")
         return res.data.historialPrecios.precio
     }
 

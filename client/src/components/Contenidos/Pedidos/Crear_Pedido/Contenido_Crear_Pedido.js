@@ -109,9 +109,9 @@ export default class Init extends Component {
 
     precio = (cod) => async (e) => {
         const precio = await axios.get("/historialPrecios/maxDate/"+e,{})
-        console.log(precio,"5")
-
-        return precio.data.historialPrecios.precio
+        this.setState({
+            precio_kilo: precio.data.historialPrecios.precio
+        })
     }
 
     onChange = e => {
