@@ -9,6 +9,10 @@ const tiene = database.define('tiene',{
     productos_id: {
         type: sequelize.INTEGER,
         primaryKey: true
+    },
+    cantidad: {
+        type: sequelize.INTEGER,
+        primaryKey: true
     }
 },{
     timestamps: false

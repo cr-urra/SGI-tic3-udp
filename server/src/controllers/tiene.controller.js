@@ -4,6 +4,7 @@ import productos from '../models/productos';
 export const createTiene = async (req, res) => {
     try{
         const {productos_id, pedidos_id, cantidad} = req.body;
+        console.log(productos_id, pedidos_id, cantidad);
         let newTiene = await tiene.create({
             productos_id, 
             pedidos_id,
