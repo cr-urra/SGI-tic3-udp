@@ -85,7 +85,11 @@ export default class Contenido_Agente_Aduana extends Component {
             const aux = await axios.post("/telefonosAgentesAduana/",telefono)
 
         
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            if(res.data.resultado==true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }else{
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }

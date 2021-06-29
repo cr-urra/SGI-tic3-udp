@@ -54,18 +54,22 @@ export default class EditAgenteAduana extends Component {
             this.state.tipo_cuenta  != "" &&
             this.state.n_cuenta != "" 
         ){
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
             const Agente = {
                 nombre: this.state.nombre,
                 apellido: this.state.apellido,
                 telefono: this.state.telefono,
                 banco: this.state.banco,
                 n_cuenta: this.state.n_cuenta,
-                tipo_cuenta: this.state.tipo_cuenta,
-           
+                tipo_cuenta: this.state.tipo_cuenta,            
             }
             console.log(Agente)
             const res = await axios.post("/sacate-la-url/", Agente) 
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            if(res.data.resultado==true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }else{
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            } 
 
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  

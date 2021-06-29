@@ -18,9 +18,10 @@ export default class Contenido_Agente_Aduana extends Component {
                 </div>
                 <div className="col-8">
                     <input 
-                    type="text" 
+                    type={this.props.type} 
                     name={this.props.name}
-                    className="form-control " 
+                    className="form-control" 
+                    placeholder={this.props.placeholder}
                     aria-label="Default" 
                     aria-describedby="inputGroup-sizing-default"
                     onChange={this.props.onChange}

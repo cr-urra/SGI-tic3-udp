@@ -40,9 +40,7 @@ export default class Tabla extends Component {
                           </div>
                             <ul className="list-group list-group-flush">
                                 <DatoTabla contenido = {"Nombre"} contenido2={this.props.productsData[j].nombre}/>
-                                <DatoTabla contenido = {"Codigo"} contenido2={this.props.productsData[j].codigo}/>
-                                <DatoTabla contenido = {"Descripcion"} contenido2={this.props.productsData[j].descripcion}/>
-
+                                <DatoTabla contenido = {"Codigo"} contenido2={this.props.productsData[j].codigo}/>                                
                                 <DatoTabla contenido = {"Precio"} contenido2={this.props.productsData[j].precio}/>
                                 <DatoTabla contenido = {"Proveedor"} contenido2={this.props.productsData[j].proveedor}/>
                                 <DatoTabla contenido = {"Tipo"} contenido2={this.props.productsData[j].tipo}/>

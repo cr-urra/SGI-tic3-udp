@@ -53,6 +53,7 @@ export default class EditProduct extends Component {
             this.state.proveedor != ""&&
             this.state.tipo != ""
         ){
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
             const Producto = {
                 nombre: this.state.nombre,
                 codigo: this.state.codigo,

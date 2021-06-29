@@ -24,8 +24,8 @@ export default class Init extends Component {
                  codigo :  res.data.productos[i].codigo,
                  precio :  "falta conectar dato",
                  tipo :  res.data.productos[i].tipo,
-                 descripcion :  "falta conectar dato",
-                 proveedor : res.data.productos[i].proveedores_id
+                 proveedor : res.data.productos[i].proveedores_id,
+                 medida: "falta"
             }
             this.setState({
                 productsData: [...this.state.productsData, producto]

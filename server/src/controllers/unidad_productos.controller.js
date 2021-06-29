@@ -4,15 +4,13 @@ import * as productosController from './productos.controller';
 
 export const createUnidadProductos = async (req, res) => {
     try{
-        const {tipo, valor_unidad, nombre_medida} = req.body;
-        let newUnidadProducto = await unidadProductos.create({
-            tipo, 
+        const {valor_unidad, nombre_medida} = req.body;
+        let newUnidadProducto = await unidadProductos.create({            
             valor_unidad,
             nombre_medida,
             vigencia: true
         },{
-            fields: [
-                'tipo', 
+            fields: [                 
                 'valor_unidad',
                 'nombre_medida',
                 'vigencia'
@@ -70,8 +68,7 @@ export const deleteUnidadProductos = async (req, res) => {
                 id
             },
             attributes: [
-                'id',
-                'tipo', 
+                'id', 
                 'nombre_medida',
                 'valor_unidad'
             ],
@@ -130,7 +127,6 @@ export const getAllUnidadProductos = async (req, res) => {
             },
             attributes: [
                 'id',
-                'tipo', 
                 'nombre_medida',
                 'valor_unidad'
             ],
@@ -163,7 +159,6 @@ export const getUnidadProductosId = async (req, res) => {
             },
             attributes: [
                 'id',
-                'tipo', 
                 'nombre_medida',
                 'valor_unidad'
             ]
@@ -188,7 +183,6 @@ export const getAllUnidadProductosWithFalse = async (req, res) => {
         const allUnidadProductos = await unidadProductos.findAll({
             attributes: [
                 'id',
-                'tipo', 
                 'nombre_medida',
                 'valor_unidad'
             ],

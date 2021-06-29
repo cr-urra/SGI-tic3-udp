@@ -15,9 +15,9 @@ export default class Contenido_Agente_Aduana extends Component {
                     <div className="col-8">
                         <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.props.rol} onChange={this.props.onChange} >
                           <option defaultValue>Escoger el Rol del Usuario</option>
-                          <option value="Administrador">Administrador</option>
-                          <option value="Operaciones">Operaciones</option>
-                          <option value="Finanzas">Finanzas</option>
+                          <option value={1}>Administrador</option>
+                          <option value={2}>Operaciones</option>
+                          <option value={3}>Finanzas</option>
                         </select>
                     </div>
                 </div>

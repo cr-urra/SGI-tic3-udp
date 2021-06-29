@@ -6,9 +6,6 @@ const unidad_productos = database.define('unidad_productos',{
         type: sequelize.INTEGER,
         primaryKey: true
     },
-    tipo:{
-        type: sequelize.STRING
-    },
     valor_unidad:{
         type: sequelize.FLOAT
     },

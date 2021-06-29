@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import Dato from './Componentes_Ingresar_Proveedor/Dato'
+import Moneda from './Componentes_Ingresar_Proveedor/Moneda'
+import DatoMoneda from './Componentes_Ingresar_Proveedor/DatoMoneda'
 import Modal from 'react-bootstrap/Modal'
 import { toast , Slide  } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -26,7 +28,24 @@ export default class Ingresar_Usuario extends Component {
         codigo_swift: null,
         cuenta_interbancaria: null,
 
-        show: false,        
+        show: false,     
+        monedas: [],
+        new: false
+    }
+
+    componentDidMount = async () => {
+        const res = await axios.get("/monedas/",{})
+        console.log(res,"monedas");
+        for (let i= 0; i < res.data.monedas.length ; i++){
+            const moneda = {
+              pais:  res.data.monedas[i].pais,
+              id: res.data.monedas[i].id,
+              moneda: res.data.monedas[i].moneda
+            }
+            this.setState({
+              monedas: [...this.state.monedas, moneda]
+            })
+        }
     }
 
     onSubmit = async e => {
@@ -116,6 +135,12 @@ export default class Ingresar_Usuario extends Component {
         })
     }
 
+    new = (e) =>{
+        this.setState(prevState =>({
+            new: !this.state.new
+        }))
+    }
+
 
     render() {
         return (
@@ -124,7 +149,7 @@ export default class Ingresar_Usuario extends Component {
                 <div className = "container separacion" >
                     <div className = "card shadow-lg">
                         <div className="card-header">
-                            <h5> Formulario de creación de Usuario</h5>
+                            <h5> Formulario de creación de Proveedor</h5>
                         </div>
                         <form onSubmit = {this.onSubmit}>
                             <div className = "container separacion" >
@@ -146,8 +171,16 @@ export default class Ingresar_Usuario extends Component {
                                         <Dato nombre={"Teléfono"} name={"telefono"} name2={this.state.telefono} onChange={this.onChange}/>
                                     </div>
                                     <div className="col-6 mb-3">
-                                        <Dato nombre={"Moneda"} name={"moneda"} name2={this.state.moneda} onChange={this.onChange}/>
+                                        <DatoMoneda name={"moneda"} name2={this.state.moneda} onChange={this.onChange} monedas = {this.state.monedas}/>
                                     </div>
+                                    <div className="col-7"/>
+                                    <div className="col-5">
+                                        <div className="form-check separacion">
+                                          <input type="checkbox" className="form-check-input" id="validationFormCheck1" onClick={this.new}/>
+                                          <label className="form-check-label" for="validationFormCheck1">Agregar Nueva Moneda</label>                                          
+                                        </div>
+                                    </div>
+                                    <Moneda filtro ={this.state.new} />
                                 </div>    
                                 <h5 className="separacion"> Datos Bancarios</h5>                                                    
 

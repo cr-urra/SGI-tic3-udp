@@ -47,6 +47,7 @@ export default class Crear_Usuario extends Component {
             this.state.rol != ""
 
         ){
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')  
             if(this.state.contraseña === this.state.r_contraseña){
                 const Usuario = {
                     nombre: this.state.nombre,
@@ -55,12 +56,16 @@ export default class Crear_Usuario extends Component {
                     correo: this.state.correo,
                     telefono: this.state.telefono,
                     contraseña: this.state.contraseña,
-                    r_contraseña: this.state.r_contraseña,
-                    rol: this.state.rol
-                }
+                    roles_id: this.state.rol
+                }               
                 console.log(Usuario)
-                const res = await axios.post("/sacate-la-url/", Usuario) 
-                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+                const res = await axios.post("/auth/signup/", Usuario) 
+                if(res.data.resultado==true){
+                    toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+                }else{
+                    toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+                }
+                
             }else{
                 toast.error("Las contraseñas ingresadas no coinciden, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }            

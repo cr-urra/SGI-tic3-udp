@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.12 (Debian 11.12-1.pgdg100+1)
--- Dumped by pg_dump version 11.12 (Debian 11.12-1.pgdg100+1)
+-- Dumped from database version 12.6
+-- Dumped by pg_dump version 12.6
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,7 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: agentes_aduana; Type: TABLE; Schema: public; Owner: postgres
@@ -989,7 +989,6 @@ ALTER TABLE public.tiene OWNER TO postgres;
 
 CREATE TABLE public.unidad_productos (
     id integer NOT NULL,
-    tipo character varying(30),
     valor_unidad double precision,
     vigencia boolean,
     nombre_medida character varying
@@ -1522,8 +1521,8 @@ COPY public.tiene (pedidos_id, productos_id, created_at, updated_at) FROM stdin;
 -- Data for Name: unidad_productos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.unidad_productos (id, tipo, valor_unidad, vigencia, nombre_medida) FROM stdin;
-1	Toneladas	1000	t	\N
+COPY public.unidad_productos (id, valor_unidad, vigencia, nombre_medida) FROM stdin;
+1	1000	t	Toneladas
 \.
 
 
@@ -1667,7 +1666,7 @@ SELECT pg_catalog.setval('public.pedidos_id_seq', 7, true);
 -- Name: productos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.productos_id_seq', 2, true);
+SELECT pg_catalog.setval('public.productos_id_seq', 3, true);
 
 
 --
