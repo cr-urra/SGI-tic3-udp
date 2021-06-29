@@ -4,8 +4,6 @@ import Tipo_CIF from './Componentes_Crear_Pedido/Tipo_CIF'
 import Tipo_FOB from './Componentes_Crear_Pedido/Tipo_FOB'
 import Modal from 'react-bootstrap/Modal'
 import Productos from './Componentes_Crear_Pedido/Productos'
-import codigos from '../../../JasonDePruebas/codigos.json'
-import Codigos from './Componentes_Crear_Pedido/Codigos'
 import NewProduct from './Componentes_Crear_Pedido/NewProduct'
 import Producto from './Componentes_Crear_Pedido/Producto'
 import axios from 'axios'
@@ -20,7 +18,6 @@ toast.configure()
 export default class Init extends Component {
 
     state ={
-        json: codigos,
 
         productos: [],
 
@@ -89,6 +86,7 @@ export default class Init extends Component {
     agregarProducto = (prod,cantidad) => (e) => {
         console.log(prod,cantidad,"producto")  
         const producto = {
+            id: prod.id,
             codigo: prod.codigo,
             nombre: prod.nombre,
             tipo: prod.tipo,
@@ -136,35 +134,39 @@ export default class Init extends Component {
     onSubmit = async e => {
         e.preventDefault();
         if(
-            this.state.proveedor !==  null &&
-            this.state.tipo_pago !==  null &&
-            this.state.fecha_vencimiento !==  null &&   
-            this.state.fecha_entrega !==  null &&
-            this.state.pago_inicial !==  null &&
-            this.state.cambio_pago_inicial !==  null &&
-            this.state.tipo_transporte !==  null &&
-            this.state.pago_transporte !==  null &&
-            this.state.pago_seguro !==  null &&
-            this.state.productos !==  [] &&
-            this.state.codigo !== null &&
-            this.state.proveedor !==  "" &&
-            this.state.tipo_pago !==  "" &&
-            this.state.fecha_vencimiento !==  "" &&   
-            this.state.fecha_entrega !==  "" &&
-            this.state.pago_inicial !==  "" &&
-            this.state.cambio_pago_inicial !==  "" &&
-            this.state.tipo_transporte !==  "" &&
-            this.state.pago_transporte !==  "" &&
-            this.state.pago_seguro !==  "" &&
-            this.state.codigo !== ""
+            this.state.proveedor !==  null 
+            
         ){
-
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
             const Pedido = {
-
+                codigo: this.state.codigo,
+                pago_inicial: this.state.pago_inicial,
+                fecha_inicial: this.state.fecha_entrega,
+                fecha_vencimiento: null,
+                estado: "produccion",
+                tipo_de_envio: this.state.tipo_transporte,
+                valor_cif: this.state.pago_transporte,
+                seguro: this.state.pago_seguro,
+                tipo_pago: this.state.tipo_pago
             }
+            const res = await axios.post("/pedidos/",Pedido)
 
-            const res = await axios.post("/sacate la url/",Pedido)
-            console.log(res)
+            console.log(res, "asd")
+            for(let i=0; i< this.state.productos.length ; i++){
+                let aux = {
+                    pedidos_id: res.data.pedido.id,
+                    productos_id: this.state.productos[i].id,
+                    cantidad: parseInt(this.state.productos[i].cantidad)
+                }
+                console.log(aux,"coca-cola")
+                const res3 = await axios.post("/tiene/",aux) 
+            }
+            const dolar = {
+                precio: this.state.cambio_pago_inicial
+            }
+            const res2 = await axios.post("/historialDolar/",dolar)
+            
+            
             
             if(res.data.resultado==true){
                 toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
