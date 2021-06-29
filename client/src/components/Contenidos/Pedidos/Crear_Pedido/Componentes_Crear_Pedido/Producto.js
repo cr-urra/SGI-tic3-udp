@@ -4,21 +4,6 @@ import axios from 'axios'
 
 export default class Lista extends Component {
 
-    state = {
-        precio: 0
-    }
-
-    getPrecio = async (id) =>{
-        const res = await axios.get("/historialPrecios/maxDate/"+id,{})        
-        console.log(res.data.historialPrecios.precio,"6")
-        return res.data.historialPrecios.precio
-    }
-
-    getPrecio2 = () =>{
-        return this.getPrecio(this.props.producto[0].id)
-    }
-
-
 
     render() {
       if(this.props.filtro!=null && this.props.producto[0]!=null){
@@ -81,8 +66,8 @@ export default class Lista extends Component {
                         className="form-control text-center" 
                         aria-label="Default" 
                         aria-describedby="inputGroup-sizing-default"
-                        readOnly                         
-                        value={this.getPrecio2()}  
+                        readOnly                     
+                        value={this.props.producto[0].max_price}  
                         />
                     </div>   
                 </div>
@@ -91,7 +76,7 @@ export default class Lista extends Component {
         <div className="input-group mb-3">
            <div className="col-9 mr-5"/>
            <div className="col-2">
-               <button className=" btn color_sitio2" type="button"  id="botton1" onClick={this.props.activo}>
+               <button className=" btn color_sitio2" type="button"  id="botton8" onClick={this.props.agregarProducto(this.props.producto[0],this.props.kilo)}>
                    Agregar Producto
                </button>
            </div>

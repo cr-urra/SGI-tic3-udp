@@ -68,14 +68,17 @@ export default class Init extends Component {
         }
         const res2 = await axios.get("/productos/",{})
         console.log(res2.data,"productos")
+        
         for (let j=0; j< res2.data.productos.length ; j++){
+            const precio = await axios.get("/historialPrecios/maxDate/"+res2.data.productos[j].id,{})
             const producto = {
                 codigo: res2.data.productos[j].codigo,
                 id: res2.data.productos[j].id,
                 nombre: res2.data.productos[j].nombre,
                 proveedores_id: res2.data.productos[j].proveedores_id,
                 tipo: res2.data.productos[j].tipo,
-                unidad_productos_id: res2.data.productos[j].unidad_productos_id
+                unidad_productos_id: res2.data.productos[j].unidad_productos_id,
+                max_price: precio.data.historialPrecios.precio
             }
             this.setState({
                 productos_all: [...this.state.productos_all, producto]
@@ -83,35 +86,33 @@ export default class Init extends Component {
         }
     }
 
-    agregarProducto = (codigo,peso,precio)  => {
-        const total = peso*precio
-        const producto = [codigo,peso,precio,total]
-        const productos = this.state.productos    
+    agregarProducto = (prod,cantidad) => (e) => {
+        console.log(prod,cantidad,"producto")  
+        const producto = {
+            codigo: prod.codigo,
+            nombre: prod.nombre,
+            tipo: prod.tipo,
+            proveedores_id: prod.proveedores_id,
+            unidad_productos_id: prod.unidad_productos_id,
+            cantidad: cantidad,
+            max_price: prod.max_price,
+            total: cantidad*prod.max_price
+        }
         this.setState({
-            productos: [...productos,producto],
+            productos: [...this.state.productos,producto],
             codigo_p: null,
             kilo: null,                        
-        })                                 
+        })                               
     }
 
-    activo = () =>{    
-        this.agregarProducto(this.state.codigo_p,this.state.kilo,this.state.precio_kilo)
-    }
 
     eliminar = (codigo) => (e) => {
-        const productos =  this.state.productos.filter((producto) => producto[0] !=codigo);
+        const productos =  this.state.productos.filter((producto) => producto.codigo !=codigo);
         this.setState({
             productos: productos
         }) 
         this.forceUpdate()
         console.log(this.state.productos)
-    }
-
-    precio = (cod) => async (e) => {
-        const precio = await axios.get("/historialPrecios/maxDate/"+e,{})
-        this.setState({
-            precio_kilo: precio.data.historialPrecios.precio
-        })
     }
 
     onChange = e => {
@@ -232,7 +233,7 @@ export default class Init extends Component {
 
                                     <NewProduct new={this.state.new} codigo={this.state.codigo_p} productos = {this.state.productos_all}/> 
 
-                                    <Producto precio={this.precio()} onChange={this.onChange}  producto = {this.state.productos_all.filter((producto)=> producto.codigo == this.state.codigo_p)}  kilo={this.state.kilo} descripcion={this.state.descripcion} precio_kilo={this.state.precio_kilo} filtro={this.state.codigo_p} activo={this.activo} />                                                                                                                                                                                                                                                    
+                                    <Producto  onChange={this.onChange}  producto = {this.state.productos_all.filter((producto)=> producto.codigo == this.state.codigo_p)}  filtro={this.state.codigo_p} agregarProducto={this.agregarProducto} kilo={this.state.kilo}/>                                                                                                                                                                                                                                                    
 
                                     <Productos productos = {this.state.productos} eliminar ={this.eliminar}/>
 
