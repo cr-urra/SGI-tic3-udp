@@ -10,5 +10,6 @@ router.post('/', tiene.createTiene);
 
 router.delete('/pedidos/:id', tiene.deleteTienePedidos);
 router.delete('/productos/:id', tiene.deleteTieneProductos);
+router.get('/pedidos/:id', tiene.getTiene);
 
 module.exports = router;

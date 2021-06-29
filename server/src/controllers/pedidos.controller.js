@@ -19,68 +19,48 @@ export const createPedidos = async (req, res) => {
     try{
         const {
                 codigo, 
-                cantidad, 
-                nombre, 
-                pago_inicial, 
-                pago_final, 
-                fecha_pago, 
-                fecha_salida, 
-                fecha_llegada_real, 
-                fecha_llegada_estimada, 
-                fecha_aduana,
-                fecha_inicial,
+                pago_inicial,
                 estado,
                 tipo_de_envio,
                 flete,
                 valor_cif,
-                honorarios,
-                arancel,
-                gastos_agencia,
-                numero_din,
-                cuentas_bancos_id,
-                agentes_aduana_id,
-                proveedores_id,
-                dolar_mensual_id,
                 fecha_vencimiento,
                 tipo_pago,
-                productos_cod,
-                fecha_actual
+                fecha_inicial,
+                seguro
             } = req.body;
         const token = req.cookies.token;
         const decoded = jwt.verify(token, config.SECRET);
         const user_id = decoded.id;
         const newPedido = await pedidos.create({
                 codigo, 
-                cantidad, 
-                nombre, 
                 pago_inicial, 
-                pago_final,
-                fecha_pago, 
-                fecha_salida, 
-                fecha_llegada_real, 
-                fecha_llegada_estimada, 
-                fecha_aduana,
+                pago_final: 0,
+                fecha_pago: sequelize.literal('CURRENT_TIMESTAMP'), 
+                fecha_salida: sequelize.literal('CURRENT_TIMESTAMP'), 
+                fecha_llegada_real: sequelize.literal('CURRENT_TIMESTAMP'), 
+                fecha_llegada_estimada: sequelize.literal('CURRENT_TIMESTAMP'), 
+                fecha_aduana: sequelize.literal('CURRENT_TIMESTAMP'),
                 estado,
                 tipo_de_envio,
                 flete,
                 valor_cif,
-                honorarios,
-                arancel,
-                gastos_agencia,
-                numero_din,
-                cuentas_bancos_id,
-                agentes_aduana_id,
-                proveedores_id,
-                dolar_mensual_id,
+                honorarios: 0,
+                arancel: 0,
+                gastos_agencia: 0,
+                numero_din: 0,
+                cuentas_bancos_id: null,
+                agentes_aduana_id: null,
+                proveedores_id: null,
+                dolar_mensual_id: null,
                 fecha_vencimiento,
                 tipo_pago,
                 fecha_inicial,
+                seguro,
                 vigencia: true
         },{
             fields: [
                 'codigo', 
-                'cantidad', 
-                'nombre', 
                 'pago_inicial', 
                 'pago_final',
                 'fecha_pago', 
@@ -103,6 +83,7 @@ export const createPedidos = async (req, res) => {
                 'fecha_vencimiento',
                 'tipo_pago',
                 'fecha_inicial',
+                'seguro',
                 'vigencia'
             ]
         });
@@ -114,16 +95,7 @@ export const createPedidos = async (req, res) => {
                 'id'
             ]
         });
-        const historial_dolar = await historialDolar.findOne({
-            where: {
-                fecha_actual
-            },
-            attributes: [
-                'id'
-            ]
-        });
         newPedido.addUsuarios([user]);
-        newPedido.addHistorial_dolar([historial_dolar]);
         res.json({
             resultado: true,
             message: "Pedido creado correctamente",
@@ -317,8 +289,6 @@ export const getAllPedidos = async (req, res) => {
             },
             attributes: [
                 'codigo', 
-                'cantidad', 
-                'nombre', 
                 'pago_inicial', 
                 'pago_final',
                 'fecha_pago', 
@@ -340,7 +310,9 @@ export const getAllPedidos = async (req, res) => {
                 'dolar_mensual_id',
                 'fecha_vencimiento',
                 'tipo_pago',
-                'fecha_inicial'
+                'fecha_inicial',
+                'seguro',
+                'vigencia'
             ],
             order: [
                 ['id', 'DESC']
@@ -371,8 +343,6 @@ export const getPedidosId = async (req, res) => {
             },
             attributes: [
                 'codigo', 
-                'cantidad', 
-                'nombre', 
                 'pago_inicial', 
                 'pago_final',
                 'fecha_pago', 
@@ -394,7 +364,9 @@ export const getPedidosId = async (req, res) => {
                 'dolar_mensual_id',
                 'fecha_vencimiento',
                 'tipo_pago',
-                'fecha_inicial'
+                'fecha_inicial',
+                'seguro',
+                'vigencia'
             ]
         });
         res.json({
@@ -418,8 +390,6 @@ export const getAllPedidosWithFalse = async (req, res) => {
         const allPedidos = await pedidos.findAll({
             attributes: [
                 'codigo', 
-                'cantidad', 
-                'nombre', 
                 'pago_inicial', 
                 'pago_final',
                 'fecha_pago', 
@@ -441,7 +411,9 @@ export const getAllPedidosWithFalse = async (req, res) => {
                 'dolar_mensual_id',
                 'fecha_vencimiento',
                 'tipo_pago',
-                'fecha_inicial'
+                'fecha_inicial',
+                'seguro',
+                'vigencia'
             ],
             order: [
                 ['id', 'DESC']

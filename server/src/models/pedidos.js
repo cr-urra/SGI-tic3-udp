@@ -9,12 +9,6 @@ const pedidos = database.define('pedidos',{
     codigo:{
         type: sequelize.INTEGER
     },
-    cantidad:{
-        type: sequelize.BIGINT
-    },
-    nombre:{
-        type: sequelize.STRING
-    },
     pago_inicial:{
         type: sequelize.FLOAT
     },
@@ -83,6 +77,9 @@ const pedidos = database.define('pedidos',{
     },
     vigencia:{
         type: sequelize.BOOLEAN
+    },
+    seguro:{
+        type: sequelize.FLOAT
     }
 },{
     timestamps: false,

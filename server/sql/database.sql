@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.6
--- Dumped by pg_dump version 12.6
+-- Dumped from database version 11.12 (Debian 11.12-1.pgdg100+1)
+-- Dumped by pg_dump version 11.12 (Debian 11.12-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,7 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET default_with_oids = false;
 
 --
 -- Name: agentes_aduana; Type: TABLE; Schema: public; Owner: postgres
@@ -682,8 +682,6 @@ ALTER SEQUENCE public.paises_id_seq OWNED BY public.paises.id;
 CREATE TABLE public.pedidos (
     id integer NOT NULL,
     codigo integer,
-    cantidad bigint,
-    nombre character varying(30),
     pago_inicial double precision,
     pago_final double precision,
     fecha_inicial date,
@@ -977,8 +975,7 @@ ALTER SEQUENCE public.telefonos_usuarios_id_seq OWNED BY public.telefonos_usuari
 CREATE TABLE public.tiene (
     pedidos_id integer NOT NULL,
     productos_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    cantidad integer
 );
 
 
@@ -1431,7 +1428,7 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 -- Data for Name: pedidos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.pedidos (id, codigo, cantidad, nombre, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
+COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
 \.
 
 
@@ -1522,7 +1519,7 @@ COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 -- Data for Name: tiene; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.tiene (pedidos_id, productos_id, created_at, updated_at) FROM stdin;
+COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
 \.
 
 
