@@ -1,4 +1,6 @@
 import cuentas_bancos from '../models/cuentas_bancos';
+import pedidos from '../models/pedidos';
+import * as pedidosController from './pedidos.controller'
 
 export const createCuentasBancos = async (req, res) => {
     try{
@@ -77,15 +79,56 @@ export const updateCuentasBancos = async (req, res) => {
 export const deleteCuentasBancos = async (req, res) => {
     try{
         const {id} = req.params;
-        await cuentas_bancos.destroy({
+        const cuenta_banco = await cuentas_bancos.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id', 
+                'numero_cuenta', 
+                'nombre_banco',
+                'swift_code',
+                'codigo_iban',
+                'referencia',
+                'paises_id',
+                'numeros_aba_id'
+            ],
+            include:[
+                pedidos
+            ]
         });
+
+        if(cuenta_banco){
+
+            let pedidosIds=[];
+            cuenta_banco.dataValues.pedidos.forEach(element => {
+                pedidosIds.push(parseInt(element.dataValues.id));
+            });
+
+            req.params = {
+                id: pedidosIds
+            };
+            let aux = await pedidosController.deletePedidos(req, res);
+
+            let cuentaBancoUpdate;
+            aux.resultado ? cuentaBancoUpdate = await cuentas_bancos.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }):res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+        }
         res.json({
             resultado: true, 
             message: 'Cuenta de banco eliminada correctamente'
         });
+
     }catch(e){
         console.log(e);
         res.json({

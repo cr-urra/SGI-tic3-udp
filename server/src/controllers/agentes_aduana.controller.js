@@ -1,4 +1,13 @@
 import agentes_aduana from '../models/agentes_aduana';
+import cuentas_corrientes from '../models/cuentas_corrientes';
+import pedidos from '../models/pedidos';
+import observaciones from '../models/observaciones';
+import telefonos_agentes_aduana from '../models/telefonos_agentes_aduana';
+import * as cuentasCorrientesController from './cuentas_corrientes.controller';
+import * as pedidosController from './pedidos.controller';
+import * as observacionesController from './observaciones.controller';
+import * as telefonosAgentesAduanaController from './telefonos_agentes_aduana.controller';
+
 
 export const createAgentesAduana = async (req, res) => {
     try{
@@ -69,11 +78,89 @@ export const updateAgentesAduana = async (req, res) => {
 export const deleteAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
-        await agentes_aduana.destroy({
+        const agente_aduana = await agentes_aduana.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id', 
+                'nombre', 
+                'apellido',
+                'correo',
+                'numero_cuenta', 
+                'rut',
+                'bancos_agentes_aduana_id'
+            ],
+            include:[
+                pedidos,
+                observaciones,
+                cuentas_corrientes,
+                telefonos_agentes_aduana
+            ]
         });
+        
+        if(agente_aduana){
+
+            let pedidosIds = [];
+            let observacionesIds = [];
+            let telefonosAgentesAduanaIds = [];
+
+            agente_aduana.dataValues.pedidos.forEach(element => {
+                pedidosIds.push(parseInt(element.dataValues.id));
+            });
+            agente_aduana.dataValues.observaciones.forEach(element => {
+                observacionesIds.push(parseInt(element.dataValues.id));
+            });
+
+            const cuentaCorrienteId = agente_aduana.dataValues.cuentas_corrientes.id;
+
+            agente_aduana.dataValues.telefonos_agentes_aduana.forEach(element => {
+                telefonosAgentesAduanaIds.push(parseInt(element.dataValues.id));
+            });
+
+            req.params = {
+                id: pedidosIds
+            };
+            let aux = await pedidosController.deletePedidos(req, res);
+            
+            req.params = {
+                id: observacionesIds
+            };
+            aux.resultado ? aux = await observacionesController.deleteObservaciones(req, res) : res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+            req.params = {
+                id: cuentaCorrienteId
+            };
+            aux.resultado ? aux = await cuentasCorrientesController.deleteCuentasCorrientes(req, res) : res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+            req.params = {
+                id: telefonosAgentesAduanaIds
+            };
+            aux.resultado ? aux = await telefonosAgentesAduanaController.deleteTelefonosAgentesAduana(req, res) : res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+            let agenteAduanaUpdate;
+            aux.resultado ? agenteAduanaUpdate = await agentes_aduana.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }): res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+        }
         res.json({
             resultado: true, 
             message: 'Agente de aduana eliminado correctamente'

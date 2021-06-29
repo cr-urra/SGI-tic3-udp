@@ -86,7 +86,7 @@ export const deleteBancosAgentesAduana = async (req, res) => {
                 agentesAduanaIds.push(parseInt(element.dataValues.id));
             });
             req.params = {
-                id : agentesAduanaIds
+                id = agentesAduanaIds
             };
             let aux = await agentesAduanaController.deleteAgentesAduana(req, res);
             let bancoAgenteAduanaUpdate;
@@ -102,9 +102,6 @@ export const deleteBancosAgentesAduana = async (req, res) => {
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-
-
-
         }
         res.json({
             resultado: true, 

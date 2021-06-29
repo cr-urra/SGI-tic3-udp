@@ -1,4 +1,10 @@
 import proveedores from '../models/proveedores';
+import pedidos from '../models/pedidos';
+import productos from '../models/productos';
+import telefonos_proveedores from '../models/telefonos_proveedores';
+import * as pedidosController from './pedidos.controller';
+import * as productosController from './productos.controller';
+import * as telefonosProveedoresController from './telefonos_proveedores.controller';
 
 export const createProveedores = async (req, res) => {
     try{
@@ -69,15 +75,82 @@ export const updateProveedores = async (req, res) => {
 export const deleteProveedores = async (req, res) => {
     try{
         const {id} = req.params;
-        await proveedores.destroy({
+        const proveedor = await proveedores.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id', 
+                'nombre', 
+                'direccion',
+                'correo',
+                'pais',
+                'monedas_id',
+                'rut'
+            ],
+            include:[
+                pedidos,
+                productos,
+                telefonos_proveedores
+            ]
         });
+
+        if(proveedor){
+
+            let pedidosIds=[];
+            let productosIds=[];
+            let telefonosProveedoresIds=[];
+
+            proveedor.dataValues.pedidos.forEach(element => {
+                pedidosIds.push(parseInt(element.dataValues.id));
+            });
+            proveedor.dataValues.productos.forEach(element => {
+                productosIds.push(parseInt(element.dataValues.id));
+            });
+            proveedor.dataValues.telefonos_proveedores.forEach(element => {
+                telefonosProveedoresIds.push(parseInt(element.dataValues.id));
+            });
+
+            req.params = {
+                id: pedidosIds
+            };
+            let aux = await pedidosController.deletePedidos(req, res);
+
+            req.params = {
+                id: productosIds
+            };
+            aux.resultado ? aux = await productosController.deleteProductos(req, res) : res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+            req.params = {
+                id: telefonosProveedoresIds
+            };
+            aux.resultado ? aux = await telefonosProveedoresController.deleteTelefonosProveedores(req, res) : res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+            let proveedorUpdate;
+            aux.resultado ? proveedorUpdate = await proveedores.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }):res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+        }
         res.json({
             resultado: true, 
             message: 'Proveedor eliminado correctamente'
         });
+
     }catch(e){
         console.log(e);
         res.json({

@@ -61,11 +61,28 @@ export const updateDocumentos = async (req, res) => {
 export const deleteDocumentos = async (req, res) => {
     try{
         const {id} = req.params;
-        await documentos.destroy({
+        const documento = await documentos.findOne({
             where: {
                 id
-            }
+            },
+            attributes: [
+                'id',
+                'nombre_documento', 
+                'pedidos_id'
+            ]
         });
+
+        if(documento){
+            const documentoUpdate = await documentos.update({
+                vigencia: false
+            },
+            {
+                where: {
+                    id,
+                    vigencia: true
+                }
+            }); 
+        }
         res.json({
             resultado: true, 
             message: 'Documento eliminado correctamente'

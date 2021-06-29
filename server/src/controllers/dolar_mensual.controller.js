@@ -82,20 +82,24 @@ export const deleteDolarMensual = async (req, res) => {
         });
         
         if(dolarMensual){
+
             let pedidosIds = [];
             let historialDolarIds = [];
+
             dolarMensual.dataValues.pedidos.forEach(element => {
                 pedidosIds.push(parseInt(element.dataValues.id));
             });
             dolarMensual.dataValues.historial_dolar.forEach(element => {
                 historialDolarIds.push(parseInt(element.dataValues.id));
             });
+
             req.params = {
-                id : pedidosIds 
+                id = pedidosIds 
             };
             let aux = await pedidosController.deletePedidos(req,res);
+            
             req.params = {
-                id : historialDolarIds
+                id = historialDolarIds
             };
             aux.resultado ? aux = await historialDolarController.deleteHistorialDolar(req, res) : res.json({
                 resultado: false, 

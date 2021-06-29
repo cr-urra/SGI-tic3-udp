@@ -82,10 +82,12 @@ export const deleteNumerosAba = async (req, res) => {
             numeroAba.dataValues.cuentas_bancos.forEach(element => {
                 cuentaBancosIds.push(parseInt(element.dataValues.id));
             });
+
             req.params = {
-                id : cuentaBancosIds
+                id = cuentaBancosIds
             };
             let aux = await cuentaBancosController.deleteCuentasBancos(req, res);
+            
             let numeroAbaUpdate;
             aux.resultado ? numeroAbaUpdate = await numerosAba.update({
                 vigencia: false

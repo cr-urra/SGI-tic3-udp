@@ -77,14 +77,18 @@ export const deletePaises = async (req, res) => {
             ]
         });
         if(pais){
+
             let cuentaBancosIds = [];
             pais.dataValues.cuentas_bancos.forEach(element => {
                 cuentaBancosIds.push(parseInt(element.dataValues.id));
             });
+
             req.params = {
-                id : cuentaBancosIds
+                id = cuentaBancosIds
             };
+
             let aux = await cuentaBancosController.deleteCuentasBancos(req, res);
+            
             let paisUpdate;
             aux.resultado ? paisUpdate = await paises.update({
                 vigencia: false

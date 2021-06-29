@@ -3,6 +3,7 @@ import detalles_dolar from '../models/detalles_dolar';
 import * as detallesDolarUpdate from './detalles_dolar.controller';
 import sequelize from 'sequelize';
 import historial_dolar from '../models/historial_dolar';
+import pedidos from '../models/pedidos';
 
 export const createHistorialDolar = async (req, res) => {
     try{
@@ -78,16 +79,38 @@ export const deleteHistorialDolar = async (req, res) => {
                 'dolar_mensual_id'
             ],
             include:[
-                detalles_dolar
+                detalles_dolar,
+                pedidos
             ]
         });
         if(getHistorialDolar){
 
-            let detallesDolarId = historial_dolar.dataValues.detalles_dolar.id
+            let detallesDolarId = historial_dolar.dataValues.detalles_dolar.id;
+            let pedidosIds = [];
+
+            pedidosIds = historial_dolar.dataValues.pedidos.forEach(element => {
+                pedidosIds.push(parseInt(element.dataValues.id));
+            });
+
+            const findedPedidos = pedidos.findAll({
+                where: {
+                    id: pedidosIds
+                },
+                attributes: [
+                    'id'
+                ]
+            });
+            
             req.params = {
-                id : detallesDolarId
+                id = detallesDolarId
             };
             let aux = await detallesDolarUpdate.deleteDetallesDolar(req, res);
+
+            aux.resultado ? await getHistorialDolar.removePedidos([findedPedidos]) : res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
             let historialDolarUpdate;
             aux.resultado ? historialDolarUpdate = await historialDolar.update({
                 vigencia: false
@@ -153,7 +176,7 @@ export const getHistorialDolarId = async (req, res) => {
         const getHistorialDolar = await historialDolar.findOne({
             where: {
                 id,
-                vigencia : true
+                vigencia = true
             },
             attributes: [
                 'id',

@@ -84,24 +84,26 @@ export const deleteObservaciones = async (req, res) => {
             ]
         });
         if(observacion){
+
             let gastosExtrasIds = [];
             observacion.dataValues.gastos_extras.forEach(element => {
                 gastosExtrasIds.push(parseInt(element.dataValues.id));
             });
+
             req.params = {
-                id : gastosExtrasIds
+                id = gastosExtrasIds
             };
             let aux = await gastosExtrasController.deleteGastosExtras(req, res);
+
             let observacionUpdate;
             aux.resultado ? observacionUpdate = await observaciones.update({
-                vigencia : false
+                vigencia = false
             },
             {
                 where: {
                     id,
                     vigencia: true
                 }
-                
             }): res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"

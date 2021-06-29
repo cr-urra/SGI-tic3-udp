@@ -78,17 +78,21 @@ export const deleteUnidadProductos = async (req, res) => {
         });
 
         if(unidadProducto){
-            let productosIds = []
+
+            let productosIds = [];
             unidadProducto.dataValues.productos.forEach(element => {
                 productosIds.push(parseInt(element.dataValues.id));
             });
+
             req.params = {
-                id : productosIds
+                id = productosIds
             };
+
             let aux = await productosController.deleteProductos(req, res);
+            
             let unidadProductosUpdate;
             aux.resultado ? unidadProductosUpdate = await unidadProductos.update({
-                vigencia : false
+                vigencia = false
             },
             {
                 where: {
