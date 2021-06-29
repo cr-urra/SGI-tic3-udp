@@ -7,7 +7,7 @@ const historial_dolar = database.define('historial_dolar',{
         primaryKey: true
     },
     fecha:{
-        type: sequelize.DATE
+        type: sequelize.DATEONLY
     },
     precio:{
         type: sequelize.FLOAT

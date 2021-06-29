@@ -219,3 +219,44 @@ export const getAllHistorialPreciosWithFalse = async (req, res) => {
         });
     };
 };
+
+export const getHistorialPreciosMaxDate = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const maxHistorialPrecios = await historialPrecios.findAll({
+            where: {
+                vigencia: true,
+                productos_id: id
+            },
+            attributes: [
+                'id',
+                'precio', 
+                'fecha', 
+                'productos_id'
+            ]
+        });
+        let datesPrecios = [];
+        let producto = null;
+        maxHistorialPrecios.forEach(element => {
+            datesPrecios.push(element.dataValues.fecha);
+        });
+        const maxDate = new Date(Math.max.apply(null,datesPrecios));
+        maxHistorialPrecios.forEach(element => {
+            if(String(element.dataValues.fecha) == String(maxDate)){
+                producto = element.dataValues;
+            }
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            historialPrecios: producto
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            historialPrecios: null
+        });
+    };
+};

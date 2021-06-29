@@ -14,5 +14,6 @@ router.put('/:id', historialPrecios.updateHistorialPrecios);
 router.put('/delete/:id', historialPrecios.deleteHistorialPrecios);
 router.get('/:id', historialPrecios.getHistorialPreciosId);
 router.get('/productos/:id', historialPrecios.getHistorialPreciosIdForProductosId);
+router.get('/maxDate/:id', historialPrecios.getHistorialPreciosMaxDate);
 
 module.exports = router;
