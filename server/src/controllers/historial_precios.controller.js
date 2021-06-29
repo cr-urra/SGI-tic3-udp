@@ -162,6 +162,36 @@ export const getHistorialPreciosId = async (req, res) => {
     };
 };
 
+export const getHistorialPreciosIdForProductosId = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const historialPrecio = await historialPrecios.findOne({
+            where: {
+                productos_id: id,
+                vigencia: true
+            },
+            attributes: [
+                'id',
+                'precio', 
+                'fecha', 
+                'productos_id'
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "", 
+            historialPrecios: historialPrecio
+        }); 
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            historialPrecios: null
+        });
+    };
+};
+
 export const getAllHistorialPreciosWithFalse = async (req, res) => {
     try{
         const allHistorialPrecios = await historialPrecios.findAll({

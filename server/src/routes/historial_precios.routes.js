@@ -13,5 +13,6 @@ router.get('/all', historialPrecios.getAllHistorialPreciosWithFalse);
 router.put('/:id', historialPrecios.updateHistorialPrecios);
 router.put('/delete/:id', historialPrecios.deleteHistorialPrecios);
 router.get('/:id', historialPrecios.getHistorialPreciosId);
+router.get('/productos/:id', historialPrecios.getHistorialPreciosIdForProductosId);
 
 module.exports = router;
