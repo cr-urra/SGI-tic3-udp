@@ -85,7 +85,7 @@ export default class Contenido_Agente_Aduana extends Component {
                         <form onSubmit={this.onSubmit}>
                             <div className="row  ml-2 mr-2 mt-5">
                                 <InputForm field ="Nombre" onChange = {this.onChange} field2 = {this.state.nombre_medida} name="nombre_medida" type={"text"}/>
-                                <InputForm field ="Valor Unidad" onChange = {this.onChange} field2 = {this.state.valor_unidad} name="valor_unidad" type={"number"} placeholder={"EJ=> Kilo=1 ; Tonelada = 1000"}/>                                               
+                                <InputForm field ="Equivalencia Unidad" onChange = {this.onChange} field2 = {this.state.valor_unidad} name="valor_unidad" type={"number"} placeholder={"EJ=> Kilo=1 ; Tonelada = 1000"}/>                                               
                             </div>
                             <button type="button" className="btn btn-primary rounded-pill separacion" onClick={this.handleShow}>
                                 Guardar Medida
