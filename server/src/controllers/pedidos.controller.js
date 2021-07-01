@@ -289,6 +289,7 @@ export const getAllPedidos = async (req, res) => {
                 vigencia: true
             },
             attributes: [
+                'id',
                 'codigo', 
                 'pago_inicial', 
                 'pago_final',
@@ -343,6 +344,7 @@ export const getPedidosId = async (req, res) => {
                 vigencia: true
             },
             attributes: [
+                'id',
                 'codigo', 
                 'pago_inicial', 
                 'pago_final',
@@ -390,6 +392,7 @@ export const getAllPedidosWithFalse = async (req, res) => {
     try{
         const allPedidos = await pedidos.findAll({
             attributes: [
+                'id',
                 'codigo', 
                 'pago_inicial', 
                 'pago_final',
