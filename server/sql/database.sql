@@ -703,7 +703,7 @@ CREATE TABLE public.pedidos (
     agentes_aduana_id integer,
     proveedores_id integer,
     dolar_mensual_id integer,
-    tipo_pago boolean,
+    tipo_pago character varying,
     fecha_vencimiento date,
     vigencia boolean
 );
@@ -867,7 +867,7 @@ ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 
 CREATE TABLE public.telefonos_agentes_aduana (
     id integer NOT NULL,
-    telefono integer,
+    telefono character varying,
     agentes_aduana_id integer,
     vigencia boolean
 );
@@ -1246,6 +1246,7 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id SET DEFAULT nextval('public.usu
 COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_agentes_aduana_id, rut, vigencia) FROM stdin;
 5	Eustaquio	Salvatore	eustaquio@gmail.com	8984445	2	111223334	t
 1	Jose	Perez	jose@gmail.com	1C	1	123456789	t
+8	Cristóbal	Urra	jorge@mail.cl	123456773	6	196443738	t
 \.
 
 
@@ -1257,6 +1258,9 @@ COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco,
 1	1C	Cuenta corriente	Banco 1	t
 2	8984445	Cuenta RUT	Banco Santander	t
 3	8974378374	Cuenta corriente	Banco ITAU	t
+4	12345677	Cuenta Corriente	Banco Santander	t
+5	123456773	Cuenta Vista	Banco Santander	t
+6	123456773	Cuenta Vista	Banco Santander	t
 \.
 
 
@@ -1348,6 +1352,9 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FR
 COPY public.historial_dolar (id, fecha, precio, dolar_mensual_id, vigencia) FROM stdin;
 1	2021-06-13 22:44:50.910426	1	1	t
 2	2021-06-14 22:58:20.755816	123	3	t
+3	2021-06-29 10:38:49.461954	3	\N	t
+4	2021-06-29 10:40:33.523992	3	\N	t
+5	2021-06-29 10:45:23.526063	4	\N	t
 \.
 
 
@@ -1360,6 +1367,7 @@ COPY public.historial_precios (id, precio, fecha, productos_id, vigencia) FROM s
 4	123	2021-06-29 05:59:59.273286	4	t
 5	12345	2021-06-29 06:00:13.353436	5	t
 6	12345456	2021-06-29 06:00:30.371052	6	t
+7	22	2021-06-29 17:12:22.351017	7	t
 \.
 
 
@@ -1429,6 +1437,13 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 --
 
 COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
+8	334	3	0	2021-06-25	2021-06-29	2021-06-29	2021-06-29	2021-06-29	2021-06-29	produccion	1	\N	\N	\N	0	0	0	0	\N	\N	\N	\N	true	\N	t
+9	334	3	0	2021-06-25	2021-06-29	2021-06-29	2021-06-29	2021-06-29	2021-06-29	produccion	1	\N	\N	\N	0	0	0	0	\N	\N	\N	\N	true	\N	t
+10	334	3	0	2021-06-10	2021-06-29	2021-06-29	2021-06-29	2021-06-29	2021-06-29	produccion	1	\N	\N	\N	0	0	0	0	\N	\N	\N	\N	true	\N	t
+11	3	10000	0	2021-06-13	2021-07-01	2021-07-01	2021-07-01	2021-07-01	2021-07-01	F	Camello	1	\N	1	0	0	0	0	\N	\N	\N	\N	true	2021-06-13	t
+12	3	10000	0	2021-06-13	2021-07-01	2021-07-01	2021-07-01	2021-07-01	2021-07-01	F	Camello	1	\N	1	0	0	0	0	\N	\N	\N	\N	true	2021-06-13	t
+13	3	10000	0	2021-06-13	2021-07-01	2021-07-01	2021-07-01	2021-07-01	2021-07-01	F	Camello	1	\N	1	0	0	0	0	\N	\N	\N	\N	true	2021-06-13	t
+14	3	10000	0	2021-06-13	2021-07-01	2021-07-01	2021-07-01	2021-07-01	2021-07-01	F	Camello	1	\N	1	0	0	0	0	\N	\N	\N	\N	true	2021-06-13	t
 \.
 
 
@@ -1441,6 +1456,7 @@ COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_producto
 4	13	producto soprole	12315	7	1	t
 5	1345	producto prueba 1	1231564	9	1	t
 6	1345456	producto USPS	1231564456	3	1	t
+7	334	Shampoo	3	7	1	t
 \.
 
 
@@ -1483,12 +1499,9 @@ COPY public.telefonos_agentes_aduana (id, telefono, agentes_aduana_id, vigencia)
 4	928374657	5	t
 1	96184222	1	t
 5	12676398	1	t
-6	89743783	\N	t
-7	89743783	\N	t
-8	89743783	\N	t
-9	89743783	\N	t
 10	89743783	5	t
 11	89743783	5	t
+12	+5696218428	8	t
 \.
 
 
@@ -1520,6 +1533,9 @@ COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 --
 
 COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
+8	5	1
+9	5	1
+10	5	3
 \.
 
 
@@ -1546,14 +1562,14 @@ COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id
 -- Name: agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.agentes_aduana_id_seq', 5, true);
+SELECT pg_catalog.setval('public.agentes_aduana_id_seq', 8, true);
 
 
 --
 -- Name: bancos_agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.bancos_agentes_aduana_id_seq', 3, true);
+SELECT pg_catalog.setval('public.bancos_agentes_aduana_id_seq', 6, true);
 
 
 --
@@ -1609,14 +1625,14 @@ SELECT pg_catalog.setval('public.gastos_extras_id_seq', 4, true);
 -- Name: historial_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_dolar_id_seq', 2, true);
+SELECT pg_catalog.setval('public.historial_dolar_id_seq', 5, true);
 
 
 --
 -- Name: historial_precios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_precios_id_seq', 6, true);
+SELECT pg_catalog.setval('public.historial_precios_id_seq', 7, true);
 
 
 --
@@ -1665,14 +1681,14 @@ SELECT pg_catalog.setval('public.paises_id_seq', 5, true);
 -- Name: pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedidos_id_seq', 7, true);
+SELECT pg_catalog.setval('public.pedidos_id_seq', 14, true);
 
 
 --
 -- Name: productos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.productos_id_seq', 6, true);
+SELECT pg_catalog.setval('public.productos_id_seq', 7, true);
 
 
 --
@@ -1693,7 +1709,7 @@ SELECT pg_catalog.setval('public.roles_id_seq', 3, true);
 -- Name: telefonos_agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 11, true);
+SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 12, true);
 
 
 --
