@@ -28,7 +28,8 @@ export const createPedidos = async (req, res) => {
                 fecha_vencimiento,
                 tipo_pago,
                 fecha_inicial,
-                seguro
+                seguro,
+                proveedores_id
             } = req.body;
         const token = req.cookies.token;
         const decoded = jwt.verify(token, config.SECRET);
@@ -52,7 +53,7 @@ export const createPedidos = async (req, res) => {
                 numero_din: 0,
                 cuentas_bancos_id: null,
                 agentes_aduana_id: null,
-                proveedores_id: null,
+                proveedores_id,
                 dolar_mensual_id: null,
                 fecha_vencimiento,
                 tipo_pago,
