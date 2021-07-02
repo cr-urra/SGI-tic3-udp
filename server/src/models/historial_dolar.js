@@ -9,10 +9,10 @@ const historial_dolar = database.define('historial_dolar',{
     fecha:{
         type: sequelize.DATEONLY
     },
-    precio:{
-        type: sequelize.FLOAT
+    tipo:{
+        type: sequelize.STRING
     },
-    dolar_mensual_id:{
+    pedidos_id:{
         type: sequelize.INTEGER
     },
     vigencia:{

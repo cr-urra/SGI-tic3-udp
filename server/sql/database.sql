@@ -98,20 +98,6 @@ ALTER SEQUENCE public.bancos_agentes_aduana_id_seq OWNED BY public.bancos_agente
 
 
 --
--- Name: cobra; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.cobra (
-    pedidos_id integer NOT NULL,
-    historial_dolar_id integer NOT NULL,
-    createdat timestamp without time zone,
-    updatedat timestamp without time zone
-);
-
-
-ALTER TABLE public.cobra OWNER TO postgres;
-
---
 -- Name: cuentas_bancos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -389,9 +375,9 @@ ALTER SEQUENCE public.gastos_extras_id_seq OWNED BY public.gastos_extras.id;
 CREATE TABLE public.historial_dolar (
     id integer NOT NULL,
     fecha timestamp without time zone,
-    precio double precision,
-    dolar_mensual_id integer,
-    vigencia boolean
+    tipo character varying,
+    vigencia boolean,
+    pedidos_id integer
 );
 
 
@@ -1265,14 +1251,6 @@ COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco,
 
 
 --
--- Data for Name: cobra; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.cobra (pedidos_id, historial_dolar_id, createdat, updatedat) FROM stdin;
-\.
-
-
---
 -- Data for Name: cuentas_bancos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1349,9 +1327,9 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FR
 -- Data for Name: historial_dolar; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.historial_dolar (id, fecha, precio, dolar_mensual_id, vigencia) FROM stdin;
-1	2021-06-13 22:44:50.910426	1	1	t
-2	2021-06-14 22:58:20.755816	123	3	t
+COPY public.historial_dolar (id, fecha, tipo, vigencia, pedidos_id) FROM stdin;
+1	2021-06-13 22:44:50.910426	1	t	\N
+2	2021-06-14 22:58:20.755816	123	t	\N
 \.
 
 
@@ -1744,14 +1722,6 @@ ALTER TABLE ONLY public.bancos_agentes_aduana
 
 
 --
--- Name: cobra cobra_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cobra
-    ADD CONSTRAINT cobra_pkey PRIMARY KEY (pedidos_id, historial_dolar_id);
-
-
---
 -- Name: cuentas_bancos cuentas_bancos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1976,22 +1946,6 @@ ALTER TABLE ONLY public.agentes_aduana
 
 
 --
--- Name: cobra cobra_historial_dolar_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cobra
-    ADD CONSTRAINT cobra_historial_dolar_id_fkey FOREIGN KEY (historial_dolar_id) REFERENCES public.historial_dolar(id);
-
-
---
--- Name: cobra cobra_pedidos_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cobra
-    ADD CONSTRAINT cobra_pedidos_id_fkey FOREIGN KEY (pedidos_id) REFERENCES public.pedidos(id);
-
-
---
 -- Name: cuentas_bancos cuentas_bancos_numeros_aba_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2080,11 +2034,11 @@ ALTER TABLE ONLY public.gastos_extras
 
 
 --
--- Name: historial_dolar historial_dolar_dolar_mensual_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: historial_dolar historial_dolar_pedidos_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.historial_dolar
-    ADD CONSTRAINT historial_dolar_dolar_mensual_id_fkey FOREIGN KEY (dolar_mensual_id) REFERENCES public.dolar_mensual(id);
+    ADD CONSTRAINT historial_dolar_pedidos_id_fkey FOREIGN KEY (pedidos_id) REFERENCES public.pedidos(id);
 
 
 --

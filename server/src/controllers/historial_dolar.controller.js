@@ -7,18 +7,18 @@ import pedidos from '../models/pedidos';
 
 export const createHistorialDolar = async (req, res) => {
     try{
-        const {precio, dolar_mensual_id} = req.body;
+        const {tipo, pedidos_id} = req.body;
         let newHistorialDolar = await historialDolar.create({
-            precio, 
-            dolar_mensual_id,
+            tipo,
             fecha: sequelize.literal('CURRENT_TIMESTAMP'),
-            vigencia: true
+            vigencia: true,
+            pedidos_id
         },{
             fields: [
-                'precio', 
-                'dolar_mensual_id',
+                'tipo', 
                 'fecha',
-                'vigencia'
+                'vigencia',
+                'pedidos_id'
             ]
         });
         res.json({
@@ -74,9 +74,10 @@ export const deleteHistorialDolar = async (req, res) => {
             },
             attributes: [
                 'id',
-                'fecha', 
-                'precio', 
-                'dolar_mensual_id'
+                'tipo', 
+                'fecha',
+                'vigencia',
+                'pedidos_id'
             ],
             include:[
                 detalles_dolar,
@@ -147,9 +148,10 @@ export const getAllHistorialDolar = async (req, res) => {
             },
             attributes: [
                 'id',
-                'fecha', 
-                'precio', 
-                'dolar_mensual_id'
+                'tipo', 
+                'fecha',
+                'vigencia',
+                'pedidos_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -180,9 +182,10 @@ export const getHistorialDolarId = async (req, res) => {
             },
             attributes: [
                 'id',
-                'fecha', 
-                'precio', 
-                'dolar_mensual_id'
+                'tipo', 
+                'fecha',
+                'vigencia',
+                'pedidos_id'
             ]
         });
         res.json({
@@ -205,9 +208,10 @@ export const getAllHistorialDolarWithFalse = async (req, res) => {
         const allHistorialDolar = await historialDolar.findAll({
             attributes: [
                 'id',
-                'fecha', 
-                'precio', 
-                'dolar_mensual_id'
+                'tipo', 
+                'fecha',
+                'vigencia',
+                'pedidos_id'
             ],
             order: [
                 ['id', 'DESC']

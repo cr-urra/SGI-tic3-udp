@@ -64,9 +64,6 @@ telefonos_usuarios.belongsTo(usuarios, {foreignKey: 'usuarios_id', sourceKey: 'i
 roles.hasMany(usuarios, {foreignKey: 'roles_id', sourceKey: 'id'});
 usuarios.belongsTo(roles, {foreignKey: 'roles_id', sourceKey: 'id'});
 
-dolar_mensual.hasMany(historial_dolar, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
-historial_dolar.belongsTo(dolar_mensual, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
-
 dolar_mensual.hasMany(pedidos, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
 pedidos.belongsTo(dolar_mensual, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
 
@@ -109,6 +106,9 @@ cuentas_corrientes.belongsTo(movimientos, {foreignKey: 'cuentas_corrientes_id', 
 usuarios.hasMany(ips, {foreignKey: 'usuarios_id', sourceKey: 'id'});
 ips.belongsTo(usuarios, {foreignKey: 'usuarios_id', sourceKey: 'id'});
 
+pedidos.hasMany(historial_dolar, {foreignKey: 'pedidos_id', sourceKey: 'id'});
+historial_dolar.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
+
 bancos_agentes_aduana.hasMany(agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 agentes_aduana.belongsTo(bancos_agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 
@@ -122,9 +122,6 @@ tiene.belongsTo(productos, {foreignKey: 'productos_id', sourceKey: 'id'});
 
 pedidos.belongsToMany(usuarios, {through: 'realiza', foreignKey: 'pedidos_id'});
 usuarios.belongsToMany(pedidos, {through: 'realiza', foreignKey: 'usuarios_id'});
-
-pedidos.belongsToMany(historial_dolar, {through: 'cobra', foreignKey: 'pedidos_id'});
-historial_dolar.belongsToMany(pedidos, {through: 'cobra', foreignKey: 'historial_dolar_id'});
 
 // Parciales
 
