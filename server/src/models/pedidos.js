@@ -73,7 +73,7 @@ const pedidos = database.define('pedidos',{
         type: sequelize.INTEGER
     },
     tipo_pago:{
-        type: sequelize.BOOLEAN
+        type: sequelize.STRING
     },
     vigencia:{
         type: sequelize.BOOLEAN
