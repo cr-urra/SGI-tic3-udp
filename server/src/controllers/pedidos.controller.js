@@ -97,37 +97,7 @@ export const createPedidos = async (req, res) => {
                 'id'
             ]
         });
-        let dolar = await historialDolar.findAll({
-            where: {
-                vigencia: true
-            },
-            attributes: [
-                'id',
-                'fecha'
-            ]
-        });
-        let datesDolar = [];
-        let dolares = null;
-        dolar.forEach(element => {
-            datesDolar.push(element.dataValues.fecha);
-        });
-        const maxDate = new Date(Math.max.apply(null,datesDolar));
-        dolar.forEach(element => {
-            if(String(element.dataValues.fecha) == String(maxDate)){
-                dolares = element.dataValues;
-            }
-        });
-        dolar = await historialDolar.findOne({
-            where: {
-                vigencia: true,
-                id: dolares.id
-            },
-            attributes: [
-                'id'
-            ]
-        });
         newPedido.addUsuarios([user]);
-        newPedido.addHistorial_dolar([dolar]);
         res.json({
             resultado: true,
             message: "Pedido creado correctamente",
