@@ -1,13 +1,14 @@
 import observaciones from '../models/observaciones';
 import gastos_extras from '../models/gastos_extras';
+import sequelize from 'sequelize';
 import * as gastosExtrasController from './gastos_extras.controller';
 
 export const createObservaciones = async (req, res) => {
     try{
-        const {observacion, fecha, gasto, pedidos_id} = req.body;
+        const {observacion, gasto, pedidos_id} = req.body;
         let newObservacion = await observaciones.create({
             observacion, 
-            fecha, 
+            fecha: sequelize.literal('CURRENT_TIMESTAMP'), 
             gasto, 
             pedidos_id,
             vigencia: true

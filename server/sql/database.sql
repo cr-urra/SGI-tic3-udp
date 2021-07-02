@@ -104,8 +104,8 @@ ALTER SEQUENCE public.bancos_agentes_aduana_id_seq OWNED BY public.bancos_agente
 CREATE TABLE public.cobra (
     pedidos_id integer NOT NULL,
     historial_dolar_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    createdat timestamp without time zone,
+    updatedat timestamp without time zone
 );
 
 
@@ -608,7 +608,7 @@ ALTER SEQUENCE public.numeros_aba_id_seq OWNED BY public.numeros_aba.id;
 CREATE TABLE public.observaciones (
     id integer NOT NULL,
     observacion text,
-    fecha date,
+    fecha timestamp without time zone,
     gasto boolean,
     pedidos_id integer,
     vigencia boolean
@@ -817,10 +817,10 @@ ALTER SEQUENCE public.proveedores_id_seq OWNED BY public.proveedores.id;
 --
 
 CREATE TABLE public.realiza (
+    usuarios_id integer NOT NULL,
     pedidos_id integer NOT NULL,
-    detalles_pedidos_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    createdat timestamp without time zone,
+    updatedat timestamp without time zone
 );
 
 
@@ -1268,7 +1268,7 @@ COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco,
 -- Data for Name: cobra; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.cobra (pedidos_id, historial_dolar_id, created_at, updated_at) FROM stdin;
+COPY public.cobra (pedidos_id, historial_dolar_id, createdat, updatedat) FROM stdin;
 \.
 
 
@@ -1352,9 +1352,6 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FR
 COPY public.historial_dolar (id, fecha, precio, dolar_mensual_id, vigencia) FROM stdin;
 1	2021-06-13 22:44:50.910426	1	1	t
 2	2021-06-14 22:58:20.755816	123	3	t
-3	2021-06-29 10:38:49.461954	3	\N	t
-4	2021-06-29 10:40:33.523992	3	\N	t
-5	2021-06-29 10:45:23.526063	4	\N	t
 \.
 
 
@@ -1437,13 +1434,6 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 --
 
 COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
-8	334	3	0	2021-06-25	2021-06-29	2021-06-29	2021-06-29	2021-06-29	2021-06-29	produccion	1	\N	\N	\N	0	0	0	0	\N	\N	\N	\N	true	\N	t
-9	334	3	0	2021-06-25	2021-06-29	2021-06-29	2021-06-29	2021-06-29	2021-06-29	produccion	1	\N	\N	\N	0	0	0	0	\N	\N	\N	\N	true	\N	t
-10	334	3	0	2021-06-10	2021-06-29	2021-06-29	2021-06-29	2021-06-29	2021-06-29	produccion	1	\N	\N	\N	0	0	0	0	\N	\N	\N	\N	true	\N	t
-11	3	10000	0	2021-06-13	2021-07-01	2021-07-01	2021-07-01	2021-07-01	2021-07-01	F	Camello	1	\N	1	0	0	0	0	\N	\N	\N	\N	true	2021-06-13	t
-12	3	10000	0	2021-06-13	2021-07-01	2021-07-01	2021-07-01	2021-07-01	2021-07-01	F	Camello	1	\N	1	0	0	0	0	\N	\N	\N	\N	true	2021-06-13	t
-13	3	10000	0	2021-06-13	2021-07-01	2021-07-01	2021-07-01	2021-07-01	2021-07-01	F	Camello	1	\N	1	0	0	0	0	\N	\N	\N	\N	true	2021-06-13	t
-14	3	10000	0	2021-06-13	2021-07-01	2021-07-01	2021-07-01	2021-07-01	2021-07-01	F	Camello	1	\N	1	0	0	0	0	\N	\N	\N	\N	true	2021-06-13	t
 \.
 
 
@@ -1476,7 +1466,7 @@ COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, v
 -- Data for Name: realiza; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.realiza (pedidos_id, detalles_pedidos_id, created_at, updated_at) FROM stdin;
+COPY public.realiza (usuarios_id, pedidos_id, createdat, updatedat) FROM stdin;
 \.
 
 
@@ -1533,9 +1523,6 @@ COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 --
 
 COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
-8	5	1
-9	5	1
-10	5	3
 \.
 
 
@@ -1667,7 +1654,7 @@ SELECT pg_catalog.setval('public.numeros_aba_id_seq', 5, true);
 -- Name: observaciones_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.observaciones_id_seq', 3, true);
+SELECT pg_catalog.setval('public.observaciones_id_seq', 11, true);
 
 
 --
@@ -1681,7 +1668,7 @@ SELECT pg_catalog.setval('public.paises_id_seq', 5, true);
 -- Name: pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedidos_id_seq', 14, true);
+SELECT pg_catalog.setval('public.pedidos_id_seq', 23, true);
 
 
 --
@@ -1921,7 +1908,7 @@ ALTER TABLE ONLY public.proveedores
 --
 
 ALTER TABLE ONLY public.realiza
-    ADD CONSTRAINT realiza_pkey PRIMARY KEY (pedidos_id, detalles_pedidos_id);
+    ADD CONSTRAINT realiza_pkey PRIMARY KEY (usuarios_id, pedidos_id);
 
 
 --
@@ -2189,19 +2176,19 @@ ALTER TABLE ONLY public.proveedores
 
 
 --
--- Name: realiza realiza_detalles_pedidos_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.realiza
-    ADD CONSTRAINT realiza_detalles_pedidos_id_fkey FOREIGN KEY (detalles_pedidos_id) REFERENCES public.detalles_pedidos(id);
-
-
---
 -- Name: realiza realiza_pedidos_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.realiza
     ADD CONSTRAINT realiza_pedidos_id_fkey FOREIGN KEY (pedidos_id) REFERENCES public.pedidos(id);
+
+
+--
+-- Name: realiza realiza_usuarios_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.realiza
+    ADD CONSTRAINT realiza_usuarios_id_fkey FOREIGN KEY (usuarios_id) REFERENCES public.usuarios(id);
 
 
 --

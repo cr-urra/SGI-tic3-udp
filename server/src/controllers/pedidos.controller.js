@@ -1,12 +1,12 @@
 import pedidos from '../models/pedidos';
 import usuarios from '../models/usuarios';
 import historialDolar from '../models/historial_dolar';
+import detallesDolar from '../models/detalles_dolar';
 import productos from '../models/productos';
 import detallesPedidos from '../models/detalles_pedidos';
 import documentos from '../models/documentos';
 import observaciones from '../models/observaciones';
 import gastosExtras from '../models/gastos_extras';
-import efectua from '../models/efectua';
 import jwt from 'jsonwebtoken';
 import sequelize from 'sequelize';
 import * as detallesPedidosController from './detalles_pedidos.controller';
@@ -97,7 +97,37 @@ export const createPedidos = async (req, res) => {
                 'id'
             ]
         });
+        let dolar = await historialDolar.findAll({
+            where: {
+                vigencia: true
+            },
+            attributes: [
+                'id',
+                'fecha'
+            ]
+        });
+        let datesDolar = [];
+        let dolares = null;
+        dolar.forEach(element => {
+            datesDolar.push(element.dataValues.fecha);
+        });
+        const maxDate = new Date(Math.max.apply(null,datesDolar));
+        dolar.forEach(element => {
+            if(String(element.dataValues.fecha) == String(maxDate)){
+                dolares = element.dataValues;
+            }
+        });
+        dolar = await historialDolar.findOne({
+            where: {
+                vigencia: true,
+                id: dolares.id
+            },
+            attributes: [
+                'id'
+            ]
+        });
         newPedido.addUsuarios([user]);
+        newPedido.addHistorial_dolar([dolar]);
         res.json({
             resultado: true,
             message: "Pedido creado correctamente",
@@ -319,6 +349,15 @@ export const getAllPedidos = async (req, res) => {
             ],
             order: [
                 ['id', 'DESC']
+            ],
+            include: [
+                observaciones,
+                {
+                    model: historialDolar,
+                    include: [
+                        detallesDolar
+                    ]
+                }
             ]
         });
         res.json({
@@ -371,6 +410,15 @@ export const getPedidosId = async (req, res) => {
                 'fecha_inicial',
                 'seguro',
                 'vigencia'
+            ],
+            include: [
+                observaciones,
+                {
+                    model: historialDolar,
+                    include: [
+                        detallesDolar
+                    ]
+                }
             ]
         });
         res.json({
@@ -422,6 +470,15 @@ export const getAllPedidosWithFalse = async (req, res) => {
             ],
             order: [
                 ['id', 'DESC']
+            ],
+            include: [
+                observaciones,
+                {
+                    model: historialDolar,
+                    include: [
+                        detallesDolar
+                    ]
+                }
             ]
         });
         res.json({
