@@ -1,2 +1,2 @@
 # SGI-tic3-udp
-Proyecto de la aplicación del Sistema de gestión para importaciones en el curso TIC III, con el apoyo de la empresa PromaChile.
+Repositorio de la aplicación: Sistema de gestión para importaciones, para el curso TIC III Universidad Diego Portales. Desarrollada para la empresa PromaChile.
