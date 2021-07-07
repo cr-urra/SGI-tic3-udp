@@ -2,7 +2,7 @@ import sequelize from 'sequelize';
 import {database} from '../database/database';
 
 const efectua = database.define('efectua',{
-    agentes_aduana_id: {
+    observadores_id: {
         type: sequelize.INTEGER,
         primaryKey: true
     },

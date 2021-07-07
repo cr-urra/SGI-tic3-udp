@@ -13,6 +13,7 @@ import monedas from '../models/monedas';
 import movimientos from '../models/movimientos'
 import numeros_aba from '../models/numeros_aba';
 import observaciones from '../models/observaciones';
+import observadores from '../models/observadores';
 import paises from '../models/paises';
 import pedidos from '../models/pedidos';
 import productos from '../models/productos';
@@ -26,6 +27,7 @@ import bancos_agentes_aduana from '../models/bancos_agentes_aduana';
 import efectua from '../models/efectua';
 import unidad_productos from '../models/unidad_productos';
 import tiene from '../models/tiene';
+import asume from '../models/asume';
 
 // 1:1
 
@@ -125,10 +127,16 @@ usuarios.belongsToMany(pedidos, {through: 'realiza', foreignKey: 'usuarios_id'})
 
 // Parciales
 
-agentes_aduana.hasMany(efectua, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
-efectua.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+agentes_aduana.hasMany(asume, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+asume.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+
+observadores.hasMany(asume, {foreignKey: 'observadores_id', sourceKey: 'id'});
+asume.belongsTo(observadores, {foreignKey: 'observadores_id', sourceKey: 'id'});
 
 observaciones.hasMany(efectua, {foreignKey: 'observaciones_id', sourceKey: 'id'});
 efectua.belongsTo(observaciones, {foreignKey: 'observaciones_id', sourceKey: 'id'});
+
+observadores.hasMany(efectua, {foreignKey: 'observadores_id', sourceKey: 'id'});
+efectua.belongsTo(observadores, {foreignKey: 'observadores_id', sourceKey: 'id'});
 
 

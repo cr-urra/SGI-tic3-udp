@@ -8,7 +8,7 @@ router.post('/', efectua.createEfectua);
 
 // efectua/:id
 
-router.delete('/agentesAduana/:id', efectua.deleteEfectuaAgentesAduana);
+router.delete('/observadores/:id', efectua.deleteEfectuaObservadores);
 router.delete('/observaciones/:id', efectua.deleteEfectuaObservaciones);
 
 module.exports = router;

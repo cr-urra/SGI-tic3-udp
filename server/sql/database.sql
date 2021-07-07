@@ -61,6 +61,18 @@ ALTER SEQUENCE public.agentes_aduana_id_seq OWNED BY public.agentes_aduana.id;
 
 
 --
+-- Name: asume; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asume (
+    observadores_id integer NOT NULL,
+    agentes_aduana_id integer NOT NULL
+);
+
+
+ALTER TABLE public.asume OWNER TO postgres;
+
+--
 -- Name: bancos_agentes_aduana; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -325,7 +337,7 @@ ALTER SEQUENCE public.dolar_mensual_id_seq OWNED BY public.dolar_mensual.id;
 
 CREATE TABLE public.efectua (
     observaciones_id integer NOT NULL,
-    agentes_aduana_id integer NOT NULL
+    observadores_id integer NOT NULL
 );
 
 
@@ -623,6 +635,42 @@ ALTER TABLE public.observaciones_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.observaciones_id_seq OWNED BY public.observaciones.id;
+
+
+--
+-- Name: observadores; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.observadores (
+    id integer NOT NULL,
+    rut character varying,
+    nombre character varying,
+    vigencia boolean
+);
+
+
+ALTER TABLE public.observadores OWNER TO postgres;
+
+--
+-- Name: observadores_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.observadores_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.observadores_id_seq OWNER TO postgres;
+
+--
+-- Name: observadores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.observadores_id_seq OWNED BY public.observadores.id;
 
 
 --
@@ -1156,6 +1204,13 @@ ALTER TABLE ONLY public.observaciones ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: observadores id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.observadores ALTER COLUMN id SET DEFAULT nextval('public.observadores_id_seq'::regclass);
+
+
+--
 -- Name: paises id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1237,6 +1292,14 @@ COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_
 
 
 --
+-- Data for Name: asume; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.asume (observadores_id, agentes_aduana_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: bancos_agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1311,7 +1374,7 @@ COPY public.dolar_mensual (id, valor_mensual, fecha_registro, vigencia) FROM std
 -- Data for Name: efectua; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.efectua (observaciones_id, agentes_aduana_id) FROM stdin;
+COPY public.efectua (observaciones_id, observadores_id) FROM stdin;
 \.
 
 
@@ -1393,6 +1456,14 @@ COPY public.numeros_aba (id, nombre_banco, numero_aba, vigencia) FROM stdin;
 --
 
 COPY public.observaciones (id, observacion, fecha, gasto, pedidos_id, vigencia) FROM stdin;
+\.
+
+
+--
+-- Data for Name: observadores; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.observadores (id, rut, nombre, vigencia) FROM stdin;
 \.
 
 
@@ -1636,6 +1707,13 @@ SELECT pg_catalog.setval('public.observaciones_id_seq', 11, true);
 
 
 --
+-- Name: observadores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.observadores_id_seq', 1, false);
+
+
+--
 -- Name: paises_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -1714,6 +1792,14 @@ ALTER TABLE ONLY public.agentes_aduana
 
 
 --
+-- Name: asume asume_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asume
+    ADD CONSTRAINT asume_pkey PRIMARY KEY (observadores_id, agentes_aduana_id);
+
+
+--
 -- Name: bancos_agentes_aduana bancos_agentes_aduana_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1774,7 +1860,7 @@ ALTER TABLE ONLY public.dolar_mensual
 --
 
 ALTER TABLE ONLY public.efectua
-    ADD CONSTRAINT efectua_pkey PRIMARY KEY (observaciones_id, agentes_aduana_id);
+    ADD CONSTRAINT efectua_pkey PRIMARY KEY (observaciones_id, observadores_id);
 
 
 --
@@ -1839,6 +1925,14 @@ ALTER TABLE ONLY public.numeros_aba
 
 ALTER TABLE ONLY public.observaciones
     ADD CONSTRAINT observaciones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: observadores observadores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.observadores
+    ADD CONSTRAINT observadores_pkey PRIMARY KEY (id);
 
 
 --
@@ -1946,6 +2040,22 @@ ALTER TABLE ONLY public.agentes_aduana
 
 
 --
+-- Name: asume asume_agentes_aduana_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asume
+    ADD CONSTRAINT asume_agentes_aduana_id_fkey FOREIGN KEY (agentes_aduana_id) REFERENCES public.agentes_aduana(id);
+
+
+--
+-- Name: asume asume_observadores_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asume
+    ADD CONSTRAINT asume_observadores_id_fkey FOREIGN KEY (observadores_id) REFERENCES public.observadores(id);
+
+
+--
 -- Name: cuentas_bancos cuentas_bancos_numeros_aba_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2002,19 +2112,19 @@ ALTER TABLE ONLY public.documentos
 
 
 --
--- Name: efectua efectua_agentes_aduana_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.efectua
-    ADD CONSTRAINT efectua_agentes_aduana_id_fkey FOREIGN KEY (agentes_aduana_id) REFERENCES public.agentes_aduana(id);
-
-
---
 -- Name: efectua efectua_observaciones_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.efectua
     ADD CONSTRAINT efectua_observaciones_id_fkey FOREIGN KEY (observaciones_id) REFERENCES public.observaciones(id);
+
+
+--
+-- Name: efectua efectua_observadores_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.efectua
+    ADD CONSTRAINT efectua_observadores_id_fkey FOREIGN KEY (observadores_id) REFERENCES public.observadores(id);
 
 
 --

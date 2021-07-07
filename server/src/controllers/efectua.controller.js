@@ -2,14 +2,14 @@ import efectua from '../models/efectua';
 
 export const createEfectua = async (req, res) => {
     try{
-        const {observaciones_id, agentes_aduana_id} = req.body;
+        const {observaciones_id, observadores_id} = req.body;
         let newEfectua = await efectua.create({
             observaciones_id, 
-            agentes_aduana_id
+            observadores_id
         },{
             fields: [
                 'observaciones_id', 
-                'agentes_aduana_id'
+                'observadores_id'
             ]
         });
         res.json({
@@ -27,12 +27,12 @@ export const createEfectua = async (req, res) => {
     };
 };
 
-export const deleteEfectuaAgentesAduana = async (req, res) => {
+export const deleteEfectuaObservadores = async (req, res) => {
     try{
         const {id} = req.params;
         await efectua.destroy({
             where: {
-                agentes_aduana_id: id
+                observadores_id: id
             }
         });
         res.json({

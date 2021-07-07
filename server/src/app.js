@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const csurf = require('csurf');
+
 require('./database/associations');
 
 // inicialización
@@ -56,6 +57,7 @@ import historialPrecios from './routes/historial_precios.routes';
 import historialDolar from './routes/historial_dolar.routes';
 import gastosExtras from './routes/gastos_extras.routes';
 import efectua from './routes/efectua.routes';
+import asume from './routes/asume.routes';
 import tiene from './routes/tiene.routes';
 import dolarMensual from './routes/dolar_mensual.routes';
 import documentos from './routes/documentos.routes';
@@ -64,6 +66,7 @@ import detallesDolar from './routes/detalles_dolar.routes';
 import cuentasCorrientes from './routes/cuentas_corrientes.routes';
 import unidadProductos from './routes/unidad_productos.routes';
 import bancosAgentesAduana from './routes/bancos_agentes_aduana.routes';
+import observadores from './routes/observadores.routes';
 
 // routes
 
@@ -88,6 +91,7 @@ app.use('/historialPrecios', historialPrecios);
 app.use('/historialDolar', historialDolar);
 app.use('/gastosExtras', gastosExtras);
 app.use('/efectua', efectua);
+app.use('/asume', asume);
 app.use('/tiene', tiene);
 app.use('/dolarMensual', dolarMensual);
 app.use('/documentos', documentos);
@@ -96,6 +100,7 @@ app.use('/detallesDolar', detallesDolar);
 app.use('/cuentasCorrientes', cuentasCorrientes);
 app.use('/unidadProductos', unidadProductos);
 app.use('/bancosAgentesAduana', bancosAgentesAduana);
+app.use('/observadores', observadores);
 
 app.get('/csrf', (req, res) => { 
     res.send({csrfToken: req.csrfToken()})
