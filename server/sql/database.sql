@@ -606,7 +606,7 @@ ALTER SEQUENCE public.numeros_aba_id_seq OWNED BY public.numeros_aba.id;
 CREATE TABLE public.observaciones (
     id integer NOT NULL,
     observacion text,
-    fecha timestamp without time zone,
+    fecha date,
     pedidos_id integer,
     vigencia boolean,
     gasto integer
@@ -1705,7 +1705,7 @@ SELECT pg_catalog.setval('public.numeros_aba_id_seq', 5, true);
 -- Name: observaciones_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.observaciones_id_seq', 11, true);
+SELECT pg_catalog.setval('public.observaciones_id_seq', 12, true);
 
 
 --
