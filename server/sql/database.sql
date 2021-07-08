@@ -1483,7 +1483,6 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 --
 
 COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
-24	3	10000	0	2021-06-13	2021-07-08	2021-07-08	2021-07-08	2021-07-08	2021-07-08	F	Camello	1	\N	1	0	0	0	0	\N	\N	2	\N	true	2021-06-13	t
 \.
 
 
@@ -1517,7 +1516,6 @@ COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, v
 --
 
 COPY public.realiza (usuarios_id, pedidos_id, createdat, updatedat) FROM stdin;
-2	24	2021-07-08 00:02:41.772	2021-07-08 00:02:41.772
 \.
 
 
