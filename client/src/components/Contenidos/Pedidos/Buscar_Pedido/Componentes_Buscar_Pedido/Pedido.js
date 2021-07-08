@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Accordion, Card, Button } from 'react-bootstrap';
 import Productos from './Productos'
 import Button2 from './Button'
+import Estado from './Estado_Card'
 
 
 export default class Init extends Component {
@@ -21,11 +22,9 @@ export default class Init extends Component {
                               </Accordion.Toggle>
                             </div>
                             <div className="col-3 text.center mt-2">
-                              Fecha: {this.props.pedido.fecha_entrega.dia + "-" + this.props.pedido.fecha_entrega.mes + "-" + this.props.pedido.fecha_entrega.año } 
+                              Fecha: {this.props.pedido.fecha_entrega } 
                             </div>
-                            <div className="col-5 text.center mt-2">
-                              Estado: {this.props.pedido.estado}
-                            </div>
+                            <Estado estado={this.props.pedido.estado}/>                            
                           </div>
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
@@ -49,7 +48,7 @@ export default class Init extends Component {
                       </Card>
                     </Accordion>
                   </div>
-                  <Button2 estado = {this.props.pedido.estado} n_pedido={this.props.pedido.n_pedido} />
+                  <Button2 estado = {this.props.pedido.estado} n_pedido={this.props.pedido}  />
                 </div>
               </div>
             </div>            

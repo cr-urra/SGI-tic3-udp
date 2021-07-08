@@ -8,7 +8,7 @@ export default class Head_Card extends Component {
           <div className="card-header">
             <div className="row mt-2">
               <div className="col-4 text-primary mt-2"> <h5 className="ml-2">Pedido: {this.props.codigo}</h5></div>
-              <div className="col-4 mt-2">Proveedor: {this.props.proveedor}</div>
+              <div className="col-4 mt-2 text-primary"><h5 className="ml-2">Proveedor: {this.props.proveedor}</h5></div>
               <div className="col-3">
                 <Link to = '/users/Buscar_Pedido'> 
                     <button className="btn color_sitio2  ">

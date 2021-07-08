@@ -11,7 +11,6 @@ export default class Init extends Component {
                 <div className="col-1"/>
                 <div className="col-10 card mt-4">
                   <div className="row">
-
                     <div className="col-12 separacion"/>
                     <div className="col-1"/>
                     <div className="col-3">

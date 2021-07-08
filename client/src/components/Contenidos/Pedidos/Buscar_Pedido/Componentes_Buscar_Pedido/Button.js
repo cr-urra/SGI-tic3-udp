@@ -42,30 +42,29 @@ export default class Init extends Component {
 
     render() {
         switch(this.state.estado) {
-          case "produccion":
-   
+          case "produccion":   
               return <Redirect to={{pathname: '/users/Pedido_Produccion',
-                          state: {n_pedido: this.props.n_pedido}
+                          state: {pedido: this.props.n_pedido}
                       }} />;
           case "internacional":
             return <Redirect to={{ 
                         pathname: '/users/Pedido_internacional',
-                        state :{n_pedido: this.props.n_pedido}
+                        state :{pedido: this.props.n_pedido}
                     }} />;
           case "ingreso":
             return <Redirect to={{ 
                         pathname: '/users/Pedido_ingreso',
-                        state :{n_pedido: this.props.n_pedido}
+                        state :{pedido: this.props.n_pedido}
                     }} />;
           case "nacional":
             return <Redirect to={{ 
                         pathname: '/users/Pedido_nacional',
-                        state :{n_pedido: this.props.n_pedido}
+                        state :{pedido: this.props.n_pedido}
                     }} />;
           case "finalizado":
             return <Redirect to={{ 
                         pathname: '/users/Pedido_finalizado',
-                        state :{n_pedido: this.props.n_pedido}
+                        state :{pedido: this.props.n_pedido}
                     }} />;            
           default:
               break;

@@ -71,6 +71,12 @@
     width: 100%;
 }
 
+.padding{
+    padding: 0 !important;
+    margin: 0 !important ;
+}
+
+
 .ancho2{
     width: 200%;
 }

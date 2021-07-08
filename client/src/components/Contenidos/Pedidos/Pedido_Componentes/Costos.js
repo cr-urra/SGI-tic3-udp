@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Accordion, Card, Button } from 'react-bootstrap';
 import Precios from './Datos'
-import Producto from './Producto'
+import Productos from './Productos'
 
 export default class Costos extends Component {
     render() {
@@ -16,7 +16,7 @@ export default class Costos extends Component {
                     </Accordion.Toggle>
                   </div>
                   <div className="col-6">
-                    <Precios contenido={"Costo A"} nombre={this.props.n_costo} />
+                    <Precios contenido={this.props.cuenta} nombre={this.props.n_costo} />
                   </div>
                 </div>
               </Card.Header>
@@ -32,11 +32,7 @@ export default class Costos extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* Crear Componente Productos que haga un map */}
-                      <Producto codigo={"Codigo A"} peso={"Peso A"} costo={"Costo A"} total={"Total A"} />
-                      <Producto codigo={"Codigo B"} peso={"Peso B"} costo={"Costo B"} total={"Total B"} />
-                      <Producto codigo={"Codigo C"} peso={"Peso C"} costo={"Costo C"} total={"Total C"} />
-                      <Producto codigo={"Codigo D"} peso={"Peso D"} costo={"Costo D"} total={"Total D"} />
+                      <Productos Productos={this.props.productos} />
                     </tbody>
                   </table>
                 </Card.Body>

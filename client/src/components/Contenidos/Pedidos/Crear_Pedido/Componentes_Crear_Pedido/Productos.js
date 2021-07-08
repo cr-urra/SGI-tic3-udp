@@ -8,8 +8,7 @@ export default class Forma_Pago extends Component {
       if( this.props.productos.length!==0){
         
         return (
-          <div className="input-group mb-3">
-            {console.log(this.props,"10")}
+          <div className="input-group mb-3">            
               <table className="table separacion text-center table-striped table-bordered">
                 <thead>                
                   <tr>

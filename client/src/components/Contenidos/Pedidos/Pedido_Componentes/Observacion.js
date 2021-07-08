@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class Observacion extends Component {
     render() {
-      if(this.props.pago==null){
+      if(this.props.gasto===0){
         return (
           <li class="list-group-item">
             <div className="row">
@@ -18,7 +18,7 @@ export default class Observacion extends Component {
               <div className="col-2">Fecha: {this.props.fecha}</div>
               <div className="col-5">{this.props.descripcion}</div>
               <div className="col-3">RUT: {this.props.agente}</div>
-              <div className="col-2">Pago: {this.props.pago}</div>
+              <div className="col-2">Gasto: {this.props.gasto}</div>
             </div>
           </li>     
         )

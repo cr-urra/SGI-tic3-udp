@@ -26,9 +26,6 @@ export default class Init extends Component {
 
         codigo_p: null,
         kilo: null,
-        precio_kilo: null,
-        descripcion: "hola soy un producto",
-
 
         proveedor: null,
         tipo_pago: null,
@@ -52,8 +49,7 @@ export default class Init extends Component {
     }
 
     componentDidMount = async () => {
-        const res = await axios.get("/proveedores/",{})
-        console.log(res,"proveedores");
+        const res = await axios.get("/proveedores/",{})        
         for (let i= 0; i < res.data.proveedores.length ; i++){
             const proveedor = {
               nombre:  res.data.proveedores[i].nombre,
@@ -64,7 +60,6 @@ export default class Init extends Component {
             })
         }
         const res2 = await axios.get("/productos/",{})
-        console.log(res2.data,"productos")
         
         for (let j=0; j< res2.data.productos.length ; j++){
             const precio = await axios.get("/historialPrecios/maxDate/"+res2.data.productos[j].id,{})
@@ -83,8 +78,7 @@ export default class Init extends Component {
         }
     }
 
-    agregarProducto = (prod,cantidad) => (e) => {
-        console.log(prod,cantidad,"producto")  
+    agregarProducto = (prod,cantidad) => (e) => { 
         const producto = {
             id: prod.id,
             codigo: prod.codigo,
@@ -110,7 +104,6 @@ export default class Init extends Component {
             productos: productos
         }) 
         this.forceUpdate()
-        console.log(this.state.productos)
     }
 
     onChange = e => {
@@ -134,66 +127,81 @@ export default class Init extends Component {
     onSubmit = async e => {
         e.preventDefault();
         if(
-            this.state.proveedor !==  null,
-            this.state.codigo !== null,
-            this.state.productos !== [],
-            this.state.tipo_pago !== null,
-            this.state.proveedor !==  "",
-            this.state.codigo !== "",
-            this.state.tipo_pago !== "",
+            
+            this.state.proveedor !==  null&&
+            this.state.codigo !== null&&
+            this.state.productos !== []&&
+            this.state.tipo_pago !== null&&
+            this.state.proveedor !==  ""&&
+            this.state.codigo !== ""&&
+            this.state.tipo_pago !== ""&&
             this.state.productos !== ""            
         ){
             if(
                 //// Caso Credito
-                this.state.tipo_pago==="1",
-                this.state.fecha_vencimiento!== null,
-                this.state.fecha_entrega !== null,
-                this.state.tipo_transporte!== null,
-                this.state.fecha_vencimiento!== "",
-                this.state.fecha_entrega !== "",
+                this.state.tipo_pago==="1"&&
+                this.state.fecha_vencimiento!== null&&
+                this.state.fecha_entrega !== null&&
+                this.state.tipo_transporte!== null&&
+                this.state.fecha_vencimiento!== ""&&
+                this.state.fecha_entrega !== ""&&
                 this.state.tipo_transporte!== ""
                 ){
                     // a //
                 if( 
-                    this.state.tipo_transporte!== "1",
-                    this.state.pago_transporte!== null,
-                    this.state.pago_inicial!== null,
-                    this.state.cambio_pago_inicial!== null,
-                    this.state.pago_transporte!== "",
-                    this.state.pago_inicial!== "",
+                    this.state.tipo_transporte=== "1"&&
+                    this.state.pago_transporte!== null&&
+                    this.state.pago_inicial!== null&&
+                    this.state.cambio_pago_inicial!== null&&
+                    this.state.pago_transporte!== ""&&
+                    this.state.pago_inicial!== ""&&
                     this.state.cambio_pago_inicial!== ""
                     )
                 {
-                    /////// Caso CIF
+                    /////// Caso CIF 
                      /////////////////////////////////////////////////////////////////////////////////////
                     axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
+
+                    console.log("caso cif credito")
                     const Pedido = {
                         codigo: this.state.codigo,
                         pago_inicial: this.state.pago_inicial,
                         fecha_inicial: this.state.fecha_entrega,
+                        proveedores_id: this.state.productos[0].proveedores_id,
                         fecha_vencimiento: this.state.fecha_vencimiento,
                         estado: "produccion",
                         tipo_de_envio: this.state.tipo_transporte,
                         valor_cif: this.state.pago_transporte,
-                        seguro: null,
+                        seguro: 0,
                         tipo_pago: this.state.tipo_pago
                     }
                     const res = await axios.post("/pedidos/",Pedido)
+
+                    const dolar = {
+                        precio: this.state.cambio_pago_inicial,
+                        tipo: "inicio",
+                        pedidos_id: res.data.pedido.id
+                    }
+                    const res2 = await axios.post("/historialDolar/",dolar)
+
+                    const detalle = {
+                        precio_compra: this.state.cambio_pago_inicial,
+                        historial_dolar_id: res2.data.historialDolar.id,
+                    }              
+                    
+                    const res4 = await axios.post("/detallesDolar/",detalle)
                 
-                    console.log(res, "asd")
+
                     for(let i=0; i< this.state.productos.length ; i++){
                         let aux = {
                             pedidos_id: res.data.pedido.id,
                             productos_id: this.state.productos[i].id,
                             cantidad: parseInt(this.state.productos[i].cantidad)
                         }
-                        console.log(aux,"coca-cola")
+
                         const res3 = await axios.post("/tiene/",aux) 
                     }
-                    const dolar = {
-                        precio: this.state.cambio_pago_inicial
-                    }
-                    const res2 = await axios.post("/historialDolar/",dolar)                                        
+                                                          
 
                     if(res.data.resultado==true){
                         toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -203,25 +211,27 @@ export default class Init extends Component {
                      ///////////////////////////////////////////////////////////////////////////////////////////////// 
 
                 }else if(
-                    this.state.tipo_transporte!== "2",
-                    this.state.pago_transporte!== null,
-                    this.state.pago_seguro!== null,
-                    this.state.pago_inicial!== null,                    
-                    this.state.cambio_pago_inicial!== null,
-                    this.state.pago_transporte!== "",
-                    this.state.pago_seguro!== "",
-                    this.state.pago_inicial!== "",                    
+                    this.state.tipo_transporte=== "2"&&
+                    this.state.pago_transporte!== null&&
+                    this.state.pago_seguro!== null&&
+                    this.state.pago_inicial!== null&&                    
+                    this.state.cambio_pago_inicial!== null&&
+                    this.state.pago_transporte!== ""&&
+                    this.state.pago_seguro!== ""&&
+                    this.state.pago_inicial!== ""&&                    
                     this.state.cambio_pago_inicial!== ""
                     ){
                     ///// Caso FOB
-
+                    console.log("caso fob credito")
                     /////////////////////////////////////////////////////////////////////////////////////
                     axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
+
                     const Pedido = {
                         codigo: this.state.codigo,
                         pago_inicial: this.state.pago_inicial,
                         fecha_inicial: this.state.fecha_entrega,
                         fecha_vencimiento: this.state.fecha_vencimiento,
+                        proveedores_id: this.state.productos[0].proveedores_id,
                         estado: "produccion",
                         tipo_de_envio: this.state.tipo_transporte,
                         valor_cif: this.state.pago_transporte,
@@ -229,21 +239,32 @@ export default class Init extends Component {
                         tipo_pago: this.state.tipo_pago
                     }
                     const res = await axios.post("/pedidos/",Pedido)
+
+                    const dolar = {
+                        precio: this.state.cambio_pago_inicial,
+                        tipo: "inicio",
+                        pedidos_id: res.data.pedido.id
+                    }
+                    const res2 = await axios.post("/historialDolar/",dolar)
+
+                    const detalle = {
+                        precio_compra: this.state.cambio_pago_inicial,
+                        historial_dolar_id: res2.data.historialDolar.id,
+                    }              
+                    
+                    const res4 = await axios.post("/detallesDolar/",detalle)
                 
-                    console.log(res, "asd")
+
                     for(let i=0; i< this.state.productos.length ; i++){
                         let aux = {
                             pedidos_id: res.data.pedido.id,
                             productos_id: this.state.productos[i].id,
                             cantidad: parseInt(this.state.productos[i].cantidad)
                         }
-                        console.log(aux,"coca-cola")
+
                         const res3 = await axios.post("/tiene/",aux) 
                     }
-                    const dolar = {
-                        precio: this.state.cambio_pago_inicial
-                    }
-                    const res2 = await axios.post("/historialDolar/",dolar)
+                    
 
                     if(res.data.resultado==true){
                         toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -259,53 +280,66 @@ export default class Init extends Component {
                 // b //
             }else if(
                 //// Caso transferencia
-                this.state.tipo_pago==="2",
-                this.state.fecha_entrega !== null,
-                this.state.tipo_transporte!=null,
-                this.state.fecha_entrega !== "",
+                this.state.tipo_pago==="2"&&
+                this.state.fecha_entrega !== null&&
+                this.state.tipo_transporte!=null&&
+                this.state.fecha_entrega !== ""&&
                 this.state.tipo_transporte!== ""
                 ){
                         // a //
                 if( 
-                    this.state.tipo_transporte!== "1",
-                    this.state.pago_transporte!== null,
-                    this.state.pago_inicial!== null,
-                    this.state.cambio_pago_inicial!== null,
-                    this.state.pago_transporte!== "",
-                    this.state.pago_inicial!== "",
+                    this.state.tipo_transporte=== "1"&&
+                    this.state.pago_transporte!== null&&
+                    this.state.pago_inicial!== null&&
+                    this.state.cambio_pago_inicial!== null&&
+                    this.state.pago_transporte!== ""&&
+                    this.state.pago_inicial!== ""&&
                     this.state.cambio_pago_inicial!== ""
                     )
                 {
                     /////// Caso CIF
                      /////////////////////////////////////////////////////////////////////////////////////
-                    axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
+                     console.log("caso transferencia cif")
+                    axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')                                     
                     const Pedido = {
                         codigo: this.state.codigo,
                         pago_inicial: this.state.pago_inicial,
                         fecha_inicial: this.state.fecha_entrega,
-                        fecha_vencimiento: null,
+                        fecha_vencimiento: this.state.fecha_vencimiento,
+                        proveedores_id: this.state.productos[0].proveedores_id,
                         estado: "produccion",
                         tipo_de_envio: this.state.tipo_transporte,
                         valor_cif: this.state.pago_transporte,
-                        seguro: null,
+                        seguro: 0,
                         tipo_pago: this.state.tipo_pago
                     }
-                    const res = await axios.post("/pedidos/",Pedido)
-                
-                    console.log(res, "asd")
+                    const res = await axios.post("/pedidos/",Pedido)  
+                    
+                    const dolar = {
+                        precio: this.state.cambio_pago_inicial,
+                        tipo: "inicio",
+                        pedidos_id: res.data.pedido.id
+                    }
+                    const res2 = await axios.post("/historialDolar/",dolar)
+
+                    const detalle = {
+                        precio_compra: this.state.cambio_pago_inicial,
+                        historial_dolar_id: res2.data.historialDolar.id,
+                    }              
+                    
+                    const res4 = await axios.post("/detallesDolar/",detalle)
+                                 
+
                     for(let i=0; i< this.state.productos.length ; i++){
                         let aux = {
                             pedidos_id: res.data.pedido.id,
                             productos_id: this.state.productos[i].id,
                             cantidad: parseInt(this.state.productos[i].cantidad)
                         }
-                        console.log(aux,"coca-cola")
+
                         const res3 = await axios.post("/tiene/",aux) 
                     }
-                    const dolar = {
-                        precio: this.state.cambio_pago_inicial
-                    }
-                    const res2 = await axios.post("/historialDolar/",dolar)                                        
+                                                         
 
                     if(res.data.resultado==true){
                         toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -315,47 +349,59 @@ export default class Init extends Component {
                      ///////////////////////////////////////////////////////////////////////////////////////////////// 
 
                 }else if(
-                    this.state.tipo_transporte!== "2",
-                    this.state.pago_transporte!== null,
-                    this.state.pago_seguro!== null,
-                    this.state.pago_inicial!== null,                    
-                    this.state.cambio_pago_inicial!== null,
-                    this.state.pago_transporte!== "",
-                    this.state.pago_seguro!== "",
-                    this.state.pago_inicial!== "",                    
+                    this.state.tipo_transporte=== "2"&&
+                    this.state.pago_transporte!== null&&
+                    this.state.pago_seguro!== null&&
+                    this.state.pago_inicial!== null&&                    
+                    this.state.cambio_pago_inicial!== null&&
+                    this.state.pago_transporte!== ""&&
+                    this.state.pago_seguro!== ""&&
+                    this.state.pago_inicial!== ""&&                    
                     this.state.cambio_pago_inicial!== ""
                     ){
                     ///// Caso FOB
-
+                    console.log("caso transferencia fob")
                     /////////////////////////////////////////////////////////////////////////////////////
                     axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
                     const Pedido = {
                         codigo: this.state.codigo,
                         pago_inicial: this.state.pago_inicial,
                         fecha_inicial: this.state.fecha_entrega,
-                        fecha_vencimiento: null,
+                        fecha_vencimiento: this.state.fecha_vencimiento,
                         estado: "produccion",
+                        proveedores_id: this.state.productos[0].proveedores_id,
                         tipo_de_envio: this.state.tipo_transporte,
                         valor_cif: this.state.pago_transporte,
                         seguro: this.state.pago_seguro,
                         tipo_pago: this.state.tipo_pago
                     }
+
                     const res = await axios.post("/pedidos/",Pedido)
                 
-                    console.log(res, "asd")
+
+                    const dolar = {
+                        precio: this.state.cambio_pago_inicial,
+                        tipo: "inicio",
+                        pedidos_id: res.data.pedido.id
+                    }
+                    const res2 = await axios.post("/historialDolar/",dolar)
+
+                    const detalle = {
+                        precio_compra: this.state.cambio_pago_inicial,
+                        historial_dolar_id: res2.data.historialDolar.id,
+                    }              
+                    
+                    const res4 = await axios.post("/detallesDolar/",detalle)
                     for(let i=0; i< this.state.productos.length ; i++){
                         let aux = {
                             pedidos_id: res.data.pedido.id,
                             productos_id: this.state.productos[i].id,
                             cantidad: parseInt(this.state.productos[i].cantidad)
                         }
-                        console.log(aux,"coca-cola")
+
                         const res3 = await axios.post("/tiene/",aux) 
                     }
-                    const dolar = {
-                        precio: this.state.cambio_pago_inicial
-                    }
-                    const res2 = await axios.post("/historialDolar/",dolar)
+                    
 
                     if(res.data.resultado==true){
                         toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -370,43 +416,6 @@ export default class Init extends Component {
             }else{
                 toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }
-
-            /////////////////////////////////////////////////////////////////////////////////////
-            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
-            const Pedido = {
-                codigo: this.state.codigo,
-                pago_inicial: this.state.pago_inicial,
-                fecha_inicial: this.state.fecha_entrega,
-                fecha_vencimiento: null,
-                estado: "produccion",
-                tipo_de_envio: this.state.tipo_transporte,
-                valor_cif: this.state.pago_transporte,
-                seguro: this.state.pago_seguro,
-                tipo_pago: this.state.tipo_pago
-            }
-            const res = await axios.post("/pedidos/",Pedido)
-
-            console.log(res, "asd")
-            for(let i=0; i< this.state.productos.length ; i++){
-                let aux = {
-                    pedidos_id: res.data.pedido.id,
-                    productos_id: this.state.productos[i].id,
-                    cantidad: parseInt(this.state.productos[i].cantidad)
-                }
-                console.log(aux,"coca-cola")
-                const res3 = await axios.post("/tiene/",aux) 
-            }
-            const dolar = {
-                precio: this.state.cambio_pago_inicial
-            }
-            const res2 = await axios.post("/historialDolar/",dolar)                        
-            
-            if(res.data.resultado==true){
-                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-            }else{
-                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-            }
-             ///////////////////////////////////////////////////////////////////////////////////////////////// 
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
@@ -419,7 +428,7 @@ export default class Init extends Component {
     render() {
         return (
             <main className="content">
-                {console.log(this.state)}
+ 
                 <h1 className="display-5 titulo">Crear un Pedido</h1>
                 <div className = "container separacion" >
                     <div className = "card shadow-lg">
@@ -510,18 +519,18 @@ export default class Init extends Component {
 
                                     <div className="input-group no_flex ml-3">
                                         <div className="col-2">
-                                            <label className="input-group-text ancho2 " for="inputGroupSelect01">Tipo de Transporte</label>
+                                            <label className="input-group-text ancho2 " for="inputGroupSelect01">Tipo de Importación</label>
                                         </div>
                                         <div className="col-4">
                                             <select className="form-select ancho alto"   id="inputGroupSelect01" name={"tipo_transporte"} value = {this.state.tipo_transporte} onChange={this.onChange} >
-                                              <option defaultValue value={"null"}>Escoger Tipo de Transporte</option>
+                                              <option defaultValue value={"null"}>Escoger Tipo de Importación</option>
                                               <option value="1">CIF</option>
                                               <option value="2">FOB</option>
                                             </select>
                                         </div>
 
                                         <div className="col-6">
-                                            <Tipo_CIF filtro={this.state.tipo_transporte} pago_transporte={this.state.pago_transporte}/>
+                                            <Tipo_CIF filtro={this.state.tipo_transporte} pago_transporte={this.state.pago_transporte} onChange={this.onChange}/>
                                         </div>
                                         
 
@@ -529,7 +538,7 @@ export default class Init extends Component {
 
                                     <div className="input-group no_flex ml-3">      
                                         <div className="col-12">
-                                            <Tipo_FOB filtro={this.state.tipo_transporte} pago_transporte={this.state.pago_transporte} pago_seguro={this.state.pago_seguro}/>  
+                                            <Tipo_FOB filtro={this.state.tipo_transporte} pago_transporte={this.state.pago_transporte} pago_seguro={this.state.pago_seguro} onChange={this.onChange}/>  
                                         </div>                                                           
                                     </div>
 

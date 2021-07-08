@@ -27,7 +27,6 @@ export default class Requisitos extends Component {
         fecha2: this.state.dia2 + "-" + this.state.mes2 + "-" + this.state.año2,
         archivos: this.state.archivos
       }
-      console.log(Requisitos)
       const res = await axios.post("/sacate-la-url/", Requisitos)           
       alert(res.data.message) 
     }
