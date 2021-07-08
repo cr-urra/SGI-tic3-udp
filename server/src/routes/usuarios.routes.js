@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 import * as usuarios from '../controllers/usuarios.controller';
+import * as csrf from '../middlewares/authCsrf';
 
 // usuarios
 
-router.get('/', usuarios.getAllUsuarios);
+router.get('/', csrf.verifyAntiCsrfToken, usuarios.getAllUsuarios);
 
 // usuarios/:id
 

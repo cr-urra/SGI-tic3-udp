@@ -13,7 +13,7 @@ const observaciones = database.define('observaciones',{
         type: sequelize.DATEONLY
     },
     gasto:{
-        type: sequelize.BOOLEAN
+        type: sequelize.INTEGER
     },
     pedidos_id:{
         type: sequelize.INTEGER
