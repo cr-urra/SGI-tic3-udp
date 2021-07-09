@@ -15,6 +15,8 @@ import * as observacionesController from './observaciones.controller';
 import * as gastosExtrasController from './gastos_extras.controller';
 import historial_dolar from '../models/historial_dolar';
 import config from '../config';
+import agentesAduana from '../models/agentes_aduana';
+import cuentasCorrientes from '../models/cuentas_corrientes';
 
 export const createPedidos = async (req, res) => {
     try{
@@ -327,6 +329,12 @@ export const getAllPedidos = async (req, res) => {
                     include: [
                         detallesDolar
                     ]
+                },
+                {
+                    model: agentesAduana,
+                    include: [
+                        cuentasCorrientes
+                    ]
                 }
             ]
         });
@@ -388,6 +396,12 @@ export const getPedidosId = async (req, res) => {
                     include: [
                         detallesDolar
                     ]
+                },
+                {
+                    model: agentesAduana,
+                    include: [
+                        cuentasCorrientes
+                    ]
                 }
             ]
         });
@@ -447,6 +461,12 @@ export const getAllPedidosWithFalse = async (req, res) => {
                     model: historialDolar,
                     include: [
                         detallesDolar
+                    ]
+                },
+                {
+                    model: agentesAduana,
+                    include: [
+                        cuentasCorrientes
                     ]
                 }
             ]
