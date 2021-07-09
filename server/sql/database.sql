@@ -1331,6 +1331,8 @@ COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_
 
 COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FROM stdin;
 3	928374657	532323	5	t
+4	0	0	1	t
+5	0	0	8	t
 \.
 
 
@@ -1619,7 +1621,7 @@ SELECT pg_catalog.setval('public.cuentas_bancos_id_seq', 5, true);
 -- Name: cuentas_corrientes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cuentas_corrientes_id_seq', 3, true);
+SELECT pg_catalog.setval('public.cuentas_corrientes_id_seq', 5, true);
 
 
 --
