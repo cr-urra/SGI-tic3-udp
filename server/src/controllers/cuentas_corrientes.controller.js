@@ -18,11 +18,12 @@ export const createCuentasCorrientes = async (req, res) => {
                 'vigencia'
             ]
         });
-        res.json({
+        const r = {
             resultado: true,
             message: "Cuenta corriente creada correctamente",
             cuentasCorrientes: newCuentasCorrientes
-        });
+        };
+        return r;
     }catch(e){
         console.log(e);
         res.json({

@@ -6,6 +6,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const csurf = require('csurf');
 
+require('nodemailer');
 require('./database/associations');
 
 // inicialización
@@ -67,6 +68,7 @@ import cuentasCorrientes from './routes/cuentas_corrientes.routes';
 import unidadProductos from './routes/unidad_productos.routes';
 import bancosAgentesAduana from './routes/bancos_agentes_aduana.routes';
 import observadores from './routes/observadores.routes';
+import send from './routes/send.routes';
 
 // routes
 
@@ -101,6 +103,7 @@ app.use('/cuentasCorrientes', cuentasCorrientes);
 app.use('/unidadProductos', unidadProductos);
 app.use('/bancosAgentesAduana', bancosAgentesAduana);
 app.use('/observadores', observadores);
+app.use('/send', send);
 
 app.get('/csrf', (req, res) => { 
     res.send({csrfToken: req.csrfToken()})

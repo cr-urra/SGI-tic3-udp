@@ -102,8 +102,8 @@ telefonos_agentes_aduana.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_
 agentes_aduana.hasMany(telefonos_agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 telefonos_agentes_aduana.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 
-movimientos.hasMany(cuentas_corrientes, {foreignKey: 'cuentas_corrientes_id', sourceKey: 'id'});
-cuentas_corrientes.belongsTo(movimientos, {foreignKey: 'cuentas_corrientes_id', sourceKey: 'id'});
+cuentas_corrientes.hasMany(movimientos, {foreignKey: 'cuentas_corrientes_id', sourceKey: 'id'});
+movimientos.belongsTo(cuentas_corrientes, {foreignKey: 'cuentas_corrientes_id', sourceKey: 'id'});
 
 usuarios.hasMany(ips, {foreignKey: 'usuarios_id', sourceKey: 'id'});
 ips.belongsTo(usuarios, {foreignKey: 'usuarios_id', sourceKey: 'id'});

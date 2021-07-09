@@ -8,7 +8,6 @@ import * as pedidosController from './pedidos.controller';
 import * as observacionesController from './observaciones.controller';
 import * as telefonosAgentesAduanaController from './telefonos_agentes_aduana.controller';
 
-
 export const createAgentesAduana = async (req, res) => {
     try{
         const {nombre, apellido, correo, numero_cuenta, rut, bancos_agentes_aduana_id} = req.body;
@@ -31,10 +30,18 @@ export const createAgentesAduana = async (req, res) => {
                 'vigencia'
             ]
         });
+        const id  = newAgenteAduana.dataValues.id;
+        req.body = {
+            debe: 0,
+            haber: 0,
+            agentes_aduana_id: id
+        };
+        const cuenta = await cuentasCorrientesController.createCuentasCorrientes(req, res);
         res.json({
             resultado: true,
             message: "Agente de aduana creado correctamente",
-            agentes_aduana: newAgenteAduana
+            agentes_aduana: newAgenteAduana,
+            cuenta_corriente: cuenta
         });
     } catch (e) {
         console.log(e);
