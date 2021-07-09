@@ -12,6 +12,7 @@ router.get('/all', cuentasCorrientes.getAllCuentasCorrientesWithFalse);
 
 router.put('/:id', cuentasCorrientes.updateCuentasCorrientes);
 router.put('/delete/:id', cuentasCorrientes.deleteCuentasCorrientes);
+router.put('/agentesAduana/:id', cuentasCorrientes.updateCuentasCorrientesForAgentesAduana);
 router.get('/:id', cuentasCorrientes.getCuentasCorrientesId);
 
 module.exports = router;

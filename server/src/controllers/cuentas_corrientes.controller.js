@@ -207,3 +207,31 @@ export const getAllCuentasCorrientesWithFalse = async (req, res) => {
         });
     };
 };
+
+export const updateCuentasCorrientesForAgentesAduana = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const body =  req.body;
+        const cuentasCorrientesUpdate = await cuentasCorrientes.update(
+            body
+        ,
+        {
+            where: {
+                agentes_aduana_id: id,
+                vigencia: true
+            }
+        });
+        res.json({
+            message: 'Cuenta corriente actualizada correctamente',
+            resultado: true,
+            cuentasCorrientes: cuentasCorrientesUpdate
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador",
+            cuentasCorrientes: null
+        });
+    }
+};
