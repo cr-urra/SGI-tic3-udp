@@ -57,7 +57,7 @@ export default class Init extends Component {
 
                     <Estados contenido1={"En Producción"} contenido2={"En Tránsito (Internacional)"}/>
 
-                    <Requisitos />                    
+                    <Requisitos id= {this.props.auxiliar.pedido.pedido.id} codigo={this.props.auxiliar.pedido.pedido.codigo}/>                    
 
                   </div>
                 </div> 

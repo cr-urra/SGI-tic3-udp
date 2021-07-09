@@ -50,16 +50,16 @@ export default class Buscar_Producto extends Component {
             
 
     
-                <div className="layout has-sidebar">
-                  <aside >
-                    <Sidebar/>
-                    </aside>                 
-                  <div className="layout">
-                    <header className="header"><Navbar logOut={this.logOut}/></header>
-                    <Contenido auxiliar ={this.props.location.state} />
-                    <div className="overlay"></div>
-                  </div>
-                </div>            
+            <div className="layout has-sidebar">
+            <aside >
+              <Sidebar/>
+              </aside>                 
+            <div className="layout">
+              <header className="header"><Navbar logOut={this.logOut}/></header>
+              <Contenido auxiliar ={this.props.location.state} />
+              <div className="overlay"></div>
+            </div>
+          </div>            
  
         )
     };

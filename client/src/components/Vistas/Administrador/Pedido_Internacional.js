@@ -3,7 +3,7 @@ import axios from 'axios';
 import Navbar from '../../layout/navbarAdmin.js'
 import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Pedidos/Pedido_Internacional/Contenido_Pedido_Internacional'
-import {Redirect,Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 
 
@@ -49,17 +49,17 @@ export default class Buscar_Producto extends Component {
         return (
             
 
-    
-                <div className="layout has-sidebar">
-                  <aside >
-                    <Sidebar/>
-                    </aside>                 
-                  <div className="layout">
-                    <header className="header"><Navbar logOut={this.logOut}/></header>
-                    <Contenido auxiliar ={this.props.location.state} />
-                    <div className="overlay"></div>
-                  </div>
-                </div>            
+            <div className="layout has-sidebar">
+            <aside >
+              <Sidebar/>
+              </aside>                 
+            <div className="layout">
+              <header className="header"><Navbar logOut={this.logOut}/></header>
+              <Contenido auxiliar ={this.props.location.state} />
+              <div className="overlay"></div>
+            </div>
+          </div>            
+
  
         )
     };

@@ -162,7 +162,7 @@ export default class Init extends Component {
                      /////////////////////////////////////////////////////////////////////////////////////
                     axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
 
-                    console.log("caso cif credito")
+                    console.log(localStorage.getItem('X-CSRF-Token'),"esta pegaoooo" )
                     const Pedido = {
                         codigo: this.state.codigo,
                         pago_inicial: this.state.pago_inicial,
@@ -572,7 +572,7 @@ export default class Init extends Component {
                                             name="cambio_pago_inicial"
                                             className="form-control" 
                                             aria-label="Default" 
-                                            placeholder="Valor Dolar"
+                                            placeholder="$ CLP"
                                             aria-describedby="inputGroup-sizing-default"
                                             onChange={this.onChange}
                                             value={this.state.cambio_pago_inicial}
