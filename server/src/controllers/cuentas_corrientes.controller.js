@@ -221,10 +221,22 @@ export const updateCuentasCorrientesForAgentesAduana = async (req, res) => {
                 vigencia: true
             }
         });
+        const cuentaCorriente = await cuentasCorrientes.findOne({
+            where: {
+                agentes_aduana_id: id,
+                vigencia: true
+            },
+            attributes: [
+                'id',
+                'debe', 
+                'haber', 
+                'agentes_aduana_id'
+            ]
+        });
         res.json({
             message: 'Cuenta corriente actualizada correctamente',
             resultado: true,
-            cuentasCorrientes: cuentasCorrientesUpdate
+            cuentasCorrientes: cuentaCorriente
         });
     }catch(e){
         console.log(e);
