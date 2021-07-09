@@ -1,11 +1,12 @@
 import movimientos from '../models/movimientos';
+import sequelize from 'sequelize';
 
 export const createMovimientos = async (req, res) => {
     try{
-        const {monto, fecha, cuentas_corrientes_id, descripcion} = req.body;
+        const {monto, cuentas_corrientes_id, descripcion} = req.body;
         let newMovimiento = await movimientos.create({
             monto, 
-            fecha, 
+            fecha: sequelize.literal('CURRENT_TIMESTAMP'), 
             cuentas_corrientes_id, 
             descripcion,
             vigencia: true
