@@ -14,20 +14,7 @@ export default class Init extends Component {
   state = {
       costos: 0,
       observaciones: null,
-      show: false
-    }
-
-    handleClose = () =>{
-        this.setState({
-            show: false
-        })
-    }
-
-    handleShow = () =>{
-        this.setState({
-            show: true
-        })
-    }
+   }
 
     componentDidMount = async () => {      
       let cuenta = 0
