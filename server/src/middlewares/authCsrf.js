@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import config from '../config';
-import usuarios from '../models/usuarios';
 
 export const verifyAntiCsrfToken = async (req, res, next) => {
     try{

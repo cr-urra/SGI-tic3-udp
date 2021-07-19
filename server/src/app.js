@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const csurf = require('csurf');
+const https = require('https');
 
 require('nodemailer');
 require('./database/associations');
@@ -69,6 +70,7 @@ import unidadProductos from './routes/unidad_productos.routes';
 import bancosAgentesAduana from './routes/bancos_agentes_aduana.routes';
 import observadores from './routes/observadores.routes';
 import send from './routes/send.routes';
+import { log } from 'console';
 
 // routes
 
@@ -105,8 +107,25 @@ app.use('/bancosAgentesAduana', bancosAgentesAduana);
 app.use('/observadores', observadores);
 app.use('/send', send);
 
+// rutas directas
+
 app.get('/csrf', (req, res) => { 
-    res.send({csrfToken: req.csrfToken()})
+    res.send({csrfToken: req.csrfToken()});
+});
+app.get('/money', (req, res) => {
+    https.get('https://mindicador.cl/api', (response) => {
+        response.setEncoding('utf-8');
+        let data = '';
+        response.on('data', (chunk) => {
+            data += chunk;
+        });
+        response.on('end', () => {
+            let dailyIndicators = JSON.parse(data);
+            res.send(dailyIndicators);
+        });
+    }).on('error', (err) => {
+        console.log(err);
+    });
 });
 
 export default app;

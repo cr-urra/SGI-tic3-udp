@@ -89,7 +89,6 @@ export const deleteCuentasCorrientes = async (req, res) => {
                 id: movimientosIds
             };
             let aux = await movimientosController.deleteMovimientos(req, res);
-            
             let cuentaCorrienteUpdate;
             aux.resultado ? cuentaCorrienteUpdate = await cuentasCorrientes.update({
                 vigencia: false
