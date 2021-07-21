@@ -3,6 +3,7 @@ import roles from '../models/roles';
 import bcrypt from 'bcryptjs';
 import config from '../config';
 import jwt from 'jsonwebtoken';
+import * as mail from './mail.controller';
 
 export const comparePassword = async (password, receivePassword) => {
     return await bcrypt.compare(password, receivePassword);
@@ -47,9 +48,25 @@ export const signUp = async (req, res) => {
                 'verificacion'
             ]
         });
-        res.json({
+        const mailToken = jwt.sign({
+                rut: rut, 
+                correo: correo
+            }, 
+                config.SECRET, 
+            {
+                expiresIn: 86400
+            }
+        );
+        const body = mail.templateBienvenida(nombre+" "+apellido, mailToken)
+        const from = "'SGI PROMACHILE <web@promachile.cl>'"
+        const subject = "Correo de bienvenida"
+        const r = await mail.sendMail(body, from, correo, subject)
+        r.resultado ? res.json({
             resultado: true, 
             message: "Usuario registrado correctamente"
+        }) : res.json({
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false
         });
     }catch(e){
         console.log(e);
@@ -227,5 +244,55 @@ export const getRol = async (req, res) => {
             attributes: ['cod_rol']
         });
         res.json({resultado: true, codRol: rol.cod_rol, message: ""});
+    }
+};
+
+export const confirmUser = async (req, res) => {
+    try{
+        const {token} = req.params;
+        !token && res.json({resultado: false, cod_rol: "", message: ""});
+        let verifyDecoded = null;
+        jwt.verify(token, config.SECRET, (err) => {verifyDecoded = err});
+        if(verifyDecoded !== null){
+            res.json({resultado: false, cod_rol: "", message: ""});
+        }else{
+            const decoded = jwt.verify(token, config.SECRET)
+            let rut = decoded.rut;
+            const user = await usuarios.findOne({
+                where: {rut},
+                attributes: ['correo']
+            });
+            if(user){
+                if(user.dataValues.correo == decoded.correo){
+                    const userUpdate = await usuarios.update(
+                        {verificacion: true}
+                    ,
+                    {
+                        where: {
+                            rut
+                        }
+                    });
+                    res.json({resultado: true, message: "Su cuenta se ha verificado correctamente"});
+                }else{
+                    console.log("Error en verificación de cuenta, no coincide correo de rut: ", rut);
+                    res.json({
+                        message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+                        resultado: false
+                    })
+                }
+            }else{
+                console.log("Error en verificación de cuenta, no se encuentra rut: ", rut);
+                res.json({
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+                    resultado: false
+                })
+            }
+        }
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false
+        })
     }
 }; 

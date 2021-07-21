@@ -69,7 +69,7 @@ import cuentasCorrientes from './routes/cuentas_corrientes.routes';
 import unidadProductos from './routes/unidad_productos.routes';
 import bancosAgentesAduana from './routes/bancos_agentes_aduana.routes';
 import observadores from './routes/observadores.routes';
-import send from './routes/send.routes';
+import mail from './routes/mail.routes';
 import { log } from 'console';
 
 // routes
@@ -105,7 +105,7 @@ app.use('/cuentasCorrientes', cuentasCorrientes);
 app.use('/unidadProductos', unidadProductos);
 app.use('/bancosAgentesAduana', bancosAgentesAduana);
 app.use('/observadores', observadores);
-app.use('/send', send);
+app.use('/mail', mail);
 
 // rutas directas
 

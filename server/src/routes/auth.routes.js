@@ -13,5 +13,6 @@ router.post('/signin',auth.signIn);
 router.get('/getRol', auth.getRol);
 router.post('/signup', auth.signUp);
 router.get('/logout', auth.logOut);
+router.get('/confirm/:token', auth.confirmUser);
 
 module.exports = router;
