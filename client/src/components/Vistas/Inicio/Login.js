@@ -21,11 +21,13 @@ export default class Login extends Component {
 
     onSubmit = async (e) => {
         e.preventDefault();
+        const addr = await axios.get('https://api.ipify.org?format=json');
         const {data} = await axios.get("/csrf");
         axios.defaults.headers.post['X-CSRF-Token'] = data.csrfToken;
         const datosLogin = {
             rut: this.state.rut,
-            contraseña: this.state.password
+            contraseña: this.state.password,
+            address: addr
         };
         const res = await axios.post('/auth/signin', datosLogin);
         localStorage.setItem('X-CSRF-Token', data.csrfToken);

@@ -2,26 +2,26 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var _authController = require("../controllers/auth.controller.js");
+var auth = _interopRequireWildcard(require("../controllers/auth.controller"));
 
-var verifySignUp = _interopRequireWildcard(require("../middlewares/verifySignUp.js"));
+var verifySignUp = _interopRequireWildcard(require("../middlewares/verifyUsr"));
 
 var authJwt = _interopRequireWildcard(require("../middlewares/authJwt"));
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var express = require('express');
 
 var router = express.Router();
 // auth
-router.get('/', authJwt.verifyToken);
-router.get('/adm/', _authController.verifyAdm);
-router.get('/sup/', _authController.verifySup);
-router.get('/usr/', _authController.verifyUsr);
-router.post('/signin', _authController.signIn);
-router.get('/getRol', _authController.getRol);
-router.post('/signup', verifySignUp.verifyUser, _authController.signUp);
-router.get('/logout', _authController.logOut);
+router.get('/adm', auth.verifyAdm);
+router.get('/sup', auth.verifySup);
+router.get('/usr', auth.verifyUsr);
+router.post('/signin', auth.signIn);
+router.get('/getRol', auth.getRol);
+router.post('/signup', auth.signUp);
+router.get('/logout', auth.logOut);
+router.get('/confirm/:token', auth.confirmUser);
 module.exports = router;

@@ -18,6 +18,7 @@ const csrf = csurf({cookie: true});
 // settings
 
 app.set('port', process.env.PORT || 4000);
+//app.set('trust proxy', true);
 
 // variables globales
 
@@ -70,7 +71,6 @@ import unidadProductos from './routes/unidad_productos.routes';
 import bancosAgentesAduana from './routes/bancos_agentes_aduana.routes';
 import observadores from './routes/observadores.routes';
 import mail from './routes/mail.routes';
-import { log } from 'console';
 
 // routes
 

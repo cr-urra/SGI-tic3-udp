@@ -80,8 +80,11 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
     try{
         const {rut} = req.body;
+        const addr = req.body.address.data.ip;
         const user = await usuarios.findOne({
-            where: {rut},
+            where: {
+                rut
+            },
             attributes: [
                 'id', 
                 'rut', 
@@ -264,9 +267,9 @@ export const confirmUser = async (req, res) => {
             });
             if(user){
                 if(user.dataValues.correo == decoded.correo){
-                    const userUpdate = await usuarios.update(
-                        {verificacion: true}
-                    ,
+                    const userUpdate = await usuarios.update({
+                        verificacion: true
+                    },
                     {
                         where: {
                             rut

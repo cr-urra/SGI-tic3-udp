@@ -9,7 +9,7 @@ var _sequelize = _interopRequireDefault(require("sequelize"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var database = new _sequelize["default"]('db_02', //Nombre bd
+var database = new _sequelize["default"]('sgi_db', //Nombre bd
 'postgres', //Usuario
 'pass123', //Contraseña
 {
@@ -21,6 +21,11 @@ var database = new _sequelize["default"]('db_02', //Nombre bd
     require: 30000,
     idle: 1000
   },
-  logging: false
+  logging: false,
+  define: {
+    "createdAt": "createdat",
+    "updatedAt": "updatedat",
+    freezeTableName: true
+  }
 });
 exports.database = database;

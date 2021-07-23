@@ -1,11 +1,13 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getRol = exports.logOut = exports.verifyUsr = exports.verifySup = exports.verifyAdm = exports.signIn = exports.signUp = exports.consulRol = exports.encryptPassword = exports.comparePassword = void 0;
+exports.confirmUser = exports.getRol = exports.logOut = exports.verifyUsr = exports.verifySup = exports.verifyAdm = exports.signIn = exports.signUp = exports.consulRol = exports.encryptPassword = exports.comparePassword = void 0;
 
-var _users = _interopRequireDefault(require("../models/users"));
+var _usuarios = _interopRequireDefault(require("../models/usuarios"));
 
 var _roles = _interopRequireDefault(require("../models/roles"));
 
@@ -14,6 +16,12 @@ var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 var _config = _interopRequireDefault(require("../config"));
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
+
+var mail = _interopRequireWildcard(require("./mail.controller"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -117,75 +125,83 @@ exports.consulRol = consulRol;
 
 var signUp = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var _req$body, rut, nombre, apellido, roles_id, password, newUsers, user_token;
+    var _req$body, rut, nombre, apellido, roles_id, contraseña, correo, mailToken, body, from, subject, r;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _req$body = req.body, rut = _req$body.rut, nombre = _req$body.nombre, apellido = _req$body.apellido, roles_id = _req$body.roles_id, password = _req$body.password;
-            _context4.prev = 1;
-            _context4.t0 = _users["default"];
+            _context4.prev = 0;
+            _req$body = req.body, rut = _req$body.rut, nombre = _req$body.nombre, apellido = _req$body.apellido, roles_id = _req$body.roles_id, contraseña = _req$body.contraseña, correo = _req$body.correo;
+            _context4.t0 = _usuarios["default"];
             _context4.t1 = rut;
             _context4.t2 = nombre;
             _context4.t3 = apellido;
             _context4.t4 = roles_id;
             _context4.next = 9;
-            return encryptPassword(password);
+            return encryptPassword(contraseña);
 
           case 9:
             _context4.t5 = _context4.sent;
-            _context4.t6 = {
+            _context4.t6 = correo;
+            _context4.t7 = {
               rut: _context4.t1,
               nombre: _context4.t2,
               apellido: _context4.t3,
               roles_id: _context4.t4,
-              password: _context4.t5
+              contraseña: _context4.t5,
+              correo: _context4.t6,
+              verificacion: false
             };
-            _context4.t7 = {
-              fields: ['rut', 'nombre', 'apellido', 'roles_id', 'password']
+            _context4.t8 = {
+              fields: ['rut', 'nombre', 'apellido', 'roles_id', 'contraseña', 'correo', 'verificacion']
             };
-            _context4.next = 14;
-            return _context4.t0.create.call(_context4.t0, _context4.t6, _context4.t7);
+            _context4.next = 15;
+            return _context4.t0.create.call(_context4.t0, _context4.t7, _context4.t8);
 
-          case 14:
-            newUsers = _context4.sent;
+          case 15:
+            mailToken = _jsonwebtoken["default"].sign({
+              rut: rut,
+              correo: correo
+            }, _config["default"].SECRET, {
+              expiresIn: 86400
+            });
+            body = mail.templateBienvenida(nombre + " " + apellido, mailToken);
+            from = "'SGI PROMACHILE <web@promachile.cl>'";
+            subject = "Correo de bienvenida";
+            _context4.next = 21;
+            return mail.sendMail(body, from, correo, subject);
 
-            if (newUsers) {
-              user_token = _jsonwebtoken["default"].sign({
-                id: newUsers.id
-              }, _config["default"].SECRET, {
-                expiresIn: 120
-              });
-              res.json({
-                message: "Usuario registrado correctamente",
-                data: newUsers,
-                token: user_token
-              });
-            }
-
-            ;
-            _context4.next = 23;
+          case 21:
+            r = _context4.sent;
+            r.resultado ? res.json({
+              resultado: true,
+              message: "Usuario registrado correctamente"
+            }) : res.json({
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              resultado: false
+            });
+            _context4.next = 29;
             break;
 
-          case 19:
-            _context4.prev = 19;
-            _context4.t8 = _context4["catch"](1);
-            console.log(_context4.t8);
-            res.status(500).json({
-              message: "Problemas al registrar usuario, contactese con el administrador del sistema",
-              data: {}
+          case 25:
+            _context4.prev = 25;
+            _context4.t9 = _context4["catch"](0);
+            console.log(_context4.t9);
+            res.json({
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              resultado: false
             });
 
-          case 23:
+          case 29:
             ;
 
-          case 24:
+          case 30:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[1, 19]]);
+    }, _callee4, null, [[0, 25]]);
   }));
 
   return function signUp(_x5, _x6) {
@@ -197,22 +213,23 @@ exports.signUp = signUp;
 
 var signIn = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var rut, bool, user, matchPassword, user_token, codRol, result;
+    var rut, addr, user, matchPassword, user_token, codRol, result;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
+            _context5.prev = 0;
             rut = req.body.rut;
-            bool = false;
-            _context5.next = 4;
-            return _users["default"].findOne({
+            addr = req.body.address.data.ip;
+            _context5.next = 5;
+            return _usuarios["default"].findOne({
               where: {
                 rut: rut
               },
-              attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'password']
+              attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'contraseña']
             });
 
-          case 4:
+          case 5:
             user = _context5.sent;
 
             if (!user) {
@@ -220,10 +237,10 @@ var signIn = /*#__PURE__*/function () {
               break;
             }
 
-            _context5.next = 8;
-            return comparePassword(req.body.password, user.password);
+            _context5.next = 9;
+            return comparePassword(req.body.contraseña, user.contraseña);
 
-          case 8:
+          case 9:
             matchPassword = _context5.sent;
             user_token = null;
 
@@ -233,36 +250,35 @@ var signIn = /*#__PURE__*/function () {
             }
 
             user_token = _jsonwebtoken["default"].sign({
-              id: user.id
+              id: user.id,
+              antiCsrf: req.get('CSRF-Token')
             }, _config["default"].SECRET, {
-              expiresIn: 120
+              expiresIn: 1200000000
             });
             res.cookie('token', user_token, {
               httpOnly: true
             });
-            _context5.next = 15;
+            _context5.next = 16;
             return consulRol(user.roles_id);
 
-          case 15:
+          case 16:
             codRol = _context5.sent;
             result = {
               nombre: user.nombre,
               apellido: user.apellido,
               cod_rol: codRol.cod_rol
             };
-            bool = true;
             res.json({
-              Resultado: bool,
-              Usuario: result,
-              token: user_token
+              resultado: true,
+              usuario: result
             });
             _context5.next = 22;
             break;
 
           case 21:
             res.json({
-              resultado: bool,
-              message: "Password incorrecta"
+              resultado: false,
+              message: "Usuario o contraseña incorrectos"
             });
 
           case 22:
@@ -272,19 +288,30 @@ var signIn = /*#__PURE__*/function () {
 
           case 25:
             res.json({
-              resultado: bool,
-              message: "Usuario no encontrado"
+              resultado: false,
+              message: "Usuario o contraseña incorrectos"
             });
 
           case 26:
             ;
+            _context5.next = 33;
+            break;
 
-          case 27:
+          case 29:
+            _context5.prev = 29;
+            _context5.t0 = _context5["catch"](0);
+            console.log(_context5.t0);
+            res.json({
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              resultado: false
+            });
+
+          case 33:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5);
+    }, _callee5, null, [[0, 29]]);
   }));
 
   return function signIn(_x7, _x8) {
@@ -329,7 +356,7 @@ var verifyAdm = /*#__PURE__*/function () {
             decoded = _jsonwebtoken["default"].verify(token, _config["default"].SECRET);
             id = decoded.id;
             _context6.next = 12;
-            return _users["default"].findOne({
+            return _usuarios["default"].findOne({
               where: {
                 id: id
               },
@@ -376,7 +403,7 @@ exports.verifyAdm = verifyAdm;
 
 var verifySup = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
-    var token, verifyDecoded, aux, decoded, id, user, rol;
+    var token, verifyDecoded, decoded, id, user, rol;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
@@ -388,7 +415,8 @@ var verifySup = /*#__PURE__*/function () {
               message: "Ha ocurrido un problema con la autenticación"
             });
             verifyDecoded = null;
-            aux = _jsonwebtoken["default"].verify(token, _config["default"].SECRET, function (err) {
+
+            _jsonwebtoken["default"].verify(token, _config["default"].SECRET, function (err) {
               verifyDecoded = err;
             });
 
@@ -409,7 +437,7 @@ var verifySup = /*#__PURE__*/function () {
             decoded = _jsonwebtoken["default"].verify(token, _config["default"].SECRET);
             id = decoded.id;
             _context7.next = 12;
-            return _users["default"].findOne({
+            return _usuarios["default"].findOne({
               where: {
                 id: id
               },
@@ -489,7 +517,7 @@ var verifyUsr = /*#__PURE__*/function () {
             decoded = _jsonwebtoken["default"].verify(token, _config["default"].SECRET);
             id = decoded.id;
             _context8.next = 12;
-            return _users["default"].findOne({
+            return _usuarios["default"].findOne({
               where: {
                 id: id
               },
@@ -536,21 +564,22 @@ exports.verifyUsr = verifyUsr;
 
 var logOut = /*#__PURE__*/function () {
   var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
-    var user_token;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            user_token = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-            res.cookie('token', user_token, {
+            res.cookie('token', _jsonwebtoken["default"].sign({}, _config["default"].SECRET, {
+              expiresIn: 1
+            }), {
               httpOnly: true
             });
             res.json({
-              resul: null,
-              message: "Se ha cerrado la sesión"
+              resultado: true,
+              message: "Se ha cerrado la sesión",
+              logout: null
             });
 
-          case 3:
+          case 2:
           case "end":
             return _context9.stop();
         }
@@ -567,7 +596,7 @@ exports.logOut = logOut;
 
 var getRol = /*#__PURE__*/function () {
   var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
-    var token, verifyDecoded, aux, decoded, id, user, rol;
+    var token, verifyDecoded, decoded, id, user, rol;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
@@ -579,12 +608,15 @@ var getRol = /*#__PURE__*/function () {
               message: ""
             });
             verifyDecoded = null;
-            aux = _jsonwebtoken["default"].verify(token, _config["default"].SECRET, function (err) {
+
+            _jsonwebtoken["default"].verify(token, _config["default"].SECRET, function (err) {
               verifyDecoded = err;
             });
 
+            console.log(verifyDecoded);
+
             if (!(verifyDecoded !== null)) {
-              _context10.next = 8;
+              _context10.next = 9;
               break;
             }
 
@@ -593,24 +625,24 @@ var getRol = /*#__PURE__*/function () {
               cod_rol: "",
               message: ""
             });
-            _context10.next = 18;
+            _context10.next = 19;
             break;
 
-          case 8:
+          case 9:
             decoded = _jsonwebtoken["default"].verify(token, _config["default"].SECRET);
             id = decoded.id;
-            _context10.next = 12;
-            return _users["default"].findOne({
+            _context10.next = 13;
+            return _usuarios["default"].findOne({
               where: {
                 id: id
               },
               attributes: ['roles_id']
             });
 
-          case 12:
+          case 13:
             user = _context10.sent;
             id = user.roles_id;
-            _context10.next = 16;
+            _context10.next = 17;
             return _roles["default"].findOne({
               where: {
                 id: id
@@ -618,7 +650,7 @@ var getRol = /*#__PURE__*/function () {
               attributes: ['cod_rol']
             });
 
-          case 16:
+          case 17:
             rol = _context10.sent;
             res.json({
               resultado: true,
@@ -626,7 +658,7 @@ var getRol = /*#__PURE__*/function () {
               message: ""
             });
 
-          case 18:
+          case 19:
           case "end":
             return _context10.stop();
         }
@@ -640,3 +672,124 @@ var getRol = /*#__PURE__*/function () {
 }();
 
 exports.getRol = getRol;
+
+var confirmUser = /*#__PURE__*/function () {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
+    var token, verifyDecoded, decoded, rut, user, userUpdate;
+    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            _context11.prev = 0;
+            token = req.params.token;
+            !token && res.json({
+              resultado: false,
+              cod_rol: "",
+              message: ""
+            });
+            verifyDecoded = null;
+
+            _jsonwebtoken["default"].verify(token, _config["default"].SECRET, function (err) {
+              verifyDecoded = err;
+            });
+
+            if (!(verifyDecoded !== null)) {
+              _context11.next = 9;
+              break;
+            }
+
+            res.json({
+              resultado: false,
+              cod_rol: "",
+              message: ""
+            });
+            _context11.next = 28;
+            break;
+
+          case 9:
+            decoded = _jsonwebtoken["default"].verify(token, _config["default"].SECRET);
+            rut = decoded.rut;
+            _context11.next = 13;
+            return _usuarios["default"].findOne({
+              where: {
+                rut: rut
+              },
+              attributes: ['correo']
+            });
+
+          case 13:
+            user = _context11.sent;
+
+            if (!user) {
+              _context11.next = 26;
+              break;
+            }
+
+            if (!(user.dataValues.correo == decoded.correo)) {
+              _context11.next = 22;
+              break;
+            }
+
+            _context11.next = 18;
+            return _usuarios["default"].update({
+              verificacion: true
+            }, {
+              where: {
+                rut: rut
+              }
+            });
+
+          case 18:
+            userUpdate = _context11.sent;
+            res.json({
+              resultado: true,
+              message: "Su cuenta se ha verificado correctamente"
+            });
+            _context11.next = 24;
+            break;
+
+          case 22:
+            console.log("Error en verificación de cuenta, no coincide correo de rut: ", rut);
+            res.json({
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              resultado: false
+            });
+
+          case 24:
+            _context11.next = 28;
+            break;
+
+          case 26:
+            console.log("Error en verificación de cuenta, no se encuentra rut: ", rut);
+            res.json({
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              resultado: false
+            });
+
+          case 28:
+            _context11.next = 34;
+            break;
+
+          case 30:
+            _context11.prev = 30;
+            _context11.t0 = _context11["catch"](0);
+            console.log(_context11.t0);
+            res.json({
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              resultado: false
+            });
+
+          case 34:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11, null, [[0, 30]]);
+  }));
+
+  return function confirmUser(_x19, _x20) {
+    return _ref11.apply(this, arguments);
+  };
+}();
+
+exports.confirmUser = confirmUser;

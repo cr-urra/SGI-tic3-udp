@@ -9,7 +9,7 @@ var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _config = _interopRequireDefault(require("../config"));
 
-var _users = _interopRequireDefault(require("../models/users"));
+var _usuarios = _interopRequireDefault(require("../models/usuarios"));
 
 var _roles = _interopRequireDefault(require("../models/roles"));
 
@@ -29,14 +29,14 @@ var verifyToken = /*#__PURE__*/function () {
             _context.prev = 0;
             token = req.cookies.token;
             !token && res.json({
-              resul: null,
+              resultado: null,
               message: "Ha ocurrido un problema con la autenticación"
             });
             decoded = _jsonwebtoken["default"].verify(token, _config["default"].SECRET);
             id = decoded.id;
             req.id = id;
             _context.next = 8;
-            return _users["default"].findOne({
+            return _usuarios["default"].findOne({
               where: {
                 id: id
               },
@@ -46,7 +46,7 @@ var verifyToken = /*#__PURE__*/function () {
           case 8:
             user = _context.sent;
             !user && res.json({
-              resul: null,
+              resultado: null,
               message: "No se encuentra el usuario"
             });
             next();
@@ -58,7 +58,7 @@ var verifyToken = /*#__PURE__*/function () {
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.json({
-              resul: false,
+              resultado: false,
               message: "Ha ocurrido un problema, token expirado"
             });
 
@@ -89,7 +89,7 @@ var administrador = /*#__PURE__*/function () {
           case 0:
             rut = req.params.rut;
             _context2.next = 3;
-            return _users["default"].findOne({
+            return _usuarios["default"].findOne({
               where: {
                 rut: rut
               },
@@ -110,7 +110,7 @@ var administrador = /*#__PURE__*/function () {
           case 7:
             rol = _context2.sent;
             rol.cod_rol === "adm" ? next() : res.json({
-              resul: false,
+              resultado: false,
               message: "Su usuario no se encuentra autorizado"
             });
 
@@ -138,7 +138,7 @@ var superUsuario = /*#__PURE__*/function () {
           case 0:
             rut = req.body.rut;
             _context3.next = 3;
-            return _users["default"].findOne({
+            return _usuarios["default"].findOne({
               where: {
                 rut: rut
               },
@@ -158,8 +158,8 @@ var superUsuario = /*#__PURE__*/function () {
 
           case 7:
             rol = _context3.sent;
-            rol.cod_rol === "sup" ? next() : res.json({
-              resul: false,
+            rol.cod_rol === "sup" || rol.cod_rol === "adm" ? next() : res.json({
+              resultado: false,
               message: "Su usuario no se encuentra autorizado"
             });
 
@@ -187,7 +187,7 @@ var usuario = /*#__PURE__*/function () {
           case 0:
             rut = req.body.rut;
             _context4.next = 3;
-            return _users["default"].findOne({
+            return _usuarios["default"].findOne({
               where: {
                 rut: rut
               },
@@ -208,7 +208,7 @@ var usuario = /*#__PURE__*/function () {
           case 7:
             rol = _context4.sent;
             rol.cod_rol === "usr" ? next() : res.json({
-              resul: false,
+              resultado: false,
               message: "Su usuario no se encuentra autorizado"
             });
 

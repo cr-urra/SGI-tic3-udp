@@ -11,7 +11,7 @@ var _database = require("../database/database");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var roles = _database.database.define('role', {
+var roles = _database.database.define('roles', {
   id: {
     type: _sequelize["default"].INTEGER,
     primaryKey: true
