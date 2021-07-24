@@ -18,7 +18,6 @@ const csrf = csurf({cookie: true});
 // settings
 
 app.set('port', process.env.PORT || 4000);
-//app.set('trust proxy', true);
 
 // variables globales
 

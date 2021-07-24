@@ -12,7 +12,7 @@ export default class Login extends Component {
     }
 
     componentDidMount = async () => {
-        const res = await axios.get("/getRol");
+        const res = await axios.get("/auth/getRol");
         res.data.resultado &&  this.setState({
             cod_rol: res.data.codRol
         })
