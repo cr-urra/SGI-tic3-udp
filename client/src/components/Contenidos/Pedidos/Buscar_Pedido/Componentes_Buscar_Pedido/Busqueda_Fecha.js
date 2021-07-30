@@ -74,14 +74,14 @@ export default class Init extends Component {
                 </div>
                 <div className="col-8">
                   <div className="input-group mb-3">
-                      <div className="col-2">
+                      <div className="col-3 mb-2">
                           <div className="input-group-prepend ancho2">
                               <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
                           </div>
                       </div>
                       
               
-                      <div className="col-10">
+                      <div className="col-xs-12 col-md-9 col-lg-9">
                           <input 
                           type="date" 
                           name="fecha1"
@@ -95,13 +95,13 @@ export default class Init extends Component {
                       </div>
                     </div>  
                     <div className="input-group mb-3">
-                      <div className="col-2">
+                      <div className="col-3 mb-2">
                           <div className="input-group-prepend ancho2">
                               <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
                           </div>
                       </div>
                       
-                      <div className="col-10">
+                      <div className="col-xs-12 col-md-9 col-lg-9">
                           <input 
                           type="date" 
                           name="fecha2"

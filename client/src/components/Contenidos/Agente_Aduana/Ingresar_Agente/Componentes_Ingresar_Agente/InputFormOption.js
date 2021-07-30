@@ -7,12 +7,12 @@ export default class Contenido_Agente_Aduana extends Component {
 
     render() {
         return (
-            <div className="col-6 mb-2">
+            <div className="col-xs-6 col-md-6 col-lg-6 mb-4">
                 <div className="row">
                     <div className="col-4">
                         <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">{this.props.field}</label>
                     </div>
-                    <div className="col-8">
+                    <div className="col-6">
                         <select className="form-select ancho alto" name={this.props.name} id="inputGroupSelect01" value = {this.props.field2} onChange={this.props.onChange} >
                           <option defaultValue>Tipo de Cuenta</option>
                           <option value="Cuenta Corriente">Cuenta Corriente</option>

@@ -27,7 +27,7 @@ export default class Init extends Component {
                     <div className="row">
                         <div className="col-1"/>
 
-                        <div className="col-5 ">
+                        <div className="col-xs-12 col-md-5 col-lg-5 mb-3">
                             <div className="card custom1">
                                 <div className="container">
                                     <div className="card-body">
@@ -46,7 +46,7 @@ export default class Init extends Component {
                             </div>
                         </div>
 
-                        <div className="col-5 ">
+                        <div className="col-xs-12 col-md-5 col-lg-5 mb-3">
                             <div className="card custom1">
                                 <div className="container">
                                     <div className="card-body">

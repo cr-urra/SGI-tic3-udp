@@ -182,25 +182,25 @@ export default class Ingresar_Usuario extends Component {
                             <div className = "container separacion" >
                             
                                 <div className="row mt-2 mb-2">         
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Nombre"} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"País"} name={"pais"} name2={this.state.pais} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Rut"} name={"rut"} name2={this.state.rut} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Dirección"} name={"direccion"} name2={this.state.direccion} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Correo"} name={"correo"} name2={this.state.correo} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Teléfono"} name={"telefono"} name2={this.state.telefono} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <DatoMoneda name={"moneda"} name2={this.state.moneda} onChange={this.onChange} monedas = {this.state.monedas}/>
                                     </div>
                                     <div className="col-1"/>
@@ -215,25 +215,25 @@ export default class Ingresar_Usuario extends Component {
                                 <h5 className="separacion"> Datos Bancarios</h5>                                                    
 
                                 <div className="row ">
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Nombre"} name={"nombre_b"} name2={this.state.nombre_b} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">                                    
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">                                    
                                         <Dato nombre={"Cuenta Interbancaria"}  name={"cuenta_interbancaria"} name2={this.state.cuenta_interbancaria} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"IBAN"}  name={"iban"} name2={this.state.iban} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"País"}  name={"pais_b"} name2={this.state.pais_b} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Número ABA"}  name={"n_aba"} name2={this.state.n_aba} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Referencia"}  name={"referencia"} name2={this.state.referencia} onChange={this.onChange}/>
                                     </div>
-                                    <div className="col-6 mb-3">
+                                    <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Código SWIFT"}  name={"codigo_swift"} name2={this.state.codigo_swift} onChange={this.onChange}/>
                                     </div>
 

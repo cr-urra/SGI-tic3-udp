@@ -33,10 +33,10 @@ export default class Card extends Component {
                             </div>                                        
                             <div className="container separacion">
                                 <div className="row">
-                                    <div className="col-4 text-center">
+                                    <div className="col-xs-8 col-md-4 col-lg-4 text-center mb-4">
                                         <h5>Busqueda por Fecha </h5>
                                     </div>
-                                    <div className="col-8">
+                                    <div className="col-xs-10 col-md-8 col-lg-8">
                                         <div className="input-group mb-3">
                                             <div className="col-1"/>
                                             <div className="col-2">
@@ -44,7 +44,7 @@ export default class Card extends Component {
                                                     <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
                                                 </div>
                                             </div>
-                                            <div className="col-6">
+                                            <div className="col-8">
                                                 <input 
                                                 type="date" 
                                                 name="f_inicio"
@@ -63,7 +63,7 @@ export default class Card extends Component {
                                                     <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
                                                 </div>
                                             </div>
-                                            <div className="col-6">
+                                            <div className="col-8">
                                                 <input 
                                                 type="date" 
                                                 name="f_termino"

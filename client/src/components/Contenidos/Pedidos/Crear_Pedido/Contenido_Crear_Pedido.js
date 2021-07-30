@@ -429,7 +429,7 @@ export default class Init extends Component {
         return (
             <main className="content">
  
-                <h1 className="display-5 titulo">Crear un Pedido</h1>
+                <h1 className="display-7 titulo">Crear un Pedido</h1>
                 <div className = "container separacion" >
                     <div className = "card shadow-lg">
                         <div className="card-header">
@@ -439,10 +439,10 @@ export default class Init extends Component {
                             <div className = "container" >
                                 <div className="container mb-5 mt-5" >
                                     <div className="row">
-                                        <div className="col-2">
+                                        <div className="col-3 mb-1">
                                             <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Proveedor</label>
                                         </div>
-                                        <div className="col-4">
+                                        <div className="col-xs-6 col-md-6 col-lg-4">
                                             <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.state.proveedor} onChange={this.onChange} name={"proveedor"} >
                                               <option defaultValue value={"null"}>Escoger el Proveedor del producto</option>
                                               <Opciones proveedores={this.state.proveedores} />
@@ -452,12 +452,12 @@ export default class Init extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="input-group mb-3 mt-2 ml-3">
-                                        <div className="col-2">
+                                        <div className="col-3 mb-2">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho" id="inputGroup-sizing-default">N° de Pedido</span>
                                             </div>
                                         </div>
-                                        <div className="col-4">
+                                        <div className="col-xs-8 col-md-6 col-lg-4">
                                             <input 
                                             type="text" 
                                             name="codigo"
@@ -483,28 +483,28 @@ export default class Init extends Component {
                                     <Productos productos = {this.state.productos} eliminar ={this.eliminar}/>
 
                                     <div className="input-group no_flex ml-3">
-                                        <div className="col-2">
-                                            <label className="input-group-text ancho2 " for="inputGroupSelect01">Forma de Pago</label>
+                                        <div className="col-xs-12 col-md-3 col-lg-3">
+                                            <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Forma de Pago</label>
                                         </div>
-                                        <div className="col-4">
+                                        <div className="col-xs-8 col-md-6 col-lg-4">
                                             <select className="form-select ancho alto"  id="inputGroupSelect01" name={"tipo_pago"}  value = {this.state.tipo_pago} onChange={this.onChange} >
                                               <option defaultValue value={null}>Escoger Forma de Pago</option>
                                               <option value="1" >Credito</option>
                                               <option value="2">Transferencia</option>                                              
                                             </select>
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-xs-3 col-md-6 col-lg-6">
                                             <Forma_Pago filtro={this.state.tipo_pago} fecha_vencimiento={this.state.fecha_vencimiento} onChange={this.onChange} />
                                         </div>
                                     </div>
 
                                     <div className="input-group mb-3 mt-4 ml-3">                                        
-                                        <div className="col-3">
+                                        <div className="col-3 mb-2">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho" id="inputGroup-sizing-default">Fecha Estimada de Entrega</span>
                                             </div>
                                         </div>
-                                        <div className="col-3">
+                                        <div className="col-xs-12 col-md-6 col-lg-3">
                                             <input 
                                             type="date" 
                                             name="fecha_entrega"
@@ -518,10 +518,10 @@ export default class Init extends Component {
                                     </div> 
 
                                     <div className="input-group no_flex ml-3">
-                                        <div className="col-2">
+                                        <div className="col-xs-6 col-md-3 col-lg-3">
                                             <label className="input-group-text ancho2 " for="inputGroupSelect01">Tipo de Importación</label>
                                         </div>
-                                        <div className="col-4">
+                                        <div className="col-xs-10 col-md-6 col-lg-4">
                                             <select className="form-select ancho alto"   id="inputGroupSelect01" name={"tipo_transporte"} value = {this.state.tipo_transporte} onChange={this.onChange} >
                                               <option defaultValue value={"null"}>Escoger Tipo de Importación</option>
                                               <option value="1">CIF</option>
@@ -529,7 +529,7 @@ export default class Init extends Component {
                                             </select>
                                         </div>
 
-                                        <div className="col-6">
+                                        <div className="col-xs-3 col-md-6 col-lg-6">
                                             <Tipo_CIF filtro={this.state.tipo_transporte} pago_transporte={this.state.pago_transporte} onChange={this.onChange}/>
                                         </div>
                                         
@@ -542,13 +542,13 @@ export default class Init extends Component {
                                         </div>                                                           
                                     </div>
 
-                                    <div className="input-group mb-3 mt-4 ml-3">
-                                        <div className="col-2">
+                                    <div className="input-group mb-3 mt-4 ml-2">
+                                        <div className="col-2 mb-3">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho" id="inputGroup-sizing-default">Pago Inicial</span>
                                             </div>
                                         </div>
-                                        <div className="col-4">
+                                        <div className="col-xs-8 col-md-4 col-lg-4 mb-4">
                                             <input 
                                             type="number" 
                                             name="pago_inicial"
@@ -561,12 +561,12 @@ export default class Init extends Component {
                                             />
                                         </div>   
 
-                                        <div className="col-2">
+                                        <div className="col-2 mb-2">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho" id="inputGroup-sizing-default">Cambio</span>
                                             </div>
                                         </div>
-                                        <div className="col-4">
+                                        <div className="col-xs-8 col-md-4 col-lg-4 mb-4">
                                             <input 
                                             type="number" 
                                             name="cambio_pago_inicial"

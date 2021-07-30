@@ -58,10 +58,10 @@ export default class Init extends Component {
             <div className="container separacion">
               <div className="row">
                 <div className="input-group no_flex">
-                  <div className="col-2">
+                  <div className="col-xs-2 col-md-2 col-lg-2">
                     <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Estado</label>
                   </div>                  
-                  <div className="col-4">
+                  <div className="col-xs-6 col-md-4 col-lg-4">
                     <select className="form-select ancho alto"  id="inputGroupSelect01" name="filtro" value={this.state.filtro} onChange={this.onChange}>
                       <option defaultValue value="0">Estado del Pedido</option>
                       <option value="produccion">En Producción</option>

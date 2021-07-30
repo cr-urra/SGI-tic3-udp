@@ -17,9 +17,9 @@ export default class Init extends Component {
                                 <div className="col-3 text-center">
                                     Historial Precio Producto 1
                                 </div>
-                                <div className="col-8 text-right" >                  
+                                <div className="col-6 text-right" >                  
                                 </div>
-                                <div className="col-1">
+                                <div className="col-2">
                                     <Link to = '/users/Buscar_Producto'> 
                                         <button className="btn btn-primary ancho btn-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
@@ -37,12 +37,12 @@ export default class Init extends Component {
                                 </div>
                                 <div className="col-9">
                                     <div className="input-group mb-3">
-                                        <div className="col-2">
+                                        <div className="col-3">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
                                             </div>
                                         </div>
-                                        <div className="col-10">
+                                        <div className="col-9">
                                             <input 
                                             type="date" 
                                             name="empresa"
@@ -55,12 +55,12 @@ export default class Init extends Component {
                                         </div>   
                                     </div>
                                     <div className="input-group mb-3">
-                                        <div className="col-2">
+                                        <div className="col-3">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
                                             </div>
                                         </div>
-                                        <div className="col-10">
+                                        <div className="col-9">
                                             <input 
                                             type="date" 
                                             name="empresa"
@@ -74,7 +74,7 @@ export default class Init extends Component {
                                     </div> 
                                      
                                 </div>
-                                <div className="col-10"/>
+                                <div className="col-9"/>
                                 <div className="col-2">
                                     <button type="button" className="btn btn-primary rounded-pill " >
                                             Filtrar Fechas
