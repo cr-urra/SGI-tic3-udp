@@ -25,6 +25,8 @@ export default class Init extends Component {
             console.log(precio)
             const producto = {
                  nombre :  res.data.productos[i].nombre,
+                 id: res.data.productos[i].id,
+                 id_proveedor: res.data.productos[i].proveedores_id,
                  codigo :  res.data.productos[i].codigo,
                  precio :  precio.data.historialPrecios.precio,
                  tipo :  res.data.productos[i].tipo,

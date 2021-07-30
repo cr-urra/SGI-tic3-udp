@@ -30,6 +30,9 @@ export default class Contenido_Banco extends Component {
             const aux2= await axios.get("/numerosAba/"+res.data.cuentas_bancos[i].numeros_aba_id,{})
             console.log(aux2,"aba")
             const banco = {
+                id: res.data.cuentas_bancos[i].id,
+                paises_id: res.data.cuentas_bancos[i].paises_id ,
+                numeros_aba_id: res.data.cuentas_bancos[i].numeros_aba_id,
                 nombre:   res.data.cuentas_bancos[i].nombre_banco,
                 IBAN: res.data.cuentas_bancos[i].codigo_iban,
                 pais: aux.data.paises.pais,

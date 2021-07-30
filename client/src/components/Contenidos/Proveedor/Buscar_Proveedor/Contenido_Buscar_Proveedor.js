@@ -23,6 +23,7 @@ export default class Init extends Component {
           console.log(Banco,"banco")
           console.log(Telefono,"telefono")
           const proveedor = {
+            id: res.data.proveedores[i].id,
             nombre:  res.data.proveedores[i].nombre,
             pais:  res.data.proveedores[i].pais,
             banco:  Banco.data.cuentas_bancos.nombre_banco,

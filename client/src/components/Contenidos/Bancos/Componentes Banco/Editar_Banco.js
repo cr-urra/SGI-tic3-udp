@@ -11,6 +11,7 @@ toast.configure()
 export default class Banco extends Component {
     
     state ={
+        id: null,
         nombre: null,        
         iban: null,
         pais: null,
@@ -18,6 +19,8 @@ export default class Banco extends Component {
         referencia: null,        
         codigo_swift: null,        
         cuenta_interbancaria: null,
+        aba_id:null,
+        pais_id: null,
         
 
         show:false
@@ -38,14 +41,18 @@ export default class Banco extends Component {
                 }
             }
             if(this.props.bancos[j]!=null){
+                console.log(this.props.bancos[j], "revisa aqui 23434")
                 this.setState({
+                    id: this.props.bancos[j].id,
                     nombre: this.props.bancos[j].nombre ,        
                     iban:  this.props.bancos[j].IBAN,
                     pais:  this.props.bancos[j].pais,
                     n_aba: this.props.bancos[j].ABA ,
                     referencia: this.props.bancos[j].referencia ,        
                     codigo_swift:  this.props.bancos[j].SWIFT,        
-                    cuenta_interbancaria: this.props.bancos[j].cuenta_interbancaria
+                    cuenta_interbancaria: this.props.bancos[j].cuenta_interbancaria,
+                    aba_id: this.props.bancos[j].numeros_aba_id,
+                    pais_id: this.props.bancos[j].paises_id
                 })
             }
         }    
@@ -63,20 +70,35 @@ export default class Banco extends Component {
             this.state.codigo_swift != "" &&        
             this.state.cuenta_interbancaria != "" 
         ){
+
             const banco = {
-                nombre: this.state.nombre,            
-                iban: this.state.iban,
-                pais: this.state.pais,
-                n_aba: this.state.n_aba,
+                nombre_banco: this.state.nombre,            
+                codigo_iban: this.state.iban,
+                //pais: this.state.pais,
+                //n_aba: this.state.n_aba,
                 referencia: this.state.referencia,
-                codigo_swift: this.state.codigo_swift,
-                cuenta_interbancaria: this.state.cuenta_interbancaria,
+                swift_code: this.state.codigo_swift,
+                numero_cuenta: this.state.cuenta_interbancaria,
     
             }
-            console.log(banco)
-            const res = await axios.post("/sacate-la-url/", banco) 
+            console.log(banco,"llegue hasta aqui")
+            const res = await axios.put("/cuentasBancos/"+this.state.id, banco , {"headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+              }} )
 
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            const aba = {
+                numero_aba: this.state.n_aba
+            }
+              const res2 = await axios.put("/numerosAba/"+this.state.aba_id , aba , {"headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+              }} )
+            
+
+              if(res.data.resultado==true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }else{
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            } 
 
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  

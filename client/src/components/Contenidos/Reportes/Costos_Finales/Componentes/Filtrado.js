@@ -95,7 +95,7 @@ export default class Opcion extends Component {
                                             </div>
                                             <div className="col-6">
                                                 <input 
-                                                type="number" 
+                                                type="date" 
                                                 name="f_inicio"
                                                 className="form-control" 
                                                 aria-label="Default" 
@@ -114,10 +114,11 @@ export default class Opcion extends Component {
                                             </div>
                                             <div className="col-6">
                                                 <input 
-                                                type="number" 
+                                                type="date" 
                                                 name="f_termino"
                                                 className="form-control" 
                                                 aria-label="Default" 
+                                                readOnly 
                                                 aria-describedby="inputGroup-sizing-default"
                                                 onChange={this.onChange}
                                                 value={this.state.f_termino}

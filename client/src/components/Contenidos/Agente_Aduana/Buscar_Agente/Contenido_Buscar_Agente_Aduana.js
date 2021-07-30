@@ -20,10 +20,12 @@ export default class Init extends Component {
             const aux2 = await axios.get("/telefonosAgentesAduana/agentes/"+res.data.agentes_aduana[i].id,{})       
             console.log( await axios.get("/telefonosAgentesAduana/agentes/"+res.data.agentes_aduana[i].id,{}) )
             const agente = {
+                id: res.data.agentes_aduana[i].id,
                 nombre: res.data.agentes_aduana[i].nombre,
                 apellido: res.data.agentes_aduana[i].apellido,
                 telefono: aux2.data.telefono[0].telefono,
                 banco: aux.data.bancosAgentesAduana.nombre_banco,
+                id_banco: aux.data.bancosAgentesAduana.id,
                 n_cuenta: res.data.agentes_aduana[i].numero_cuenta,
                 correo: res.data.agentes_aduana[i].correo,
                 tipo_cuenta: aux.data.bancosAgentesAduana.tipo_cuenta,

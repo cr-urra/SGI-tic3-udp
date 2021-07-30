@@ -17,6 +17,8 @@ export default class EditAgenteAduana extends Component {
         banco:null,
         tipo_cuenta : null,
         n_cuenta: null,
+        id: null,
+        banco_id: null,
         
 
         show: false
@@ -39,6 +41,8 @@ export default class EditAgenteAduana extends Component {
                     banco: this.props.AgentesAduana[j].banco,
                     tipo_cuenta : this.props.AgentesAduana[j].tipo_cuenta,
                     n_cuenta: this.props.AgentesAduana[j].n_cuenta,
+                    id: this.props.AgentesAduana[j].id,
+                    banco_id: this.props.AgentesAduana[j].id_banco
                 })
             }
         }    
@@ -54,23 +58,41 @@ export default class EditAgenteAduana extends Component {
             this.state.tipo_cuenta  != "" &&
             this.state.n_cuenta != "" 
         ){
-            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
+
             const Agente = {
                 nombre: this.state.nombre,
                 apellido: this.state.apellido,
-                telefono: this.state.telefono,
-                banco: this.state.banco,
-                n_cuenta: this.state.n_cuenta,
+                numero_cuenta: this.state.n_cuenta,
                 tipo_cuenta: this.state.tipo_cuenta,            
             }
             console.log(Agente)
-            const res = await axios.post("/sacate-la-url/", Agente) 
+            const res = await axios.put("/agentesAduana/" + this.state.id, Agente , {"headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+              }} )
+
+            const banco ={
+                nombre_banco: this.state.banco
+            }
+
+            const res2 = await axios.put("/bancosAgentesAduana/" + this.state.banco_id, banco , {"headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+              }} )
+
+            const telefono = {
+                telefono: this.state.telefono
+            }
+            const res3 = await axios.put("/telefonosAgentesAduana/" + this.state.id, telefono , {"headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+              }} )
+              
+
+              
+
             if(res.data.resultado==true){
                 toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }else{
                 toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             } 
-
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }

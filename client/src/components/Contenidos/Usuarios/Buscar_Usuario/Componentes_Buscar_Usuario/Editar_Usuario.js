@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal'
 import axios from 'axios'
 import { toast , Slide  } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Jumbotron } from 'react-bootstrap';
 
 toast.configure()
 
@@ -17,6 +18,7 @@ export default class EditUsuario extends Component {
         telefono: null,
         correo: null,
         rol: null,
+        id: null,
 
         show: false
     }
@@ -37,7 +39,8 @@ export default class EditUsuario extends Component {
                     rut:this.props.Usuarios[j].rut,
                     telefono: this.props.Usuarios[j].telefono,
                     correo: this.props.Usuarios[j].correo,
-                    rol: this.props.Usuarios[j].rol
+                    rol: this.props.Usuarios[j].rol,
+                    id: this.props.Usuarios[j].id 
                 })
             }
         }    
@@ -58,12 +61,26 @@ export default class EditUsuario extends Component {
                 apellido: this.state.apellido,
                 rut: this.state.rut,
                 correo: this.state.correo,
-                telefono: this.state.telefono,
-                rol: this.state.rol
+                
             }
             console.log(Usuario)
-            const res = await axios.post("/sacate-la-url/", Usuario) 
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            const res = await axios.put("/usuarios/" + this.state.id, Usuario, {"headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+              }} )
+
+            const telefono = {
+                telefono: this.state.telefono
+            }
+
+             const res2 = await axios.put("/telefonosUsuarios/" + this.state.id, telefono, {"headers": {
+              "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+            }} )
+
+            if(res.data.resultado==true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }else{
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            } 
 
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -133,20 +150,6 @@ export default class EditUsuario extends Component {
                                     <Datos nombre={"Rut"} contenido={this.props.Usuarios[j].rut} name={"rut"} name2={this.state.rut} onChange={this.onChange}/>
                                     <Datos nombre={"Telefono"} contenido={this.props.Usuarios[j].telefono} name={"telefono"} name2={this.state.telefono} onChange={this.onChange}/>
                                     <Datos nombre={"Correo"} contenido={this.props.Usuarios[j].correo} name={"correo"} name2={this.state.correo} onChange={this.onChange}/>                                    
-                                    <div className="row separacion">
-                                        <div className="col-1"/>
-                                        <div className="col-4">
-                                            <label className="input-group-text ancho2 " for="inputGroupSelect01">Rol</label>
-                                        </div>
-                                        <div className="col-6">
-                                            <select className="form-select ancho alto"  id="inputGroupSelect01" value = {this.state.rol} onChange={this.onChange} name={"rol"}>
-                                              <option defaultValue value={""}>Valor Antiguo: {this.props.Usuarios[j].rol} - Debe cambiar este valor </option>
-                                              <option value={1}>Administrador</option>
-                                              <option value={3}>Operaciones</option>
-                                              <option value={2}>Finanzas</option>
-                                            </select>
-                                        </div>
-                                    </div>
 
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>
