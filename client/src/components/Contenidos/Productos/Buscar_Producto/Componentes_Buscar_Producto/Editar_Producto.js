@@ -13,9 +13,9 @@ export default class EditProduct extends Component {
     state = {
         nombre: null,
         codigo: null,
-        precio : null,
-        proveedor: null,
         tipo: null,
+        id: null,
+        id_proveedor: null,
 
         show: false
     }
@@ -34,9 +34,9 @@ export default class EditProduct extends Component {
                     nombre: this.props.productsData[j].nombre,
                     codigo: this.props.productsData[j].codigo,
                     descripcion: this.props.productsData[j].descripcion,
-                    precio : this.props.productsData[j].precio,
-                    proveedor: this.props.productsData[j].proveedor,
-                    tipo: this.props.productsData[j].tipo
+                    tipo: this.props.productsData[j].tipo,
+                    id : this.props.productsData[j].id,
+                    id_proveedor: this.props.productsData[j].id_proveedor
                 })
             }
         }    
@@ -47,21 +47,26 @@ export default class EditProduct extends Component {
         if(
             this.state.nombre != ""&&
             this.state.codigo !=""&&           
-            this.state.precio  != ""&&
-            this.state.proveedor != ""&&
             this.state.tipo != ""
         ){
             axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
             const Producto = {
                 nombre: this.state.nombre,
                 codigo: this.state.codigo,
-                precio: this.state.precio,
-                proveedor: this.state.proveedor,
                 tipo: this.state.tipo 
             }
-            console.log(Producto)
-            const res = await axios.post("/sacate-la-url/", Producto)  
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            
+
+            const res = await axios.put("/productos/" + this.state.id, Producto, {"headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+              }} )  
+
+
+            if(res.data.resultado==true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }else{
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }  
 
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -126,9 +131,7 @@ export default class EditProduct extends Component {
                                         </div>                                        
                                     </div>
                                     <Datos nombre={"Nombre"} contenido={this.props.productsData[j].nombre} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
-                                    <Datos nombre={"Codigo"} contenido={this.props.productsData[j].codigo} name={"codigo"} name2={this.state.codigo} onChange={this.onChange}/>                                
-                                    <Datos nombre={"Precio"} contenido={this.props.productsData[j].precio} name={"precio"} name2={this.state.precio} onChange={this.onChange}/>
-                                    <Datos nombre={"Proveedor"} contenido={this.props.productsData[j].proveedor} name={"proveedor"} name2={this.state.proveedor} onChange={this.onChange}/>
+                                    <Datos nombre={"Codigo"} contenido={this.props.productsData[j].codigo} name={"codigo"} name2={this.state.codigo} onChange={this.onChange}/>                                                                    
                                     <Datos nombre={"Tipo"} contenido={this.props.productsData[j].tipo} name={"tipo"} name2={this.state.tipo} onChange={this.onChange}/>
 
                                     <Modal show={this.state.show} onHide={this.handleClose} >

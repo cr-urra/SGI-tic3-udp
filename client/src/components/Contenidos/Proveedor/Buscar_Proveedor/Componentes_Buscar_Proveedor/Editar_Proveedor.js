@@ -16,8 +16,7 @@ export default class Banco extends Component {
         direccion: null,
         correo: null,
         telefono: null,
-        moneda: null,
-        banco: null,
+        id: null,
 
         show: false
     }
@@ -38,8 +37,7 @@ export default class Banco extends Component {
                     direccion: this.props.proveedores[j].direccion,
                     correo: this.props.proveedores[j].correo,
                     telefono: this.props.proveedores[j].telefono,
-                    moneda: this.props.proveedores[j].moneda,
-                    banco: this.props.proveedores[j].banco  
+                    id: this.props.proveedores[j].id
                 })
             }
         }    
@@ -52,21 +50,27 @@ export default class Banco extends Component {
             this.state.pais != "" &&
             this.state.direccion != "" &&
             this.state.correo != "" &&
-            this.state.telefono != "" &&
-            this.state.moneda != "" &&
-            this.state.banco != "" 
+            this.state.telefono != "" 
         ){
             const Proveedor = {
                 nombre: this.state.nombre,
                 pais: this.state.pais,
                 direccion: this.state.direccion,
                 correo: this.state.correo,
-                telefono: this.state.telefono,
-                moneda: this.state.moneda            
+                telefono: this.state.telefono,      
             }    
             console.log(Proveedor)
-            const res = await axios.post("/sacate-la-url/", Proveedor) 
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+
+            const res = await axios.put("/proveedores/"+ this.state.id, Proveedor, {"headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+              }} )
+
+
+            if(res.data.resultado==true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }else{
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            }   
 
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -135,8 +139,6 @@ export default class Banco extends Component {
                                     <Datos nombre={"Direccion"} contenido={this.props.proveedores[j].direccion} name={"direccion"} name2={this.state.direccion} onChange={this.onChange}/>
                                     <Datos nombre={"Correo"} contenido={this.props.proveedores[j].correo} name={"correo"} name2={this.state.correo} onChange={this.onChange}/>
                                     <Datos nombre={"Telefono"} contenido={this.props.proveedores[j].telefono} name={"telefono"} name2={this.state.telefono} onChange={this.onChange}/>
-                                    <Datos nombre={"Moneda"} contenido={this.props.proveedores[j].moneda} name={"moneda"} name2={this.state.moneda} onChange={this.onChange}/>
-                                    <Datos nombre={"Banco"} contenido={this.props.proveedores[j].banco} name={"banco"} name2={this.state.banco} onChange={this.onChange}/>
 
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>

@@ -22,8 +22,7 @@ export default class Opcion extends Component {
                               <th scope="col">2019</th>
                               <th scope="col">2020</th>
                               <th scope="col">2021</th>
-                              <th scope="col">Total</th>
-                              
+                              <th scope="col">Total</th>                              
                             </tr>
                           </thead>
                           <tbody>

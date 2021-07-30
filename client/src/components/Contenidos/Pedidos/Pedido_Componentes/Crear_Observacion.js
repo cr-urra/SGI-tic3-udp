@@ -22,7 +22,7 @@ export default class Crear_Observacion extends Component {
 
     recargar = async () => {
       const res = await axios.get("/pedidos/",{})
-      console.log(res,"Did Mount")    
+      
       for(let i=0; i < res.data.pedidos.length; i++){
         const res2= await axios.get("/proveedores/"+res.data.pedidos[i].proveedores_id,{})
         const res3= await axios.get("/tiene/pedidos/"+res.data.pedidos[i].id,{})
@@ -33,7 +33,7 @@ export default class Crear_Observacion extends Component {
           producto = { producto: res3.data.tiene[j] , precio: precio.data.historialPrecios.precio}
           productos = [...productos,producto]
         }      
-        console.log(res3,"Did Mount3")      
+        
         const pedido = {
           pedido:  res.data.pedidos[i],
           n_pedido: res.data.pedidos[i].codigo,

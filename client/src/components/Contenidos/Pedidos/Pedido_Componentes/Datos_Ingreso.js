@@ -10,9 +10,9 @@ export default class Datos_Ingreso extends Component {
                 <Datos nombre={'Pago Final'} contenido={this.props.pedido.pedido.pago_final}/>
               </div>
               <div className="col-6 mb-4">
-                <Datos nombre={'Cambio'} contenido={this.props.pedido.pedido.historial_dolars[1].detalles_dolar.precio_compra}/>
+                <Datos nombre={'Valor del Cambio'} contenido={this.props.pedido.pedido.historial_dolars[1].detalles_dolar.precio_compra}/>
               </div>
-              
+                
               <div className="col-6 mb-4">
                 <Datos nombre={'Agente de Aduana'} contenido={this.props.pedido.pedido.agentes_aduana.nombre + " " + this.props.pedido.pedido.agentes_aduana.apellido}/>
               </div>

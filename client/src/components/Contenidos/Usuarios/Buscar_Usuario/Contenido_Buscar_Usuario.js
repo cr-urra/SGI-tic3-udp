@@ -32,6 +32,7 @@ export default class Init extends Component {
                 apellido:  res.data.usuarios[i].apellido,
                 telefono:  Telefono.data.telefono.telefono,
                 correo:  res.data.usuarios[i].correo,
+                id:  res.data.usuarios[i].id,
                 rut: res.data.usuarios[i].rut,
                 rol:  rol
             }
