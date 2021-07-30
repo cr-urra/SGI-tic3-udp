@@ -60,6 +60,15 @@ export default class Crear_Usuario extends Component {
                 }               
                 console.log(Usuario)
                 const res = await axios.post("/auth/signup/", Usuario) 
+                console.log(res,"reviasasdas")
+
+                const telefono = {
+                    telefono: this.state.telefono,
+                    usuarios_id: res.data.usuario.id
+                }
+
+                const res2 = await axios.post("/telefonosUsuarios/", telefono) 
+
                 if(res.data.resultado==true){
                     toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
                 }else{
