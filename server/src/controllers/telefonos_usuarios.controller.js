@@ -36,7 +36,7 @@ export const updateTelefonosUsuarios = async (req, res) => {
         ,
         {
             where: {
-                id
+                usuarios_id: id
             }
         });
         res.json({
@@ -59,16 +59,26 @@ export const deleteTelefonosUsuarios = async (req, res) => {
         const {id} = req.params;
         await telefonosUsuarios.destroy({
             where: {
-                id
+                usuarios_id: id
             }
         });
-        res.json({
-            message: 'Teléfono de usuario eliminado correctamente',
-            resultado: true
-        });
+        if(req.body.cascade){
+            return {
+                message: 'Teléfono de usuario eliminado correctamente',
+                resultado: true
+            }
+        }else{
+            res.json({
+                message: 'Teléfono de usuario eliminado correctamente',
+                resultado: true
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
+        if(req.body.cascade) return {
+            resultado: false
+        }
+        else res.json({
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
             resultado: false
         });
