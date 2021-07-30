@@ -38,7 +38,7 @@ export const updateTelefonosAgentesAduana = async (req, res) => {
         ,
         {
             where: {
-                id,
+                agentes_aduana_id: id,
                 vigencia: true
             }
         });
@@ -62,7 +62,7 @@ export const deleteTelefonosAgentesAduana = async (req, res) => {
         const {id} = req.params;
         const telefono = await telefonosAgentesAduana.findOne({
             where: {
-                id
+                agentes_aduana_id: id
             },
             attributes: [
                 'id', 
@@ -76,18 +76,25 @@ export const deleteTelefonosAgentesAduana = async (req, res) => {
             },
             {
                 where: {
-                    id,
+                    agentes_aduana_id: id,
                     vigencia: true
                 }
             });
         }
-        res.json({
+        if(req.body.cascade) return {
+            message: 'Teléfono de agente de aduana eliminado correctamente',
+            resultado: true
+        }
+        else res.json({
             message: 'Teléfono de agente de aduana eliminado correctamente',
             resultado: true
         });
     }catch(e){
         console.log(e);
-        res.json({
+        if(req.body.cascade) return {
+            resultado: false
+        }
+        else res.json({
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
             resultado: false
         });
