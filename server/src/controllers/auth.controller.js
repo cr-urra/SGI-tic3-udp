@@ -29,7 +29,7 @@ export const consulRol = async (id) => {
 export const signUp = async (req, res) => {
     try{
         const {rut, nombre, apellido, roles_id, contraseña, correo} = req.body;
-        await usuarios.create({
+        const usr = await usuarios.create({
             rut,
             nombre,
             apellido,
@@ -63,7 +63,8 @@ export const signUp = async (req, res) => {
         const r = await mail.sendMail(body, from, correo, subject)
         r.resultado ? res.json({
             resultado: true, 
-            message: "Usuario registrado correctamente"
+            message: "Usuario registrado correctamente",
+            usuario: usr
         }) : res.json({
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
             resultado: false
@@ -80,7 +81,6 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
     try{
         const {rut} = req.body;
-        const addr = req.body.address.data.ip;
         const user = await usuarios.findOne({
             where: {
                 rut
@@ -95,9 +95,11 @@ export const signIn = async (req, res) => {
             ]
         });
         if(user){
+            const addr = req.body.address.data.ip;
             const matchPassword = await comparePassword(req.body.contraseña, user.contraseña);
             let user_token = null;
             if(matchPassword){
+                console.log(user.id);
                 user_token = jwt.sign({
                     id: user.id, 
                     antiCsrf: req.get('CSRF-Token')}, 
@@ -222,7 +224,7 @@ export const verifyUsr = async (req, res) => {
 };
 
 export const logOut = async (req, res) => {
-    res.cookie('token', jwt.sign({}, config.SECRET, {expiresIn: 1}), {httpOnly: true});
+    await res.cookie('token', jwt.sign({}, config.SECRET, {expiresIn: 1}), {httpOnly: true});
     res.json({resultado: true, message: "Se ha cerrado la sesión", logout: null});
 };
 
