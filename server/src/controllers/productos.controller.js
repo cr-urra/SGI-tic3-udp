@@ -87,8 +87,7 @@ export const deleteProductos = async (req, res) => {
                 'unidad_productos_id'
             ],
             include: [
-                historial_precios,
-                pedidos
+                historial_precios
             ]
         });
         if(producto){
@@ -104,19 +103,6 @@ export const deleteProductos = async (req, res) => {
                     id: element.dataValues.id
                 };
                 if(aux.resultado) aux = await historialPreciosController.deleteHistorialPrecios(req, res);
-                else if(aux.resultado == false && body.cacade == true) return {
-                    resultado: false
-                };
-                else res.json({
-                    resultado: false, 
-                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
-                });
-            });
-            producto.dataValues.pedidos.forEach(async element => {
-                req.params = {
-                    id: element.dataValues.id
-                };
-                if(aux.resultado) aux = await pedidosController.deletePedidos(req, res);
                 else if(aux.resultado == false && body.cacade == true) return {
                     resultado: false
                 };
