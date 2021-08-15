@@ -110,7 +110,7 @@ export const deleteCuentasBancos = async (req, res) => {
                 });
             });
             req.params = {
-                id: parseInt(cuenta_banco.dataValues.proveedores.dataValues.id)
+                id: parseInt(cuenta_banco.dataValues.proveedore.dataValues.id)
             };
             if(aux.resultado) aux = await proveedoresController.deleteProveedores(req, res) 
             else if(aux.resultado == false && body.cascade == true) return {
@@ -143,6 +143,14 @@ export const deleteCuentasBancos = async (req, res) => {
             else res.json({
                 resultado: true, 
                 message: 'Cuenta de banco eliminada correctamente'
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Cuenta de banco no encontrada'
             });
         };
     }catch(e){
@@ -199,40 +207,6 @@ export const getCuentasBancosId = async (req, res) => {
         const cuenta_banco = await cuentas_bancos.findOne({
             where: {
                 id,
-                vigencia: true
-            },
-            attributes: [
-                'id', 
-                'numero_cuenta', 
-                'nombre_banco',
-                'swift_code',
-                'codigo_iban',
-                'referencia',
-                'paises_id',
-                'numeros_aba_id'
-            ]
-        });
-        res.json({
-            resultado: true, 
-            message: "", 
-            cuentas_bancos: cuenta_banco
-        }); 
-    }catch(e){
-        console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            cuentas_bancos: null
-        });
-    };
-};
-
-export const getCuentasBancosForProovedoresId = async (req, res) => {
-    try{
-        const {id} = req.params;
-        const cuenta_banco = await cuentas_bancos.findOne({
-            where: {
-                proveedores_id: id,
                 vigencia: true
             },
             attributes: [

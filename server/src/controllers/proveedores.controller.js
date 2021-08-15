@@ -89,7 +89,6 @@ export const deleteProveedores = async (req, res) => {
                 'id'
             ],
             include:[
-                pedidos,
                 productos,
                 telefonos_proveedores
             ]
@@ -106,19 +105,6 @@ export const deleteProveedores = async (req, res) => {
                     id: element.dataValues.id
                 };
                 if(aux.resultado) aux = await productosController.deleteProductos(req, res)
-                else if(aux.resultado == false && body.cascade == true) return {
-                    resultado: false
-                };
-                else res.json({
-                    resultado: false, 
-                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
-                });
-            });
-            proveedor.dataValues.pedidos.forEach(async element => {
-                req.params = {
-                    id: element.dataValues.id
-                };
-                if(aux.resultado) aux = await pedidosController.deletePedidos(req, res);
                 else if(aux.resultado == false && body.cascade == true) return {
                     resultado: false
                 };
