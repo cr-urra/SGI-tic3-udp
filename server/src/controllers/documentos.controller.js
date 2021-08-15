@@ -23,8 +23,7 @@ export const createDocumentos = async (req, res) => {
         console.log(e);
         res.json({
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            resultado: false, 
-            documentos: null
+            resultado: false
         });
     };
 };
@@ -71,7 +70,6 @@ export const deleteDocumentos = async (req, res) => {
                 'pedidos_id'
             ]
         });
-
         if(documento){
             const documentoUpdate = await documentos.update({
                 vigencia: false
@@ -82,16 +80,30 @@ export const deleteDocumentos = async (req, res) => {
                     vigencia: true
                 }
             }); 
-        }
-        res.json({
-            resultado: true, 
-            message: 'Documento eliminado correctamente'
-        });
+            if(req.body.cascade) return {
+                resultado: true
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Documento eliminado correctamente'
+            });
+        } else {
+            if(req.body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Documento no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(req.body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

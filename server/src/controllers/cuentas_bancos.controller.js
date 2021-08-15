@@ -73,43 +73,42 @@ export const updateCuentasBancos = async (req, res) => {
 };
 
 export const deleteCuentasBancos = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         const cuenta_banco = await cuentas_bancos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
-                'id', 
-                'numero_cuenta', 
-                'nombre_banco',
-                'swift_code',
-                'codigo_iban',
-                'referencia',
-                'paises_id',
-                'numeros_aba_id',
-                'proveedores_id'
-                
+                'id'
             ],
-            include:[
+            include: [
                 pedidos
             ]
         });
-
         if(cuenta_banco){
-
-            let pedidosIds=[];
-            cuenta_banco.dataValues.pedidos.forEach(element => {
-                pedidosIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-                id: pedidosIds
+            let aux = {
+                resultado: true
             };
-            let aux = await pedidosController.deletePedidos(req, res);
-
-            let cuentaBancoUpdate;
-            aux.resultado ? cuentaBancoUpdate = await cuentas_bancos.update({
+            req.body = {
+                cascade: true
+            };
+            cuenta_banco.dataValues.pedidos.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                if(aux.resultado) aux = await pedidosController.deletePedidos(req, res);
+                else if(aux.resultado == false && body.cacade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
+            if(aux.resultado) cuentaBancoUpdate = await cuentas_bancos.update({
                 vigencia: false
             },
             {
@@ -117,21 +116,30 @@ export const deleteCuentasBancos = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }):res.json({
+            });
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };  
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-        }
-        res.json({
-            resultado: true, 
-            message: 'Cuenta de banco eliminada correctamente'
-        });
-
+            if(body.cascade) return {
+                resultado: true
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Cuenta de banco eliminada correctamente'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

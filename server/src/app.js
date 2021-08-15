@@ -70,6 +70,7 @@ import unidadProductos from './routes/unidad_productos.routes';
 import bancosAgentesAduana from './routes/bancos_agentes_aduana.routes';
 import observadores from './routes/observadores.routes';
 import mail from './routes/mail.routes';
+import extrae from './routes/extrae.routes';
 
 // routes
 
@@ -105,6 +106,7 @@ app.use('/unidadProductos', unidadProductos);
 app.use('/bancosAgentesAduana', bancosAgentesAduana);
 app.use('/observadores', observadores);
 app.use('/mail', mail);
+app.use('/extrae', extrae);
 
 // rutas directas
 

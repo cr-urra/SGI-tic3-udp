@@ -61,5 +61,5 @@ export const usuario = async (req, res, next) => {
         where: {id},
         attributes: ['id', 'cod_rol', 'nombre']
     });
-    rol.cod_rol === "usr" ? next() : res.json({resultado: false, message: "Su usuario no se encuentra autorizado"});
+    rol.cod_rol === "usr" || rol.cod_rol === "sup" || rol.cod_rol === "adm" ? next() : res.json({resultado: false, message: "Su usuario no se encuentra autorizado"});
 };

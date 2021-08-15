@@ -33,7 +33,6 @@ export const createBancosAgentesAduana = async (req, res) => {
     };
 };
 
-
 export const updateBancosAgentesAduana = async (req, res) => {
     try{
         const {id} = req.params;
@@ -67,7 +66,8 @@ export const deleteBancosAgentesAduana = async (req, res) => {
         const {id} = req.params;
         const bancoAgentesAduana = await bancosAgentesAduana.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -80,17 +80,27 @@ export const deleteBancosAgentesAduana = async (req, res) => {
             ]
         });
         if(bancoAgentesAduana){
-            
-            let agentesAduanaIds = [];
-            bancoAgentesAduana.dataValues.agentesAduana.forEach(element => {
-                agentesAduanaIds.push(parseInt(element.dataValues.id));
-            });
-            req.params = {
-                id: agentesAduanaIds
+            let aux = {
+                resultado: true
             };
-            let aux = await agentesAduanaController.deleteAgentesAduana(req, res);
+            bancoAgentesAduana.dataValues.agentesAduana.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                req.body = {
+                    cascade: true
+                };
+                if(aux.resultado) aux = await agentesAduanaController.deleteAgentesAduana(req, res);
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
             let bancoAgenteAduanaUpdate;
-            aux.resultado ? bancoAgenteAduanaUpdate = await bancoAgentesAduana.update({
+            if(aux.resultado) bancoAgenteAduanaUpdate = await bancoAgentesAduana.update({
                 vigencia: false
             },
             {
@@ -98,15 +108,24 @@ export const deleteBancosAgentesAduana = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }) : res.json({
+            });
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-        }
-        res.json({
-            resultado: true, 
-            message: 'Banco de agente de aduana eliminado correctamente'
-        });
+            res.json({
+                resultado: true, 
+                message: 'Banco de agente de aduana eliminado correctamente'
+            });
+        } else {
+            res.json({
+                resultado: false, 
+                message: 'Banco de agente de aduana no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
         res.json({
@@ -114,7 +133,6 @@ export const deleteBancosAgentesAduana = async (req, res) => {
             message: "Ha ocurrido un error, porfavor contactese con el administrador"
         });
     };
-    
 };
 
 export const getAllBancosAgentesAduana = async (req, res) => {

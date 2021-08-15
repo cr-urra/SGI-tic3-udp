@@ -64,11 +64,13 @@ export const updateMovimientos = async (req, res) => {
 };
 
 export const deleteMovimientos = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
-        const movimiento = await movimientos.findOne({
+        const movimiento = await movimientos.findAll({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -88,16 +90,30 @@ export const deleteMovimientos = async (req, res) => {
                     vigencia: true
                 }
             });
-        }
-        res.json({
-            resultado: true, 
-            message: 'Movimiento eliminado correctamente'
-        });
+            if(body.cascade) return {
+                resultado: true
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Movimiento eliminado correctamente'
+            });
+        } else {
+            if (body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Movimiento no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

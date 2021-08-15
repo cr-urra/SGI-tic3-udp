@@ -65,7 +65,8 @@ export const deleteMonedas = async (req, res) => {
         const {id} = req.params;
         const moneda = await monedas.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -77,19 +78,26 @@ export const deleteMonedas = async (req, res) => {
             ]
         });
         if(moneda){
-
-            let proveedoresIds = [];
-            moneda.dataValues.proveedores.forEach(element => {
-                proveedoresIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-                id : proveedoresIds
+            let aux = {
+                resultado: true
             };
-
-            let aux = await proveedoresController.deleteProveedores(req, res);
+            req.body = {
+                cascade: true
+            }
+            moneda.dataValues.proveedores.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await proveedoresController.deleteProveedores(req, res);
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                }
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
             let monedaUpdate;
-
             aux.resultado ? monedaUpdate = await monedas.update({
                 vigencia: false
             },
@@ -98,16 +106,20 @@ export const deleteMonedas = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            }) : res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-
-        }
-        res.json({
-            resultado: true, 
-            message: 'Moneda eliminada correctamente'
-        });
+            res.json({
+                resultado: true, 
+                message: 'Moneda eliminada correctamente'
+            });
+        }else{
+            res.json({
+                resultado: true, 
+                message: "Moneda no encontrada"
+            });
+        };
     }catch(e){
         console.log(e);
         res.json({

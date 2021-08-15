@@ -13,10 +13,13 @@ import * as detallesPedidosController from './detalles_pedidos.controller';
 import * as documentosController from './documentos.controller';
 import * as observacionesController from './observaciones.controller';
 import * as gastosExtrasController from './gastos_extras.controller';
+import * as historialDolarController from './historial_dolar.controller';
 import historial_dolar from '../models/historial_dolar';
 import config from '../config';
 import agentesAduana from '../models/agentes_aduana';
 import cuentasCorrientes from '../models/cuentas_corrientes';
+import detalles_pedidos from '../models/detalles_pedidos';
+import gastos_extras from '../models/gastos_extras';
 
 export const createPedidos = async (req, res) => {
     try{
@@ -145,115 +148,97 @@ export const updatePedidos = async (req, res) => {
 };
 
 export const deletePedidos = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         const pedido = await pedidos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id' 
             ],
             include: [
-                detallesPedidos,
+                detalles_pedidos,
                 documentos,
-                observaciones,
-                gastosExtras,
-                productos,
-                historial_dolar
+                historial_dolar,
+                gastos_extras,
+                observaciones
             ]
         });
         if(pedido){
-
-            let idsObservaciones = [];
-            let idsDocumentos = [];
-            let idsGastosExtras = [];
-            let productosIds = [];
-            let historialDolarIds = [];
-
-            const pedidoDetId = pedido.dataValues.detalles_pedido.dataValues.id;
-
-            pedido.dataValues.observaciones.forEach(element => {
-                idsObservaciones.push(parseInt(element.dataValues.id));
-            });
-            pedido.dataValues.documentos.forEach(element => {
-                idsDocumentos.push(parseInt(element.dataValues.id));
-            });
-            pedido.dataValues.gastos_extras.forEach(element => {
-                idsGastosExtras.push(parseInt(element.dataValues.id));
-            });
-
-            productosIds = pedido.dataValues.productos.forEach(element => {
-                productosIds.push(parseInt(element.dataValues.id));
-            });
-
-            historialDolarIds = pedido.dataValues.historial_dolar.forEach(element => {
-                historialDolarIds.push(parseInt(element.dataValues.id));
-            });
-
-            const findedProductos = productos.findAll({
-                where: {
-                    id: productosIds
-                },
-                attributes: [
-                    'id'
-                ]
-            });
-
-            const findedHistorialDolar = productos.findAll({
-                where: {
-                    id: historialDolarIds
-                },
-                attributes: [
-                    'id'
-                ]
-            });
-
-            req.params = {
-                id: pedidoDetId
+            let aux = {
+                resultado: true
             };
-
-            let aux = await detallesPedidosController.deleteDetallesPedidos(req, res);
-
-            req.params = {
-                id: idsObservaciones
+            req.body = {
+                cascade: true
             };
-            
-            aux.resultado ? aux = await observacionesController.deleteObservaciones(req, res) : res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
             req.params = {
-                id: idsDocumentos
+                id: pedido.detalles_pedido.dataValues.id
             };
-
-            aux.resultado ? aux = await documentosController.deleteDocumentos(req, res) : res.json({
+            if(aux.resultado) aux = await detallesPedidosController.deleteDetallesPedidos(req, res);
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            }
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-
-            req.params = {
-                id: idsGastosExtras
-            };
-
-            aux.resultado ?  aux = await gastosExtrasController.deleteGastosExtras(req, res) : res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            pedido.dataValues.documentos.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await documentosController.deleteDocumentos(req, res);
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                }
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
             });
-
-            aux.resultado ? await pedido.removeProductos([findedProductos]) : res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            pedido.dataValues.observaciones.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await observacionesController.deleteObservaciones(req, res);
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                }
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
             });
-
-            aux.resultado ? await pedido.removeHistorial_dolar([findedHistorialDolar]) : res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            pedido.dataValues.gastos_extras.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await gastosExtrasController.deleteGastosExtras(req, req) 
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                }
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
             });
-
+            pedido.dataValues.historial_dolars.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await historialDolarController.deleteHistorialDolar(req, req) 
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                }
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
             let pedidoUpdate;
-            aux.resultado ? pedidoUpdate = await pedidos.update({
+            if(aux.resultado) pedidoUpdate = await pedidos.update({
                 vigencia: false
             },
             {
@@ -261,24 +246,36 @@ export const deletePedidos = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            }) 
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             }); 
-
-            res.json({
+            if(body.cascade) return {
+                resultado: true
+            }
+            else res.json({
                 resultado: true, 
                 message: 'Pedido eliminado correctamente'
             });
         }else{
-            res.json({
-                resultado: false, 
-                message: "El pedido ingresado no existe"
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: "Pedido no encontrado"
             });
         };
     }catch(e){
         console.log(e);
-        res.json({
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
             resultado: false, 
             message: "Ha ocurrido un error, porfavor contactese con el administrador"
         });

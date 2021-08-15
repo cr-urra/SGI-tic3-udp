@@ -65,7 +65,8 @@ export const deleteNumerosAba = async (req, res) => {
         const {id} = req.params;
         const numeroAba = await numerosAba.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -77,18 +78,23 @@ export const deleteNumerosAba = async (req, res) => {
             ]
         });
         if(numeroAba){
-
-            let cuentaBancosIds = [];
-            numeroAba.dataValues.cuentas_bancos.forEach(element => {
-                cuentaBancosIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-                id : cuentaBancosIds
+            let aux = {
+                resultado: true
             };
-            let aux = await cuentaBancosController.deleteCuentasBancos(req, res);
-            
-            let numeroAbaUpdate;
+            req.body = {
+                cascade: true
+            };
+            numeroAba.dataValues.cuentas_bancos.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                if(aux.resultado) aux = await cuentaBancosController.deleteCuentasBancos(req, res);
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
+            let numeroAbaUpdate = null;
             aux.resultado ? numeroAbaUpdate = await numerosAba.update({
                 vigencia: false
             },
@@ -97,16 +103,20 @@ export const deleteNumerosAba = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            }) : res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-
-        }
-        res.json({
-            resultado: true, 
-            message: 'Número ABA eliminado correctamente'
-        });
+            res.json({
+                resultado: true, 
+                message: 'Número ABA eliminado correctamente'
+            });
+        } else {
+            res.json({
+                resultado: true, 
+                message: 'Número ABA no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
         res.json({

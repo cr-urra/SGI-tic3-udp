@@ -58,11 +58,13 @@ export const updateTelefonosProveedores = async (req, res) => {
 };
 
 export const deleteTelefonosProveedores = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
-        const telefono = await telefonosProveedores.findOne({
+        const telefono = await telefonosProveedores.findAll({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -70,7 +72,6 @@ export const deleteTelefonosProveedores = async (req, res) => {
                 'proveedores_id'
             ]
         });
-
         if(telefono){
             const telefonoUpdate = await telefonosProveedores.update({
                 vigencia: false
@@ -81,14 +82,28 @@ export const deleteTelefonosProveedores = async (req, res) => {
                     vigencia: true
                 }
             });
-        }
-        res.json({
-            message: 'Teléfono de proveedor eliminado correctamente',
-            resultado: true
-        });
+            if(body.cascade) return {
+                resultado: true
+            };
+            else res.json({
+                message: 'Teléfono de proveedor eliminado correctamente',
+                resultado: true
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                message: 'Teléfono de proveedor no encontrado',
+                resultado: true
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
             resultado: false
         });

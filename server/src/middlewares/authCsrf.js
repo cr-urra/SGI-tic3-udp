@@ -11,6 +11,9 @@ export const verifyAntiCsrfToken = async (req, res, next) => {
         antiCsrf == localCsrf ? next() : res.json({resultado: null, message: "Ha ocurrido un problema con la autenticación"});
     }catch(error){
         console.log(error);
-        res.json({resultado: false, message: "Ha ocurrido un problema, token expirado"});
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un problema, token expirado"
+        });
     };
 };

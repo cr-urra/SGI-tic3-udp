@@ -64,11 +64,13 @@ export const updateCuentasCorrientes = async (req, res) => {
 };
 
 export const deleteCuentasCorrientes = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         const cuentaCorriente = await cuentasCorrientes.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -81,16 +83,27 @@ export const deleteCuentasCorrientes = async (req, res) => {
             ]
         });
         if(cuentaCorriente){
-            let movimientosIds = [];
-            cuentaCorriente.dataValues.movimientos.forEach(element => {
-                movimientosIds.push(parseInt(element.dataValues.id));
-            });
-            req.params = {
-                id: movimientosIds
+            let aux = {
+                resultado: true
             };
-            let aux = await movimientosController.deleteMovimientos(req, res);
+            req.body = {
+                cascade: true
+            };
+            cuentaCorriente.dataValues.movimientos.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await movimientosController.deleteMovimientos(req, res);
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                }
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
             let cuentaCorrienteUpdate;
-            aux.resultado ? cuentaCorrienteUpdate = await cuentasCorrientes.update({
+            if(aux.resultado) cuentaCorrienteUpdate = await cuentasCorrientes.update({
                 vigencia: false
             },
             {
@@ -98,21 +111,38 @@ export const deleteCuentasCorrientes = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }) : res.json({
+            });
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-        }
-
-        res.json({
-            resultado: true, 
-            message: 'Cuenta corriente eliminada correctamente'
-        });
+            if(body.cascade) return {
+                resultado: true
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Cuenta corriente eliminada correctamente'
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Cuenta corriente no encontrada'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

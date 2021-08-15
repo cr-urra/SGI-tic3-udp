@@ -66,12 +66,13 @@ export const updateObservaciones = async (req, res) => {
 };
 
 export const deleteObservaciones = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         const observacion = await observaciones.findOne({
             where: {
-                id
-                
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -80,24 +81,32 @@ export const deleteObservaciones = async (req, res) => {
                 'gasto', 
                 'pedidos_id'
             ],
-            include:[
+            include: [
                 gastos_extras
             ]
         });
         if(observacion){
-
-            let gastosExtrasIds = [];
-            observacion.dataValues.gastos_extras.forEach(element => {
-                gastosExtrasIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-                id: gastosExtrasIds
+            let aux = {
+                resultado: true
             };
-            let aux = await gastosExtrasController.deleteGastosExtras(req, res);
-
+            req.body = {
+                cascade: true
+            };
+            observacion.dataValues.gastos_extras.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                if(aux.resultado) aux = await gastosExtrasController.deleteGastosExtras(req, res);
+                else if(aux.resultado == false && body.resultado == true) return {
+                    resultado: false
+                }
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
             let observacionUpdate;
-            aux.resultado ? observacionUpdate = await observaciones.update({
+            if(aux.resultado) observacionUpdate = await observaciones.update({
                 vigencia : false
             },
             {
@@ -105,30 +114,40 @@ export const deleteObservaciones = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            });
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-
-            res.json({
-                message: 'Observación actualizada',
-                resultado: true,
-                observaciones: observacionUpdate
+            if(body.cascade) return {
+                resultado: true
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Observación eliminada correctamente'
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Observación no encontrada'
             });
         }
-        
-        res.json({
-            resultado: true, 
-            message: 'Observación eliminada correctamente'
-        });
     }catch(e){
         console.log(e);
-        res.json({
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
             resultado: false, 
             message: "Ha ocurrido un error, porfavor contactese con el administrador"
         });
     };
-    
 };
 
 export const getAllObservaciones = async (req, res) => {

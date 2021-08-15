@@ -59,11 +59,14 @@ export const updateDetallesDolar = async (req, res) => {
 };
 
 export const deleteDetallesDolar = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
+        const params = req.params;
         const detalleDolar = await detallesDolar.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -80,17 +83,31 @@ export const deleteDetallesDolar = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }); 
+            });
+            if(body.cascade) return {
+                resultado: true
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Detalle de dólar eliminado correctamente'
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Detalle de dólar no encontrado'
+            });
         }
-        res.json({
-            resultado: true, 
-            message: 'Detalle de dólar eliminado correctamente'
-        });
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

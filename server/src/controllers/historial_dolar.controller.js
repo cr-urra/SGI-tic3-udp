@@ -2,8 +2,6 @@ import historialDolar from '../models/historial_dolar';
 import detalles_dolar from '../models/detalles_dolar';
 import * as detallesDolarUpdate from './detalles_dolar.controller';
 import sequelize from 'sequelize';
-import historial_dolar from '../models/historial_dolar';
-import pedidos from '../models/pedidos';
 
 export const createHistorialDolar = async (req, res) => {
     try{
@@ -12,13 +10,15 @@ export const createHistorialDolar = async (req, res) => {
             tipo,
             fecha: sequelize.literal('CURRENT_TIMESTAMP'),
             vigencia: true,
-            pedidos_id
+            pedidos_id,
+            dolar_mensual_id: 1
         },{
             fields: [
                 'tipo', 
                 'fecha',
                 'vigencia',
-                'pedidos_id'
+                'pedidos_id',
+                'dolar_mensual_id'
             ]
         });
         res.json({
@@ -66,11 +66,14 @@ export const updateHistorialDolar = async (req, res) => {
 };
 
 export const deleteHistorialDolar = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
+        const params = req.params;
         const getHistorialDolar = await historialDolar.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -79,41 +82,23 @@ export const deleteHistorialDolar = async (req, res) => {
                 'vigencia',
                 'pedidos_id'
             ],
-            include:[
-                detalles_dolar,
-                pedidos
+            include: [
+                detalles_dolar
             ]
         });
         if(getHistorialDolar){
-
-            let detallesDolarId = historial_dolar.dataValues.detalles_dolar.id;
-            let pedidosIds = [];
-
-            pedidosIds = historial_dolar.dataValues.pedidos.forEach(element => {
-                pedidosIds.push(parseInt(element.dataValues.id));
-            });
-
-            const findedPedidos = pedidos.findAll({
-                where: {
-                    id: pedidosIds
-                },
-                attributes: [
-                    'id'
-                ]
-            });
-            
-            req.params = {
-                id: detallesDolarId
+            let aux = {
+                resultado: true
             };
-            let aux = await detallesDolarUpdate.deleteDetallesDolar(req, res);
-
-            aux.resultado ? await getHistorialDolar.removePedidos([findedPedidos]) : res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
+            req.params = {
+                id: getHistorialDolar.dataValues.detalles_dolar.dataValues.id
+            };
+            req.body = {
+                cascade: true
+            };
+            aux = await detallesDolarUpdate.deleteDetallesDolar(req, res);
             let historialDolarUpdate;
-            aux.resultado ? historialDolarUpdate = await historialDolar.update({
+            if(aux.resultado) historialDolarUpdate = await historialDolar.update({
                 vigencia: false
             },
             {
@@ -121,20 +106,38 @@ export const deleteHistorialDolar = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            }); 
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-        }
-        res.json({
-            resultado: true, 
-            message: 'Dolar eliminado correctamente de historial'
-        });
+            if(body.cascade) return {
+                resultado: true
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Dolar eliminado correctamente de historial'
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Dólar no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(req.body.cascade) return {
+            resultado: false
+        };
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

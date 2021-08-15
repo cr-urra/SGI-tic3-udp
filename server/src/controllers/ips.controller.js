@@ -5,27 +5,25 @@ export const createIps = async (req, res) => {
         const {ip, usuarios_id} = req.body;
         let newIp = await ips.create({
             ip, 
-            usuarios_id,
-            vigencia: true
+            usuarios_id
         },{
             fields: [
                 'ip', 
-                'usuarios_id',
-                'vigencia'
+                'usuarios_id'
             ]
         });
-        res.json({
+        return {
             resultado: true,
             message: "Ip creada correctamente",
             ips: newIp
-        });
+        };
     }catch(e){
         console.log(e);
-        res.json({
+        return {
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
             resultado: false, 
             ips: null
-        });
+        };
     };
 };
 
@@ -39,8 +37,7 @@ export const updateIps = async (req, res) => {
         ,
         {
             where: {
-                id,
-                vigencia: true
+                id
             }
         });
         res.json({
@@ -66,16 +63,16 @@ export const deleteIps = async (req, res) => {
                 id
             }
         });
-        res.json({
+        return {
             resultado: true, 
             message: 'Ip eliminada correctamente'
-        });
+        };
     }catch(e){
         console.log(e);
-        res.json({
+        return {
             resultado: false, 
             message: "Ha ocurrido un error, porfavor contactese con el administrador"
-        });
+        };
     };
     
 };
@@ -83,9 +80,6 @@ export const deleteIps = async (req, res) => {
 export const getAllIps = async (req, res) => {
     try{
         const allIps = await ips.findAll({
-            where: {
-                vigencia: true
-            },
             attributes: [
                 'id',
                 'ip', 
@@ -115,8 +109,7 @@ export const getIpsId = async (req, res) => {
         const {id} = req.params;
         const ip = await ips.findOne({
             where: {
-                id,
-                vigencia: true
+                id
             },
             attributes: [
                 'id',
@@ -124,44 +117,17 @@ export const getIpsId = async (req, res) => {
                 'usuarios_id'
             ]
         });
-        res.json({
+        return {
             resultado: true, 
             message: "", 
             ips: ip
-        }); 
+        }; 
     }catch(e){
         console.log(e);
-        res.json({
+        return {
             resultado: false, 
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
             ips: null
-        });
-    };
-};
-
-export const getAllIpsWithFalse = async (req, res) => {
-    try{
-        const allIps = await ips.findAll({
-            attributes: [
-                'id',
-                'ip', 
-                'usuarios_id'
-            ],
-            order: [
-                ['id', 'DESC']
-            ]
-        });
-        res.json({
-            resultado: true, 
-            message: "",
-            ips: allIps
-        });
-    }catch(e){
-        console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            ips: null
-        });
+        };
     };
 };

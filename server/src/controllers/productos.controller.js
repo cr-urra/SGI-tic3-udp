@@ -2,6 +2,7 @@ import productos from '../models/productos';
 import historial_precios from '../models/historial_precios';
 import pedidos from '../models/pedidos';
 import * as historialPreciosController from './historial_precios.controller';
+import * as pedidosController from './pedidos.controller';
 
 export const createProductos = async (req, res) => {
     try{
@@ -69,11 +70,13 @@ export const updateProductos = async (req, res) => {
 };
 
 export const deleteProductos = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         const producto = await productos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -88,41 +91,41 @@ export const deleteProductos = async (req, res) => {
                 pedidos
             ]
         });
-
         if(producto){
-
-            let historialPreciosIds = [];
-            let pedidosIds = [];
-            producto.dataValues.historial_precios.forEach(element => {
-                historialPreciosIds.push(parseInt(element.dataValues.id));
-            });
-
-            pedidosIds = producto.dataValues.pedidos.forEach(element => {
-                pedidosIds.push(parseInt(element.dataValues.id));
-            });
-
-            const findedPedidos = pedidos.findAll({
-                where: {
-                    id: pedidosIds
-                },
-                attributes: [
-                    'id'
-                ]
-            });
-
-            req.params = {
-                id: historialPreciosIds
+            let productoUpdate = null;
+            let aux = {
+                resultado: true
             };
-            
-            let aux = await historialPreciosController.deleteHistorialPrecios(req, res);
-
-            aux.resultado ? await producto.removePedidos([findedPedidos]) : res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            req.body = {
+                cascade: true
+            };
+            producto.dataValues.historial_precios.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await historialPreciosController.deleteHistorialPrecios(req, res);
+                else if(aux.resultado == false && body.cacade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
             });
-
-            let productoUpdate;
-            aux.resultado ? productoUpdate = await productos.update({
+            producto.dataValues.pedidos.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await pedidosController.deletePedidos(req, res);
+                else if(aux.resultado == false && body.cacade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
+            if(aux.resultado) productoUpdate = await productos.update({
                 vigencia: false
             },
             {
@@ -130,25 +133,32 @@ export const deleteProductos = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            });
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };  
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-        }
-
-        res.json({
-            resultado: true, 
-            message: 'Producto eliminado correctamente'
-        });
-
+            if(body.cascade) return {
+                resultado: true
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Producto eliminado correctamente'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
-    
 };
 
 export const getAllProductos = async (req, res) => {

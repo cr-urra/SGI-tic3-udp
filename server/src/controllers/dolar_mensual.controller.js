@@ -66,9 +66,11 @@ export const updateDolarMensual = async (req, res) => {
 export const deleteDolarMensual = async (req, res) => {
     try{
         const {id} = req.params;
-        const dolarMensual = await dolarMensual.findOne({
+        const params = req.params;
+        const getDolarMensual = await dolarMensual.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -80,34 +82,39 @@ export const deleteDolarMensual = async (req, res) => {
                 historial_dolar
             ]
         });
-        
-        if(dolarMensual){
-
-            let pedidosIds = [];
-            let historialDolarIds = [];
-
-            dolarMensual.dataValues.pedidos.forEach(element => {
-                pedidosIds.push(parseInt(element.dataValues.id));
-            });
-            dolarMensual.dataValues.historial_dolar.forEach(element => {
-                historialDolarIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-                id: pedidosIds 
+        if(getDolarMensual){
+            let aux = {
+                resultado: true
             };
-            let aux = await pedidosController.deletePedidos(req,res);
-            
-            req.params = {
-                id: historialDolarIds
-            };
-            aux.resultado ? aux = await historialDolarController.deleteHistorialDolar(req, res) : res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            getDolarMensual.dataValues.historial_dolars.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                req.body = {
+                    cascade: true
+                };
+                if(aux.resultado) aux = await historialDolarController.deleteHistorialDolar(req, res);
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });;
             });
-
+            getDolarMensual.dataValues.pedidos.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                req.body = {
+                    cascade: true,
+                    origin: "dolarMensual"
+                };
+                if(aux.resultado) aux = await pedidosController.deletePedidos(req, res);
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
             let dolarMensualUpdate;
-            aux.resultado ? dolarMensualUpdate = await dolarMensual.update({
+            if(aux.resultado) dolarMensualUpdate = await getDolarMensual.update({
                 vigencia: false
             },
             {
@@ -115,16 +122,24 @@ export const deleteDolarMensual = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            })
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
+            res.json({
+                resultado: true, 
+                message: 'Dolar mensual eliminado correctamente'
+            });
+        } else {
+            res.json({
+                resultado: true, 
+                message: 'Dolar mensual no encontrado'
+            });
         }
-        
-        res.json({
-            resultado: true, 
-            message: 'Dolar mensual eliminado correctamente'
-        });
     }catch(e){
         console.log(e);
         res.json({

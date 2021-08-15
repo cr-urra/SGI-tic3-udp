@@ -31,7 +31,6 @@ export const createPaises = async (req, res) => {
     };
 };
 
-
 export const updatePaises = async (req, res) => {
     try{
         const {id} = req.params;
@@ -65,31 +64,36 @@ export const deletePaises = async (req, res) => {
         const {id} = req.params;
         const pais = await paises.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
                 'pais', 
                 'codigo_iban'
             ],
-            include:[
+            include: [
                 cuentas_bancos
             ]
         });
         if(pais){
-
-            let cuentaBancosIds = [];
-            pais.dataValues.cuentas_bancos.forEach(element => {
-                cuentaBancosIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-                id : cuentaBancosIds
+            let aux = {
+                resultado: true
             };
-
-            let aux = await cuentaBancosController.deleteCuentasBancos(req, res);
-            
-            let paisUpdate;
+            req.body = {
+                cascade: true
+            };
+            pais.dataValues.cuentas_bancos.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                if(aux.resultado) aux = await cuentaBancosController.deleteCuentasBancos(req, res);
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
+            let paisUpdate = null;
             aux.resultado ? paisUpdate = await paises.update({
                 vigencia: false
             },
@@ -98,15 +102,20 @@ export const deletePaises = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            }) : res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-        }
-        res.json({
-            resultado: true, 
-            message: 'País eliminado correctamente'
-        });
+            res.json({
+                resultado: true, 
+                message: 'País eliminado correctamente'
+            });
+        } else {
+            res.json({
+                resultado: true, 
+                message: 'País no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
         res.json({

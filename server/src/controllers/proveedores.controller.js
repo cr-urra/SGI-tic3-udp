@@ -1,10 +1,12 @@
 import proveedores from '../models/proveedores';
 import pedidos from '../models/pedidos';
 import productos from '../models/productos';
-import telefonos_proveedores from '../models/telefonos_proveedores';
 import * as pedidosController from './pedidos.controller';
 import * as productosController from './productos.controller';
 import * as telefonosProveedoresController from './telefonos_proveedores.controller';
+import * as cuentasBancosController from './cuentas_bancos.controller';
+import telefonos_proveedores from '../models/telefonos_proveedores';
+import cuentas_bancos from '../models/cuentas_bancos';
 
 export const createProveedores = async (req, res) => {
     try{
@@ -73,11 +75,13 @@ export const updateProveedores = async (req, res) => {
 };
 
 export const deleteProveedores = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         const proveedor = await proveedores.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -91,49 +95,69 @@ export const deleteProveedores = async (req, res) => {
             include:[
                 pedidos,
                 productos,
-                telefonos_proveedores
+                telefonos_proveedores,
+                cuentas_bancos
             ]
         });
-
         if(proveedor){
-
-            let pedidosIds=[];
-            let productosIds=[];
-            let telefonosProveedoresIds=[];
-
-            proveedor.dataValues.pedidos.forEach(element => {
-                pedidosIds.push(parseInt(element.dataValues.id));
-            });
-            proveedor.dataValues.productos.forEach(element => {
-                productosIds.push(parseInt(element.dataValues.id));
-            });
-            proveedor.dataValues.telefonos_proveedores.forEach(element => {
-                telefonosProveedoresIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-                id: pedidosIds
+            let aux = {
+                resultado: true
             };
-            let aux = await pedidosController.deletePedidos(req, res);
-
+            req.body = {
+                cascade: true
+            }
+            proveedor.dataValues.productos.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await productosController.deleteProductos(req, res)
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
+            proveedor.dataValues.pedidos.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await pedidosController.deletePedidos(req, res);
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
+            proveedor.dataValues.telefonos_proveedores.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await telefonosProveedoresController.deleteTelefonosProveedores(req, res) 
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
             req.params = {
-                id: productosIds
+                id: proveedor.dataValues.cuentas_bancos.dataValues.id
             };
-            aux.resultado ? aux = await productosController.deleteProductos(req, res) : res.json({
+            if(aux.resultado) aux = await cuentasBancosController.deleteCuentasBancos(req, res) 
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-
-            req.params = {
-                id: telefonosProveedoresIds
-            };
-            aux.resultado ? aux = await telefonosProveedoresController.deleteTelefonosProveedores(req, res) : res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
             let proveedorUpdate;
-            aux.resultado ? proveedorUpdate = await proveedores.update({
+            if(aux.resultado) proveedorUpdate = await proveedores.update({
                 vigencia: false
             },
             {
@@ -141,21 +165,38 @@ export const deleteProveedores = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }):res.json({
+            });
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };  
+            else res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-        }
-        res.json({
-            resultado: true, 
-            message: 'Proveedor eliminado correctamente'
-        });
-
+            if(body.cascade) return {
+                resultado: true
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Proveedor eliminado correctamente'
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Proveedor no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(req.body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

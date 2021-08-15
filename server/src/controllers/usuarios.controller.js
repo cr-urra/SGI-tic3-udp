@@ -2,6 +2,7 @@ import usuarios from '../models/usuarios';
 import ips from '../models/ips';
 import telefonoUsuarios from '../models/telefonos_usuarios';
 import * as ct from './telefonos_usuarios.controller';
+import * as ipsc from './ips.controller';
 
 export const updateUsuarios = async (req, res) => {
     try{
@@ -46,25 +47,41 @@ export const deleteUsuarios = async (req, res) => {
             ]
         });
         if(user){
-            await usuarios.destroy({
-                where: {
-                    id
-                }
+            req.body = {
+                cascade: true
+            };
+            let r = await ct.deleteTelefonosUsuarios(req, res);
+            r.resultado ? r = await ipsc.deleteIps(req, res) : res.json({
+                message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+                resultado: false
             });
-            res.json({
-                message: 'Usuario eliminado correctamente',
-                resultado: true
-            });
+            if(r.resultado) { 
+                await usuarios.destroy({
+                    where: {
+                        id
+                    }
+                });
+                res.json({
+                    message: 'Usuario eliminado correctamente',
+                    resultado: true
+                });
+            }else{
+                res.json({
+                    message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+                    resultado: false
+                });
+            }
         }else{
             res.json({
                 message: 'El usuario ingresado no se encuentra',
                 resultado: false
             });
         }
-        
     }catch(e){
-        console.log(e);
-        res.json({
+        if(req.body.cascade) return {
+            resultado: false
+        }
+        else res.json({
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
             resultado: false
         });
@@ -134,7 +151,7 @@ export const getAllUsuarios = async (req, res) => {
         res.json({
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
             resultado: false,
-            usuarios: null
+            usuarios: false
         });
     }
 };

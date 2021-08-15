@@ -63,7 +63,7 @@ export const deleteDetallesPedidos = async (req, res) => {
         const {id} = req.params;
         const detallePedido = await detallesPedidos.findOne({
             where: {
-                id                
+                id               
             },
             attributes: [
                 'id',
@@ -81,16 +81,29 @@ export const deleteDetallesPedidos = async (req, res) => {
                     vigencia: true
                 }
             });
-        }
-        res.json({
-            resultado: true, 
-            message: 'Detalles de pedido eliminado correctamente'
-        });
+            if (req.body.cascade) return {
+                resultado: true
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Detalles de pedido eliminado correctamente'
+            });
+        } else {
+            if (req.body.cascade) return {
+                resultado: true
+            }
+            else res.json({
+                resultado: false, 
+                message: 'Detalles de pedido no encontrado'
+            });
+        };
     }catch(e){
-        console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(req.body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

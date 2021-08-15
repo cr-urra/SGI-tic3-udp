@@ -65,7 +65,8 @@ export const deleteUnidadProductos = async (req, res) => {
         const {id} = req.params;
         const unidadProducto = await unidadProductos.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id', 
@@ -76,20 +77,26 @@ export const deleteUnidadProductos = async (req, res) => {
                 productos
             ]
         });
-
         if(unidadProducto){
-
-            let productosIds = [];
-            unidadProducto.dataValues.productos.forEach(element => {
-                productosIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-                id: productosIds
+            let aux = {
+                resultado: true
             };
-
-            let aux = await productosController.deleteProductos(req, res);
-            
+            req.body = {
+                cascade: true
+            };
+            unidadProducto.dataValues.productos.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                if(aux.resultado) aux = await productosController.deleteProductos(req, res);
+                else if (aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                }
+                else res.json({
+                    message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+                    resultado: false
+                });
+            });
             let unidadProductosUpdate;
             aux.resultado ? unidadProductosUpdate = await unidadProductos.update({
                 vigencia: false
@@ -99,21 +106,25 @@ export const deleteUnidadProductos = async (req, res) => {
                     id,
                     vigencia: true
                 }
-            }): res.json({
+            }) : res.json({
                 resultado: false, 
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-
-        }
-        res.json({
-            resultado: true, 
-            message: 'Unidad de producto eliminada correctamente'
-        });
+            res.json({
+                resultado: true, 
+                message: 'Unidad de producto eliminada correctamente'
+            });
+        } else {
+            res.json({
+                message: 'Unidad de producto no encontrada',
+                resultado: true
+            });
+        };
     }catch(e){
         console.log(e);
         res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     

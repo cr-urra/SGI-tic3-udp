@@ -61,11 +61,13 @@ export const updateGastosExtras = async (req, res) => {
 };
 
 export const deleteGastosExtras = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         const gastoExtra = await gastosExtras.findOne({
             where: {
-                id
+                id,
+                vigencia: true
             },
             attributes: [
                 'id',
@@ -84,20 +86,32 @@ export const deleteGastosExtras = async (req, res) => {
                     vigencia: true
                 }
             });
-        }
-        
-        res.json({
-            resultado: true, 
-            message: 'Gasto extra eliminado correctamente'
-        });
+            if(body.cascade) return {
+                resultado: true
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Gasto extra eliminado correctamente'
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Gasto extra no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
-    
 };
 
 export const getAllGastosExtras = async (req, res) => {

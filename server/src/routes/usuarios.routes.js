@@ -5,7 +5,7 @@ import * as csrf from '../middlewares/authCsrf';
 
 // usuarios
 
-router.get('/', csrf.verifyAntiCsrfToken, usuarios.getAllUsuarios);
+router.get('/', usuarios.getAllUsuarios);
 
 // usuarios/:id
 
