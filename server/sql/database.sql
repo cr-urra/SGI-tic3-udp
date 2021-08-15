@@ -1311,7 +1311,6 @@ COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_
 --
 
 COPY public.asume (observadores_id, agentes_aduana_id) FROM stdin;
-1	8
 \.
 
 
@@ -1355,8 +1354,7 @@ COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FR
 --
 
 COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FROM stdin;
-1	1	1	t
-2	234	2	t
+3	3	6	t
 \.
 
 
@@ -1365,8 +1363,6 @@ COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FRO
 --
 
 COPY public.detalles_pedidos (id, diferencia_de_costos, pedidos_id, vigencia) FROM stdin;
-12	11	26	t
-11	10	25	t
 \.
 
 
@@ -1375,8 +1371,6 @@ COPY public.detalles_pedidos (id, diferencia_de_costos, pedidos_id, vigencia) FR
 --
 
 COPY public.documentos (id, nombre_documento, pedidos_id, vigencia) FROM stdin;
-5	ISO2	26	t
-4	ISO1	25	t
 \.
 
 
@@ -1395,7 +1389,6 @@ COPY public.dolar_mensual (id, valor_mensual, fecha_registro, vigencia) FROM std
 --
 
 COPY public.efectua (observaciones_id, observadores_id) FROM stdin;
-14	1
 \.
 
 
@@ -1412,7 +1405,6 @@ COPY public.extrae (pedidos_id, historial_precios_id) FROM stdin;
 --
 
 COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FROM stdin;
-5	10000	25	14	t
 \.
 
 
@@ -1421,8 +1413,7 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FR
 --
 
 COPY public.historial_dolar (id, fecha, tipo, vigencia, pedidos_id, dolar_mensual_id) FROM stdin;
-1	2021-06-13 22:44:50.910426	1	t	25	1
-2	2021-06-14 22:58:20.755816	123	t	26	3
+6	2021-08-15 21:24:03.655206	inicio	t	27	1
 \.
 
 
@@ -1436,6 +1427,7 @@ COPY public.historial_precios (id, precio, fecha, productos_id, vigencia, tipo) 
 5	12345	2021-06-29 06:00:13.353436	5	t	f
 6	12345456	2021-06-29 06:00:30.371052	6	t	f
 7	22	2021-06-29 17:12:22.351017	7	t	f
+8	122	2021-08-15 00:00:00	8	t	f
 \.
 
 
@@ -1487,7 +1479,6 @@ COPY public.numeros_aba (id, nombre_banco, numero_aba, vigencia) FROM stdin;
 --
 
 COPY public.observaciones (id, observacion, fecha, pedidos_id, vigencia, gasto) FROM stdin;
-14	Se cayo una caja	2021-01-03	25	t	1000
 \.
 
 
@@ -1517,8 +1508,7 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 --
 
 COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
-26	4	10000	0	2021-06-13	2021-08-12	2021-08-12	2021-08-12	2021-08-12	2021-08-12	F	Camello	1	\N	1	0	0	0	0	\N	8	2	3	true	2021-06-13	t
-25	3	10000	0	2021-06-13	2021-08-12	2021-08-12	2021-08-12	2021-08-12	2021-08-12	F	Camello	1	\N	1	0	0	0	0	\N	8	2	1	true	2021-06-13	t
+27	334	3	0	2021-08-15	2021-08-15	2021-08-15	2021-08-15	2021-08-15	2021-08-15	produccion	1	\N	0	3	0	0	0	0	\N	\N	10	\N	1	2021-08-15	t
 \.
 
 
@@ -1527,11 +1517,12 @@ COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_
 --
 
 COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_productos_id, vigencia) FROM stdin;
-1	PL1	Plastico 1	Plastico	7	1	t
-4	13	producto soprole	12315	7	1	t
 5	1345	producto prueba 1	1231564	9	1	t
 6	1345456	producto USPS	1231564456	3	1	t
 7	334	Shampoo	3	7	1	t
+1	PL1	Plastico 1	Plastico	2	1	t
+4	13	producto soprole	12315	10	1	t
+8	123A	Prod X	A	10	1	t
 \.
 
 
@@ -1553,8 +1544,7 @@ COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, v
 --
 
 COPY public.realiza (usuarios_id, pedidos_id, createdat, updatedat) FROM stdin;
-2	25	2021-08-12 03:39:05.413	2021-08-12 03:39:05.413
-2	26	2021-08-12 03:39:16.342	2021-08-12 03:39:16.342
+2	27	2021-08-15 21:24:03.647	2021-08-15 21:24:03.647
 \.
 
 
@@ -1609,8 +1599,7 @@ COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 --
 
 COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
-25	1	10
-26	4	15
+27	8	3
 \.
 
 
@@ -1666,7 +1655,7 @@ SELECT pg_catalog.setval('public.cuentas_corrientes_id_seq', 5, true);
 -- Name: detalles_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 2, true);
+SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 3, true);
 
 
 --
@@ -1701,14 +1690,14 @@ SELECT pg_catalog.setval('public.gastos_extras_id_seq', 5, true);
 -- Name: historial_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_dolar_id_seq', 5, true);
+SELECT pg_catalog.setval('public.historial_dolar_id_seq', 6, true);
 
 
 --
 -- Name: historial_precios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_precios_id_seq', 7, true);
+SELECT pg_catalog.setval('public.historial_precios_id_seq', 8, true);
 
 
 --
@@ -1764,14 +1753,14 @@ SELECT pg_catalog.setval('public.paises_id_seq', 6, true);
 -- Name: pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedidos_id_seq', 26, true);
+SELECT pg_catalog.setval('public.pedidos_id_seq', 27, true);
 
 
 --
 -- Name: productos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.productos_id_seq', 7, true);
+SELECT pg_catalog.setval('public.productos_id_seq', 8, true);
 
 
 --
