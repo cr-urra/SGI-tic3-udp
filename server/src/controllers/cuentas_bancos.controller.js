@@ -108,6 +108,7 @@ export const deleteCuentasBancos = async (req, res) => {
                     message: "Ha ocurrido un error, porfavor contactese con el administrador"
                 });
             });
+            let cuentaBancoUpdate = null;
             if(aux.resultado) cuentaBancoUpdate = await cuentas_bancos.update({
                 vigencia: false
             },
