@@ -160,7 +160,7 @@ export const getHistorialPreciosId = async (req, res) => {
         const {id} = req.params;
         const historialPrecio = await historialPrecios.findOne({
             where: {
-                id,
+                productos_id: id,
                 vigencia: true
             },
             attributes: [
