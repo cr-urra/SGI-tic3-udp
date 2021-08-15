@@ -62,9 +62,10 @@ export const updateHistorialPrecios = async (req, res) => {
 };
 
 export const deleteHistorialPrecios = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
-        const historialPrecio = await historialPrecios.findOne({
+        const historialPrecio = await historialPrecios.findAll({
             where: {
                 id
             },
@@ -84,18 +85,31 @@ export const deleteHistorialPrecios = async (req, res) => {
                     id,
                     vigencia: true
                 }
+            });
+            if(body.cascade) return {
+                resultado: true
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Precio de historial eliminado correctamente'
             }); 
-        }
-       
-        res.json({
-            resultado: true, 
-            message: 'Precio eliminado correctamente de historial'
-        });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
+                message: 'Precio en historial no encontrado'
+            });
+        };
     }catch(e){
         console.log(e);
-        res.json({
-            resultado: false, 
-            message: "Ha ocurrido un error, porfavor contactese con el administrador"
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
+            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            resultado: false
         });
     };
     
@@ -103,8 +117,10 @@ export const deleteHistorialPrecios = async (req, res) => {
 
 export const getAllHistorialPrecios = async (req, res) => {
     try{
+        const {id} = req.params;
         const allHistorialPrecios = await historialPrecios.findAll({
             where: {
+                productos_id: id,
                 vigencia: true
             },
             attributes: [
@@ -117,10 +133,14 @@ export const getAllHistorialPrecios = async (req, res) => {
                 ['id', 'DESC']
             ]
         });
+        let arr = [];
+        allHistorialPrecios.dataValues.forEach(element =>{
+            arr.push(element.precio);
+        });
         res.json({
             resultado: true, 
             message: "",
-            historialPrecios: allHistorialPrecios
+            historialPrecios: arr
         });
     }catch(e){
         console.log(e);
