@@ -1,10 +1,12 @@
 import cuentas_bancos from '../models/cuentas_bancos';
 import pedidos from '../models/pedidos';
+import proveedores from '../models/proveedores';
 import * as pedidosController from './pedidos.controller'
+import * as proveedoresController from './proveedores.controller';
 
 export const createCuentasBancos = async (req, res) => {
     try{
-        const {numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, proveedores_id} = req.body;
+        const {numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id} = req.body;
         let newCuentaBanco = await cuentas_bancos.create({
             numero_cuenta,
             nombre_banco,
@@ -13,7 +15,6 @@ export const createCuentasBancos = async (req, res) => {
             referencia,
             paises_id,
             numeros_aba_id,
-            proveedores_id,
             vigencia: true
         },{
             fields: [
@@ -24,7 +25,6 @@ export const createCuentasBancos = async (req, res) => {
                 'referencia',
                 'paises_id',
                 'numeros_aba_id',
-                'proveedores_id',
                 'vigencia'
             ]
         });
@@ -85,7 +85,8 @@ export const deleteCuentasBancos = async (req, res) => {
                 'id'
             ],
             include: [
-                pedidos
+                pedidos,
+                proveedores
             ]
         });
         if(cuenta_banco){
@@ -107,6 +108,17 @@ export const deleteCuentasBancos = async (req, res) => {
                     resultado: false, 
                     message: "Ha ocurrido un error, porfavor contactese con el administrador"
                 });
+            });
+            req.params = {
+                id: parseInt(cuenta_banco.dataValues.proveedores.dataValues.id)
+            };
+            if(aux.resultado) aux = await proveedoresController.deleteProveedores(req, res) 
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
             let cuentaBancoUpdate = null;
             if(aux.resultado) cuentaBancoUpdate = await cuentas_bancos.update({
@@ -160,8 +172,7 @@ export const getAllCuentasBancos = async (req, res) => {
                 'codigo_iban',
                 'referencia',
                 'paises_id',
-                'numeros_aba_id',
-                'proveedores_id'
+                'numeros_aba_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -198,8 +209,7 @@ export const getCuentasBancosId = async (req, res) => {
                 'codigo_iban',
                 'referencia',
                 'paises_id',
-                'numeros_aba_id',
-                'proveedores_id'
+                'numeros_aba_id'
             ]
         });
         res.json({
@@ -233,8 +243,7 @@ export const getCuentasBancosForProovedoresId = async (req, res) => {
                 'codigo_iban',
                 'referencia',
                 'paises_id',
-                'numeros_aba_id',
-                'proveedores_id'
+                'numeros_aba_id'
             ]
         });
         res.json({
@@ -263,8 +272,7 @@ export const getAllCuentasBancosWithFalse = async (req, res) => {
                 'codigo_iban',
                 'referencia',
                 'paises_id',
-                'numeros_aba_id',
-                'proveedores_id'
+                'numeros_aba_id'
             ],
             order: [
                 ['id', 'DESC']

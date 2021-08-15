@@ -35,8 +35,8 @@ import extrae from '../models/extrae';
 pedidos.hasOne(detalles_pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 detalles_pedidos.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 
-proveedores.hasOne(cuentas_bancos, {foreignKey: 'proveedores_id', sourceKey: 'id'});
-cuentas_bancos.belongsTo(proveedores, {foreignKey: 'proveedores_id', sourceKey: 'id'});
+cuentas_bancos.hasOne(proveedores, {foreignKey: 'cuentas_bancos_id', sourceKey: 'id'});
+proveedores.belongsTo(cuentas_bancos, {foreignKey: 'cuentas_bancos_id', sourceKey: 'id'});
 
 historial_dolar.hasOne(detalles_dolar, {foreignKey: 'historial_dolar_id', sourceKey: 'id'});
 detalles_dolar.belongsTo(historial_dolar, {foreignKey: 'historial_dolar_id', sourceKey: 'id'});

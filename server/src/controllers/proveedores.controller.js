@@ -10,7 +10,7 @@ import cuentas_bancos from '../models/cuentas_bancos';
 
 export const createProveedores = async (req, res) => {
     try{
-        const {nombre, direccion, correo, pais, monedas_id, rut} = req.body;
+        const {nombre, direccion, correo, pais, monedas_id, rut, cuentas_bancos_id} = req.body;
         let newProveedor = await proveedores.create({
             nombre,
             direccion,
@@ -18,6 +18,7 @@ export const createProveedores = async (req, res) => {
             pais,
             monedas_id,
             rut,
+            cuentas_bancos_id,
             vigencia: true
         },{
             fields: [
@@ -27,6 +28,7 @@ export const createProveedores = async (req, res) => {
                 'pais',
                 'monedas_id',
                 'rut',
+                'cuentas_bancos_id',
                 'vigencia'
             ]
         });
@@ -84,19 +86,12 @@ export const deleteProveedores = async (req, res) => {
                 vigencia: true
             },
             attributes: [
-                'id', 
-                'nombre', 
-                'direccion',
-                'correo',
-                'pais',
-                'monedas_id',
-                'rut'
+                'id'
             ],
             include:[
                 pedidos,
                 productos,
-                telefonos_proveedores,
-                cuentas_bancos
+                telefonos_proveedores
             ]
         });
         if(proveedor){
@@ -144,17 +139,6 @@ export const deleteProveedores = async (req, res) => {
                     resultado: false, 
                     message: "Ha ocurrido un error, porfavor contactese con el administrador"
                 });
-            });
-            req.params = {
-                id: proveedor.dataValues.cuentas_bancos.dataValues.id
-            };
-            if(aux.resultado) aux = await cuentasBancosController.deleteCuentasBancos(req, res) 
-            else if(aux.resultado == false && body.cascade == true) return {
-                resultado: false
-            };
-            else res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
             let proveedorUpdate;
             if(aux.resultado) proveedorUpdate = await proveedores.update({
@@ -215,7 +199,8 @@ export const getAllProveedores = async (req, res) => {
                 'correo',
                 'pais',
                 'monedas_id',
-                'rut'
+                'rut',
+                'cuentas_bancos_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -251,7 +236,8 @@ export const getProveedoresId = async (req, res) => {
                 'correo',
                 'pais',
                 'monedas_id',
-                'rut'
+                'rut',
+                'cuentas_bancos_id'
             ]
         });
         res.json({
@@ -279,7 +265,8 @@ export const getAllProveedoresWithFalse = async (req, res) => {
                 'correo',
                 'pais',
                 'monedas_id',
-                'rut'
+                'rut',
+                'cuentas_bancos_id'
             ],
             order: [
                 ['id', 'DESC']

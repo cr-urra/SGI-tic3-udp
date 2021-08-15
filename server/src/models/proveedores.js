@@ -26,8 +26,10 @@ const proveedores = database.define('proveedores',{
     },
     vigencia:{
         type: sequelize.BOOLEAN
+    },
+    cuentas_bancos_id:{
+        type: sequelize.INTEGER
     }
-
 },{
     timestamps: false,
     underscored: true

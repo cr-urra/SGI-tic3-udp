@@ -122,8 +122,7 @@ CREATE TABLE public.cuentas_bancos (
     referencia text,
     paises_id integer,
     numeros_aba_id integer,
-    vigencia boolean,
-    proveedores_id integer
+    vigencia boolean
 );
 
 
@@ -833,7 +832,8 @@ CREATE TABLE public.proveedores (
     pais character varying(30),
     monedas_id integer,
     rut character varying(30),
-    vigencia boolean
+    vigencia boolean,
+    cuentas_bancos_id integer
 );
 
 
@@ -1329,12 +1329,12 @@ COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco,
 -- Data for Name: cuentas_bancos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, vigencia, proveedores_id) FROM stdin;
-2	245	Banco de Chile	234	2	Referencia 1	3	3	t	2
-4	345	Banco ITU	3D4	1	Referencia 345	4	4	t	7
-5	123123	prueba 1	123123	123123	123123	5	5	t	9
-6	22333	test	8320000	te	333	6	6	t	10
-1	1	Banco estado	A	B	C	3	3	f	3
+COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, vigencia) FROM stdin;
+2	245	Banco de Chile	234	2	Referencia 1	3	3	t
+4	345	Banco ITU	3D4	1	Referencia 345	4	4	t
+5	123123	prueba 1	123123	123123	123123	5	5	t
+6	22333	test	8320000	te	333	6	6	t
+1	1	Banco estado	A	B	C	3	3	t
 \.
 
 
@@ -1530,12 +1530,12 @@ COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_producto
 -- Data for Name: proveedores; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, vigencia) FROM stdin;
-7	Soprole	Av. Alvaro Gamboa 1313	soprole@gmail.com	Argentina	3	123432563	t
-3	UZPZ	Aterio 123	uzpz@mail.cl	Estados Unidos	2	123456754	t
-9	prueba 1	Alsino 4571	hola@gmail.com	Chile	1	111111113	t
-2	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	111111116	t
-10	Shampoo	Juan XXIII 7554	jorge@mail.cl	Chile	2	111111118	t
+COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, vigencia, cuentas_bancos_id) FROM stdin;
+7	Soprole	Av. Alvaro Gamboa 1313	soprole@gmail.com	Argentina	3	123432563	t	2
+3	UZPZ	Aterio 123	uzpz@mail.cl	Estados Unidos	2	123456754	t	4
+9	prueba 1	Alsino 4571	hola@gmail.com	Chile	1	111111113	t	5
+2	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	111111116	t	6
+10	Shampoo	Juan XXIII 7554	jorge@mail.cl	Chile	2	111111118	t	1
 \.
 
 
@@ -2109,14 +2109,6 @@ ALTER TABLE ONLY public.cuentas_bancos
 
 
 --
--- Name: cuentas_bancos cuentas_bancos_proveedores_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cuentas_bancos
-    ADD CONSTRAINT cuentas_bancos_proveedores_id_fkey FOREIGN KEY (proveedores_id) REFERENCES public.proveedores(id);
-
-
---
 -- Name: cuentas_corrientes cuentas_corrientes_agentes_aduana_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2290,6 +2282,14 @@ ALTER TABLE ONLY public.productos
 
 ALTER TABLE ONLY public.productos
     ADD CONSTRAINT productos_unidad_productos_id_fkey FOREIGN KEY (unidad_productos_id) REFERENCES public.unidad_productos(id);
+
+
+--
+-- Name: proveedores proveedores_cuentas_bancos_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.proveedores
+    ADD CONSTRAINT proveedores_cuentas_bancos_id_fkey FOREIGN KEY (cuentas_bancos_id) REFERENCES public.cuentas_bancos(id);
 
 
 --

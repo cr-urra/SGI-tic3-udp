@@ -27,9 +27,6 @@ const cuentas_bancos = database.define('cuentas_bancos',{
     numeros_aba_id:{
         type: sequelize.INTEGER
     },
-    proveedores_id:{
-        type: sequelize.INTEGER
-    },
     vigencia:{
         type: sequelize.BOOLEAN
     }
