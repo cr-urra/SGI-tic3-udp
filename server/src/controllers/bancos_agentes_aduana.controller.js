@@ -155,7 +155,7 @@ export const getBancosAgentesAduanaId = async (req, res) => {
         const {id} = req.params;
         const bancoAgentesAduana = await bancosAgentesAduana.findOne({
             where: {
-                id,
+                agentes_aduana_id: id,
                 vigencia: true
             },
             attributes: [
