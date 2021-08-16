@@ -130,7 +130,7 @@ export const deleteAgentesAduana = async (req, res) => {
                     message: "Ha ocurrido un error, porfavor contactese con el administrador"
                 });
             });
-            agente_aduana.dataValues.telefonos_agentes_aduana.forEach(async element => {
+            agente_aduana.dataValues.telefonos_agentes_aduanas.forEach(async element => {
                 req.params = {
                     id: parseInt(element.dataValues.id)
                 };
@@ -143,7 +143,7 @@ export const deleteAgentesAduana = async (req, res) => {
                     message: "Ha ocurrido un error, porfavor contactese con el administrador"
                 });
             });
-            agente_aduana.dataValues.asume.forEach(async element => {
+            agente_aduana.dataValues.asumes.forEach(async element => {
                 req.params = {
                     id: parseInt(element.dataValues.observadores_id)
                 };
@@ -157,7 +157,7 @@ export const deleteAgentesAduana = async (req, res) => {
                 });
             });
             req.params = {
-                id: parseInt(agente_aduana.cuentas_corrientes.dataValues.id)
+                id: parseInt(agente_aduana.dataValues.cuentas_corriente.dataValues.id)
             };
             if(aux.resultado) aux = await cuentasCorrientesController.deleteCuentasCorrientes(req, res) 
             else if (aux.resultado == false && body.cascade == true) return {
