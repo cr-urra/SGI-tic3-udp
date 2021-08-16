@@ -22,7 +22,6 @@ export const createAgentesAduana = async (req, res) => {
             correo,
             numero_cuenta, 
             rut,
-            bancos_agentes_aduana_id,
             vigencia: true
         },{
             fields: [
