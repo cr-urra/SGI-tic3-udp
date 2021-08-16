@@ -1,5 +1,6 @@
 import tiene from '../models/tiene';
 import productos from '../models/productos';
+import pedidos from '../models/pedidos';
 
 export const createTiene = async (req, res) => {
     try{
@@ -78,23 +79,38 @@ export const deleteTienePedidos = async (req, res) => {
 export const getTiene = async (req, res) => {
     try{
         const {id} = req.params;
-        const getTiene = await tiene.findAll({
+        const pedido = await pedidos.findOne({
             where: {
-                pedidos_id: id
+                id
             },
             attributes: [
-                'productos_id',
-                'pedidos_id',
-                'cantidad'
-            ],
-            include: [
-                productos
+                'id'
             ]
         });
-        res.json({
-            resultado: true, 
+        if(pedido) {
+            const getTiene = await tiene.findAll({
+                where: {
+                    pedidos_id: id
+                },
+                attributes: [
+                    'productos_id',
+                    'pedidos_id',
+                    'cantidad'
+                ],
+                include: [
+                    productos
+                ]
+            });
+            res.json({
+                resultado: true, 
+                message: "",
+                tiene: getTiene
+            });
+        }
+        else res,json({
+            resultado: false, 
             message: "",
-            tiene: getTiene
+            tiene: null
         });
     }catch(e){
         console.log(e);
