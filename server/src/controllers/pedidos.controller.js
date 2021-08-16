@@ -94,6 +94,22 @@ export const createPedidos = async (req, res) => {
                 'vigencia'
             ]
         });
+        console.log(newPedido);
+        req.body = {
+            diferencia_de_costos: 0,
+            pedidos_id: newPedido.dataValues.id
+        };
+        let newDetallePedido = await detallesPedidos.create({
+            diferencia_de_costos: 0, 
+            pedidos_id: newPedido.dataValues.id,
+            vigencia: true
+        },{
+            fields: [
+                'diferencia_de_costos', 
+                'pedidos_id',
+                'vigencia'
+            ]
+        });
         const user = await usuarios.findOne({
             where: {
                 id: user_id

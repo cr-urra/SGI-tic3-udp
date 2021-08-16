@@ -1354,7 +1354,7 @@ COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FR
 --
 
 COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FROM stdin;
-3	3	6	t
+4	1	7	t
 \.
 
 
@@ -1363,6 +1363,7 @@ COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FRO
 --
 
 COPY public.detalles_pedidos (id, diferencia_de_costos, pedidos_id, vigencia) FROM stdin;
+13	0	28	t
 \.
 
 
@@ -1413,7 +1414,7 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FR
 --
 
 COPY public.historial_dolar (id, fecha, tipo, vigencia, pedidos_id, dolar_mensual_id) FROM stdin;
-6	2021-08-15 21:24:03.655206	inicio	t	27	1
+7	2021-08-16 02:23:54.700255	inicio	t	28	1
 \.
 
 
@@ -1508,7 +1509,7 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 --
 
 COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
-27	334	3	0	2021-08-15	2021-08-15	2021-08-15	2021-08-15	2021-08-15	2021-08-15	produccion	1	\N	0	3	0	0	0	0	\N	\N	10	\N	1	2021-08-15	t
+28	334	1	0	2021-08-15	2021-08-16	2021-08-16	2021-08-16	2021-08-16	2021-08-16	produccion	1	\N	0	2	0	0	0	0	\N	\N	10	\N	1	2021-08-15	t
 \.
 
 
@@ -1544,7 +1545,7 @@ COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, v
 --
 
 COPY public.realiza (usuarios_id, pedidos_id, createdat, updatedat) FROM stdin;
-2	27	2021-08-15 21:24:03.647	2021-08-15 21:24:03.647
+2	28	2021-08-16 02:23:54.685	2021-08-16 02:23:54.685
 \.
 
 
@@ -1599,7 +1600,7 @@ COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 --
 
 COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
-27	8	3
+28	8	\N
 \.
 
 
@@ -1655,14 +1656,14 @@ SELECT pg_catalog.setval('public.cuentas_corrientes_id_seq', 5, true);
 -- Name: detalles_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 3, true);
+SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 4, true);
 
 
 --
 -- Name: detalles_pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalles_pedidos_id_seq', 12, true);
+SELECT pg_catalog.setval('public.detalles_pedidos_id_seq', 13, true);
 
 
 --
@@ -1690,7 +1691,7 @@ SELECT pg_catalog.setval('public.gastos_extras_id_seq', 5, true);
 -- Name: historial_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_dolar_id_seq', 6, true);
+SELECT pg_catalog.setval('public.historial_dolar_id_seq', 7, true);
 
 
 --
@@ -1753,7 +1754,7 @@ SELECT pg_catalog.setval('public.paises_id_seq', 6, true);
 -- Name: pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedidos_id_seq', 27, true);
+SELECT pg_catalog.setval('public.pedidos_id_seq', 28, true);
 
 
 --

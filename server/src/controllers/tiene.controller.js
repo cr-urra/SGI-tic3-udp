@@ -107,8 +107,7 @@ export const getTiene = async (req, res) => {
                 message: "",
                 tiene: getTiene
             });
-        }
-        else res,json({
+        } else res.json({
             resultado: false, 
             message: "",
             tiene: null

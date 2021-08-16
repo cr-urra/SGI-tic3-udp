@@ -115,10 +115,10 @@ export const deleteProductos = async (req, res) => {
             });
             producto.dataValues.tienes.forEach(async element => {
                 req.params = {
-                    id: element.dataValues.id
+                    id: element.dataValues.pedidos_id
                 };
                 if(aux.resultado) aux = await pedidosController.deletePedidos(req, res);
-                else if(aux.resultado == false && body.cacade == true) return {
+                else if(aux.resultado == false && body.cascade == true) return {
                     resultado: false
                 };
                 else res.json({
@@ -148,6 +148,14 @@ export const deleteProductos = async (req, res) => {
             else res.json({
                 resultado: true, 
                 message: 'Producto eliminado correctamente'
+            });
+        } else {
+            if(body.cascade) return {
+                resultado: false
+            };
+            else res.json({
+                resultado: true, 
+                message: 'Producto no encontrado'
             });
         };
     }catch(e){
