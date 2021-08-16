@@ -117,18 +117,16 @@ export const deleteAgentesAduana = async (req, res) => {
             req.body = {
                 cascade: true
             };
-            agente_aduana.dataValues.bancos_agentes_aduana.forEach(async element => {
-                req.params = {
-                    id: parseInt(element.dataValues.id)
-                };
-                if(aux.resultado) aux = await bancosAgentesAduanaController.deleteBancosAgentesAduana(req, res);
-                else if(aux.resultado == false && body.cascade == true) return {
-                    resultado: false
-                };
-                else res.json({
-                    resultado: false, 
-                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
-                });
+            req.params = {
+                id: parseInt(agente_aduana.dataValues.bancos_agentes_aduana.dataValues.id)
+            };
+            if(aux.resultado) aux = await bancosAgentesAduanaController.deleteBancosAgentesAduana(req, res);
+            else if(aux.resultado == false && body.cascade == true) return {
+                resultado: false
+            };
+            else res.json({
+                resultado: false, 
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
             agente_aduana.dataValues.pedidos.forEach(async element => {
                 req.params = {
