@@ -18,7 +18,7 @@ export default class Init extends Component {
       console.log(res,"proveedores");
       for (let i= 0; i < res.data.proveedores.length ; i++){
           const moneda = await axios.get("/monedas/"+res.data.proveedores[i].monedas_id,{})
-          const Banco = await axios.get("/cuentasBancos/proveedores/"+res.data.proveedores[i].id,{}) 
+          const Banco = await axios.get("/cuentasBancos/"+res.data.proveedores[i].cuentas_bancos_id,{}) 
           const Telefono = await axios.get("/telefonosProveedores/proveedores/"+res.data.proveedores[i].id,{})
           console.log(Banco,"banco")
           console.log(Telefono,"telefono")
@@ -27,6 +27,7 @@ export default class Init extends Component {
             nombre:  res.data.proveedores[i].nombre,
             pais:  res.data.proveedores[i].pais,
             banco:  Banco.data.cuentas_bancos.nombre_banco,
+            id_banco: Banco.data.cuentas_bancos.id,
             direccion:  res.data.proveedores[i].direccion,
             correo:  res.data.proveedores[i].correo,
             moneda: moneda.data.monedas.pais + "-" +moneda.data.monedas.moneda,
@@ -65,9 +66,9 @@ export default class Init extends Component {
           <main className="content">
               <h1 className="display-5 titulo">Buscar Proveedor</h1>
               
-              <Listado proveedoresData={this.state.proveedores} proveedor={this.state.proveedor} onChangeProveedor={this.onChangeProveedor}></Listado>
+              <Listado proveedoresData={this.state.proveedores} proveedor={this.state.proveedor} onChangeProveedor={this.onChangeProveedor}/>
 
-              <Tabla proveedoresData={this.state.proveedores} proveedor={this.state.proveedor} change={this.change}></Tabla>
+              <Tabla proveedoresData={this.state.proveedores} proveedor={this.state.proveedor} change={this.change}/>
 
           </main>
       )

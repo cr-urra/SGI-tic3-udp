@@ -22,8 +22,10 @@ export default class Init extends Component {
       let producto
       for(let j=0;  j < res3.data.tiene.length;j++){
         const precio = await axios.get("/historialPrecios/maxDate/"+res3.data.tiene[j].productos_id,{})  
-        producto = { producto: res3.data.tiene[j] , precio: precio.data.historialPrecios.precio}
-        productos = [...productos,producto]
+        if(res3.data.tiene[j].producto.vigencia!==false){
+          producto = { producto: res3.data.tiene[j] , precio: precio.data.historialPrecios.precio}       
+          productos = [...productos,producto]
+        }
       }      
       console.log(res3,"Did Mount3")      
       const pedido = {

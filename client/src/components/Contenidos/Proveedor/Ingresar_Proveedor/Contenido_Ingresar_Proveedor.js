@@ -83,15 +83,7 @@ export default class Ingresar_Usuario extends Component {
             
         ){
             axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')    
-            const Proveedor = {
-                nombre: this.state.nombre,
-                pais: this.state.pais,
-                rut: this.state.rut,
-                direccion: this.state.direccion,
-                correo: this.state.correo,
-                monedas_id: this.state.moneda            
-            }
-            
+
             const Pais ={
                 codigo_iban: this.state.iban,
                 pais: this.state.pais_b
@@ -101,12 +93,10 @@ export default class Ingresar_Usuario extends Component {
                 numero_aba: this.state.n_aba,
                 nombre_banco: this.state.nombre_b
             }
-
-            const res = await axios.post("/proveedores/", Proveedor)       
-
+                
             const res3 = await axios.post("/paises/", Pais) 
             const res4 = await axios.post("/numerosAba/", ABA) 
-            console.log(res4)
+
             const Banco = {
                 nombre_banco: this.state.nombre_b,
                 numero_cuenta: this.state.cuenta_interbancaria,
@@ -115,11 +105,24 @@ export default class Ingresar_Usuario extends Component {
                 paises_id: res3.data.paises.id,
                 numeros_aba_id: res4.data.numeroAba.id,
                 swift_code: this.state.codigo_swift,
-                proveedores_id: res.data.proveedores.id
             }
 
             const res2 = await axios.post("/cuentasBancos/", Banco) 
-                  
+
+            const Proveedor = {
+                nombre: this.state.nombre,
+                pais: this.state.pais,
+                rut: this.state.rut,
+                direccion: this.state.direccion,
+                correo: this.state.correo,
+                monedas_id: this.state.moneda,    
+                cuentas_bancos_id: res2.data.cuentas_bancos.id
+            }
+            
+            
+            console.log(res4)
+           
+            const res = await axios.post("/proveedores/", Proveedor)   
             const Telefono = {
                 telefono: this.state.telefono,
                 proveedores_id: res.data.proveedores.id

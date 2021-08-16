@@ -19,7 +19,8 @@ export default class Opcion extends Component {
         const res2 = await axios.get("/productos/",{})
         
         for (let j=0; j< res2.data.productos.length ; j++){
-            const precio = await axios.get("/historialPrecios/maxDate/"+res2.data.productos[j].id,{})                     
+            const precio = await axios.get("/historialPrecios/"+res2.data.productos[j].id,{})  
+            console.log(precio, "precio")                   
             const producto = {
                 codigo: res2.data.productos[j].codigo,
                 id: res2.data.productos[j].id,

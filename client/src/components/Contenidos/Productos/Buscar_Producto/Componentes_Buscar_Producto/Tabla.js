@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 import DatoTabla from './DatoTabla'
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 export default class Tabla extends Component {
@@ -19,6 +22,22 @@ export default class Tabla extends Component {
     handleShow = () =>{
         this.setState({
             show: true
+        })
+    }
+
+    delete  =  (id) => async (e) => {       
+        console.log(localStorage.getItem('X-CSRF-Token') , "revisa aqui")        
+        const res = await axios.put("/productos/delete/"+ id , {} ,{"headers": {
+            "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+        }} )
+        
+        if(res.data.resultado==true){
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }else{
+            toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        } 
+        this.setState({
+            show: false
         })
     }
 
@@ -80,7 +99,7 @@ export default class Tabla extends Component {
                                     </Modal.Body>
                                     <Modal.Footer>
                                     <button type="button" className="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
-                                    <button type="button" className="btn btn-danger" onClick={this.delete} >Eliminar Producto</button>
+                                    <button type="button" className="btn btn-danger" onClick={this.delete(this.props.productsData[j].id)} >Eliminar Producto</button>
                                     </Modal.Footer>
                                 </Modal>
                             </div>

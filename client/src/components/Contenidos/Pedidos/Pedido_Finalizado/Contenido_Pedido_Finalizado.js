@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Head_Card from '../Pedido_Componentes/Head_Card'
+import Head_Card from '../Pedido_Componentes/Head_Card_Final'
 import Costos from '../Pedido_Componentes/Costos'
 import Datos_Produccion from '../Pedido_Componentes/Datos_Produccion'
 import Datos_Internacional from '../Pedido_Componentes/Datos_Internacional'

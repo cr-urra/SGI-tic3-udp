@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 export default class Botones extends Component {
@@ -20,11 +23,20 @@ export default class Botones extends Component {
         })
     }
 
-    delete = () => {       
+    delete  = async (e) => {       
+
+        const res = await axios.put("/cuentasBancos/delete/"+ this.props.id , {} ,{"headers": {
+            "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+        }} )
+
+        if(res.data.resultado==true){
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }else{
+            toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        } 
         this.setState({
             show: false
         })
-        /*  Funcion del boton eliminar banco desde aqui hacia abajo */
     }
 
 

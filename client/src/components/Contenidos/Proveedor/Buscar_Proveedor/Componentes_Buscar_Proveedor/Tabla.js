@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import DatoTabla from './DatoTabla'
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 export default class Tabla extends Component {
@@ -18,6 +21,21 @@ export default class Tabla extends Component {
     handleShow = () =>{
         this.setState({
             show: true
+        })
+    }
+
+    delete  =  (id) => async (e) => {            
+        const res = await axios.put("/cuentasBancos/delete/"+ id , {} ,{"headers": {
+            "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+        }} )
+        
+        if(res.data.resultado==true){
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }else{
+            toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        } 
+        this.setState({
+            show: false
         })
     }
 
@@ -67,7 +85,7 @@ export default class Tabla extends Component {
                                     </Modal.Body>
                                     <Modal.Footer>
                                     <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
-                                    <button type="button" class="btn btn-danger" onClick={this.delete} >Eliminar Proveedor</button>
+                                    <button type="button" class="btn btn-danger" onClick={this.delete(this.props.proveedoresData[j].id_banco)} >Eliminar Proveedor</button>
                                     </Modal.Footer>
                                 </Modal>
                             </div>

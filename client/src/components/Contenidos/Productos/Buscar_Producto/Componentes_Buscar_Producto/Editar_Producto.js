@@ -14,6 +14,7 @@ export default class EditProduct extends Component {
         nombre: null,
         codigo: null,
         tipo: null,
+        precio: null,
         id: null,
         id_proveedor: null,
 
@@ -33,6 +34,7 @@ export default class EditProduct extends Component {
                 this.setState({
                     nombre: this.props.productsData[j].nombre,
                     codigo: this.props.productsData[j].codigo,
+                    precio: this.props.productsData[j].precio,
                     descripcion: this.props.productsData[j].descripcion,
                     tipo: this.props.productsData[j].tipo,
                     id : this.props.productsData[j].id,
@@ -47,13 +49,15 @@ export default class EditProduct extends Component {
         if(
             this.state.nombre != ""&&
             this.state.codigo !=""&&           
-            this.state.tipo != ""
+            this.state.tipo != ""&&
+            this.state.precio != ""
         ){
             axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
             const Producto = {
                 nombre: this.state.nombre,
                 codigo: this.state.codigo,
-                tipo: this.state.tipo 
+                tipo: this.state.tipo,
+                precio: this.state.precio
             }
             
 
@@ -133,6 +137,7 @@ export default class EditProduct extends Component {
                                     <Datos nombre={"Nombre"} contenido={this.props.productsData[j].nombre} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
                                     <Datos nombre={"Codigo"} contenido={this.props.productsData[j].codigo} name={"codigo"} name2={this.state.codigo} onChange={this.onChange}/>                                                                    
                                     <Datos nombre={"Tipo"} contenido={this.props.productsData[j].tipo} name={"tipo"} name2={this.state.tipo} onChange={this.onChange}/>
+                                    <Datos nombre={"Precio"} contenido={this.props.productsData[j].precio} name={"precio"} name2={this.state.precio} onChange={this.onChange}/>
 
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>
