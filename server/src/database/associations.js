@@ -44,6 +44,9 @@ detalles_dolar.belongsTo(historial_dolar, {foreignKey: 'historial_dolar_id', sou
 agentes_aduana.hasOne(cuentas_corrientes, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 cuentas_corrientes.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
 
+agentes_aduana.hasOne(bancos_agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+bancos_agentes_aduana.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_id', sourceKey: 'id'});
+
 // 1:N
 
 productos.hasMany(historial_precios, {foreignKey: 'productos_id', sourceKey: 'id'});
@@ -114,9 +117,6 @@ historial_dolar.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 
 dolar_mensual.hasMany(historial_dolar, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
 historial_dolar.belongsTo(dolar_mensual, {foreignKey: 'dolar_mensual_id', sourceKey: 'id'});
-
-bancos_agentes_aduana.hasMany(agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
-agentes_aduana.belongsTo(bancos_agentes_aduana, {foreignKey: 'bancos_agentes_aduana_id', sourceKey: 'id'});
 
 pedidos.hasMany(tiene, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 tiene.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});

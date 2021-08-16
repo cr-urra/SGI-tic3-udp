@@ -8,12 +8,14 @@ import * as cuentasCorrientesController from './cuentas_corrientes.controller';
 import * as pedidosController from './pedidos.controller';
 import * as observacionesController from './observaciones.controller';
 import * as telefonosAgentesAduanaController from './telefonos_agentes_aduana.controller';
+import * as bancosAgentesAduanaController from './bancos_agentes_aduana.controller';
 import * as observadoresController from './observadores.controller';
 import observadores from '../models/observadores';
+import bancos_agentes_aduana from '../models/bancos_agentes_aduana';
 
 export const createAgentesAduana = async (req, res) => {
     try{
-        const {nombre, apellido, correo, numero_cuenta, rut, bancos_agentes_aduana_id} = req.body;
+        const {nombre, apellido, correo, numero_cuenta, rut} = req.body;
         let newAgenteAduana = await agentes_aduana.create({
             nombre,
             apellido,
@@ -29,7 +31,6 @@ export const createAgentesAduana = async (req, res) => {
                 'correo',
                 'numero_cuenta', 
                 'rut',
-                'bancos_agentes_aduana_id',
                 'vigencia'
             ]
         });
@@ -100,14 +101,14 @@ export const deleteAgentesAduana = async (req, res) => {
                 'apellido',
                 'correo',
                 'numero_cuenta', 
-                'rut',
-                'bancos_agentes_aduana_id'
+                'rut'
             ],
             include:[
                 pedidos,
                 asume,
                 cuentas_corrientes,
-                telefonos_agentes_aduana
+                telefonos_agentes_aduana,
+                bancos_agentes_aduana
             ]
         });
         if(agente_aduana){
@@ -117,6 +118,19 @@ export const deleteAgentesAduana = async (req, res) => {
             req.body = {
                 cascade: true
             };
+            agente_aduana.dataValues.bancos_agentes_aduana.forEach(async element => {
+                req.params = {
+                    id: parseInt(element.dataValues.id)
+                };
+                if(aux.resultado) aux = await bancosAgentesAduanaController.deleteBancosAgentesAduana(req, res);
+                else if(aux.resultado == false && body.cascade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
             agente_aduana.dataValues.pedidos.forEach(async element => {
                 req.params = {
                     id: parseInt(element.dataValues.id)
@@ -225,8 +239,7 @@ export const getAllAgentesAduana = async (req, res) => {
                 'apellido',
                 'correo',
                 'numero_cuenta', 
-                'rut',
-                'bancos_agentes_aduana_id'
+                'rut'
             ],
             order: [
                 ['id', 'DESC']
@@ -256,8 +269,7 @@ export const getAllAgentesAduanaWithFalse = async (req, res) => {
                 'apellido',
                 'correo',
                 'numero_cuenta', 
-                'rut',
-                'bancos_agentes_aduana_id'
+                'rut'
             ],
             order: [
                 ['id', 'DESC']
@@ -292,8 +304,7 @@ export const getAgentesAduanaId = async (req, res) => {
                 'apellido',
                 'correo',
                 'numero_cuenta', 
-                'rut',
-                'bancos_agentes_aduana_id'
+                'rut'
             ]
         });
         res.json({

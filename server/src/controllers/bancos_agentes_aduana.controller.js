@@ -4,17 +4,19 @@ import * as agentesAduanaController from './agentes_aduana.controller'
 
 export const createBancosAgentesAduana = async (req, res) => {
     try{
-        const {numero_cuenta, tipo_cuenta, nombre_banco} = req.body;
+        const {numero_cuenta, tipo_cuenta, nombre_banco, agentes_aduana_id} = req.body;
         let newBancoAgenteAduana = await bancosAgentesAduana.create({
             numero_cuenta, 
             tipo_cuenta, 
             nombre_banco,
+            agentes_aduana_id,
             vigencia: true
         },{
             fields: [
                 'numero_cuenta', 
                 'tipo_cuenta', 
                 'nombre_banco',
+                'agentes_aduana_id',
                 'vigencia'
             ]
         });
@@ -62,6 +64,7 @@ export const updateBancosAgentesAduana = async (req, res) => {
 };
 
 export const deleteBancosAgentesAduana = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         const bancoAgentesAduana = await bancosAgentesAduana.findOne({
@@ -73,34 +76,12 @@ export const deleteBancosAgentesAduana = async (req, res) => {
                 'id',
                 'numero_cuenta', 
                 'tipo_cuenta', 
-                'nombre_banco'
-            ],
-            include:[
-                agentes_aduana
+                'nombre_banco',
+                'agentes_aduana_id'
             ]
         });
         if(bancoAgentesAduana){
-            let aux = {
-                resultado: true
-            };
-            bancoAgentesAduana.dataValues.agentesAduana.forEach(async element => {
-                req.params = {
-                    id: parseInt(element.dataValues.id)
-                };
-                req.body = {
-                    cascade: true
-                };
-                if(aux.resultado) aux = await agentesAduanaController.deleteAgentesAduana(req, res);
-                else if(aux.resultado == false && body.cascade == true) return {
-                    resultado: false
-                };
-                else res.json({
-                    resultado: false, 
-                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
-                });
-            });
-            let bancoAgenteAduanaUpdate;
-            if(aux.resultado) bancoAgenteAduanaUpdate = await bancoAgentesAduana.update({
+            let bancoAgenteAduanaUpdate = await bancoAgentesAduana.update({
                 vigencia: false
             },
             {
@@ -109,26 +90,28 @@ export const deleteBancosAgentesAduana = async (req, res) => {
                     vigencia: true
                 }
             });
-            else if(aux.resultado == false && body.cascade == true) return {
-                resultado: false
-            };
+            if(body.cascade) return {
+                resultado: true
+            }
             else res.json({
-                resultado: false, 
-                message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-            res.json({
                 resultado: true, 
                 message: 'Banco de agente de aduana eliminado correctamente'
             });
         } else {
-            res.json({
-                resultado: false, 
+            if(body.cascade) return {
+                resultado: false
+            }
+            else res.json({
+                resultado: true, 
                 message: 'Banco de agente de aduana no encontrado'
             });
         };
     }catch(e){
         console.log(e);
-        res.json({
+        if(body.cascade) return {
+            resultado: false
+        }
+        else res.json({
             resultado: false, 
             message: "Ha ocurrido un error, porfavor contactese con el administrador"
         });
@@ -145,7 +128,8 @@ export const getAllBancosAgentesAduana = async (req, res) => {
                 'id',
                 'numero_cuenta', 
                 'tipo_cuenta', 
-                'nombre_banco'
+                'nombre_banco',
+                'agentes_aduana_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -178,7 +162,8 @@ export const getBancosAgentesAduanaId = async (req, res) => {
                 'id',
                 'numero_cuenta', 
                 'tipo_cuenta', 
-                'nombre_banco'
+                'nombre_banco',
+                'agentes_aduana_id'
             ]
         });
         res.json({
@@ -203,7 +188,8 @@ export const getAllBancosAgentesAduanaWithFalse = async (req, res) => {
                 'id',
                 'numero_cuenta', 
                 'tipo_cuenta', 
-                'nombre_banco'
+                'nombre_banco',
+                'agentes_aduana_id'
             ],
             order: [
                 ['id', 'DESC']

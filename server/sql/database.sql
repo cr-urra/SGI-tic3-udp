@@ -30,7 +30,6 @@ CREATE TABLE public.agentes_aduana (
     apellido character varying(30),
     correo character varying(30),
     numero_cuenta character varying(30),
-    bancos_agentes_aduana_id integer,
     rut character varying(30),
     vigencia boolean
 );
@@ -81,7 +80,8 @@ CREATE TABLE public.bancos_agentes_aduana (
     numero_cuenta character varying(30),
     tipo_cuenta character varying(30),
     nombre_banco character varying(30),
-    vigencia boolean
+    vigencia boolean,
+    agentes_aduana_id integer
 );
 
 
@@ -1299,10 +1299,10 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id SET DEFAULT nextval('public.usu
 -- Data for Name: agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, bancos_agentes_aduana_id, rut, vigencia) FROM stdin;
-5	Eustaquio	Salvatore	eustaquio@gmail.com	8984445	2	111223334	t
-1	Jose	Perez	jose@gmail.com	1C	1	123456789	t
-8	Cristóbal	Urra	jorge@mail.cl	123456773	6	196443738	t
+COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, rut, vigencia) FROM stdin;
+5	Eustaquio	Salvatore	eustaquio@gmail.com	8984445	111223334	t
+1	Jose	Perez	jose@gmail.com	1C	123456789	t
+8	Cristóbal	Urra	jorge@mail.cl	123456773	196443738	t
 \.
 
 
@@ -1318,10 +1318,10 @@ COPY public.asume (observadores_id, agentes_aduana_id) FROM stdin;
 -- Data for Name: bancos_agentes_aduana; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco, vigencia) FROM stdin;
-1	1C	Cuenta corriente	Banco 1	t
-2	8984445	Cuenta RUT	Banco Santander	t
-6	123456773	Cuenta Vista	Banco Santander	t
+COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco, vigencia, agentes_aduana_id) FROM stdin;
+1	1C	Cuenta corriente	Banco 1	t	1
+2	8984445	Cuenta RUT	Banco Santander	t	5
+6	123456773	Cuenta Vista	Banco Santander	t	8
 \.
 
 
@@ -1354,7 +1354,7 @@ COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FR
 --
 
 COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FROM stdin;
-4	1	7	t
+4	1	7	f
 \.
 
 
@@ -1363,7 +1363,7 @@ COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FRO
 --
 
 COPY public.detalles_pedidos (id, diferencia_de_costos, pedidos_id, vigencia) FROM stdin;
-13	0	28	t
+13	0	28	f
 \.
 
 
@@ -1414,7 +1414,7 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FR
 --
 
 COPY public.historial_dolar (id, fecha, tipo, vigencia, pedidos_id, dolar_mensual_id) FROM stdin;
-7	2021-08-16 02:23:54.700255	inicio	t	28	1
+7	2021-08-16 02:23:54.700255	inicio	f	28	1
 \.
 
 
@@ -1428,7 +1428,7 @@ COPY public.historial_precios (id, precio, fecha, productos_id, vigencia, tipo) 
 5	12345	2021-06-29 06:00:13.353436	5	t	f
 6	12345456	2021-06-29 06:00:30.371052	6	t	f
 7	22	2021-06-29 17:12:22.351017	7	t	f
-8	122	2021-08-15 00:00:00	8	t	f
+8	122	2021-08-15 00:00:00	8	f	f
 \.
 
 
@@ -1509,7 +1509,7 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 --
 
 COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
-28	334	1	0	2021-08-15	2021-08-16	2021-08-16	2021-08-16	2021-08-16	2021-08-16	produccion	1	\N	0	2	0	0	0	0	\N	\N	10	\N	1	2021-08-15	t
+28	334	1	0	2021-08-15	2021-08-16	2021-08-16	2021-08-16	2021-08-16	2021-08-16	produccion	1	\N	0	2	0	0	0	0	\N	\N	10	\N	1	2021-08-15	f
 \.
 
 
@@ -1523,7 +1523,7 @@ COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_producto
 7	334	Shampoo	3	7	1	t
 1	PL1	Plastico 1	Plastico	2	1	t
 4	13	producto soprole	12315	10	1	t
-8	123A	Prod X	A	10	1	t
+8	123A	Prod X	A	10	1	f
 \.
 
 
@@ -2070,14 +2070,6 @@ ALTER TABLE ONLY public.usuarios
 
 
 --
--- Name: agentes_aduana agentes_aduana_bancos_agentes_aduana_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.agentes_aduana
-    ADD CONSTRAINT agentes_aduana_bancos_agentes_aduana_id_fkey FOREIGN KEY (bancos_agentes_aduana_id) REFERENCES public.bancos_agentes_aduana(id);
-
-
---
 -- Name: asume asume_agentes_aduana_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2091,6 +2083,14 @@ ALTER TABLE ONLY public.asume
 
 ALTER TABLE ONLY public.asume
     ADD CONSTRAINT asume_observadores_id_fkey FOREIGN KEY (observadores_id) REFERENCES public.observadores(id);
+
+
+--
+-- Name: bancos_agentes_aduana bancos_agentes_aduana_agentes_aduana_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bancos_agentes_aduana
+    ADD CONSTRAINT bancos_agentes_aduana_agentes_aduana_id_fkey FOREIGN KEY (agentes_aduana_id) REFERENCES public.agentes_aduana(id);
 
 
 --
