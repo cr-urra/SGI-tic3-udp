@@ -1,6 +1,7 @@
 import productos from '../models/productos';
 import historial_precios from '../models/historial_precios';
 import pedidos from '../models/pedidos';
+import tiene from '../models/tiene';
 import * as historialPreciosController from './historial_precios.controller';
 import * as pedidosController from './pedidos.controller';
 
@@ -87,7 +88,8 @@ export const deleteProductos = async (req, res) => {
                 'unidad_productos_id'
             ],
             include: [
-                historial_precios
+                historial_precios,
+                tiene
             ]
         });
         if(producto){
@@ -103,6 +105,19 @@ export const deleteProductos = async (req, res) => {
                     id: element.dataValues.id
                 };
                 if(aux.resultado) aux = await historialPreciosController.deleteHistorialPrecios(req, res);
+                else if(aux.resultado == false && body.cacade == true) return {
+                    resultado: false
+                };
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
+            producto.dataValues.tienes.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await pedidosController.deletePedidos(req, res);
                 else if(aux.resultado == false && body.cacade == true) return {
                     resultado: false
                 };
