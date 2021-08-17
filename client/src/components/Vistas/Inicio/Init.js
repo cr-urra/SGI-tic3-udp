@@ -7,7 +7,7 @@ export default class Init extends Component {
     render() {
         return (
             <div>
-                <div className="text-center mt-3">
+                <div className="text-center pt-3">
                     <img src={logo} className="rounded " width="19%" alt="logo"></img>     
                 </div>
                 <div className="text-center mt-4 mb-4">

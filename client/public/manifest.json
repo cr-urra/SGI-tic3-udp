@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "SGI App",
+  "name": "Sistema de Gestión para Importaciones",
   "icons": [
     {
       "src": "favicon.ico",
