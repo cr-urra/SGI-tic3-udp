@@ -15,6 +15,8 @@ var _telefonos_usuarios = _interopRequireDefault(require("../models/telefonos_us
 
 var ct = _interopRequireWildcard(require("./telefonos_usuarios.controller"));
 
+var ipsc = _interopRequireWildcard(require("./ips.controller"));
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -82,7 +84,7 @@ exports.updateUsuarios = updateUsuarios;
 
 var deleteUsuarios = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var id, user;
+    var id, user, r;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -98,53 +100,107 @@ var deleteUsuarios = /*#__PURE__*/function () {
             });
 
             if (!user) {
-              _context2.next = 9;
+              _context2.next = 24;
               break;
             }
 
-            _context2.next = 6;
+            req.body = {
+              cascade: true
+            };
+            _context2.next = 7;
+            return ct.deleteTelefonosUsuarios(req, res);
+
+          case 7:
+            r = _context2.sent;
+
+            if (!r.resultado) {
+              _context2.next = 14;
+              break;
+            }
+
+            _context2.next = 11;
+            return ipsc.deleteIps(req, res);
+
+          case 11:
+            r = _context2.sent;
+            _context2.next = 15;
+            break;
+
+          case 14:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 15:
+            if (!r.resultado) {
+              _context2.next = 21;
+              break;
+            }
+
+            _context2.next = 18;
             return _usuarios["default"].destroy({
               where: {
                 id: id
               }
             });
 
-          case 6:
+          case 18:
             res.json({
               message: 'Usuario eliminado correctamente',
               resultado: true
             });
-            _context2.next = 10;
+            _context2.next = 22;
             break;
 
-          case 9:
-            res.json({
-              message: 'El usuario ingresado no se encuentra',
-              resultado: false
-            });
-
-          case 10:
-            _context2.next = 16;
-            break;
-
-          case 12:
-            _context2.prev = 12;
-            _context2.t0 = _context2["catch"](0);
-            console.log(_context2.t0);
+          case 21:
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
               resultado: false
             });
 
-          case 16:
+          case 22:
+            _context2.next = 25;
+            break;
+
+          case 24:
+            res.json({
+              message: 'El usuario ingresado no se encuentra',
+              resultado: false
+            });
+
+          case 25:
+            _context2.next = 34;
+            break;
+
+          case 27:
+            _context2.prev = 27;
+            _context2.t0 = _context2["catch"](0);
+
+            if (!req.body.cascade) {
+              _context2.next = 33;
+              break;
+            }
+
+            return _context2.abrupt("return", {
+              resultado: false
+            });
+
+          case 33:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 34:
             ;
 
-          case 17:
+          case 35:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 12]]);
+    }, _callee2, null, [[0, 27]]);
   }));
 
   return function deleteUsuarios(_x3, _x4) {
@@ -237,7 +293,7 @@ var getAllUsuarios = /*#__PURE__*/function () {
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
               resultado: false,
-              usuarios: null
+              usuarios: false
             });
 
           case 11:

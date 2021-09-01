@@ -48,8 +48,7 @@ var createDocumentos = /*#__PURE__*/function () {
             console.log(_context.t0);
             res.json({
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              resultado: false,
-              documentos: null
+              resultado: false
             });
 
           case 12:
@@ -144,7 +143,7 @@ var deleteDocumentos = /*#__PURE__*/function () {
             documento = _context3.sent;
 
             if (!documento) {
-              _context3.next = 9;
+              _context3.next = 16;
               break;
             }
 
@@ -161,32 +160,75 @@ var deleteDocumentos = /*#__PURE__*/function () {
           case 8:
             documentoUpdate = _context3.sent;
 
-          case 9:
+            if (!req.body.cascade) {
+              _context3.next = 13;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: true
+            });
+
+          case 13:
             res.json({
               resultado: true,
               message: 'Documento eliminado correctamente'
             });
-            _context3.next = 16;
+
+          case 14:
+            _context3.next = 21;
             break;
 
-          case 12:
-            _context3.prev = 12;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+          case 16:
+            if (!req.body.cascade) {
+              _context3.next = 20;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
             });
 
-          case 16:
+          case 20:
+            res.json({
+              resultado: true,
+              message: 'Documento no encontrado'
+            });
+
+          case 21:
+            ;
+            _context3.next = 32;
+            break;
+
+          case 24:
+            _context3.prev = 24;
+            _context3.t0 = _context3["catch"](0);
+            console.log(_context3.t0);
+
+            if (!req.body.cascade) {
+              _context3.next = 31;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 31:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 32:
             ;
 
-          case 17:
+          case 33:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 12]]);
+    }, _callee3, null, [[0, 24]]);
   }));
 
   return function deleteDocumentos(_x5, _x6) {

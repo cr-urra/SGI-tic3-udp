@@ -60,6 +60,8 @@ var _tiene = _interopRequireDefault(require("../models/tiene"));
 
 var _asume = _interopRequireDefault(require("../models/asume"));
 
+var _extrae = _interopRequireDefault(require("../models/extrae"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // 1:1
@@ -73,13 +75,13 @@ _detalles_pedidos["default"].belongsTo(_pedidos["default"], {
   sourceKey: 'id'
 });
 
-_proveedores["default"].hasOne(_cuentas_bancos["default"], {
-  foreignKey: 'proveedores_id',
+_cuentas_bancos["default"].hasOne(_proveedores["default"], {
+  foreignKey: 'cuentas_bancos_id',
   sourceKey: 'id'
 });
 
-_cuentas_bancos["default"].belongsTo(_proveedores["default"], {
-  foreignKey: 'proveedores_id',
+_proveedores["default"].belongsTo(_cuentas_bancos["default"], {
+  foreignKey: 'cuentas_bancos_id',
   sourceKey: 'id'
 });
 
@@ -99,6 +101,16 @@ _agentes_aduana["default"].hasOne(_cuentas_corrientes["default"], {
 });
 
 _cuentas_corrientes["default"].belongsTo(_agentes_aduana["default"], {
+  foreignKey: 'agentes_aduana_id',
+  sourceKey: 'id'
+});
+
+_agentes_aduana["default"].hasOne(_bancos_agentes_aduana["default"], {
+  foreignKey: 'agentes_aduana_id',
+  sourceKey: 'id'
+});
+
+_bancos_agentes_aduana["default"].belongsTo(_agentes_aduana["default"], {
   foreignKey: 'agentes_aduana_id',
   sourceKey: 'id'
 }); // 1:N
@@ -324,13 +336,13 @@ _historial_dolar["default"].belongsTo(_pedidos["default"], {
   sourceKey: 'id'
 });
 
-_bancos_agentes_aduana["default"].hasMany(_agentes_aduana["default"], {
-  foreignKey: 'bancos_agentes_aduana_id',
+_dolar_mensual["default"].hasMany(_historial_dolar["default"], {
+  foreignKey: 'dolar_mensual_id',
   sourceKey: 'id'
 });
 
-_agentes_aduana["default"].belongsTo(_bancos_agentes_aduana["default"], {
-  foreignKey: 'bancos_agentes_aduana_id',
+_historial_dolar["default"].belongsTo(_dolar_mensual["default"], {
+  foreignKey: 'dolar_mensual_id',
   sourceKey: 'id'
 });
 
@@ -352,7 +364,7 @@ _productos["default"].hasMany(_tiene["default"], {
 _tiene["default"].belongsTo(_productos["default"], {
   foreignKey: 'productos_id',
   sourceKey: 'id'
-}); // N:M
+}); // M:N
 
 
 _pedidos["default"].belongsToMany(_usuarios["default"], {
@@ -403,5 +415,25 @@ _observadores["default"].hasMany(_efectua["default"], {
 
 _efectua["default"].belongsTo(_observadores["default"], {
   foreignKey: 'observadores_id',
+  sourceKey: 'id'
+});
+
+_pedidos["default"].hasMany(_extrae["default"], {
+  foreignKey: 'pedidos_id',
+  sourceKey: 'id'
+});
+
+_extrae["default"].belongsTo(_pedidos["default"], {
+  foreignKey: 'pedidos_id',
+  sourceKey: 'id'
+});
+
+_historial_precios["default"].hasMany(_extrae["default"], {
+  foreignKey: 'historial_precios_id',
+  sourceKey: 'id'
+});
+
+_extrae["default"].belongsTo(_historial_precios["default"], {
+  foreignKey: 'historial_precios_id',
   sourceKey: 'id'
 });

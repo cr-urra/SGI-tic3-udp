@@ -125,7 +125,7 @@ exports.consulRol = consulRol;
 
 var signUp = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var _req$body, rut, nombre, apellido, roles_id, contraseña, correo, mailToken, body, from, subject, r;
+    var _req$body, rut, nombre, apellido, roles_id, contraseña, correo, usr, mailToken, body, from, subject, r;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -160,6 +160,7 @@ var signUp = /*#__PURE__*/function () {
             return _context4.t0.create.call(_context4.t0, _context4.t7, _context4.t8);
 
           case 15:
+            usr = _context4.sent;
             mailToken = _jsonwebtoken["default"].sign({
               rut: rut,
               correo: correo
@@ -169,23 +170,24 @@ var signUp = /*#__PURE__*/function () {
             body = mail.templateBienvenida(nombre + " " + apellido, mailToken);
             from = "'SGI PROMACHILE <web@promachile.cl>'";
             subject = "Correo de bienvenida";
-            _context4.next = 21;
+            _context4.next = 22;
             return mail.sendMail(body, from, correo, subject);
 
-          case 21:
+          case 22:
             r = _context4.sent;
             r.resultado ? res.json({
               resultado: true,
-              message: "Usuario registrado correctamente"
+              message: "Usuario registrado correctamente",
+              usuario: usr
             }) : res.json({
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
               resultado: false
             });
-            _context4.next = 29;
+            _context4.next = 30;
             break;
 
-          case 25:
-            _context4.prev = 25;
+          case 26:
+            _context4.prev = 26;
             _context4.t9 = _context4["catch"](0);
             console.log(_context4.t9);
             res.json({
@@ -193,15 +195,15 @@ var signUp = /*#__PURE__*/function () {
               resultado: false
             });
 
-          case 29:
+          case 30:
             ;
 
-          case 30:
+          case 31:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[0, 25]]);
+    }, _callee4, null, [[0, 26]]);
   }));
 
   return function signUp(_x5, _x6) {
@@ -213,15 +215,14 @@ exports.signUp = signUp;
 
 var signIn = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var rut, addr, user, matchPassword, user_token, codRol, result;
+    var rut, user, addr, matchPassword, user_token, codRol, result;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
             rut = req.body.rut;
-            addr = req.body.address.data.ip;
-            _context5.next = 5;
+            _context5.next = 4;
             return _usuarios["default"].findOne({
               where: {
                 rut: rut
@@ -229,14 +230,15 @@ var signIn = /*#__PURE__*/function () {
               attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'contraseña']
             });
 
-          case 5:
+          case 4:
             user = _context5.sent;
 
             if (!user) {
-              _context5.next = 25;
+              _context5.next = 26;
               break;
             }
 
+            addr = req.body.address.data.ip;
             _context5.next = 9;
             return comparePassword(req.body.contraseña, user.contraseña);
 
@@ -245,10 +247,11 @@ var signIn = /*#__PURE__*/function () {
             user_token = null;
 
             if (!matchPassword) {
-              _context5.next = 21;
+              _context5.next = 22;
               break;
             }
 
+            console.log(user.id);
             user_token = _jsonwebtoken["default"].sign({
               id: user.id,
               antiCsrf: req.get('CSRF-Token')
@@ -258,10 +261,10 @@ var signIn = /*#__PURE__*/function () {
             res.cookie('token', user_token, {
               httpOnly: true
             });
-            _context5.next = 16;
+            _context5.next = 17;
             return consulRol(user.roles_id);
 
-          case 16:
+          case 17:
             codRol = _context5.sent;
             result = {
               nombre: user.nombre,
@@ -272,33 +275,33 @@ var signIn = /*#__PURE__*/function () {
               resultado: true,
               usuario: result
             });
-            _context5.next = 22;
+            _context5.next = 23;
             break;
-
-          case 21:
-            res.json({
-              resultado: false,
-              message: "Usuario o contraseña incorrectos"
-            });
 
           case 22:
-            ;
-            _context5.next = 26;
-            break;
-
-          case 25:
             res.json({
               resultado: false,
               message: "Usuario o contraseña incorrectos"
             });
 
-          case 26:
+          case 23:
             ;
-            _context5.next = 33;
+            _context5.next = 27;
             break;
 
-          case 29:
-            _context5.prev = 29;
+          case 26:
+            res.json({
+              resultado: false,
+              message: "Usuario o contraseña incorrectos"
+            });
+
+          case 27:
+            ;
+            _context5.next = 34;
+            break;
+
+          case 30:
+            _context5.prev = 30;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
             res.json({
@@ -306,12 +309,12 @@ var signIn = /*#__PURE__*/function () {
               resultado: false
             });
 
-          case 33:
+          case 34:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 29]]);
+    }, _callee5, null, [[0, 30]]);
   }));
 
   return function signIn(_x7, _x8) {
@@ -568,18 +571,21 @@ var logOut = /*#__PURE__*/function () {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            res.cookie('token', _jsonwebtoken["default"].sign({}, _config["default"].SECRET, {
+            _context9.next = 2;
+            return res.cookie('token', _jsonwebtoken["default"].sign({}, _config["default"].SECRET, {
               expiresIn: 1
             }), {
               httpOnly: true
             });
+
+          case 2:
             res.json({
               resultado: true,
               message: "Se ha cerrado la sesión",
               logout: null
             });
 
-          case 2:
+          case 3:
           case "end":
             return _context9.stop();
         }

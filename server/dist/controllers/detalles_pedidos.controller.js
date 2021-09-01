@@ -144,7 +144,7 @@ var deleteDetallesPedidos = /*#__PURE__*/function () {
             detallePedido = _context3.sent;
 
             if (!detallePedido) {
-              _context3.next = 9;
+              _context3.next = 16;
               break;
             }
 
@@ -161,32 +161,74 @@ var deleteDetallesPedidos = /*#__PURE__*/function () {
           case 8:
             detallePedidoUpdate = _context3.sent;
 
-          case 9:
+            if (!req.body.cascade) {
+              _context3.next = 13;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: true
+            });
+
+          case 13:
             res.json({
               resultado: true,
               message: 'Detalles de pedido eliminado correctamente'
             });
-            _context3.next = 16;
+
+          case 14:
+            _context3.next = 21;
             break;
 
-          case 12:
-            _context3.prev = 12;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+          case 16:
+            if (!req.body.cascade) {
+              _context3.next = 20;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: true
             });
 
-          case 16:
+          case 20:
+            res.json({
+              resultado: false,
+              message: 'Detalles de pedido no encontrado'
+            });
+
+          case 21:
+            ;
+            _context3.next = 31;
+            break;
+
+          case 24:
+            _context3.prev = 24;
+            _context3.t0 = _context3["catch"](0);
+
+            if (!req.body.cascade) {
+              _context3.next = 30;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 30:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 31:
             ;
 
-          case 17:
+          case 32:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 12]]);
+    }, _callee3, null, [[0, 24]]);
   }));
 
   return function deleteDetallesPedidos(_x5, _x6) {

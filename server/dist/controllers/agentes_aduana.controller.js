@@ -17,6 +17,8 @@ var _observaciones = _interopRequireDefault(require("../models/observaciones"));
 
 var _telefonos_agentes_aduana = _interopRequireDefault(require("../models/telefonos_agentes_aduana"));
 
+var _asume = _interopRequireDefault(require("../models/asume"));
+
 var cuentasCorrientesController = _interopRequireWildcard(require("./cuentas_corrientes.controller"));
 
 var pedidosController = _interopRequireWildcard(require("./pedidos.controller"));
@@ -24,6 +26,14 @@ var pedidosController = _interopRequireWildcard(require("./pedidos.controller"))
 var observacionesController = _interopRequireWildcard(require("./observaciones.controller"));
 
 var telefonosAgentesAduanaController = _interopRequireWildcard(require("./telefonos_agentes_aduana.controller"));
+
+var bancosAgentesAduanaController = _interopRequireWildcard(require("./bancos_agentes_aduana.controller"));
+
+var observadoresController = _interopRequireWildcard(require("./observadores.controller"));
+
+var _observadores2 = _interopRequireDefault(require("../models/observadores"));
+
+var _bancos_agentes_aduana2 = _interopRequireDefault(require("../models/bancos_agentes_aduana"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -37,14 +47,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var createAgentesAduana = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, nombre, apellido, correo, numero_cuenta, rut, bancos_agentes_aduana_id, newAgenteAduana, id, cuenta;
+    var _req$body, nombre, apellido, correo, numero_cuenta, rut, newAgenteAduana, id, cuenta;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _req$body = req.body, nombre = _req$body.nombre, apellido = _req$body.apellido, correo = _req$body.correo, numero_cuenta = _req$body.numero_cuenta, rut = _req$body.rut, bancos_agentes_aduana_id = _req$body.bancos_agentes_aduana_id;
+            _req$body = req.body, nombre = _req$body.nombre, apellido = _req$body.apellido, correo = _req$body.correo, numero_cuenta = _req$body.numero_cuenta, rut = _req$body.rut;
             _context.next = 4;
             return _agentes_aduana["default"].create({
               nombre: nombre,
@@ -52,10 +62,9 @@ var createAgentesAduana = /*#__PURE__*/function () {
               correo: correo,
               numero_cuenta: numero_cuenta,
               rut: rut,
-              bancos_agentes_aduana_id: bancos_agentes_aduana_id,
               vigencia: true
             }, {
-              fields: ['nombre', 'apellido', 'correo', 'numero_cuenta', 'rut', 'bancos_agentes_aduana_id', 'vigencia']
+              fields: ['nombre', 'apellido', 'correo', 'numero_cuenta', 'rut', 'vigencia']
             });
 
           case 4:
@@ -162,130 +171,266 @@ var updateAgentesAduana = /*#__PURE__*/function () {
 exports.updateAgentesAduana = updateAgentesAduana;
 
 var deleteAgentesAduana = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, agente_aduana, pedidosIds, observacionesIds, telefonosAgentesAduanaIds, cuentaCorrienteId, aux, agenteAduanaUpdate;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+    var body, id, agente_aduana, aux, agenteAduanaUpdate;
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context6.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context6.next = 5;
             return _agentes_aduana["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
-              attributes: ['id', 'nombre', 'apellido', 'correo', 'numero_cuenta', 'rut', 'bancos_agentes_aduana_id'],
-              include: [_pedidos["default"], _observaciones["default"], _cuentas_corrientes["default"], _telefonos_agentes_aduana["default"]]
+              attributes: ['id', 'nombre', 'apellido', 'correo', 'numero_cuenta', 'rut'],
+              include: [_pedidos["default"], _asume["default"], _cuentas_corrientes["default"], _telefonos_agentes_aduana["default"], _bancos_agentes_aduana2["default"]]
             });
 
-          case 4:
-            agente_aduana = _context3.sent;
+          case 5:
+            agente_aduana = _context6.sent;
 
             if (!agente_aduana) {
-              _context3.next = 48;
+              _context6.next = 54;
               break;
             }
 
-            pedidosIds = [];
-            observacionesIds = [];
-            telefonosAgentesAduanaIds = [];
-            agente_aduana.dataValues.pedidos.forEach(function (element) {
-              pedidosIds.push(parseInt(element.dataValues.id));
-            });
-            agente_aduana.dataValues.observaciones.forEach(function (element) {
-              observacionesIds.push(parseInt(element.dataValues.id));
-            });
-            cuentaCorrienteId = agente_aduana.dataValues.cuentas_corrientes.id;
-            agente_aduana.dataValues.telefonos_agentes_aduana.forEach(function (element) {
-              telefonosAgentesAduanaIds.push(parseInt(element.dataValues.id));
-            });
-            req.params = {
-              id: pedidosIds
+            aux = {
+              resultado: true
             };
-            _context3.next = 16;
-            return pedidosController.deletePedidos(req, res);
+            req.body = {
+              cascade: true
+            };
+            req.params = {
+              id: parseInt(agente_aduana.dataValues.bancos_agentes_aduana.dataValues.id)
+            };
+
+            if (!aux.resultado) {
+              _context6.next = 16;
+              break;
+            }
+
+            _context6.next = 13;
+            return bancosAgentesAduanaController.deleteBancosAgentesAduana(req, res);
+
+          case 13:
+            aux = _context6.sent;
+            _context6.next = 21;
+            break;
 
           case 16:
-            aux = _context3.sent;
-            req.params = {
-              id: observacionesIds
-            };
-
-            if (!aux.resultado) {
-              _context3.next = 24;
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context6.next = 20;
               break;
             }
 
-            _context3.next = 21;
-            return observacionesController.deleteObservaciones(req, res);
+            return _context6.abrupt("return", {
+              resultado: false
+            });
+
+          case 20:
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
 
           case 21:
-            aux = _context3.sent;
-            _context3.next = 25;
-            break;
+            agente_aduana.dataValues.pedidos.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(element) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        req.params = {
+                          id: parseInt(element.dataValues.id)
+                        };
 
-          case 24:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
+                        if (!aux.resultado) {
+                          _context3.next = 7;
+                          break;
+                        }
 
-          case 25:
+                        _context3.next = 4;
+                        return pedidosController.deletePedidos(req, res);
+
+                      case 4:
+                        aux = _context3.sent;
+                        _context3.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context3.next = 11;
+                          break;
+                        }
+
+                        return _context3.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }));
+
+              return function (_x7) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
+            agente_aduana.dataValues.telefonos_agentes_aduanas.forEach( /*#__PURE__*/function () {
+              var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(element) {
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        req.params = {
+                          id: parseInt(element.dataValues.id)
+                        };
+
+                        if (!aux.resultado) {
+                          _context4.next = 7;
+                          break;
+                        }
+
+                        _context4.next = 4;
+                        return telefonosAgentesAduanaController.deleteTelefonosAgentesAduana(req, res);
+
+                      case 4:
+                        aux = _context4.sent;
+                        _context4.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context4.next = 11;
+                          break;
+                        }
+
+                        return _context4.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context4.stop();
+                    }
+                  }
+                }, _callee4);
+              }));
+
+              return function (_x8) {
+                return _ref5.apply(this, arguments);
+              };
+            }());
+            agente_aduana.dataValues.asumes.forEach( /*#__PURE__*/function () {
+              var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(element) {
+                return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                  while (1) {
+                    switch (_context5.prev = _context5.next) {
+                      case 0:
+                        req.params = {
+                          id: parseInt(element.dataValues.observadores_id)
+                        };
+
+                        if (!aux.resultado) {
+                          _context5.next = 7;
+                          break;
+                        }
+
+                        _context5.next = 4;
+                        return observadoresController.deleteObservadores(req, res);
+
+                      case 4:
+                        aux = _context5.sent;
+                        _context5.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context5.next = 11;
+                          break;
+                        }
+
+                        return _context5.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context5.stop();
+                    }
+                  }
+                }, _callee5);
+              }));
+
+              return function (_x9) {
+                return _ref6.apply(this, arguments);
+              };
+            }());
             req.params = {
-              id: cuentaCorrienteId
+              id: parseInt(agente_aduana.dataValues.cuentas_corriente.dataValues.id)
             };
 
             if (!aux.resultado) {
-              _context3.next = 32;
+              _context6.next = 31;
               break;
             }
 
-            _context3.next = 29;
+            _context6.next = 28;
             return cuentasCorrientesController.deleteCuentasCorrientes(req, res);
 
-          case 29:
-            aux = _context3.sent;
-            _context3.next = 33;
+          case 28:
+            aux = _context6.sent;
+            _context6.next = 36;
             break;
 
-          case 32:
+          case 31:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context6.next = 35;
+              break;
+            }
+
+            return _context6.abrupt("return", {
+              resultado: false
+            });
+
+          case 35:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 33:
-            req.params = {
-              id: telefonosAgentesAduanaIds
-            };
-
+          case 36:
             if (!aux.resultado) {
-              _context3.next = 40;
+              _context6.next = 42;
               break;
             }
 
-            _context3.next = 37;
-            return telefonosAgentesAduanaController.deleteTelefonosAgentesAduana(req, res);
-
-          case 37:
-            aux = _context3.sent;
-            _context3.next = 41;
-            break;
-
-          case 40:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 41:
-            if (!aux.resultado) {
-              _context3.next = 47;
-              break;
-            }
-
-            _context3.next = 44;
+            _context6.next = 39;
             return _agentes_aduana["default"].update({
               vigencia: false
             }, {
@@ -295,43 +440,97 @@ var deleteAgentesAduana = /*#__PURE__*/function () {
               }
             });
 
-          case 44:
-            agenteAduanaUpdate = _context3.sent;
-            _context3.next = 48;
+          case 39:
+            agenteAduanaUpdate = _context6.sent;
+            _context6.next = 47;
             break;
 
-          case 47:
+          case 42:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context6.next = 46;
+              break;
+            }
+
+            return _context6.abrupt("return", {
+              resultado: false
+            });
+
+          case 46:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 48:
+          case 47:
+            if (!body.cascade) {
+              _context6.next = 51;
+              break;
+            }
+
+            return _context6.abrupt("return", {
+              resultado: true
+            });
+
+          case 51:
             res.json({
               resultado: true,
               message: 'Agente de aduana eliminado correctamente'
             });
-            _context3.next = 55;
+
+          case 52:
+            _context6.next = 59;
             break;
 
-          case 51:
-            _context3.prev = 51;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+          case 54:
+            if (!body.cascade) {
+              _context6.next = 58;
+              break;
+            }
+
+            return _context6.abrupt("return", {
+              resultado: false
             });
 
-          case 55:
+          case 58:
+            res.json({
+              resultado: true,
+              message: 'Agente de aduana no encontrado'
+            });
+
+          case 59:
+            ;
+            _context6.next = 70;
+            break;
+
+          case 62:
+            _context6.prev = 62;
+            _context6.t0 = _context6["catch"](1);
+            console.log(_context6.t0);
+
+            if (!body.cascade) {
+              _context6.next = 69;
+              break;
+            }
+
+            return _context6.abrupt("return", {
+              resultado: false
+            });
+
+          case 69:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 70:
             ;
 
-          case 56:
+          case 71:
           case "end":
-            return _context3.stop();
+            return _context6.stop();
         }
       }
-    }, _callee3, null, [[0, 51]]);
+    }, _callee6, null, [[1, 62]]);
   }));
 
   return function deleteAgentesAduana(_x5, _x6) {
@@ -342,36 +541,36 @@ var deleteAgentesAduana = /*#__PURE__*/function () {
 exports.deleteAgentesAduana = deleteAgentesAduana;
 
 var getAllAgentesAduana = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
     var allAgentesAduana;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context7.prev = 0;
+            _context7.next = 3;
             return _agentes_aduana["default"].findAll({
               where: {
                 vigencia: true
               },
-              attributes: ['id', 'nombre', 'apellido', 'correo', 'numero_cuenta', 'rut', 'bancos_agentes_aduana_id'],
+              attributes: ['id', 'nombre', 'apellido', 'correo', 'numero_cuenta', 'rut'],
               order: [['id', 'DESC']]
             });
 
           case 3:
-            allAgentesAduana = _context4.sent;
+            allAgentesAduana = _context7.sent;
             res.json({
               resultado: true,
               message: "",
               agentes_aduana: allAgentesAduana
             });
-            _context4.next = 11;
+            _context7.next = 11;
             break;
 
           case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
+            _context7.prev = 7;
+            _context7.t0 = _context7["catch"](0);
+            console.log(_context7.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -383,47 +582,47 @@ var getAllAgentesAduana = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context4.stop();
+            return _context7.stop();
         }
       }
-    }, _callee4, null, [[0, 7]]);
+    }, _callee7, null, [[0, 7]]);
   }));
 
-  return function getAllAgentesAduana(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getAllAgentesAduana(_x10, _x11) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
 exports.getAllAgentesAduana = getAllAgentesAduana;
 
 var getAllAgentesAduanaWithFalse = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
     var allAgentesAduana;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            _context5.prev = 0;
-            _context5.next = 3;
+            _context8.prev = 0;
+            _context8.next = 3;
             return _agentes_aduana["default"].findAll({
-              attributes: ['id', 'nombre', 'apellido', 'correo', 'numero_cuenta', 'rut', 'bancos_agentes_aduana_id'],
+              attributes: ['id', 'nombre', 'apellido', 'correo', 'numero_cuenta', 'rut'],
               order: [['id', 'DESC']]
             });
 
           case 3:
-            allAgentesAduana = _context5.sent;
+            allAgentesAduana = _context8.sent;
             res.json({
               resultado: true,
               message: "",
               agentes_aduana: allAgentesAduana
             });
-            _context5.next = 11;
+            _context8.next = 11;
             break;
 
           case 7:
-            _context5.prev = 7;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
+            console.log(_context8.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -435,51 +634,51 @@ var getAllAgentesAduanaWithFalse = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context5.stop();
+            return _context8.stop();
         }
       }
-    }, _callee5, null, [[0, 7]]);
+    }, _callee8, null, [[0, 7]]);
   }));
 
-  return function getAllAgentesAduanaWithFalse(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function getAllAgentesAduanaWithFalse(_x12, _x13) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 exports.getAllAgentesAduanaWithFalse = getAllAgentesAduanaWithFalse;
 
 var getAgentesAduanaId = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
     var id, agente_aduana;
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context9.prev = _context9.next) {
           case 0:
-            _context6.prev = 0;
+            _context9.prev = 0;
             id = req.params.id;
-            _context6.next = 4;
+            _context9.next = 4;
             return _agentes_aduana["default"].findOne({
               where: {
                 id: id,
                 vigencia: true
               },
-              attributes: ['id', 'nombre', 'apellido', 'correo', 'numero_cuenta', 'rut', 'bancos_agentes_aduana_id']
+              attributes: ['id', 'nombre', 'apellido', 'correo', 'numero_cuenta', 'rut']
             });
 
           case 4:
-            agente_aduana = _context6.sent;
+            agente_aduana = _context9.sent;
             res.json({
               resultado: true,
               message: "",
               agentes_aduana: agente_aduana
             });
-            _context6.next = 12;
+            _context9.next = 12;
             break;
 
           case 8:
-            _context6.prev = 8;
-            _context6.t0 = _context6["catch"](0);
-            console.log(_context6.t0);
+            _context9.prev = 8;
+            _context9.t0 = _context9["catch"](0);
+            console.log(_context9.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -491,14 +690,14 @@ var getAgentesAduanaId = /*#__PURE__*/function () {
 
           case 13:
           case "end":
-            return _context6.stop();
+            return _context9.stop();
         }
       }
-    }, _callee6, null, [[0, 8]]);
+    }, _callee9, null, [[0, 8]]);
   }));
 
-  return function getAgentesAduanaId(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function getAgentesAduanaId(_x14, _x15) {
+    return _ref9.apply(this, arguments);
   };
 }();
 

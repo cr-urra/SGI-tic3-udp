@@ -87,16 +87,17 @@ exports.createDolarMensual = createDolarMensual;
 
 var updateDolarMensual = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var id, body, dolarMensualUpdate;
+    var id, _body, dolarMensualUpdate;
+
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
             id = req.params.id;
-            body = req.body;
+            _body = req.body;
             _context2.next = 5;
-            return _dolar_mensual["default"].update(body, {
+            return _dolar_mensual["default"].update(_body, {
               where: {
                 id: id,
                 vigencia: true
@@ -139,82 +140,136 @@ var updateDolarMensual = /*#__PURE__*/function () {
 exports.updateDolarMensual = updateDolarMensual;
 
 var deleteDolarMensual = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, _dolarMensual, pedidosIds, historialDolarIds, aux, dolarMensualUpdate;
-
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+    var id, params, getDolarMensual, aux, dolarMensualUpdate;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context3.prev = 0;
+            _context5.prev = 0;
             id = req.params.id;
-            _context3.next = 4;
-            return _dolarMensual.findOne({
+            params = req.params;
+            _context5.next = 5;
+            return _dolar_mensual["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
               attributes: ['id', 'valor_mensual', 'fecha_registro'],
               include: [_pedidos["default"], _historial_dolar["default"]]
             });
 
-          case 4:
-            _dolarMensual = _context3.sent;
+          case 5:
+            getDolarMensual = _context5.sent;
 
-            if (!_dolarMensual) {
-              _context3.next = 29;
+            if (!getDolarMensual) {
+              _context5.next = 24;
               break;
             }
 
-            pedidosIds = [];
-            historialDolarIds = [];
-
-            _dolarMensual.dataValues.pedidos.forEach(function (element) {
-              pedidosIds.push(parseInt(element.dataValues.id));
-            });
-
-            _dolarMensual.dataValues.historial_dolar.forEach(function (element) {
-              historialDolarIds.push(parseInt(element.dataValues.id));
-            });
-
-            req.params = {
-              id: pedidosIds
+            aux = {
+              resultado: true
             };
-            _context3.next = 13;
-            return pedidosController.deletePedidos(req, res);
+            getDolarMensual.dataValues.historial_dolars.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(element) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        req.params = {
+                          id: parseInt(element.dataValues.id)
+                        };
+                        req.body = {
+                          cascade: true
+                        };
 
-          case 13:
-            aux = _context3.sent;
-            req.params = {
-              id: historialDolarIds
-            };
+                        if (!aux.resultado) {
+                          _context3.next = 8;
+                          break;
+                        }
+
+                        _context3.next = 5;
+                        return historialDolarController.deleteHistorialDolar(req, res);
+
+                      case 5:
+                        aux = _context3.sent;
+                        _context3.next = 9;
+                        break;
+
+                      case 8:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 9:
+                        ;
+
+                      case 10:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }));
+
+              return function (_x7) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
+            getDolarMensual.dataValues.pedidos.forEach( /*#__PURE__*/function () {
+              var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(element) {
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        req.params = {
+                          id: parseInt(element.dataValues.id)
+                        };
+                        req.body = {
+                          cascade: true,
+                          origin: "dolarMensual"
+                        };
+
+                        if (!aux.resultado) {
+                          _context4.next = 8;
+                          break;
+                        }
+
+                        _context4.next = 5;
+                        return pedidosController.deletePedidos(req, res);
+
+                      case 5:
+                        aux = _context4.sent;
+                        _context4.next = 9;
+                        break;
+
+                      case 8:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 9:
+                      case "end":
+                        return _context4.stop();
+                    }
+                  }
+                }, _callee4);
+              }));
+
+              return function (_x8) {
+                return _ref5.apply(this, arguments);
+              };
+            }());
 
             if (!aux.resultado) {
-              _context3.next = 21;
+              _context5.next = 16;
               break;
             }
 
-            _context3.next = 18;
-            return historialDolarController.deleteHistorialDolar(req, res);
-
-          case 18:
-            aux = _context3.sent;
-            _context3.next = 22;
-            break;
-
-          case 21:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 22:
-            if (!aux.resultado) {
-              _context3.next = 28;
-              break;
-            }
-
-            _context3.next = 25;
-            return _dolarMensual.update({
+            _context5.next = 13;
+            return getDolarMensual.update({
               vigencia: false
             }, {
               where: {
@@ -223,43 +278,63 @@ var deleteDolarMensual = /*#__PURE__*/function () {
               }
             });
 
-          case 25:
-            dolarMensualUpdate = _context3.sent;
-            _context3.next = 29;
+          case 13:
+            dolarMensualUpdate = _context5.sent;
+            _context5.next = 21;
             break;
 
-          case 28:
+          case 16:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context5.next = 20;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: false
+            });
+
+          case 20:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 29:
+          case 21:
             res.json({
               resultado: true,
               message: 'Dolar mensual eliminado correctamente'
             });
-            _context3.next = 36;
+            _context5.next = 25;
             break;
 
-          case 32:
-            _context3.prev = 32;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
+          case 24:
+            res.json({
+              resultado: true,
+              message: 'Dolar mensual no encontrado'
+            });
+
+          case 25:
+            _context5.next = 31;
+            break;
+
+          case 27:
+            _context5.prev = 27;
+            _context5.t0 = _context5["catch"](0);
+            console.log(_context5.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 36:
+          case 31:
             ;
 
-          case 37:
+          case 32:
           case "end":
-            return _context3.stop();
+            return _context5.stop();
         }
       }
-    }, _callee3, null, [[0, 32]]);
+    }, _callee5, null, [[0, 27]]);
   }));
 
   return function deleteDolarMensual(_x5, _x6) {
@@ -270,117 +345,6 @@ var deleteDolarMensual = /*#__PURE__*/function () {
 exports.deleteDolarMensual = deleteDolarMensual;
 
 var getAllDolarMensual = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var allDolarMensual;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
-            return _dolar_mensual["default"].findAll({
-              where: {
-                vigencia: true
-              },
-              attributes: ['id', 'valor_mensual', 'fecha_registro'],
-              order: [['id', 'DESC']]
-            });
-
-          case 3:
-            allDolarMensual = _context4.sent;
-            res.json({
-              resultado: true,
-              message: "",
-              dolarMensual: allDolarMensual
-            });
-            _context4.next = 11;
-            break;
-
-          case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              dolarMensual: null
-            });
-
-          case 11:
-            ;
-
-          case 12:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, null, [[0, 7]]);
-  }));
-
-  return function getAllDolarMensual(_x7, _x8) {
-    return _ref4.apply(this, arguments);
-  };
-}();
-
-exports.getAllDolarMensual = getAllDolarMensual;
-
-var getDolarMensualId = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, getDolarMensual;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            _context5.prev = 0;
-            id = req.params.id;
-            _context5.next = 4;
-            return _dolar_mensual["default"].findOne({
-              where: {
-                id: id,
-                vigencia: true
-              },
-              attributes: ['id', 'valor_mensual', 'fecha_registro']
-            });
-
-          case 4:
-            getDolarMensual = _context5.sent;
-            res.json({
-              resultado: true,
-              message: "",
-              dolarMensual: getDolarMensual
-            });
-            _context5.next = 12;
-            break;
-
-          case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              dolarMensual: null
-            });
-
-          case 12:
-            ;
-
-          case 13:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5, null, [[0, 8]]);
-  }));
-
-  return function getDolarMensualId(_x9, _x10) {
-    return _ref5.apply(this, arguments);
-  };
-}();
-
-exports.getDolarMensualId = getDolarMensualId;
-
-var getAllDolarMensualWithFalse = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
     var allDolarMensual;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -390,6 +354,9 @@ var getAllDolarMensualWithFalse = /*#__PURE__*/function () {
             _context6.prev = 0;
             _context6.next = 3;
             return _dolar_mensual["default"].findAll({
+              where: {
+                vigencia: true
+              },
               attributes: ['id', 'valor_mensual', 'fecha_registro'],
               order: [['id', 'DESC']]
             });
@@ -425,8 +392,116 @@ var getAllDolarMensualWithFalse = /*#__PURE__*/function () {
     }, _callee6, null, [[0, 7]]);
   }));
 
-  return function getAllDolarMensualWithFalse(_x11, _x12) {
+  return function getAllDolarMensual(_x9, _x10) {
     return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.getAllDolarMensual = getAllDolarMensual;
+
+var getDolarMensualId = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
+    var id, getDolarMensual;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.prev = 0;
+            id = req.params.id;
+            _context7.next = 4;
+            return _dolar_mensual["default"].findOne({
+              where: {
+                id: id,
+                vigencia: true
+              },
+              attributes: ['id', 'valor_mensual', 'fecha_registro']
+            });
+
+          case 4:
+            getDolarMensual = _context7.sent;
+            res.json({
+              resultado: true,
+              message: "",
+              dolarMensual: getDolarMensual
+            });
+            _context7.next = 12;
+            break;
+
+          case 8:
+            _context7.prev = 8;
+            _context7.t0 = _context7["catch"](0);
+            console.log(_context7.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              dolarMensual: null
+            });
+
+          case 12:
+            ;
+
+          case 13:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, _callee7, null, [[0, 8]]);
+  }));
+
+  return function getDolarMensualId(_x11, _x12) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.getDolarMensualId = getDolarMensualId;
+
+var getAllDolarMensualWithFalse = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
+    var allDolarMensual;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.prev = 0;
+            _context8.next = 3;
+            return _dolar_mensual["default"].findAll({
+              attributes: ['id', 'valor_mensual', 'fecha_registro'],
+              order: [['id', 'DESC']]
+            });
+
+          case 3:
+            allDolarMensual = _context8.sent;
+            res.json({
+              resultado: true,
+              message: "",
+              dolarMensual: allDolarMensual
+            });
+            _context8.next = 11;
+            break;
+
+          case 7:
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
+            console.log(_context8.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              dolarMensual: null
+            });
+
+          case 11:
+            ;
+
+          case 12:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8, null, [[0, 7]]);
+  }));
+
+  return function getAllDolarMensualWithFalse(_x13, _x14) {
+    return _ref8.apply(this, arguments);
   };
 }();
 

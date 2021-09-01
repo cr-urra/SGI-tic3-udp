@@ -14,7 +14,7 @@ var express = require('express');
 
 var router = express.Router();
 // usuarios
-router.get('/', csrf.verifyAntiCsrfToken, usuarios.getAllUsuarios); // usuarios/:id
+router.get('/', usuarios.getAllUsuarios); // usuarios/:id
 
 router.get('/:id', usuarios.getUsuariosId);
 router["delete"]('/:id', usuarios.deleteUsuarios);

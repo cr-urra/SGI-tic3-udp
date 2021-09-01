@@ -23,13 +23,13 @@ export default class Tabla extends Component {
             show: true
         })
     }
-    delete  =  (id) => async (e) => {       
-        console.log(localStorage.getItem('X-CSRF-Token') , "revisa aqui")        
-        const res = await axios.delete("/usuarios/"+ id , {} ,{"headers": {
-            "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-        }} )
-        
 
+    delete = (id) => async (e) => {      
+        const res = await axios.delete("/usuarios/"+ id ,{
+            "headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+            }
+        })
         if(res.data.resultado==true){
             toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }else{

@@ -31,9 +31,6 @@ var agentes_aduana = _database.database.define('agentes_aduana', {
   numero_cuenta: {
     type: _sequelize["default"].STRING
   },
-  bancos_agentes_aduana_id: {
-    type: _sequelize["default"].INTEGER
-  },
   vigencia: {
     type: _sequelize["default"].BOOLEAN
   }

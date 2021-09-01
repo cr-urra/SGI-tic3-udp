@@ -82,16 +82,17 @@ exports.createUnidadProductos = createUnidadProductos;
 
 var updateUnidadProductos = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var id, body, unidadProductosUpdate;
+    var id, _body, unidadProductosUpdate;
+
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
             id = req.params.id;
-            body = req.body;
+            _body = req.body;
             _context2.next = 5;
-            return _unidad_productos["default"].update(body, {
+            return _unidad_productos["default"].update(_body, {
               where: {
                 id: id,
                 vigencia: true
@@ -134,50 +135,96 @@ var updateUnidadProductos = /*#__PURE__*/function () {
 exports.updateUnidadProductos = updateUnidadProductos;
 
 var deleteUnidadProductos = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, unidadProducto, productosIds, aux, unidadProductosUpdate;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+    var id, unidadProducto, aux, unidadProductosUpdate;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.prev = 0;
+            _context4.prev = 0;
             id = req.params.id;
-            _context3.next = 4;
+            _context4.next = 4;
             return _unidad_productos["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
               attributes: ['id', 'nombre_medida', 'valor_unidad'],
               include: [_productos["default"]]
             });
 
           case 4:
-            unidadProducto = _context3.sent;
+            unidadProducto = _context4.sent;
 
             if (!unidadProducto) {
-              _context3.next = 19;
+              _context4.next = 19;
               break;
             }
 
-            productosIds = [];
-            unidadProducto.dataValues.productos.forEach(function (element) {
-              productosIds.push(parseInt(element.dataValues.id));
-            });
-            req.params = {
-              id: productosIds
+            aux = {
+              resultado: true
             };
-            _context3.next = 11;
-            return productosController.deleteProductos(req, res);
+            req.body = {
+              cascade: true
+            };
+            unidadProducto.dataValues.productos.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(element) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        req.params = {
+                          id: parseInt(element.dataValues.id)
+                        };
 
-          case 11:
-            aux = _context3.sent;
+                        if (!aux.resultado) {
+                          _context3.next = 7;
+                          break;
+                        }
+
+                        _context3.next = 4;
+                        return productosController.deleteProductos(req, res);
+
+                      case 4:
+                        aux = _context3.sent;
+                        _context3.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context3.next = 11;
+                          break;
+                        }
+
+                        return _context3.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+                          resultado: false
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }));
+
+              return function (_x7) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
 
             if (!aux.resultado) {
-              _context3.next = 18;
+              _context4.next = 15;
               break;
             }
 
-            _context3.next = 15;
+            _context4.next = 12;
             return _unidad_productos["default"].update({
               vigencia: false
             }, {
@@ -187,43 +234,54 @@ var deleteUnidadProductos = /*#__PURE__*/function () {
               }
             });
 
-          case 15:
-            unidadProductosUpdate = _context3.sent;
-            _context3.next = 19;
+          case 12:
+            unidadProductosUpdate = _context4.sent;
+            _context4.next = 16;
             break;
 
-          case 18:
+          case 15:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 19:
+          case 16:
             res.json({
               resultado: true,
               message: 'Unidad de producto eliminada correctamente'
             });
-            _context3.next = 26;
+            _context4.next = 20;
             break;
 
-          case 22:
-            _context3.prev = 22;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
+          case 19:
             res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+              message: 'Unidad de producto no encontrada',
+              resultado: true
             });
 
-          case 26:
+          case 20:
             ;
+            _context4.next = 27;
+            break;
+
+          case 23:
+            _context4.prev = 23;
+            _context4.t0 = _context4["catch"](0);
+            console.log(_context4.t0);
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
 
           case 27:
+            ;
+
+          case 28:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, null, [[0, 22]]);
+    }, _callee4, null, [[0, 23]]);
   }));
 
   return function deleteUnidadProductos(_x5, _x6) {
@@ -234,14 +292,14 @@ var deleteUnidadProductos = /*#__PURE__*/function () {
 exports.deleteUnidadProductos = deleteUnidadProductos;
 
 var getAllUnidadProductos = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
     var allUnidadProductos;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context5.prev = 0;
+            _context5.next = 3;
             return _unidad_productos["default"].findAll({
               where: {
                 vigencia: true
@@ -251,19 +309,19 @@ var getAllUnidadProductos = /*#__PURE__*/function () {
             });
 
           case 3:
-            allUnidadProductos = _context4.sent;
+            allUnidadProductos = _context5.sent;
             res.json({
               resultado: true,
               message: "",
               unidadProductos: allUnidadProductos
             });
-            _context4.next = 11;
+            _context5.next = 11;
             break;
 
           case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
+            console.log(_context5.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -275,29 +333,29 @@ var getAllUnidadProductos = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, null, [[0, 7]]);
+    }, _callee5, null, [[0, 7]]);
   }));
 
-  return function getAllUnidadProductos(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getAllUnidadProductos(_x8, _x9) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 exports.getAllUnidadProductos = getAllUnidadProductos;
 
 var getUnidadProductosId = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
     var id, unidadProducto;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context5.prev = 0;
+            _context6.prev = 0;
             id = req.params.id;
-            _context5.next = 4;
+            _context6.next = 4;
             return _unidad_productos["default"].findOne({
               where: {
                 id: id,
@@ -307,19 +365,19 @@ var getUnidadProductosId = /*#__PURE__*/function () {
             });
 
           case 4:
-            unidadProducto = _context5.sent;
+            unidadProducto = _context6.sent;
             res.json({
               resultado: true,
               message: "",
               unidadProductos: unidadProducto
             });
-            _context5.next = 12;
+            _context6.next = 12;
             break;
 
           case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
+            _context6.prev = 8;
+            _context6.t0 = _context6["catch"](0);
+            console.log(_context6.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -331,47 +389,47 @@ var getUnidadProductosId = /*#__PURE__*/function () {
 
           case 13:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, null, [[0, 8]]);
+    }, _callee6, null, [[0, 8]]);
   }));
 
-  return function getUnidadProductosId(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function getUnidadProductosId(_x10, _x11) {
+    return _ref6.apply(this, arguments);
   };
 }();
 
 exports.getUnidadProductosId = getUnidadProductosId;
 
 var getAllUnidadProductosWithFalse = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
     var allUnidadProductos;
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
+            _context7.prev = 0;
+            _context7.next = 3;
             return _unidad_productos["default"].findAll({
               attributes: ['id', 'nombre_medida', 'valor_unidad'],
               order: [['id', 'DESC']]
             });
 
           case 3:
-            allUnidadProductos = _context6.sent;
+            allUnidadProductos = _context7.sent;
             res.json({
               resultado: true,
               message: "",
               unidadProductos: allUnidadProductos
             });
-            _context6.next = 11;
+            _context7.next = 11;
             break;
 
           case 7:
-            _context6.prev = 7;
-            _context6.t0 = _context6["catch"](0);
-            console.log(_context6.t0);
+            _context7.prev = 7;
+            _context7.t0 = _context7["catch"](0);
+            console.log(_context7.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -383,14 +441,14 @@ var getAllUnidadProductosWithFalse = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, null, [[0, 7]]);
+    }, _callee7, null, [[0, 7]]);
   }));
 
-  return function getAllUnidadProductosWithFalse(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function getAllUnidadProductosWithFalse(_x12, _x13) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

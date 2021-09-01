@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllIpsWithFalse = exports.getIpsId = exports.getAllIps = exports.deleteIps = exports.updateIps = exports.createIps = void 0;
+exports.getIpsId = exports.getAllIps = exports.deleteIps = exports.updateIps = exports.createIps = void 0;
 
 var _ips = _interopRequireDefault(require("../models/ips"));
 
@@ -26,27 +26,24 @@ var createIps = /*#__PURE__*/function () {
             _context.next = 4;
             return _ips["default"].create({
               ip: ip,
-              usuarios_id: usuarios_id,
-              vigencia: true
+              usuarios_id: usuarios_id
             }, {
-              fields: ['ip', 'usuarios_id', 'vigencia']
+              fields: ['ip', 'usuarios_id']
             });
 
           case 4:
             newIp = _context.sent;
-            res.json({
+            return _context.abrupt("return", {
               resultado: true,
               message: "Ip creada correctamente",
               ips: newIp
             });
-            _context.next = 12;
-            break;
 
           case 8:
             _context.prev = 8;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
-            res.json({
+            return _context.abrupt("return", {
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
               resultado: false,
               ips: null
@@ -83,8 +80,7 @@ var updateIps = /*#__PURE__*/function () {
             _context2.next = 5;
             return _ips["default"].update(body, {
               where: {
-                id: id,
-                vigencia: true
+                id: id
               }
             });
 
@@ -140,18 +136,16 @@ var deleteIps = /*#__PURE__*/function () {
             });
 
           case 4:
-            res.json({
+            return _context3.abrupt("return", {
               resultado: true,
               message: 'Ip eliminada correctamente'
             });
-            _context3.next = 11;
-            break;
 
           case 7:
             _context3.prev = 7;
             _context3.t0 = _context3["catch"](0);
             console.log(_context3.t0);
-            res.json({
+            return _context3.abrupt("return", {
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
@@ -184,9 +178,6 @@ var getAllIps = /*#__PURE__*/function () {
             _context4.prev = 0;
             _context4.next = 3;
             return _ips["default"].findAll({
-              where: {
-                vigencia: true
-              },
               attributes: ['id', 'ip', 'usuarios_id'],
               order: [['id', 'DESC']]
             });
@@ -241,27 +232,24 @@ var getIpsId = /*#__PURE__*/function () {
             _context5.next = 4;
             return _ips["default"].findOne({
               where: {
-                id: id,
-                vigencia: true
+                id: id
               },
               attributes: ['id', 'ip', 'usuarios_id']
             });
 
           case 4:
             ip = _context5.sent;
-            res.json({
+            return _context5.abrupt("return", {
               resultado: true,
               message: "",
               ips: ip
             });
-            _context5.next = 12;
-            break;
 
           case 8:
             _context5.prev = 8;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
-            res.json({
+            return _context5.abrupt("return", {
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
               ips: null
@@ -284,55 +272,3 @@ var getIpsId = /*#__PURE__*/function () {
 }();
 
 exports.getIpsId = getIpsId;
-
-var getAllIpsWithFalse = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var allIps;
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
-            return _ips["default"].findAll({
-              attributes: ['id', 'ip', 'usuarios_id'],
-              order: [['id', 'DESC']]
-            });
-
-          case 3:
-            allIps = _context6.sent;
-            res.json({
-              resultado: true,
-              message: "",
-              ips: allIps
-            });
-            _context6.next = 11;
-            break;
-
-          case 7:
-            _context6.prev = 7;
-            _context6.t0 = _context6["catch"](0);
-            console.log(_context6.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              ips: null
-            });
-
-          case 11:
-            ;
-
-          case 12:
-          case "end":
-            return _context6.stop();
-        }
-      }
-    }, _callee6, null, [[0, 7]]);
-  }));
-
-  return function getAllIpsWithFalse(_x11, _x12) {
-    return _ref6.apply(this, arguments);
-  };
-}();
-
-exports.getAllIpsWithFalse = getAllIpsWithFalse;

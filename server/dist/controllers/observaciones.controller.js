@@ -138,50 +138,97 @@ var updateObservaciones = /*#__PURE__*/function () {
 exports.updateObservaciones = updateObservaciones;
 
 var deleteObservaciones = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, observacion, gastosExtrasIds, aux, observacionUpdate;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+    var body, id, observacion, aux, observacionUpdate;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context4.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context4.next = 5;
             return _observaciones["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
               attributes: ['id', 'observacion', 'fecha', 'gasto', 'pedidos_id'],
               include: [_gastos_extras["default"]]
             });
 
-          case 4:
-            observacion = _context3.sent;
+          case 5:
+            observacion = _context4.sent;
 
             if (!observacion) {
-              _context3.next = 20;
+              _context4.next = 28;
               break;
             }
 
-            gastosExtrasIds = [];
-            observacion.dataValues.gastos_extras.forEach(function (element) {
-              gastosExtrasIds.push(parseInt(element.dataValues.id));
-            });
-            req.params = {
-              id: gastosExtrasIds
+            aux = {
+              resultado: true
             };
-            _context3.next = 11;
-            return gastosExtrasController.deleteGastosExtras(req, res);
+            req.body = {
+              cascade: true
+            };
+            observacion.dataValues.gastos_extras.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(element) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        req.params = {
+                          id: parseInt(element.dataValues.id)
+                        };
 
-          case 11:
-            aux = _context3.sent;
+                        if (!aux.resultado) {
+                          _context3.next = 7;
+                          break;
+                        }
+
+                        _context3.next = 4;
+                        return gastosExtrasController.deleteGastosExtras(req, res);
+
+                      case 4:
+                        aux = _context3.sent;
+                        _context3.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.resultado == true)) {
+                          _context3.next = 11;
+                          break;
+                        }
+
+                        return _context3.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }));
+
+              return function (_x7) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
 
             if (!aux.resultado) {
-              _context3.next = 18;
+              _context4.next = 16;
               break;
             }
 
-            _context3.next = 15;
+            _context4.next = 13;
             return _observaciones["default"].update({
               vigencia: false
             }, {
@@ -191,50 +238,96 @@ var deleteObservaciones = /*#__PURE__*/function () {
               }
             });
 
-          case 15:
-            observacionUpdate = _context3.sent;
-            _context3.next = 19;
+          case 13:
+            observacionUpdate = _context4.sent;
+            _context4.next = 21;
             break;
 
-          case 18:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
+          case 16:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context4.next = 20;
+              break;
+            }
 
-          case 19:
-            res.json({
-              message: 'Observación actualizada',
-              resultado: true,
-              observaciones: observacionUpdate
+            return _context4.abrupt("return", {
+              resultado: false
             });
 
           case 20:
             res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+          case 21:
+            if (!body.cascade) {
+              _context4.next = 25;
+              break;
+            }
+
+            return _context4.abrupt("return", {
+              resultado: true
+            });
+
+          case 25:
+            res.json({
               resultado: true,
               message: 'Observación eliminada correctamente'
             });
-            _context3.next = 27;
+
+          case 26:
+            _context4.next = 33;
             break;
 
-          case 23:
-            _context3.prev = 23;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
+          case 28:
+            if (!body.cascade) {
+              _context4.next = 32;
+              break;
+            }
+
+            return _context4.abrupt("return", {
+              resultado: false
+            });
+
+          case 32:
+            res.json({
+              resultado: true,
+              message: 'Observación no encontrada'
+            });
+
+          case 33:
+            _context4.next = 43;
+            break;
+
+          case 35:
+            _context4.prev = 35;
+            _context4.t0 = _context4["catch"](1);
+            console.log(_context4.t0);
+
+            if (!body.cascade) {
+              _context4.next = 42;
+              break;
+            }
+
+            return _context4.abrupt("return", {
+              resultado: false
+            });
+
+          case 42:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 27:
+          case 43:
             ;
 
-          case 28:
+          case 44:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, null, [[0, 23]]);
+    }, _callee4, null, [[1, 35]]);
   }));
 
   return function deleteObservaciones(_x5, _x6) {
@@ -245,14 +338,14 @@ var deleteObservaciones = /*#__PURE__*/function () {
 exports.deleteObservaciones = deleteObservaciones;
 
 var getAllObservaciones = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
     var allObservaciones;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context5.prev = 0;
+            _context5.next = 3;
             return _observaciones["default"].findAll({
               where: {
                 vigencia: true
@@ -262,19 +355,19 @@ var getAllObservaciones = /*#__PURE__*/function () {
             });
 
           case 3:
-            allObservaciones = _context4.sent;
+            allObservaciones = _context5.sent;
             res.json({
               resultado: true,
               message: "",
               observaciones: allObservaciones
             });
-            _context4.next = 11;
+            _context5.next = 11;
             break;
 
           case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
+            console.log(_context5.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -286,29 +379,29 @@ var getAllObservaciones = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, null, [[0, 7]]);
+    }, _callee5, null, [[0, 7]]);
   }));
 
-  return function getAllObservaciones(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getAllObservaciones(_x8, _x9) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 exports.getAllObservaciones = getAllObservaciones;
 
 var getObservacionesId = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
     var id, observacion;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context5.prev = 0;
+            _context6.prev = 0;
             id = req.params.id;
-            _context5.next = 4;
+            _context6.next = 4;
             return _observaciones["default"].findOne({
               where: {
                 id: id,
@@ -318,19 +411,19 @@ var getObservacionesId = /*#__PURE__*/function () {
             });
 
           case 4:
-            observacion = _context5.sent;
+            observacion = _context6.sent;
             res.json({
               resultado: true,
               message: "",
               observaciones: observacion
             });
-            _context5.next = 12;
+            _context6.next = 12;
             break;
 
           case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
+            _context6.prev = 8;
+            _context6.t0 = _context6["catch"](0);
+            console.log(_context6.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -342,47 +435,47 @@ var getObservacionesId = /*#__PURE__*/function () {
 
           case 13:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, null, [[0, 8]]);
+    }, _callee6, null, [[0, 8]]);
   }));
 
-  return function getObservacionesId(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function getObservacionesId(_x10, _x11) {
+    return _ref6.apply(this, arguments);
   };
 }();
 
 exports.getObservacionesId = getObservacionesId;
 
 var getAllObservacionesWithFalse = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
     var allObservaciones;
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
+            _context7.prev = 0;
+            _context7.next = 3;
             return _observaciones["default"].findAll({
               attributes: ['id', 'observacion', 'fecha', 'gasto', 'pedidos_id'],
               order: [['id', 'DESC']]
             });
 
           case 3:
-            allObservaciones = _context6.sent;
+            allObservaciones = _context7.sent;
             res.json({
               resultado: true,
               message: "",
               observaciones: allObservaciones
             });
-            _context6.next = 11;
+            _context7.next = 11;
             break;
 
           case 7:
-            _context6.prev = 7;
-            _context6.t0 = _context6["catch"](0);
-            console.log(_context6.t0);
+            _context7.prev = 7;
+            _context7.t0 = _context7["catch"](0);
+            console.log(_context7.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -394,14 +487,14 @@ var getAllObservacionesWithFalse = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, null, [[0, 7]]);
+    }, _callee7, null, [[0, 7]]);
   }));
 
-  return function getAllObservacionesWithFalse(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function getAllObservacionesWithFalse(_x12, _x13) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

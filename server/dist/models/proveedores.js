@@ -36,6 +36,9 @@ var proveedores = _database.database.define('proveedores', {
   },
   vigencia: {
     type: _sequelize["default"].BOOLEAN
+  },
+  cuentas_bancos_id: {
+    type: _sequelize["default"].INTEGER
   }
 }, {
   timestamps: false,

@@ -13,7 +13,11 @@ var _historial_precios = _interopRequireDefault(require("../models/historial_pre
 
 var _pedidos = _interopRequireDefault(require("../models/pedidos"));
 
+var _tiene = _interopRequireDefault(require("../models/tiene"));
+
 var historialPreciosController = _interopRequireWildcard(require("./historial_precios.controller"));
+
+var pedidosController = _interopRequireWildcard(require("./pedidos.controller"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -139,79 +143,149 @@ var updateProductos = /*#__PURE__*/function () {
 exports.updateProductos = updateProductos;
 
 var deleteProductos = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, producto, historialPreciosIds, pedidosIds, findedPedidos, aux, productoUpdate;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+    var body, id, producto, productoUpdate, aux;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context5.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context5.next = 5;
             return _productos["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
               attributes: ['id', 'codigo', 'nombre', 'tipo', 'proveedores_id', 'unidad_productos_id'],
-              include: [_historial_precios["default"], _pedidos["default"]]
+              include: [_historial_precios["default"], _tiene["default"]]
             });
 
-          case 4:
-            producto = _context3.sent;
+          case 5:
+            producto = _context5.sent;
 
             if (!producto) {
-              _context3.next = 28;
+              _context5.next = 30;
               break;
             }
 
-            historialPreciosIds = [];
-            pedidosIds = [];
-            producto.dataValues.historial_precios.forEach(function (element) {
-              historialPreciosIds.push(parseInt(element.dataValues.id));
-            });
-            pedidosIds = producto.dataValues.pedidos.forEach(function (element) {
-              pedidosIds.push(parseInt(element.dataValues.id));
-            });
-            findedPedidos = _pedidos["default"].findAll({
-              where: {
-                id: pedidosIds
-              },
-              attributes: ['id']
-            });
-            req.params = {
-              id: historialPreciosIds
+            productoUpdate = null;
+            aux = {
+              resultado: true
             };
-            _context3.next = 14;
-            return historialPreciosController.deleteHistorialPrecios(req, res);
+            req.body = {
+              cascade: true
+            };
+            producto.dataValues.historial_precios.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(element) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.id
+                        };
 
-          case 14:
-            aux = _context3.sent;
+                        if (!aux.resultado) {
+                          _context3.next = 7;
+                          break;
+                        }
+
+                        _context3.next = 4;
+                        return historialPreciosController.deleteHistorialPrecios(req, res);
+
+                      case 4:
+                        aux = _context3.sent;
+                        _context3.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cacade == true)) {
+                          _context3.next = 11;
+                          break;
+                        }
+
+                        return _context3.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }));
+
+              return function (_x7) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
+            producto.dataValues.tienes.forEach( /*#__PURE__*/function () {
+              var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(element) {
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.pedidos_id
+                        };
+
+                        if (!aux.resultado) {
+                          _context4.next = 7;
+                          break;
+                        }
+
+                        _context4.next = 4;
+                        return pedidosController.deletePedidos(req, res);
+
+                      case 4:
+                        aux = _context4.sent;
+                        _context4.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context4.next = 11;
+                          break;
+                        }
+
+                        return _context4.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context4.stop();
+                    }
+                  }
+                }, _callee4);
+              }));
+
+              return function (_x8) {
+                return _ref5.apply(this, arguments);
+              };
+            }());
 
             if (!aux.resultado) {
-              _context3.next = 20;
+              _context5.next = 18;
               break;
             }
 
-            _context3.next = 18;
-            return producto.removePedidos([findedPedidos]);
-
-          case 18:
-            _context3.next = 21;
-            break;
-
-          case 20:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 21:
-            if (!aux.resultado) {
-              _context3.next = 27;
-              break;
-            }
-
-            _context3.next = 24;
+            _context5.next = 15;
             return _productos["default"].update({
               vigencia: false
             }, {
@@ -221,43 +295,97 @@ var deleteProductos = /*#__PURE__*/function () {
               }
             });
 
-          case 24:
-            productoUpdate = _context3.sent;
-            _context3.next = 28;
+          case 15:
+            productoUpdate = _context5.sent;
+            _context5.next = 23;
             break;
 
-          case 27:
+          case 18:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context5.next = 22;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: false
+            });
+
+          case 22:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 28:
+          case 23:
+            if (!body.cascade) {
+              _context5.next = 27;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: true
+            });
+
+          case 27:
             res.json({
               resultado: true,
               message: 'Producto eliminado correctamente'
             });
-            _context3.next = 35;
+
+          case 28:
+            _context5.next = 35;
             break;
 
-          case 31:
-            _context3.prev = 31;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
+          case 30:
+            if (!body.cascade) {
+              _context5.next = 34;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: false
+            });
+
+          case 34:
             res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+              resultado: true,
+              message: 'Producto no encontrado'
             });
 
           case 35:
             ;
+            _context5.next = 46;
+            break;
 
-          case 36:
+          case 38:
+            _context5.prev = 38;
+            _context5.t0 = _context5["catch"](1);
+            console.log(_context5.t0);
+
+            if (!body.cascade) {
+              _context5.next = 45;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: false
+            });
+
+          case 45:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 46:
+            ;
+
+          case 47:
           case "end":
-            return _context3.stop();
+            return _context5.stop();
         }
       }
-    }, _callee3, null, [[0, 31]]);
+    }, _callee5, null, [[1, 38]]);
   }));
 
   return function deleteProductos(_x5, _x6) {
@@ -268,117 +396,6 @@ var deleteProductos = /*#__PURE__*/function () {
 exports.deleteProductos = deleteProductos;
 
 var getAllProductos = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var allProductos;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
-            return _productos["default"].findAll({
-              where: {
-                vigencia: true
-              },
-              attributes: ['id', 'codigo', 'nombre', 'tipo', 'proveedores_id', 'unidad_productos_id'],
-              order: [['id', 'DESC']]
-            });
-
-          case 3:
-            allProductos = _context4.sent;
-            res.json({
-              resultado: true,
-              message: "",
-              productos: allProductos
-            });
-            _context4.next = 11;
-            break;
-
-          case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              productos: null
-            });
-
-          case 11:
-            ;
-
-          case 12:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, null, [[0, 7]]);
-  }));
-
-  return function getAllProductos(_x7, _x8) {
-    return _ref4.apply(this, arguments);
-  };
-}();
-
-exports.getAllProductos = getAllProductos;
-
-var getProductosId = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, producto;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            _context5.prev = 0;
-            id = req.params.id;
-            _context5.next = 4;
-            return _productos["default"].findOne({
-              where: {
-                id: id,
-                vigencia: true
-              },
-              attributes: ['id', 'codigo', 'nombre', 'tipo', 'proveedores_id', 'unidad_productos_id']
-            });
-
-          case 4:
-            producto = _context5.sent;
-            res.json({
-              resultado: true,
-              message: "",
-              productos: producto
-            });
-            _context5.next = 12;
-            break;
-
-          case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              productos: null
-            });
-
-          case 12:
-            ;
-
-          case 13:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5, null, [[0, 8]]);
-  }));
-
-  return function getProductosId(_x9, _x10) {
-    return _ref5.apply(this, arguments);
-  };
-}();
-
-exports.getProductosId = getProductosId;
-
-var getAllProductosWithFalse = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
     var allProductos;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -388,6 +405,9 @@ var getAllProductosWithFalse = /*#__PURE__*/function () {
             _context6.prev = 0;
             _context6.next = 3;
             return _productos["default"].findAll({
+              where: {
+                vigencia: true
+              },
               attributes: ['id', 'codigo', 'nombre', 'tipo', 'proveedores_id', 'unidad_productos_id'],
               order: [['id', 'DESC']]
             });
@@ -423,8 +443,116 @@ var getAllProductosWithFalse = /*#__PURE__*/function () {
     }, _callee6, null, [[0, 7]]);
   }));
 
-  return function getAllProductosWithFalse(_x11, _x12) {
+  return function getAllProductos(_x9, _x10) {
     return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.getAllProductos = getAllProductos;
+
+var getProductosId = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
+    var id, producto;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.prev = 0;
+            id = req.params.id;
+            _context7.next = 4;
+            return _productos["default"].findOne({
+              where: {
+                id: id,
+                vigencia: true
+              },
+              attributes: ['id', 'codigo', 'nombre', 'tipo', 'proveedores_id', 'unidad_productos_id']
+            });
+
+          case 4:
+            producto = _context7.sent;
+            res.json({
+              resultado: true,
+              message: "",
+              productos: producto
+            });
+            _context7.next = 12;
+            break;
+
+          case 8:
+            _context7.prev = 8;
+            _context7.t0 = _context7["catch"](0);
+            console.log(_context7.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              productos: null
+            });
+
+          case 12:
+            ;
+
+          case 13:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, _callee7, null, [[0, 8]]);
+  }));
+
+  return function getProductosId(_x11, _x12) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.getProductosId = getProductosId;
+
+var getAllProductosWithFalse = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
+    var allProductos;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.prev = 0;
+            _context8.next = 3;
+            return _productos["default"].findAll({
+              attributes: ['id', 'codigo', 'nombre', 'tipo', 'proveedores_id', 'unidad_productos_id'],
+              order: [['id', 'DESC']]
+            });
+
+          case 3:
+            allProductos = _context8.sent;
+            res.json({
+              resultado: true,
+              message: "",
+              productos: allProductos
+            });
+            _context8.next = 11;
+            break;
+
+          case 7:
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
+            console.log(_context8.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              productos: null
+            });
+
+          case 11:
+            ;
+
+          case 12:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8, null, [[0, 7]]);
+  }));
+
+  return function getAllProductosWithFalse(_x13, _x14) {
+    return _ref8.apply(this, arguments);
   };
 }();
 

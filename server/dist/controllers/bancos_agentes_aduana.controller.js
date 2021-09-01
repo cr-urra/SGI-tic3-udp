@@ -25,22 +25,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var createBancosAgentesAduana = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, numero_cuenta, tipo_cuenta, nombre_banco, newBancoAgenteAduana;
+    var _req$body, numero_cuenta, tipo_cuenta, nombre_banco, agentes_aduana_id, newBancoAgenteAduana;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _req$body = req.body, numero_cuenta = _req$body.numero_cuenta, tipo_cuenta = _req$body.tipo_cuenta, nombre_banco = _req$body.nombre_banco;
+            _req$body = req.body, numero_cuenta = _req$body.numero_cuenta, tipo_cuenta = _req$body.tipo_cuenta, nombre_banco = _req$body.nombre_banco, agentes_aduana_id = _req$body.agentes_aduana_id;
             _context.next = 4;
             return _bancos_agentes_aduana["default"].create({
               numero_cuenta: numero_cuenta,
               tipo_cuenta: tipo_cuenta,
               nombre_banco: nombre_banco,
+              agentes_aduana_id: agentes_aduana_id,
               vigencia: true
             }, {
-              fields: ['numero_cuenta', 'tipo_cuenta', 'nombre_banco', 'vigencia']
+              fields: ['numero_cuenta', 'tipo_cuenta', 'nombre_banco', 'agentes_aduana_id', 'vigencia']
             });
 
           case 4:
@@ -136,49 +137,32 @@ exports.updateBancosAgentesAduana = updateBancosAgentesAduana;
 
 var deleteBancosAgentesAduana = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, bancoAgentesAduana, agentesAduanaIds, aux, bancoAgenteAduanaUpdate;
+    var body, id, bancoAgentesAduana, bancoAgenteAduanaUpdate;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context3.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context3.next = 5;
             return _bancos_agentes_aduana["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
-              attributes: ['id', 'numero_cuenta', 'tipo_cuenta', 'nombre_banco'],
-              include: [_agentes_aduana["default"]]
+              attributes: ['id', 'numero_cuenta', 'tipo_cuenta', 'nombre_banco', 'agentes_aduana_id']
             });
 
-          case 4:
+          case 5:
             bancoAgentesAduana = _context3.sent;
 
             if (!bancoAgentesAduana) {
-              _context3.next = 19;
+              _context3.next = 17;
               break;
             }
 
-            agentesAduanaIds = [];
-            bancoAgentesAduana.dataValues.agentesAduana.forEach(function (element) {
-              agentesAduanaIds.push(parseInt(element.dataValues.id));
-            });
-            req.params = {
-              id: agentesAduanaIds
-            };
-            _context3.next = 11;
-            return agentesAduanaController.deleteAgentesAduana(req, res);
-
-          case 11:
-            aux = _context3.sent;
-
-            if (!aux.resultado) {
-              _context3.next = 18;
-              break;
-            }
-
-            _context3.next = 15;
+            _context3.next = 9;
             return bancoAgentesAduana.update({
               vigencia: false
             }, {
@@ -188,43 +172,78 @@ var deleteBancosAgentesAduana = /*#__PURE__*/function () {
               }
             });
 
-          case 15:
+          case 9:
             bancoAgenteAduanaUpdate = _context3.sent;
-            _context3.next = 19;
-            break;
 
-          case 18:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            if (!body.cascade) {
+              _context3.next = 14;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: true
             });
 
-          case 19:
+          case 14:
             res.json({
               resultado: true,
               message: 'Banco de agente de aduana eliminado correctamente'
             });
-            _context3.next = 26;
+
+          case 15:
+            _context3.next = 22;
             break;
 
+          case 17:
+            if (!body.cascade) {
+              _context3.next = 21;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 21:
+            res.json({
+              resultado: true,
+              message: 'Banco de agente de aduana no encontrado'
+            });
+
           case 22:
-            _context3.prev = 22;
-            _context3.t0 = _context3["catch"](0);
+            ;
+            _context3.next = 33;
+            break;
+
+          case 25:
+            _context3.prev = 25;
+            _context3.t0 = _context3["catch"](1);
             console.log(_context3.t0);
+
+            if (!body.cascade) {
+              _context3.next = 32;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 32:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 26:
+          case 33:
             ;
 
-          case 27:
+          case 34:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 22]]);
+    }, _callee3, null, [[1, 25]]);
   }));
 
   return function deleteBancosAgentesAduana(_x5, _x6) {
@@ -247,7 +266,7 @@ var getAllBancosAgentesAduana = /*#__PURE__*/function () {
               where: {
                 vigencia: true
               },
-              attributes: ['id', 'numero_cuenta', 'tipo_cuenta', 'nombre_banco'],
+              attributes: ['id', 'numero_cuenta', 'tipo_cuenta', 'nombre_banco', 'agentes_aduana_id'],
               order: [['id', 'DESC']]
             });
 
@@ -301,10 +320,10 @@ var getBancosAgentesAduanaId = /*#__PURE__*/function () {
             _context5.next = 4;
             return _bancos_agentes_aduana["default"].findOne({
               where: {
-                id: id,
+                agentes_aduana_id: id,
                 vigencia: true
               },
-              attributes: ['id', 'numero_cuenta', 'tipo_cuenta', 'nombre_banco']
+              attributes: ['id', 'numero_cuenta', 'tipo_cuenta', 'nombre_banco', 'agentes_aduana_id']
             });
 
           case 4:
@@ -355,7 +374,7 @@ var getAllBancosAgentesAduanaWithFalse = /*#__PURE__*/function () {
             _context6.prev = 0;
             _context6.next = 3;
             return _bancos_agentes_aduana["default"].findAll({
-              attributes: ['id', 'numero_cuenta', 'tipo_cuenta', 'nombre_banco'],
+              attributes: ['id', 'numero_cuenta', 'tipo_cuenta', 'nombre_banco', 'agentes_aduana_id'],
               order: [['id', 'DESC']]
             });
 

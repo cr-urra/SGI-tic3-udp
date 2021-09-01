@@ -126,30 +126,32 @@ exports.updateGastosExtras = updateGastosExtras;
 
 var deleteGastosExtras = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, gastoExtra, gastoExtraUpdate;
+    var body, id, gastoExtra, gastoExtraUpdate;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context3.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context3.next = 5;
             return _gastos_extras["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
               attributes: ['id', 'monto', 'pedidos_id', 'observaciones_id']
             });
 
-          case 4:
+          case 5:
             gastoExtra = _context3.sent;
 
             if (!gastoExtra) {
-              _context3.next = 9;
+              _context3.next = 17;
               break;
             }
 
-            _context3.next = 8;
+            _context3.next = 9;
             return _gastos_extras["default"].update({
               vigencia: false
             }, {
@@ -159,35 +161,78 @@ var deleteGastosExtras = /*#__PURE__*/function () {
               }
             });
 
-          case 8:
+          case 9:
             gastoExtraUpdate = _context3.sent;
 
-          case 9:
+            if (!body.cascade) {
+              _context3.next = 14;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: true
+            });
+
+          case 14:
             res.json({
               resultado: true,
               message: 'Gasto extra eliminado correctamente'
             });
-            _context3.next = 16;
+
+          case 15:
+            _context3.next = 22;
             break;
 
-          case 12:
-            _context3.prev = 12;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+          case 17:
+            if (!body.cascade) {
+              _context3.next = 21;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
             });
 
-          case 16:
+          case 21:
+            res.json({
+              resultado: true,
+              message: 'Gasto extra no encontrado'
+            });
+
+          case 22:
+            ;
+            _context3.next = 33;
+            break;
+
+          case 25:
+            _context3.prev = 25;
+            _context3.t0 = _context3["catch"](1);
+            console.log(_context3.t0);
+
+            if (!body.cascade) {
+              _context3.next = 32;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 32:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 33:
             ;
 
-          case 17:
+          case 34:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 12]]);
+    }, _callee3, null, [[1, 25]]);
   }));
 
   return function deleteGastosExtras(_x5, _x6) {

@@ -32,9 +32,10 @@ export const updateUsuarios = async (req, res) => {
 };
 
 export const deleteUsuarios = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
-        const user = usuarios.findOne({
+        const user = await usuarios.findOne({
             where: {
                 id
             },
@@ -50,12 +51,31 @@ export const deleteUsuarios = async (req, res) => {
             req.body = {
                 cascade: true
             };
-            let r = await ct.deleteTelefonosUsuarios(req, res);
-            r.resultado ? r = await ipsc.deleteIps(req, res) : res.json({
-                message: 'Ha ocurrido un error, porfavor contactese con el administrador',
-                resultado: false
+            let aux = {
+                resultado: true
+            };
+            user.dataValues.telefonos_usuarios.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = await ct.deleteTelefonosUsuarios(req, res)
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
             });
-            if(r.resultado) { 
+            console.log("aqui");
+            user.dataValues.ips.forEach(async element => {
+                req.params = {
+                    id: element.dataValues.id
+                };
+                if(aux.resultado) aux = aux = await ipsc.deleteIps(req, res)
+                else res.json({
+                    resultado: false, 
+                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                });
+            });
+            if(aux.resultado) { 
                 await usuarios.destroy({
                     where: {
                         id
@@ -70,18 +90,15 @@ export const deleteUsuarios = async (req, res) => {
                     message: 'Ha ocurrido un error, porfavor contactese con el administrador',
                     resultado: false
                 });
-            }
-        }else{
+            };
+        } else {
             res.json({
-                message: 'El usuario ingresado no se encuentra',
+                message: 'Usuario no encontrado',
                 resultado: false
             });
-        }
+        };
     }catch(e){
-        if(req.body.cascade) return {
-            resultado: false
-        }
-        else res.json({
+        res.json({
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
             resultado: false
         });

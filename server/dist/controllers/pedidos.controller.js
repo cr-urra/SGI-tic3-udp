@@ -37,6 +37,8 @@ var observacionesController = _interopRequireWildcard(require("./observaciones.c
 
 var gastosExtrasController = _interopRequireWildcard(require("./gastos_extras.controller"));
 
+var historialDolarController = _interopRequireWildcard(require("./historial_dolar.controller"));
+
 var _config = _interopRequireDefault(require("../config"));
 
 var _agentes_aduana = _interopRequireDefault(require("../models/agentes_aduana"));
@@ -55,7 +57,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var createPedidos = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, codigo, pago_inicial, estado, tipo_de_envio, flete, valor_cif, fecha_vencimiento, tipo_pago, fecha_inicial, seguro, proveedores_id, token, decoded, user_id, newPedido, user;
+    var _req$body, codigo, pago_inicial, estado, tipo_de_envio, flete, valor_cif, fecha_vencimiento, tipo_pago, fecha_inicial, seguro, proveedores_id, token, decoded, user_id, newPedido, newDetallePedido, user;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -99,7 +101,23 @@ var createPedidos = /*#__PURE__*/function () {
 
           case 7:
             newPedido = _context.sent;
-            _context.next = 10;
+            console.log(newPedido);
+            req.body = {
+              diferencia_de_costos: 0,
+              pedidos_id: newPedido.dataValues.id
+            };
+            _context.next = 12;
+            return _detalles_pedidos["default"].create({
+              diferencia_de_costos: 0,
+              pedidos_id: newPedido.dataValues.id,
+              vigencia: true
+            }, {
+              fields: ['diferencia_de_costos', 'pedidos_id', 'vigencia']
+            });
+
+          case 12:
+            newDetallePedido = _context.sent;
+            _context.next = 15;
             return _usuarios["default"].findOne({
               where: {
                 id: user_id
@@ -107,7 +125,7 @@ var createPedidos = /*#__PURE__*/function () {
               attributes: ['id']
             });
 
-          case 10:
+          case 15:
             user = _context.sent;
             newPedido.addUsuarios([user]);
             res.json({
@@ -115,11 +133,11 @@ var createPedidos = /*#__PURE__*/function () {
               message: "Pedido creado correctamente",
               pedido: newPedido
             });
-            _context.next = 19;
+            _context.next = 24;
             break;
 
-          case 15:
-            _context.prev = 15;
+          case 20:
+            _context.prev = 20;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.json({
@@ -128,15 +146,15 @@ var createPedidos = /*#__PURE__*/function () {
               pedido: null
             });
 
-          case 19:
+          case 24:
             ;
 
-          case 20:
+          case 25:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 15]]);
+    }, _callee, null, [[0, 20]]);
   }));
 
   return function createPedidos(_x, _x2) {
@@ -200,188 +218,284 @@ var updatePedidos = /*#__PURE__*/function () {
 exports.updatePedidos = updatePedidos;
 
 var deletePedidos = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, pedido, idsObservaciones, idsDocumentos, idsGastosExtras, productosIds, historialDolarIds, pedidoDetId, findedProductos, findedHistorialDolar, aux, pedidoUpdate;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
+    var body, id, pedido, aux, pedidoUpdate;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context7.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context7.next = 5;
             return _pedidos["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
               attributes: ['id'],
-              include: [_detalles_pedidos["default"], _documentos["default"], _observaciones["default"], _gastos_extras["default"], _productos["default"], _historial_dolar["default"]]
+              include: [_detalles_pedidos["default"], _documentos["default"], _historial_dolar["default"], _gastos_extras["default"], _observaciones["default"]]
             });
 
-          case 4:
-            pedido = _context3.sent;
+          case 5:
+            pedido = _context7.sent;
 
             if (!pedido) {
-              _context3.next = 69;
+              _context7.next = 43;
               break;
             }
 
-            idsObservaciones = [];
-            idsDocumentos = [];
-            idsGastosExtras = [];
-            productosIds = [];
-            historialDolarIds = [];
-            pedidoDetId = pedido.dataValues.detalles_pedido.dataValues.id;
-            pedido.dataValues.observaciones.forEach(function (element) {
-              idsObservaciones.push(parseInt(element.dataValues.id));
-            });
-            pedido.dataValues.documentos.forEach(function (element) {
-              idsDocumentos.push(parseInt(element.dataValues.id));
-            });
-            pedido.dataValues.gastos_extras.forEach(function (element) {
-              idsGastosExtras.push(parseInt(element.dataValues.id));
-            });
-            productosIds = pedido.dataValues.productos.forEach(function (element) {
-              productosIds.push(parseInt(element.dataValues.id));
-            });
-            historialDolarIds = pedido.dataValues.historial_dolar.forEach(function (element) {
-              historialDolarIds.push(parseInt(element.dataValues.id));
-            });
-            findedProductos = _productos["default"].findAll({
-              where: {
-                id: productosIds
-              },
-              attributes: ['id']
-            });
-            findedHistorialDolar = _productos["default"].findAll({
-              where: {
-                id: historialDolarIds
-              },
-              attributes: ['id']
-            });
-            req.params = {
-              id: pedidoDetId
+            aux = {
+              resultado: true
             };
-            _context3.next = 22;
+            req.body = {
+              cascade: true
+            };
+            req.params = {
+              id: pedido.detalles_pedido.dataValues.id
+            };
+
+            if (!aux.resultado) {
+              _context7.next = 16;
+              break;
+            }
+
+            _context7.next = 13;
             return detallesPedidosController.deleteDetallesPedidos(req, res);
 
-          case 22:
-            aux = _context3.sent;
-            req.params = {
-              id: idsObservaciones
-            };
+          case 13:
+            aux = _context7.sent;
+            _context7.next = 21;
+            break;
 
-            if (!aux.resultado) {
-              _context3.next = 30;
+          case 16:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context7.next = 20;
               break;
             }
 
-            _context3.next = 27;
-            return observacionesController.deleteObservaciones(req, res);
+            return _context7.abrupt("return", {
+              resultado: false
+            });
 
-          case 27:
-            aux = _context3.sent;
-            _context3.next = 31;
-            break;
-
-          case 30:
+          case 20:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 31:
-            req.params = {
-              id: idsDocumentos
-            };
+          case 21:
+            pedido.dataValues.documentos.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(element) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.id
+                        };
+
+                        if (!aux.resultado) {
+                          _context3.next = 7;
+                          break;
+                        }
+
+                        _context3.next = 4;
+                        return documentosController.deleteDocumentos(req, res);
+
+                      case 4:
+                        aux = _context3.sent;
+                        _context3.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context3.next = 11;
+                          break;
+                        }
+
+                        return _context3.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }));
+
+              return function (_x7) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
+            pedido.dataValues.observaciones.forEach( /*#__PURE__*/function () {
+              var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(element) {
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.id
+                        };
+
+                        if (!aux.resultado) {
+                          _context4.next = 7;
+                          break;
+                        }
+
+                        _context4.next = 4;
+                        return observacionesController.deleteObservaciones(req, res);
+
+                      case 4:
+                        aux = _context4.sent;
+                        _context4.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context4.next = 11;
+                          break;
+                        }
+
+                        return _context4.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context4.stop();
+                    }
+                  }
+                }, _callee4);
+              }));
+
+              return function (_x8) {
+                return _ref5.apply(this, arguments);
+              };
+            }());
+            pedido.dataValues.gastos_extras.forEach( /*#__PURE__*/function () {
+              var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(element) {
+                return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                  while (1) {
+                    switch (_context5.prev = _context5.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.id
+                        };
+
+                        if (!aux.resultado) {
+                          _context5.next = 7;
+                          break;
+                        }
+
+                        _context5.next = 4;
+                        return gastosExtrasController.deleteGastosExtras(req, req);
+
+                      case 4:
+                        aux = _context5.sent;
+                        _context5.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context5.next = 11;
+                          break;
+                        }
+
+                        return _context5.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context5.stop();
+                    }
+                  }
+                }, _callee5);
+              }));
+
+              return function (_x9) {
+                return _ref6.apply(this, arguments);
+              };
+            }());
+            pedido.dataValues.historial_dolars.forEach( /*#__PURE__*/function () {
+              var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(element) {
+                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                  while (1) {
+                    switch (_context6.prev = _context6.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.id
+                        };
+
+                        if (!aux.resultado) {
+                          _context6.next = 7;
+                          break;
+                        }
+
+                        _context6.next = 4;
+                        return historialDolarController.deleteHistorialDolar(req, req);
+
+                      case 4:
+                        aux = _context6.sent;
+                        _context6.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context6.next = 11;
+                          break;
+                        }
+
+                        return _context6.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context6.stop();
+                    }
+                  }
+                }, _callee6);
+              }));
+
+              return function (_x10) {
+                return _ref7.apply(this, arguments);
+              };
+            }());
 
             if (!aux.resultado) {
-              _context3.next = 38;
+              _context7.next = 31;
               break;
             }
 
-            _context3.next = 35;
-            return documentosController.deleteDocumentos(req, res);
-
-          case 35:
-            aux = _context3.sent;
-            _context3.next = 39;
-            break;
-
-          case 38:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 39:
-            req.params = {
-              id: idsGastosExtras
-            };
-
-            if (!aux.resultado) {
-              _context3.next = 46;
-              break;
-            }
-
-            _context3.next = 43;
-            return gastosExtrasController.deleteGastosExtras(req, res);
-
-          case 43:
-            aux = _context3.sent;
-            _context3.next = 47;
-            break;
-
-          case 46:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 47:
-            if (!aux.resultado) {
-              _context3.next = 52;
-              break;
-            }
-
-            _context3.next = 50;
-            return pedido.removeProductos([findedProductos]);
-
-          case 50:
-            _context3.next = 53;
-            break;
-
-          case 52:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 53:
-            if (!aux.resultado) {
-              _context3.next = 58;
-              break;
-            }
-
-            _context3.next = 56;
-            return pedido.removeHistorial_dolar([findedHistorialDolar]);
-
-          case 56:
-            _context3.next = 59;
-            break;
-
-          case 58:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 59:
-            if (!aux.resultado) {
-              _context3.next = 65;
-              break;
-            }
-
-            _context3.next = 62;
+            _context7.next = 28;
             return _pedidos["default"].update({
               vigencia: false
             }, {
@@ -391,54 +505,97 @@ var deletePedidos = /*#__PURE__*/function () {
               }
             });
 
-          case 62:
-            pedidoUpdate = _context3.sent;
-            _context3.next = 66;
+          case 28:
+            pedidoUpdate = _context7.sent;
+            _context7.next = 36;
             break;
 
-          case 65:
+          case 31:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context7.next = 35;
+              break;
+            }
+
+            return _context7.abrupt("return", {
+              resultado: false
+            });
+
+          case 35:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 66:
+          case 36:
+            if (!body.cascade) {
+              _context7.next = 40;
+              break;
+            }
+
+            return _context7.abrupt("return", {
+              resultado: true
+            });
+
+          case 40:
             res.json({
               resultado: true,
               message: 'Pedido eliminado correctamente'
             });
-            _context3.next = 70;
+
+          case 41:
+            _context7.next = 48;
             break;
 
-          case 69:
-            res.json({
-              resultado: false,
-              message: "El pedido ingresado no existe"
+          case 43:
+            if (!body.cascade) {
+              _context7.next = 47;
+              break;
+            }
+
+            return _context7.abrupt("return", {
+              resultado: false
             });
 
-          case 70:
+          case 47:
+            res.json({
+              resultado: true,
+              message: "Pedido no encontrado"
+            });
+
+          case 48:
             ;
-            _context3.next = 77;
+            _context7.next = 59;
             break;
 
-          case 73:
-            _context3.prev = 73;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
+          case 51:
+            _context7.prev = 51;
+            _context7.t0 = _context7["catch"](1);
+            console.log(_context7.t0);
+
+            if (!body.cascade) {
+              _context7.next = 58;
+              break;
+            }
+
+            return _context7.abrupt("return", {
+              resultado: false
+            });
+
+          case 58:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 77:
+          case 59:
             ;
 
-          case 78:
+          case 60:
           case "end":
-            return _context3.stop();
+            return _context7.stop();
         }
       }
-    }, _callee3, null, [[0, 73]]);
+    }, _callee7, null, [[1, 51]]);
   }));
 
   return function deletePedidos(_x5, _x6) {
@@ -449,14 +606,14 @@ var deletePedidos = /*#__PURE__*/function () {
 exports.deletePedidos = deletePedidos;
 
 var getAllPedidos = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
     var allPedidos;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context8.prev = 0;
+            _context8.next = 3;
             return _pedidos["default"].findAll({
               where: {
                 vigencia: true
@@ -473,19 +630,19 @@ var getAllPedidos = /*#__PURE__*/function () {
             });
 
           case 3:
-            allPedidos = _context4.sent;
+            allPedidos = _context8.sent;
             res.json({
               resultado: true,
               message: "",
               pedidos: allPedidos
             });
-            _context4.next = 11;
+            _context8.next = 11;
             break;
 
           case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
+            console.log(_context8.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -497,29 +654,29 @@ var getAllPedidos = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context4.stop();
+            return _context8.stop();
         }
       }
-    }, _callee4, null, [[0, 7]]);
+    }, _callee8, null, [[0, 7]]);
   }));
 
-  return function getAllPedidos(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getAllPedidos(_x11, _x12) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 exports.getAllPedidos = getAllPedidos;
 
 var getPedidosId = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
     var id, pedido;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context9.prev = _context9.next) {
           case 0:
-            _context5.prev = 0;
+            _context9.prev = 0;
             id = req.params.id;
-            _context5.next = 4;
+            _context9.next = 4;
             return _pedidos["default"].findOne({
               where: {
                 id: id,
@@ -536,19 +693,19 @@ var getPedidosId = /*#__PURE__*/function () {
             });
 
           case 4:
-            pedido = _context5.sent;
+            pedido = _context9.sent;
             res.json({
               resultado: true,
               message: "",
               pedidos: pedido
             });
-            _context5.next = 12;
+            _context9.next = 12;
             break;
 
           case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
+            _context9.prev = 8;
+            _context9.t0 = _context9["catch"](0);
+            console.log(_context9.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -560,28 +717,28 @@ var getPedidosId = /*#__PURE__*/function () {
 
           case 13:
           case "end":
-            return _context5.stop();
+            return _context9.stop();
         }
       }
-    }, _callee5, null, [[0, 8]]);
+    }, _callee9, null, [[0, 8]]);
   }));
 
-  return function getPedidosId(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function getPedidosId(_x13, _x14) {
+    return _ref9.apply(this, arguments);
   };
 }();
 
 exports.getPedidosId = getPedidosId;
 
 var getAllPedidosWithFalse = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
     var allPedidos;
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context10.prev = _context10.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
+            _context10.prev = 0;
+            _context10.next = 3;
             return _pedidos["default"].findAll({
               attributes: ['id', 'codigo', 'pago_inicial', 'pago_final', 'fecha_pago', 'fecha_salida', 'fecha_llegada_real', 'fecha_llegada_estimada', 'fecha_aduana', 'estado', 'tipo_de_envio', 'flete', 'valor_cif', 'honorarios', 'arancel', 'gastos_agencia', 'numero_din', 'cuentas_bancos_id', 'agentes_aduana_id', 'proveedores_id', 'dolar_mensual_id', 'fecha_vencimiento', 'tipo_pago', 'fecha_inicial', 'seguro', 'vigencia'],
               order: [['id', 'DESC']],
@@ -595,19 +752,19 @@ var getAllPedidosWithFalse = /*#__PURE__*/function () {
             });
 
           case 3:
-            allPedidos = _context6.sent;
+            allPedidos = _context10.sent;
             res.json({
               resultado: true,
               message: "",
               pedidos: allPedidos
             });
-            _context6.next = 11;
+            _context10.next = 11;
             break;
 
           case 7:
-            _context6.prev = 7;
-            _context6.t0 = _context6["catch"](0);
-            console.log(_context6.t0);
+            _context10.prev = 7;
+            _context10.t0 = _context10["catch"](0);
+            console.log(_context10.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -619,14 +776,14 @@ var getAllPedidosWithFalse = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context6.stop();
+            return _context10.stop();
         }
       }
-    }, _callee6, null, [[0, 7]]);
+    }, _callee10, null, [[0, 7]]);
   }));
 
-  return function getAllPedidosWithFalse(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function getAllPedidosWithFalse(_x15, _x16) {
+    return _ref10.apply(this, arguments);
   };
 }();
 

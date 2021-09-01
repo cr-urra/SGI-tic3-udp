@@ -125,30 +125,33 @@ exports.updateDetallesDolar = updateDetallesDolar;
 
 var deleteDetallesDolar = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, detalleDolar, detalleDolarUpdate;
+    var body, id, params, detalleDolar, detalleDolarUpdate;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context3.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            params = req.params;
+            _context3.next = 6;
             return _detalles_dolar["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
               attributes: ['id', 'precio_compra', 'historial_dolar_id']
             });
 
-          case 4:
+          case 6:
             detalleDolar = _context3.sent;
 
             if (!detalleDolar) {
-              _context3.next = 9;
+              _context3.next = 18;
               break;
             }
 
-            _context3.next = 8;
+            _context3.next = 10;
             return _detalles_dolar["default"].update({
               vigencia: false
             }, {
@@ -158,35 +161,77 @@ var deleteDetallesDolar = /*#__PURE__*/function () {
               }
             });
 
-          case 8:
+          case 10:
             detalleDolarUpdate = _context3.sent;
 
-          case 9:
+            if (!body.cascade) {
+              _context3.next = 15;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: true
+            });
+
+          case 15:
             res.json({
               resultado: true,
               message: 'Detalle de dólar eliminado correctamente'
             });
-            _context3.next = 16;
-            break;
-
-          case 12:
-            _context3.prev = 12;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
 
           case 16:
+            _context3.next = 23;
+            break;
+
+          case 18:
+            if (!body.cascade) {
+              _context3.next = 22;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 22:
+            res.json({
+              resultado: true,
+              message: 'Detalle de dólar no encontrado'
+            });
+
+          case 23:
+            _context3.next = 33;
+            break;
+
+          case 25:
+            _context3.prev = 25;
+            _context3.t0 = _context3["catch"](1);
+            console.log(_context3.t0);
+
+            if (!body.cascade) {
+              _context3.next = 32;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 32:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 33:
             ;
 
-          case 17:
+          case 34:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 12]]);
+    }, _callee3, null, [[1, 25]]);
   }));
 
   return function deleteDetallesDolar(_x5, _x6) {

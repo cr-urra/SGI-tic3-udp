@@ -13,13 +13,17 @@ var _pedidos = _interopRequireDefault(require("../models/pedidos"));
 
 var _productos = _interopRequireDefault(require("../models/productos"));
 
-var _telefonos_proveedores = _interopRequireDefault(require("../models/telefonos_proveedores"));
-
 var pedidosController = _interopRequireWildcard(require("./pedidos.controller"));
 
 var productosController = _interopRequireWildcard(require("./productos.controller"));
 
 var telefonosProveedoresController = _interopRequireWildcard(require("./telefonos_proveedores.controller"));
+
+var cuentasBancosController = _interopRequireWildcard(require("./cuentas_bancos.controller"));
+
+var _telefonos_proveedores2 = _interopRequireDefault(require("../models/telefonos_proveedores"));
+
+var _cuentas_bancos2 = _interopRequireDefault(require("../models/cuentas_bancos"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -33,14 +37,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var createProveedores = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, nombre, direccion, correo, pais, monedas_id, rut, newProveedor;
+    var _req$body, nombre, direccion, correo, pais, monedas_id, rut, cuentas_bancos_id, newProveedor;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _req$body = req.body, nombre = _req$body.nombre, direccion = _req$body.direccion, correo = _req$body.correo, pais = _req$body.pais, monedas_id = _req$body.monedas_id, rut = _req$body.rut;
+            _req$body = req.body, nombre = _req$body.nombre, direccion = _req$body.direccion, correo = _req$body.correo, pais = _req$body.pais, monedas_id = _req$body.monedas_id, rut = _req$body.rut, cuentas_bancos_id = _req$body.cuentas_bancos_id;
             _context.next = 4;
             return _proveedores["default"].create({
               nombre: nombre,
@@ -49,9 +53,10 @@ var createProveedores = /*#__PURE__*/function () {
               pais: pais,
               monedas_id: monedas_id,
               rut: rut,
+              cuentas_bancos_id: cuentas_bancos_id,
               vigencia: true
             }, {
-              fields: ['nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut', 'vigencia']
+              fields: ['nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut', 'cuentas_bancos_id', 'vigencia']
             });
 
           case 4:
@@ -146,105 +151,148 @@ var updateProveedores = /*#__PURE__*/function () {
 exports.updateProveedores = updateProveedores;
 
 var deleteProveedores = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, proveedor, pedidosIds, productosIds, telefonosProveedoresIds, aux, proveedorUpdate;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+    var body, id, proveedor, aux, proveedorUpdate;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context5.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context5.next = 5;
             return _proveedores["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
-              attributes: ['id', 'nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut'],
-              include: [_pedidos["default"], _productos["default"], _telefonos_proveedores["default"]]
+              attributes: ['id'],
+              include: [_productos["default"], _telefonos_proveedores2["default"]]
             });
 
-          case 4:
-            proveedor = _context3.sent;
+          case 5:
+            proveedor = _context5.sent;
 
             if (!proveedor) {
-              _context3.next = 39;
+              _context5.next = 29;
               break;
             }
 
-            pedidosIds = [];
-            productosIds = [];
-            telefonosProveedoresIds = [];
-            proveedor.dataValues.pedidos.forEach(function (element) {
-              pedidosIds.push(parseInt(element.dataValues.id));
-            });
-            proveedor.dataValues.productos.forEach(function (element) {
-              productosIds.push(parseInt(element.dataValues.id));
-            });
-            proveedor.dataValues.telefonos_proveedores.forEach(function (element) {
-              telefonosProveedoresIds.push(parseInt(element.dataValues.id));
-            });
-            req.params = {
-              id: pedidosIds
+            aux = {
+              resultado: true
             };
-            _context3.next = 15;
-            return pedidosController.deletePedidos(req, res);
+            req.body = {
+              cascade: true
+            };
+            proveedor.dataValues.productos.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(element) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.id
+                        };
 
-          case 15:
-            aux = _context3.sent;
-            req.params = {
-              id: productosIds
-            };
+                        if (!aux.resultado) {
+                          _context3.next = 7;
+                          break;
+                        }
+
+                        _context3.next = 4;
+                        return productosController.deleteProductos(req, res);
+
+                      case 4:
+                        aux = _context3.sent;
+                        _context3.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context3.next = 11;
+                          break;
+                        }
+
+                        return _context3.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }));
+
+              return function (_x7) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
+            proveedor.dataValues.telefonos_proveedores.forEach( /*#__PURE__*/function () {
+              var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(element) {
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.id
+                        };
+
+                        if (!aux.resultado) {
+                          _context4.next = 7;
+                          break;
+                        }
+
+                        _context4.next = 4;
+                        return telefonosProveedoresController.deleteTelefonosProveedores(req, res);
+
+                      case 4:
+                        aux = _context4.sent;
+                        _context4.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cascade == true)) {
+                          _context4.next = 11;
+                          break;
+                        }
+
+                        return _context4.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context4.stop();
+                    }
+                  }
+                }, _callee4);
+              }));
+
+              return function (_x8) {
+                return _ref5.apply(this, arguments);
+              };
+            }());
 
             if (!aux.resultado) {
-              _context3.next = 23;
+              _context5.next = 17;
               break;
             }
 
-            _context3.next = 20;
-            return productosController.deleteProductos(req, res);
-
-          case 20:
-            aux = _context3.sent;
-            _context3.next = 24;
-            break;
-
-          case 23:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 24:
-            req.params = {
-              id: telefonosProveedoresIds
-            };
-
-            if (!aux.resultado) {
-              _context3.next = 31;
-              break;
-            }
-
-            _context3.next = 28;
-            return telefonosProveedoresController.deleteTelefonosProveedores(req, res);
-
-          case 28:
-            aux = _context3.sent;
-            _context3.next = 32;
-            break;
-
-          case 31:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 32:
-            if (!aux.resultado) {
-              _context3.next = 38;
-              break;
-            }
-
-            _context3.next = 35;
+            _context5.next = 14;
             return _proveedores["default"].update({
               vigencia: false
             }, {
@@ -254,43 +302,97 @@ var deleteProveedores = /*#__PURE__*/function () {
               }
             });
 
-          case 35:
-            proveedorUpdate = _context3.sent;
-            _context3.next = 39;
+          case 14:
+            proveedorUpdate = _context5.sent;
+            _context5.next = 22;
             break;
 
-          case 38:
+          case 17:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context5.next = 21;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: false
+            });
+
+          case 21:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 39:
+          case 22:
+            if (!body.cascade) {
+              _context5.next = 26;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: true
+            });
+
+          case 26:
             res.json({
               resultado: true,
               message: 'Proveedor eliminado correctamente'
             });
-            _context3.next = 46;
+
+          case 27:
+            _context5.next = 34;
             break;
 
-          case 42:
-            _context3.prev = 42;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+          case 29:
+            if (!body.cascade) {
+              _context5.next = 33;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: false
             });
 
-          case 46:
+          case 33:
+            res.json({
+              resultado: true,
+              message: 'Proveedor no encontrado'
+            });
+
+          case 34:
+            ;
+            _context5.next = 45;
+            break;
+
+          case 37:
+            _context5.prev = 37;
+            _context5.t0 = _context5["catch"](1);
+            console.log(_context5.t0);
+
+            if (!req.body.cascade) {
+              _context5.next = 44;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              resultado: false
+            });
+
+          case 44:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 45:
             ;
 
-          case 47:
+          case 46:
           case "end":
-            return _context3.stop();
+            return _context5.stop();
         }
       }
-    }, _callee3, null, [[0, 42]]);
+    }, _callee5, null, [[1, 37]]);
   }));
 
   return function deleteProveedores(_x5, _x6) {
@@ -301,117 +403,6 @@ var deleteProveedores = /*#__PURE__*/function () {
 exports.deleteProveedores = deleteProveedores;
 
 var getAllProveedores = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var allProveedores;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
-            return _proveedores["default"].findAll({
-              where: {
-                vigencia: true
-              },
-              attributes: ['id', 'nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut'],
-              order: [['id', 'DESC']]
-            });
-
-          case 3:
-            allProveedores = _context4.sent;
-            res.json({
-              resultado: true,
-              message: "",
-              proveedores: allProveedores
-            });
-            _context4.next = 11;
-            break;
-
-          case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              proveedores: null
-            });
-
-          case 11:
-            ;
-
-          case 12:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, null, [[0, 7]]);
-  }));
-
-  return function getAllProveedores(_x7, _x8) {
-    return _ref4.apply(this, arguments);
-  };
-}();
-
-exports.getAllProveedores = getAllProveedores;
-
-var getProveedoresId = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, proveedor;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            _context5.prev = 0;
-            id = req.params.id;
-            _context5.next = 4;
-            return _proveedores["default"].findOne({
-              where: {
-                id: id,
-                vigencia: true
-              },
-              attributes: ['id', 'nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut']
-            });
-
-          case 4:
-            proveedor = _context5.sent;
-            res.json({
-              resultado: true,
-              message: "",
-              proveedores: proveedor
-            });
-            _context5.next = 12;
-            break;
-
-          case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              proveedores: null
-            });
-
-          case 12:
-            ;
-
-          case 13:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5, null, [[0, 8]]);
-  }));
-
-  return function getProveedoresId(_x9, _x10) {
-    return _ref5.apply(this, arguments);
-  };
-}();
-
-exports.getProveedoresId = getProveedoresId;
-
-var getAllProveedoresWithFalse = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
     var allProveedores;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -421,7 +412,10 @@ var getAllProveedoresWithFalse = /*#__PURE__*/function () {
             _context6.prev = 0;
             _context6.next = 3;
             return _proveedores["default"].findAll({
-              attributes: ['id', 'nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut'],
+              where: {
+                vigencia: true
+              },
+              attributes: ['id', 'nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut', 'cuentas_bancos_id'],
               order: [['id', 'DESC']]
             });
 
@@ -456,8 +450,116 @@ var getAllProveedoresWithFalse = /*#__PURE__*/function () {
     }, _callee6, null, [[0, 7]]);
   }));
 
-  return function getAllProveedoresWithFalse(_x11, _x12) {
+  return function getAllProveedores(_x9, _x10) {
     return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.getAllProveedores = getAllProveedores;
+
+var getProveedoresId = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
+    var id, proveedor;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.prev = 0;
+            id = req.params.id;
+            _context7.next = 4;
+            return _proveedores["default"].findOne({
+              where: {
+                id: id,
+                vigencia: true
+              },
+              attributes: ['id', 'nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut', 'cuentas_bancos_id']
+            });
+
+          case 4:
+            proveedor = _context7.sent;
+            res.json({
+              resultado: true,
+              message: "",
+              proveedores: proveedor
+            });
+            _context7.next = 12;
+            break;
+
+          case 8:
+            _context7.prev = 8;
+            _context7.t0 = _context7["catch"](0);
+            console.log(_context7.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              proveedores: null
+            });
+
+          case 12:
+            ;
+
+          case 13:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, _callee7, null, [[0, 8]]);
+  }));
+
+  return function getProveedoresId(_x11, _x12) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.getProveedoresId = getProveedoresId;
+
+var getAllProveedoresWithFalse = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
+    var allProveedores;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.prev = 0;
+            _context8.next = 3;
+            return _proveedores["default"].findAll({
+              attributes: ['id', 'nombre', 'direccion', 'correo', 'pais', 'monedas_id', 'rut', 'cuentas_bancos_id'],
+              order: [['id', 'DESC']]
+            });
+
+          case 3:
+            allProveedores = _context8.sent;
+            res.json({
+              resultado: true,
+              message: "",
+              proveedores: allProveedores
+            });
+            _context8.next = 11;
+            break;
+
+          case 7:
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
+            console.log(_context8.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              proveedores: null
+            });
+
+          case 11:
+            ;
+
+          case 12:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8, null, [[0, 7]]);
+  }));
+
+  return function getAllProveedoresWithFalse(_x13, _x14) {
+    return _ref8.apply(this, arguments);
   };
 }();
 

@@ -55,16 +55,16 @@ export const updateTelefonosUsuarios = async (req, res) => {
 };
 
 export const deleteTelefonosUsuarios = async (req, res) => {
+    const body = req.body;
     try{
         const {id} = req.params;
         await telefonosUsuarios.destroy({
             where: {
-                usuarios_id: id
+                id
             }
         });
-        if(req.body.cascade){
+        if(body.cascade){
             return {
-                message: 'Teléfono de usuario eliminado correctamente',
                 resultado: true
             }
         }else{
@@ -75,7 +75,7 @@ export const deleteTelefonosUsuarios = async (req, res) => {
         };
     }catch(e){
         console.log(e);
-        if(req.body.cascade) return {
+        if(body.cascade) return {
             resultado: false
         }
         else res.json({

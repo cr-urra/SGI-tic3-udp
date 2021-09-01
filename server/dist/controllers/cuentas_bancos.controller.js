@@ -5,13 +5,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllCuentasBancosWithFalse = exports.getCuentasBancosForProovedoresId = exports.getCuentasBancosId = exports.getAllCuentasBancos = exports.deleteCuentasBancos = exports.updateCuentasBancos = exports.createCuentasBancos = void 0;
+exports.getAllCuentasBancosWithFalse = exports.getCuentasBancosId = exports.getAllCuentasBancos = exports.deleteCuentasBancos = exports.updateCuentasBancos = exports.createCuentasBancos = void 0;
 
 var _cuentas_bancos = _interopRequireDefault(require("../models/cuentas_bancos"));
 
 var _pedidos = _interopRequireDefault(require("../models/pedidos"));
 
+var _proveedores = _interopRequireDefault(require("../models/proveedores"));
+
 var pedidosController = _interopRequireWildcard(require("./pedidos.controller"));
+
+var proveedoresController = _interopRequireWildcard(require("./proveedores.controller"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -25,14 +29,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var createCuentasBancos = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, proveedores_id, newCuentaBanco;
+    var _req$body, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, newCuentaBanco;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _req$body = req.body, numero_cuenta = _req$body.numero_cuenta, nombre_banco = _req$body.nombre_banco, swift_code = _req$body.swift_code, codigo_iban = _req$body.codigo_iban, referencia = _req$body.referencia, paises_id = _req$body.paises_id, numeros_aba_id = _req$body.numeros_aba_id, proveedores_id = _req$body.proveedores_id;
+            _req$body = req.body, numero_cuenta = _req$body.numero_cuenta, nombre_banco = _req$body.nombre_banco, swift_code = _req$body.swift_code, codigo_iban = _req$body.codigo_iban, referencia = _req$body.referencia, paises_id = _req$body.paises_id, numeros_aba_id = _req$body.numeros_aba_id;
             _context.next = 4;
             return _cuentas_bancos["default"].create({
               numero_cuenta: numero_cuenta,
@@ -42,10 +46,9 @@ var createCuentasBancos = /*#__PURE__*/function () {
               referencia: referencia,
               paises_id: paises_id,
               numeros_aba_id: numeros_aba_id,
-              proveedores_id: proveedores_id,
               vigencia: true
             }, {
-              fields: ['numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id', 'proveedores_id', 'vigencia']
+              fields: ['numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id', 'vigencia']
             });
 
           case 4:
@@ -140,50 +143,132 @@ var updateCuentasBancos = /*#__PURE__*/function () {
 exports.updateCuentasBancos = updateCuentasBancos;
 
 var deleteCuentasBancos = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, cuenta_banco, pedidosIds, aux, cuentaBancoUpdate;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+    var body, id, cuenta_banco, aux, cuentaBancoUpdate;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context4.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context4.next = 5;
             return _cuentas_bancos["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
-              attributes: ['id', 'numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id', 'proveedores_id'],
-              include: [_pedidos["default"]]
+              attributes: ['id'],
+              include: [_pedidos["default"], _proveedores["default"]]
             });
 
-          case 4:
-            cuenta_banco = _context3.sent;
+          case 5:
+            cuenta_banco = _context4.sent;
 
             if (!cuenta_banco) {
-              _context3.next = 19;
+              _context4.next = 41;
               break;
             }
 
-            pedidosIds = [];
-            cuenta_banco.dataValues.pedidos.forEach(function (element) {
-              pedidosIds.push(parseInt(element.dataValues.id));
-            });
-            req.params = {
-              id: pedidosIds
+            aux = {
+              resultado: true
             };
-            _context3.next = 11;
-            return pedidosController.deletePedidos(req, res);
+            req.body = {
+              cascade: true
+            };
+            cuenta_banco.dataValues.pedidos.forEach( /*#__PURE__*/function () {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(element) {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        req.params = {
+                          id: parseInt(element.dataValues.id)
+                        };
 
-          case 11:
-            aux = _context3.sent;
+                        if (!aux.resultado) {
+                          _context3.next = 7;
+                          break;
+                        }
+
+                        _context3.next = 4;
+                        return pedidosController.deletePedidos(req, res);
+
+                      case 4:
+                        aux = _context3.sent;
+                        _context3.next = 12;
+                        break;
+
+                      case 7:
+                        if (!(aux.resultado == false && body.cacade == true)) {
+                          _context3.next = 11;
+                          break;
+                        }
+
+                        return _context3.abrupt("return", {
+                          resultado: false
+                        });
+
+                      case 11:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 12:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }));
+
+              return function (_x7) {
+                return _ref4.apply(this, arguments);
+              };
+            }());
+            req.params = {
+              id: parseInt(cuenta_banco.dataValues.proveedore.dataValues.id)
+            };
 
             if (!aux.resultado) {
-              _context3.next = 18;
+              _context4.next = 17;
               break;
             }
 
-            _context3.next = 15;
+            _context4.next = 14;
+            return proveedoresController.deleteProveedores(req, res);
+
+          case 14:
+            aux = _context4.sent;
+            _context4.next = 22;
+            break;
+
+          case 17:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context4.next = 21;
+              break;
+            }
+
+            return _context4.abrupt("return", {
+              resultado: false
+            });
+
+          case 21:
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+
+          case 22:
+            cuentaBancoUpdate = null;
+
+            if (!aux.resultado) {
+              _context4.next = 29;
+              break;
+            }
+
+            _context4.next = 26;
             return _cuentas_bancos["default"].update({
               vigencia: false
             }, {
@@ -193,43 +278,97 @@ var deleteCuentasBancos = /*#__PURE__*/function () {
               }
             });
 
-          case 15:
-            cuentaBancoUpdate = _context3.sent;
-            _context3.next = 19;
+          case 26:
+            cuentaBancoUpdate = _context4.sent;
+            _context4.next = 34;
             break;
 
-          case 18:
+          case 29:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context4.next = 33;
+              break;
+            }
+
+            return _context4.abrupt("return", {
+              resultado: false
+            });
+
+          case 33:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 19:
+          case 34:
+            if (!body.cascade) {
+              _context4.next = 38;
+              break;
+            }
+
+            return _context4.abrupt("return", {
+              resultado: true
+            });
+
+          case 38:
             res.json({
               resultado: true,
               message: 'Cuenta de banco eliminada correctamente'
             });
-            _context3.next = 26;
+
+          case 39:
+            _context4.next = 46;
             break;
 
-          case 22:
-            _context3.prev = 22;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+          case 41:
+            if (!body.cascade) {
+              _context4.next = 45;
+              break;
+            }
+
+            return _context4.abrupt("return", {
+              resultado: false
             });
 
-          case 26:
+          case 45:
+            res.json({
+              resultado: true,
+              message: 'Cuenta de banco no encontrada'
+            });
+
+          case 46:
+            ;
+            _context4.next = 57;
+            break;
+
+          case 49:
+            _context4.prev = 49;
+            _context4.t0 = _context4["catch"](1);
+            console.log(_context4.t0);
+
+            if (!body.cascade) {
+              _context4.next = 56;
+              break;
+            }
+
+            return _context4.abrupt("return", {
+              resultado: false
+            });
+
+          case 56:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 57:
             ;
 
-          case 27:
+          case 58:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, null, [[0, 22]]);
+    }, _callee4, null, [[1, 49]]);
   }));
 
   return function deleteCuentasBancos(_x5, _x6) {
@@ -240,36 +379,36 @@ var deleteCuentasBancos = /*#__PURE__*/function () {
 exports.deleteCuentasBancos = deleteCuentasBancos;
 
 var getAllCuentasBancos = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
     var allCuentasBancos;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context5.prev = 0;
+            _context5.next = 3;
             return _cuentas_bancos["default"].findAll({
               where: {
                 vigencia: true
               },
-              attributes: ['id', 'numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id', 'proveedores_id'],
+              attributes: ['id', 'numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id'],
               order: [['id', 'DESC']]
             });
 
           case 3:
-            allCuentasBancos = _context4.sent;
+            allCuentasBancos = _context5.sent;
             res.json({
               resultado: true,
               message: "",
               cuentas_bancos: allCuentasBancos
             });
-            _context4.next = 11;
+            _context5.next = 11;
             break;
 
           case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
+            console.log(_context5.t0);
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
@@ -281,76 +420,20 @@ var getAllCuentasBancos = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, null, [[0, 7]]);
+    }, _callee5, null, [[0, 7]]);
   }));
 
-  return function getAllCuentasBancos(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getAllCuentasBancos(_x8, _x9) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 exports.getAllCuentasBancos = getAllCuentasBancos;
 
 var getCuentasBancosId = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, cuenta_banco;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            _context5.prev = 0;
-            id = req.params.id;
-            _context5.next = 4;
-            return _cuentas_bancos["default"].findOne({
-              where: {
-                id: id,
-                vigencia: true
-              },
-              attributes: ['id', 'numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id', 'proveedores_id']
-            });
-
-          case 4:
-            cuenta_banco = _context5.sent;
-            res.json({
-              resultado: true,
-              message: "",
-              cuentas_bancos: cuenta_banco
-            });
-            _context5.next = 12;
-            break;
-
-          case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador",
-              cuentas_bancos: null
-            });
-
-          case 12:
-            ;
-
-          case 13:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5, null, [[0, 8]]);
-  }));
-
-  return function getCuentasBancosId(_x9, _x10) {
-    return _ref5.apply(this, arguments);
-  };
-}();
-
-exports.getCuentasBancosId = getCuentasBancosId;
-
-var getCuentasBancosForProovedoresId = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
     var id, cuenta_banco;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -362,10 +445,10 @@ var getCuentasBancosForProovedoresId = /*#__PURE__*/function () {
             _context6.next = 4;
             return _cuentas_bancos["default"].findOne({
               where: {
-                proveedores_id: id,
+                id: id,
                 vigencia: true
               },
-              attributes: ['id', 'numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id', 'proveedores_id']
+              attributes: ['id', 'numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id']
             });
 
           case 4:
@@ -399,12 +482,12 @@ var getCuentasBancosForProovedoresId = /*#__PURE__*/function () {
     }, _callee6, null, [[0, 8]]);
   }));
 
-  return function getCuentasBancosForProovedoresId(_x11, _x12) {
+  return function getCuentasBancosId(_x10, _x11) {
     return _ref6.apply(this, arguments);
   };
 }();
 
-exports.getCuentasBancosForProovedoresId = getCuentasBancosForProovedoresId;
+exports.getCuentasBancosId = getCuentasBancosId;
 
 var getAllCuentasBancosWithFalse = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
@@ -416,7 +499,7 @@ var getAllCuentasBancosWithFalse = /*#__PURE__*/function () {
             _context7.prev = 0;
             _context7.next = 3;
             return _cuentas_bancos["default"].findAll({
-              attributes: ['id', 'numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id', 'proveedores_id'],
+              attributes: ['id', 'numero_cuenta', 'nombre_banco', 'swift_code', 'codigo_iban', 'referencia', 'paises_id', 'numeros_aba_id'],
               order: [['id', 'DESC']]
             });
 
@@ -451,7 +534,7 @@ var getAllCuentasBancosWithFalse = /*#__PURE__*/function () {
     }, _callee7, null, [[0, 7]]);
   }));
 
-  return function getAllCuentasBancosWithFalse(_x13, _x14) {
+  return function getAllCuentasBancosWithFalse(_x12, _x13) {
     return _ref7.apply(this, arguments);
   };
 }();

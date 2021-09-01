@@ -207,7 +207,7 @@ var usuario = /*#__PURE__*/function () {
 
           case 7:
             rol = _context4.sent;
-            rol.cod_rol === "usr" ? next() : res.json({
+            rol.cod_rol === "usr" || rol.cod_rol === "sup" || rol.cod_rol === "adm" ? next() : res.json({
               resultado: false,
               message: "Su usuario no se encuentra autorizado"
             });

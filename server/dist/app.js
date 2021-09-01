@@ -71,6 +71,8 @@ var _observadores = _interopRequireDefault(require("./routes/observadores.routes
 
 var _mail = _interopRequireDefault(require("./routes/mail.routes"));
 
+var _extrae = _interopRequireDefault(require("./routes/extrae.routes"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var express = require('express');
@@ -95,8 +97,7 @@ var csrf = csurf({
   cookie: true
 }); // settings
 
-app.set('port', process.env.PORT || 4000); //app.set('trust proxy', true);
-// variables globales
+app.set('port', process.env.PORT || 4000); // variables globales
 
 app.use(function (req, res, next) {
   next();
@@ -143,7 +144,8 @@ app.use('/cuentasCorrientes', _cuentas_corrientes["default"]);
 app.use('/unidadProductos', _unidad_productos["default"]);
 app.use('/bancosAgentesAduana', _bancos_agentes_aduana["default"]);
 app.use('/observadores', _observadores["default"]);
-app.use('/mail', _mail["default"]); // rutas directas
+app.use('/mail', _mail["default"]);
+app.use('/extrae', _extrae["default"]); // rutas directas
 
 app.get('/csrf', function (req, res) {
   res.send({

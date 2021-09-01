@@ -15,8 +15,6 @@ var detallesDolarUpdate = _interopRequireWildcard(require("./detalles_dolar.cont
 
 var _sequelize = _interopRequireDefault(require("sequelize"));
 
-var _pedidos = _interopRequireDefault(require("../models/pedidos"));
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -42,9 +40,10 @@ var createHistorialDolar = /*#__PURE__*/function () {
               tipo: tipo,
               fecha: _sequelize["default"].literal('CURRENT_TIMESTAMP'),
               vigencia: true,
-              pedidos_id: pedidos_id
+              pedidos_id: pedidos_id,
+              dolar_mensual_id: 1
             }, {
-              fields: ['tipo', 'fecha', 'vigencia', 'pedidos_id']
+              fields: ['tipo', 'fecha', 'vigencia', 'pedidos_id', 'dolar_mensual_id']
             });
 
           case 4:
@@ -140,43 +139,41 @@ exports.updateHistorialDolar = updateHistorialDolar;
 
 var deleteHistorialDolar = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, getHistorialDolar, detallesDolarId, pedidosIds, findedPedidos, aux, historialDolarUpdate;
+    var body, id, params, getHistorialDolar, aux, historialDolarUpdate;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context3.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            params = req.params;
+            _context3.next = 6;
             return _historial_dolar["default"].findOne({
               where: {
-                id: id
+                id: id,
+                vigencia: true
               },
               attributes: ['id', 'tipo', 'fecha', 'vigencia', 'pedidos_id'],
-              include: [_detalles_dolar["default"], _pedidos["default"]]
+              include: [_detalles_dolar["default"]]
             });
 
-          case 4:
+          case 6:
             getHistorialDolar = _context3.sent;
 
             if (!getHistorialDolar) {
-              _context3.next = 27;
+              _context3.next = 32;
               break;
             }
 
-            detallesDolarId = _historial_dolar["default"].dataValues.detalles_dolar.id;
-            pedidosIds = [];
-            pedidosIds = _historial_dolar["default"].dataValues.pedidos.forEach(function (element) {
-              pedidosIds.push(parseInt(element.dataValues.id));
-            });
-            findedPedidos = _pedidos["default"].findAll({
-              where: {
-                id: pedidosIds
-              },
-              attributes: ['id']
-            });
+            aux = {
+              resultado: true
+            };
             req.params = {
-              id: detallesDolarId
+              id: getHistorialDolar.dataValues.detalles_dolar.dataValues.id
+            };
+            req.body = {
+              cascade: true
             };
             _context3.next = 13;
             return detallesDolarUpdate.deleteDetallesDolar(req, res);
@@ -185,30 +182,11 @@ var deleteHistorialDolar = /*#__PURE__*/function () {
             aux = _context3.sent;
 
             if (!aux.resultado) {
-              _context3.next = 19;
+              _context3.next = 20;
               break;
             }
 
             _context3.next = 17;
-            return getHistorialDolar.removePedidos([findedPedidos]);
-
-          case 17:
-            _context3.next = 20;
-            break;
-
-          case 19:
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
-            });
-
-          case 20:
-            if (!aux.resultado) {
-              _context3.next = 26;
-              break;
-            }
-
-            _context3.next = 23;
             return _historial_dolar["default"].update({
               vigencia: false
             }, {
@@ -218,43 +196,97 @@ var deleteHistorialDolar = /*#__PURE__*/function () {
               }
             });
 
-          case 23:
+          case 17:
             historialDolarUpdate = _context3.sent;
-            _context3.next = 27;
+            _context3.next = 25;
             break;
 
-          case 26:
+          case 20:
+            if (!(aux.resultado == false && body.cascade == true)) {
+              _context3.next = 24;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 24:
             res.json({
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
 
-          case 27:
+          case 25:
+            if (!body.cascade) {
+              _context3.next = 29;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: true
+            });
+
+          case 29:
             res.json({
               resultado: true,
               message: 'Dolar eliminado correctamente de historial'
             });
-            _context3.next = 34;
-            break;
 
           case 30:
-            _context3.prev = 30;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
-            res.json({
-              resultado: false,
-              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            _context3.next = 37;
+            break;
+
+          case 32:
+            if (!body.cascade) {
+              _context3.next = 36;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
             });
 
-          case 34:
+          case 36:
+            res.json({
+              resultado: true,
+              message: 'Dólar no encontrado'
+            });
+
+          case 37:
+            ;
+            _context3.next = 48;
+            break;
+
+          case 40:
+            _context3.prev = 40;
+            _context3.t0 = _context3["catch"](1);
+            console.log(_context3.t0);
+
+            if (!req.body.cascade) {
+              _context3.next = 47;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 47:
+            res.json({
+              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+              resultado: false
+            });
+
+          case 48:
             ;
 
-          case 35:
+          case 49:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 30]]);
+    }, _callee3, null, [[1, 40]]);
   }));
 
   return function deleteHistorialDolar(_x5, _x6) {

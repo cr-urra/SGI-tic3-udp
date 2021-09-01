@@ -9,6 +9,8 @@ var _tiene = _interopRequireDefault(require("../models/tiene"));
 
 var _productos = _interopRequireDefault(require("../models/productos"));
 
+var _pedidos = _interopRequireDefault(require("../models/pedidos"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -177,7 +179,7 @@ exports.deleteTienePedidos = deleteTienePedidos;
 
 var getTiene = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var id, _getTiene;
+    var id, pedido, _getTiene;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -186,6 +188,23 @@ var getTiene = /*#__PURE__*/function () {
             _context4.prev = 0;
             id = req.params.id;
             _context4.next = 4;
+            return _pedidos["default"].findOne({
+              where: {
+                id: id,
+                vigencia: true
+              },
+              attributes: ['id']
+            });
+
+          case 4:
+            pedido = _context4.sent;
+
+            if (!pedido) {
+              _context4.next = 12;
+              break;
+            }
+
+            _context4.next = 8;
             return _tiene["default"].findAll({
               where: {
                 pedidos_id: id
@@ -194,18 +213,29 @@ var getTiene = /*#__PURE__*/function () {
               include: [_productos["default"]]
             });
 
-          case 4:
+          case 8:
             _getTiene = _context4.sent;
             res.json({
               resultado: true,
               message: "",
               tiene: _getTiene
             });
-            _context4.next = 12;
+            _context4.next = 13;
             break;
 
-          case 8:
-            _context4.prev = 8;
+          case 12:
+            res.json({
+              resultado: false,
+              message: "",
+              tiene: null
+            });
+
+          case 13:
+            _context4.next = 19;
+            break;
+
+          case 15:
+            _context4.prev = 15;
             _context4.t0 = _context4["catch"](0);
             console.log(_context4.t0);
             res.json({
@@ -214,15 +244,15 @@ var getTiene = /*#__PURE__*/function () {
               tiene: null
             });
 
-          case 12:
+          case 19:
             ;
 
-          case 13:
+          case 20:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[0, 8]]);
+    }, _callee4, null, [[0, 15]]);
   }));
 
   return function getTiene(_x7, _x8) {

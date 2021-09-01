@@ -82,7 +82,7 @@ var updateTelefonosUsuarios = /*#__PURE__*/function () {
             _context2.next = 5;
             return _telefonos_usuarios["default"].update(body, {
               where: {
-                id: id
+                usuarios_id: id
               }
             });
 
@@ -136,36 +136,61 @@ var deleteTelefonosUsuarios = /*#__PURE__*/function () {
             _context3.next = 4;
             return _telefonos_usuarios["default"].destroy({
               where: {
-                id: id
+                usuarios_id: id
               }
             });
 
           case 4:
+            if (!req.body.cascade) {
+              _context3.next = 8;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              message: 'Teléfono de usuario eliminado correctamente',
+              resultado: true
+            });
+
+          case 8:
             res.json({
               message: 'Teléfono de usuario eliminado correctamente',
               resultado: true
             });
-            _context3.next = 11;
+
+          case 9:
+            ;
+            _context3.next = 20;
             break;
 
-          case 7:
-            _context3.prev = 7;
+          case 12:
+            _context3.prev = 12;
             _context3.t0 = _context3["catch"](0);
             console.log(_context3.t0);
+
+            if (!req.body.cascade) {
+              _context3.next = 19;
+              break;
+            }
+
+            return _context3.abrupt("return", {
+              resultado: false
+            });
+
+          case 19:
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
               resultado: false
             });
 
-          case 11:
+          case 20:
             ;
 
-          case 12:
+          case 21:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 7]]);
+    }, _callee3, null, [[0, 12]]);
   }));
 
   return function deleteTelefonosUsuarios(_x5, _x6) {

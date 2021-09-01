@@ -12,11 +12,7 @@ var express = require('express');
 
 var router = express.Router();
 // ips
-router.post('/', ips.createIps);
-router.get('/', ips.getAllIps);
-router.get('/all', ips.getAllIpsWithFalse); // ips/:id
+router.get('/', ips.getAllIps); // ips/:id
 
 router.put('/:id', ips.updateIps);
-router.put('/delete/:id', ips.deleteIps);
-router.get('/:id', ips.getIpsId);
 module.exports = router;

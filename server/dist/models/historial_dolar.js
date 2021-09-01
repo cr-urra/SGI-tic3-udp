@@ -25,6 +25,9 @@ var historial_dolar = _database.database.define('historial_dolar', {
   pedidos_id: {
     type: _sequelize["default"].INTEGER
   },
+  dolar_mensual_id: {
+    type: _sequelize["default"].INTEGER
+  },
   vigencia: {
     type: _sequelize["default"].BOOLEAN
   }
