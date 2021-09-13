@@ -25,7 +25,7 @@ export default class Tabla extends Component {
     }
 
     delete  =  (id) => async (e) => {            
-        const res = await axios.put("/cuentasBancos/delete/"+ id , {} ,{"headers": {
+        const res = await axios.put("/proveedores/delete/"+ id , {} ,{"headers": {
             "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
         }} )
         

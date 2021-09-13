@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.12 (Debian 11.12-1.pgdg100+1)
--- Dumped by pg_dump version 11.12 (Debian 11.12-1.pgdg100+1)
+-- Dumped from database version 11.13 (Debian 11.13-1.pgdg100+1)
+-- Dumped by pg_dump version 11.13 (Debian 11.13-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,11 +26,11 @@ SET default_with_oids = false;
 
 CREATE TABLE public.agentes_aduana (
     id integer NOT NULL,
-    nombre character varying(30),
-    apellido character varying(30),
-    correo character varying(30),
-    numero_cuenta character varying(30),
-    rut character varying(30),
+    nombre character varying,
+    apellido character varying,
+    correo character varying,
+    numero_cuenta character varying,
+    rut character varying,
     vigencia boolean
 );
 
@@ -77,9 +77,9 @@ ALTER TABLE public.asume OWNER TO postgres;
 
 CREATE TABLE public.bancos_agentes_aduana (
     id integer NOT NULL,
-    numero_cuenta character varying(30),
-    tipo_cuenta character varying(30),
-    nombre_banco character varying(30),
+    numero_cuenta character varying,
+    tipo_cuenta character varying,
+    nombre_banco character varying,
     vigencia boolean,
     agentes_aduana_id integer
 );
@@ -115,10 +115,10 @@ ALTER SEQUENCE public.bancos_agentes_aduana_id_seq OWNED BY public.bancos_agente
 
 CREATE TABLE public.cuentas_bancos (
     id integer NOT NULL,
-    numero_cuenta character varying(30),
-    nombre_banco character varying(30),
-    swift_code character varying(30),
-    codigo_iban character varying(30),
+    numero_cuenta character varying,
+    nombre_banco character varying,
+    swift_code character varying,
+    codigo_iban character varying,
     referencia text,
     paises_id integer,
     numeros_aba_id integer,
@@ -583,7 +583,7 @@ ALTER SEQUENCE public.movimientos_id_seq OWNED BY public.movimientos.id;
 
 CREATE TABLE public.numeros_aba (
     id integer NOT NULL,
-    nombre_banco character varying(30),
+    nombre_banco character varying,
     numero_aba numeric(9,0),
     vigencia boolean
 );
@@ -693,8 +693,8 @@ ALTER SEQUENCE public.observadores_id_seq OWNED BY public.observadores.id;
 
 CREATE TABLE public.paises (
     id integer NOT NULL,
-    pais character varying(30),
-    codigo_iban character varying(30),
+    pais character varying,
+    codigo_iban character varying,
     vigencia boolean
 );
 
@@ -787,9 +787,9 @@ ALTER SEQUENCE public.pedidos_id_seq OWNED BY public.pedidos.id;
 
 CREATE TABLE public.productos (
     id integer NOT NULL,
-    codigo character varying(30),
-    nombre character varying(30),
-    tipo character varying(30),
+    codigo character varying,
+    tipo character varying,
+    nombre character varying,
     proveedores_id integer,
     unidad_productos_id integer,
     vigencia boolean
@@ -826,12 +826,12 @@ ALTER SEQUENCE public.productos_id_seq OWNED BY public.productos.id;
 
 CREATE TABLE public.proveedores (
     id integer NOT NULL,
-    nombre character varying(30),
-    direccion character varying(30),
-    correo character varying(30),
-    pais character varying(30),
+    nombre character varying,
+    direccion character varying,
+    correo character varying,
+    pais character varying,
     monedas_id integer,
-    rut character varying(30),
+    rut character varying,
     vigencia boolean,
     cuentas_bancos_id integer
 );
@@ -1302,7 +1302,8 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id SET DEFAULT nextval('public.usu
 COPY public.agentes_aduana (id, nombre, apellido, correo, numero_cuenta, rut, vigencia) FROM stdin;
 5	Eustaquio	Salvatore	eustaquio@gmail.com	8984445	111223334	t
 1	Jose	Perez	jose@gmail.com	1C	123456789	t
-8	Cristóbal	Urra	jorge@mail.cl	123456773	196443738	t
+8	Cristóbal	Urra	jorge@mail.cl	123456773	196443738	f
+9	Carlos	Arredondo  Sorlorza	GONZALOGONZALEZ880@HOTMAIL.COM	1832360	108532246	t
 \.
 
 
@@ -1321,7 +1322,8 @@ COPY public.asume (observadores_id, agentes_aduana_id) FROM stdin;
 COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco, vigencia, agentes_aduana_id) FROM stdin;
 1	1C	Cuenta corriente	Banco 1	t	1
 2	8984445	Cuenta RUT	Banco Santander	t	5
-6	123456773	Cuenta Vista	Banco Santander	t	8
+6	123456773	Cuenta Vista	Banco Santander	f	8
+7	1832360	Cuenta Corriente	SANTANDER	t	9
 \.
 
 
@@ -1332,9 +1334,14 @@ COPY public.bancos_agentes_aduana (id, numero_cuenta, tipo_cuenta, nombre_banco,
 COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_iban, referencia, paises_id, numeros_aba_id, vigencia) FROM stdin;
 2	245	Banco de Chile	234	2	Referencia 1	3	3	t
 4	345	Banco ITU	3D4	1	Referencia 345	4	4	t
-5	123123	prueba 1	123123	123123	123123	5	5	t
 6	22333	test	8320000	te	333	6	6	t
 1	1	Banco estado	A	B	C	3	3	t
+7	6550921296	BRADESCO	bofasu3n	BR 4360746948033970000065552C1	Sin datos	7	7	t
+11	6550921296	BRADESCO	bofasu3n	BR 4360746948033970000065552C1	65552	11	11	t
+12	0	BANCO ITAU UNIBANCO SA 	ITAUBRSP	BR 6070 1190 0129 5000 0165 003Cl	544705690	13	14	t
+13	7659022317	YES BANKLTD NEHRU CENTRE DISCOVERY OF INDIA 	YESBINBB,	0	45063700000332	14	15	t
+5	123123	prueba 1	123123	123123	123123	5	5	t
+14	22333	test	8320000	BR 4360746948033970000065552C1	Sin datos	15	16	t
 \.
 
 
@@ -1345,7 +1352,8 @@ COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_
 COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FROM stdin;
 3	928374657	532323	5	t
 4	0	0	1	t
-5	0	0	8	t
+5	0	0	8	f
+6	0	0	9	t
 \.
 
 
@@ -1355,6 +1363,9 @@ COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FR
 
 COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FROM stdin;
 4	1	7	f
+5	1	8	f
+6	1	9	t
+7	2	10	t
 \.
 
 
@@ -1364,6 +1375,9 @@ COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FRO
 
 COPY public.detalles_pedidos (id, diferencia_de_costos, pedidos_id, vigencia) FROM stdin;
 13	0	28	f
+14	0	29	f
+15	0	30	t
+16	0	31	t
 \.
 
 
@@ -1415,6 +1429,9 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FR
 
 COPY public.historial_dolar (id, fecha, tipo, vigencia, pedidos_id, dolar_mensual_id) FROM stdin;
 7	2021-08-16 02:23:54.700255	inicio	f	28	1
+8	2021-09-06 10:54:20.497524	inicio	f	29	1
+9	2021-09-06 10:56:41.695681	inicio	t	30	1
+10	2021-09-06 10:58:40.626091	inicio	t	31	1
 \.
 
 
@@ -1425,10 +1442,52 @@ COPY public.historial_dolar (id, fecha, tipo, vigencia, pedidos_id, dolar_mensua
 COPY public.historial_precios (id, precio, fecha, productos_id, vigencia, tipo) FROM stdin;
 3	122	2021-06-14 00:00:00	1	t	f
 4	123	2021-06-29 05:59:59.273286	4	t	f
-5	12345	2021-06-29 06:00:13.353436	5	t	f
 6	12345456	2021-06-29 06:00:30.371052	6	t	f
 7	22	2021-06-29 17:12:22.351017	7	t	f
-8	122	2021-08-15 00:00:00	8	f	f
+8	122	2021-08-15 00:00:00	8	t	f
+9	1	2021-08-19 06:50:49.283966	9	t	\N
+10	0	2021-09-06 09:34:35.367204	10	t	\N
+11	0	2021-09-06 09:35:07.1048	11	t	\N
+12	0	2021-09-06 09:48:41.329119	12	t	\N
+13	0	2021-09-06 09:53:30.672868	13	t	\N
+14	0	2021-09-06 09:54:10.777533	14	t	\N
+15	0	2021-09-06 09:54:55.389805	15	t	\N
+16	0	2021-09-06 09:55:45.257597	16	t	\N
+17	0	2021-09-06 09:56:37.428682	17	t	\N
+19	0	2021-09-06 09:59:32.640117	19	t	\N
+20	0	2021-09-06 10:00:50.542674	20	t	\N
+21	0	2021-09-06 10:04:04.31111	21	t	\N
+22	0	2021-09-06 10:09:18.174136	22	t	\N
+23	0	2021-09-06 10:09:40.033998	23	t	\N
+24	0	2021-09-06 10:09:59.326073	24	t	\N
+25	0	2021-09-06 10:10:08.497726	25	t	\N
+26	0	2021-09-06 10:10:28.922284	26	t	\N
+27	0	2021-09-06 10:10:46.272989	27	t	\N
+28	0	2021-09-06 10:10:57.051157	28	t	\N
+30	0	2021-09-06 10:13:30.400685	30	t	\N
+31	0	2021-09-06 10:35:18.033967	31	t	\N
+32	0	2021-09-06 10:35:36.878034	32	t	\N
+33	0	2021-09-06 10:35:56.81105	33	t	\N
+34	0	2021-09-06 10:36:16.319384	34	t	\N
+35	0	2021-09-06 10:36:58.223131	35	t	\N
+36	0	2021-09-06 10:37:31.714354	36	t	\N
+37	0	2021-09-06 10:38:02.630773	37	t	\N
+38	0	2021-09-06 10:38:16.279484	38	t	\N
+39	0	2021-09-06 10:40:13.610024	39	t	\N
+40	0	2021-09-06 10:40:27.930985	40	t	\N
+41	0	2021-09-06 10:40:48.412559	41	t	\N
+42	0	2021-09-06 10:41:03.765624	42	t	\N
+46	0	2021-09-06 10:42:46.193008	46	t	\N
+47	0	2021-09-06 10:43:09.670199	47	t	\N
+5	12345	2021-06-29 06:00:13.353436	5	t	f
+18	0	2021-09-06 09:58:31.622702	18	t	\N
+43	0	2021-09-06 10:42:04.594904	43	t	\N
+29	0	2021-09-06 10:11:24.233417	29	t	\N
+44	0	2021-09-06 10:42:16.456221	44	t	\N
+45	0	2021-09-06 10:42:30.47115	45	t	\N
+48	0	2021-09-06 10:43:34.616586	48	t	\N
+49	0	2021-09-06 10:43:57.277026	49	t	\N
+50	0	2021-09-06 10:44:13.239072	50	t	\N
 \.
 
 
@@ -1437,7 +1496,6 @@ COPY public.historial_precios (id, precio, fecha, productos_id, vigencia, tipo) 
 --
 
 COPY public.ips (id, ip, usuarios_id) FROM stdin;
-1	127.0.0.2	3
 \.
 
 
@@ -1472,6 +1530,13 @@ COPY public.numeros_aba (id, nombre_banco, numero_aba, vigencia) FROM stdin;
 4	Banco ITU	9	t
 5	prueba 1	123123	t
 6	test	333	t
+7	BRADESCO	0	t
+11	BRADESCO	0	t
+12	BANCO ITAU UNIBANCO SA	0	t
+13	BANCO ITAU UNIBANCO SA	0	t
+14	BANCO ITAU UNIBANCO SA 	0	t
+15	YES BANKLTD NEHRU CENTRE DISCOVERY OF INDIA 	21000021	t
+16	test	333	t
 \.
 
 
@@ -1501,6 +1566,12 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 4	Argentina	1	t
 5	Chile	123123	t
 6	Chile	te	t
+7	Brasil	BR 4360746948033970000065552C1	t
+11	Brasil	BR 4360746948033970000065552C1	t
+12	Brasil	BR 6070 1190 0129 5000 0165 003Cl	t
+13	Brasil	BR 6070 1190 0129 5000 0165 003Cl	t
+14	India	0	t
+15	Chile	BR 4360746948033970000065552C1	t
 \.
 
 
@@ -1510,6 +1581,9 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 
 COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
 28	334	1	0	2021-08-15	2021-08-16	2021-08-16	2021-08-16	2021-08-16	2021-08-16	produccion	1	\N	0	2	0	0	0	0	\N	\N	10	\N	1	2021-08-15	f
+29	334	1	0	2021-09-07	2021-09-06	2021-09-06	2021-09-06	2021-09-06	2021-09-06	produccion	1	\N	0	2	0	0	0	0	\N	\N	9	\N	1	2021-09-06	f
+30	334	1	0	2021-09-22	2021-09-06	2021-09-06	2021-09-06	2021-09-06	2021-09-06	produccion	1	\N	0	1	0	0	0	0	\N	\N	3	\N	1	2021-09-07	t
+31	334	2	0	2021-09-09	2021-09-06	2021-09-06	2021-09-06	2021-09-06	2021-09-06	produccion	1	\N	0	2	0	0	0	0	\N	\N	10	\N	1	2021-09-16	t
 \.
 
 
@@ -1517,13 +1591,55 @@ COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_
 -- Data for Name: productos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_productos_id, vigencia) FROM stdin;
-5	1345	producto prueba 1	1231564	9	1	t
+COPY public.productos (id, codigo, tipo, nombre, proveedores_id, unidad_productos_id, vigencia) FROM stdin;
 6	1345456	producto USPS	1231564456	3	1	t
 7	334	Shampoo	3	7	1	t
 1	PL1	Plastico 1	Plastico	2	1	t
 4	13	producto soprole	12315	10	1	t
-8	123A	Prod X	A	10	1	f
+8	123A	Prod X	A	10	1	t
+9	334	Shampoo2	1	10	1	t
+10	11530-AN	Aditivos	MB ABSORBEDOR DE HUMEDAD	13	2	t
+11	1668-BN	Aditivos	MB BLANQUEADOR ÓPTICO P/ PP	13	2	t
+12	19415-AN	Aditivos	MB AYUDA PROCESO SIN MIGRACIÓN CRISTAL MASTER	13	2	t
+13	20186-QNI	Aditivos	MB MODIFICADOR DE IMPACTO, AYUDA SELLO CRISTAL MASTER	13	2	t
+14	23287-BN	Aditivos	NT COMPUESTO DE CARBONATO – FILLER PP – 75%	13	2	t
+15	23498-AN	Aditivos	MB DISECANTE DRY LINK CRISTAL MASTER	13	2	t
+16	24355-AN	Aditivos	MB COMPUESTO DE CARBONATO – FILLER PE – 75%	13	2	t
+17	25726-AN	Aditivos	MB ESENCIA CITRONELA CRISTAL MASTER	13	2	t
+19	35617-AN	Aditivos	ANTIESTATICO 10% MIGRACION MEDIA /MIXTA CRISTAL MASTER	13	2	t
+20	4218-AN	Aditivos	MB ANTIOXIDANTE	13	2	t
+21	498-AN	Aditivos	MB AGENTE INTERFACIAL	13	2	t
+22	5706-AN	Aditivos	MB ESENCIA TUTTI FRUTI - CRISTAL MASTER	13	2	t
+23	6047-AN	Aditivos	MB DESLIZANTE BAJA MIG./ AYUD. PROCESO	13	2	t
+24	7821-AN	Aditivos	MB BLANQUEADOR ÓPTICO P/ PE	13	2	t
+25	812-AN	Aditivos	ANTIBLOCK CRISTAL MASTER	13	2	t
+26	818-AN	Aditivos	MB DESLIZANTE ALTA MIG. - CRISTAL MASTER	13	2	t
+27	819-AN	Aditivos	MB ANTIESTATICO 5 % - CRISTAL MASTER	13	2	t
+28	8768-CN	Aditivos	MB BLANQUEADOR ÓPTICO P/ PS	13	2	t
+31	1724-AW	Concentrados Blancos	MB BLANCO 40% TIO2	13	2	t
+30	16258-AB	Concentrados Colores	MB COLOR AZUL MEDIO (286) CRISTAL MASTER	13	2	t
+32	1902-AG	Concentrados Colores	MB VERDE HOJA CRISTAL MASTER	13	2	t
+33	20000-AP	Concentrados Negros	MB NEGRO 30 % NH + CACO2 - CRISTAL MASTER	13	2	t
+34	21887-AO	Concentrados Colores	MB NARANJA MEDIO CRISTAL MASTER	13	2	t
+35	22236-AG	Concentrados Colores	MB VERDE MEDIO ( 381) CRISTAL MASTER	13	2	t
+36	23130-CW	Concentrados Blancos	MB BLANCO CON BLANQUEADOR OPTICO	13	2	t
+37	23335-AP	Concentrados Negros	MB NEGRO 40% NH + ANTIOXIDANTE CRISTAL MASTER	13	2	t
+38	24263-AY	Concentrados Colores	MB AMARILLO ORO - CRISTAL MASTER	13	2	t
+39	2470-AR	Concentrados Colores	MB COLOR ROJO MEDIO (186) CRISTAL MASTER	13	2	t
+40	2902-AY	Concentrados Colores	MB COLOR AMARILLO CANARIO (7406) CRISTAL MASTER	13	2	t
+41	3872-AW	Concentrados Blancos	MB BLANCO 30% TIO2+CACO2 - CRISTAL MASTER	13	2	t
+42	8808-AK	Concentrados Colores	MB LILA - CRISTAL MASTER	13	2	t
+46	PM 100	Concentrados Negros	MB NEGRO PROMA (25% ORIG. KA)	12	2	t
+47	PM 200	Concentrados Blancos	MB BLANCO PROMA ( 30% TIO2+ CACO, ORIG.KA)	12	2	t
+5	1345	producto prueba 1	1231564	9	1	t
+18	2802 AB MB	Aditivos	ANTI BLOCK - PLTAOY	14	2	t
+29	PPA-03-MB	Aditivos	MB ANTIBLOCK PLASTALOY	14	2	t
+43	BE 6355	Concentrados Colores	MB AZUL MEDIO JJ PLASTALLOY	14	2	t
+44	BKE 121	Concentrados Negros	MB NEGRO 25% CTE PTAOY	14	2	t
+45	GE 5255	Concentrados Colores	MB VERDE MEDIO JJ PLASTALLOY	14	2	t
+48	RE 2238	Concentrados Colores	MB ROJO MEDIO JJ PLASTALLOY	14	2	t
+49	WE-9135	Concentrados Blancos	MB BLANCO 50% TIO2 + CACO3 - PLTAOY	14	2	t
+50	YE 4320	Concentrados Colores	MB AMARILLO MEDIO JJ PLASTALLOY	14	2	t
 \.
 
 
@@ -1534,9 +1650,13 @@ COPY public.productos (id, codigo, nombre, tipo, proveedores_id, unidad_producto
 COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, vigencia, cuentas_bancos_id) FROM stdin;
 7	Soprole	Av. Alvaro Gamboa 1313	soprole@gmail.com	Argentina	3	123432563	t	2
 3	UZPZ	Aterio 123	uzpz@mail.cl	Estados Unidos	2	123456754	t	4
-9	prueba 1	Alsino 4571	hola@gmail.com	Chile	1	111111113	t	5
 2	USPS	Tortellini #2222	usps@gmail.com	Estados Unidos	2	111111116	t	6
 10	Shampoo	Juan XXIII 7554	jorge@mail.cl	Chile	2	111111118	t	1
+12	Karina Ind. E Com. De plasticos ltda.	Av. Paquistao 788 - Jd. Cumbica, Sao Paulo	Sin datos	Brasil	2	11111111	t	11
+13	CRISTAL MASTER INDUSTRIA E COMERCIO LTDA. 	 AVENIDA SANTOS DUMONT 3785 PAVILHAO B DISTRITO INDUSTRIAL   JOINVILLLE    	Sin datos	Brasil	2	11111111	t	12
+9	prueba 1	Alsino 4571	hola@gmail.com	Chile	1	111111113	t	5
+15	prueba	Juan XXIII 6555, Dtpo. 805	jorge@mail.cl	Chile	2	92837239	t	14
+14	JJ PLASTALLOY PVT LTD.	A-2 BADSHAH BAGH  COLONY, MAIDAHIYA , VARANASI	Sin datos	India	2	11111111	t	13
 \.
 
 
@@ -1546,6 +1666,9 @@ COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, v
 
 COPY public.realiza (usuarios_id, pedidos_id, createdat, updatedat) FROM stdin;
 2	28	2021-08-16 02:23:54.685	2021-08-16 02:23:54.685
+2	29	2021-09-06 10:54:20.491	2021-09-06 10:54:20.491
+2	30	2021-09-06 10:56:41.676	2021-09-06 10:56:41.676
+2	31	2021-09-06 10:58:40.612	2021-09-06 10:58:40.612
 \.
 
 
@@ -1565,9 +1688,10 @@ COPY public.roles (id, nombre, cod_rol) FROM stdin;
 --
 
 COPY public.telefonos_agentes_aduana (id, telefono, agentes_aduana_id, vigencia) FROM stdin;
-12	+5696218428	8	t
 5	+56912676398	1	t
 11	+56989743783	5	t
+12	+5696218428	8	f
+13	+56993618970	9	t
 \.
 
 
@@ -1579,8 +1703,12 @@ COPY public.telefonos_proveedores (id, telefono, proveedores_id, vigencia) FROM 
 4	954106748	3	t
 5	932485947	7	t
 2	954106748	2	t
-7	56966718004	9	t
 8	0962184289	10	t
+10	0	12	t
+11	0	13	t
+7	56966718004	9	t
+13	0962184289	15	t
+12	0	14	t
 \.
 
 
@@ -1590,7 +1718,6 @@ COPY public.telefonos_proveedores (id, telefono, proveedores_id, vigencia) FROM 
 
 COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 2	345784937	2
-1	27234984	3
 7	+56998847879	21
 \.
 
@@ -1601,6 +1728,9 @@ COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 
 COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
 28	8	\N
+29	5	1
+30	6	2
+31	9	1
 \.
 
 
@@ -1610,6 +1740,7 @@ COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
 
 COPY public.unidad_productos (id, valor_unidad, vigencia, nombre_medida) FROM stdin;
 1	1000	t	Toneladas
+2	1	t	Kilos
 \.
 
 
@@ -1619,7 +1750,6 @@ COPY public.unidad_productos (id, valor_unidad, vigencia, nombre_medida) FROM st
 
 COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id, verificacion) FROM stdin;
 2	123456781	admin	01	nombre.apellido@mail.cl	$2a$10$FLCHmK7KDzK8aDWq7HqstuxzQOjaTKLq42rGy/tKSUuhWwLcATN7G	1	t
-3	123456787	Roberto	Perez	roberto@outlook.com	$2a$10$7wDJz0nmcmLoVDq3YwnFD.ysBfdrYSx.MIfDK5jc8WgpcU4ajm7zi	3	t
 21	073898188	Moisés	Paredes	moises@promachile.cl	$2a$10$pFW0KtH2ad76SeHAppgVluBRy4kWgnl4tRQtGyDrj.tfkgJcb89EC	1	t
 \.
 
@@ -1628,42 +1758,42 @@ COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id
 -- Name: agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.agentes_aduana_id_seq', 8, true);
+SELECT pg_catalog.setval('public.agentes_aduana_id_seq', 9, true);
 
 
 --
 -- Name: bancos_agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.bancos_agentes_aduana_id_seq', 6, true);
+SELECT pg_catalog.setval('public.bancos_agentes_aduana_id_seq', 7, true);
 
 
 --
 -- Name: cuentas_bancos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cuentas_bancos_id_seq', 6, true);
+SELECT pg_catalog.setval('public.cuentas_bancos_id_seq', 14, true);
 
 
 --
 -- Name: cuentas_corrientes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cuentas_corrientes_id_seq', 5, true);
+SELECT pg_catalog.setval('public.cuentas_corrientes_id_seq', 6, true);
 
 
 --
 -- Name: detalles_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 4, true);
+SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 7, true);
 
 
 --
 -- Name: detalles_pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalles_pedidos_id_seq', 13, true);
+SELECT pg_catalog.setval('public.detalles_pedidos_id_seq', 16, true);
 
 
 --
@@ -1691,14 +1821,14 @@ SELECT pg_catalog.setval('public.gastos_extras_id_seq', 5, true);
 -- Name: historial_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_dolar_id_seq', 7, true);
+SELECT pg_catalog.setval('public.historial_dolar_id_seq', 10, true);
 
 
 --
 -- Name: historial_precios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_precios_id_seq', 8, true);
+SELECT pg_catalog.setval('public.historial_precios_id_seq', 50, true);
 
 
 --
@@ -1726,7 +1856,7 @@ SELECT pg_catalog.setval('public.movimientos_id_seq', 3, true);
 -- Name: numeros_aba_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.numeros_aba_id_seq', 6, true);
+SELECT pg_catalog.setval('public.numeros_aba_id_seq', 16, true);
 
 
 --
@@ -1747,28 +1877,28 @@ SELECT pg_catalog.setval('public.observadores_id_seq', 1, true);
 -- Name: paises_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.paises_id_seq', 6, true);
+SELECT pg_catalog.setval('public.paises_id_seq', 15, true);
 
 
 --
 -- Name: pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedidos_id_seq', 28, true);
+SELECT pg_catalog.setval('public.pedidos_id_seq', 31, true);
 
 
 --
 -- Name: productos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.productos_id_seq', 8, true);
+SELECT pg_catalog.setval('public.productos_id_seq', 50, true);
 
 
 --
 -- Name: proveedores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.proveedores_id_seq', 10, true);
+SELECT pg_catalog.setval('public.proveedores_id_seq', 15, true);
 
 
 --
@@ -1782,28 +1912,28 @@ SELECT pg_catalog.setval('public.roles_id_seq', 3, true);
 -- Name: telefonos_agentes_aduana_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 12, true);
+SELECT pg_catalog.setval('public.telefonos_agentes_aduana_id_seq', 13, true);
 
 
 --
 -- Name: telefonos_proveedores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_proveedores_id_seq', 8, true);
+SELECT pg_catalog.setval('public.telefonos_proveedores_id_seq', 13, true);
 
 
 --
 -- Name: telefonos_usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 7, true);
+SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 10, true);
 
 
 --
 -- Name: unidad_productos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.unidad_productos_id_seq', 1, true);
+SELECT pg_catalog.setval('public.unidad_productos_id_seq', 2, true);
 
 
 --

@@ -1,21 +1,40 @@
 import React, { Component } from 'react'
-
+import axios from 'axios'
 
 export default class Init extends Component {
 
     state = {
-
         file: null
     }
 
-    handleFile(e){
-
-        let file = e.target.files[0]
-        this.setState({file : file})
+    handleFile = (file) => {
+        console.log("f", file);
+        this.setState({file: file})
     }
 
-    handleUpload(e){
-        console.log(this.state, 'The fucking File $$$$');
+    getFile = async () => {
+        axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
+        const res = await axios.get("/files/plantilla", { 
+            responseType: 'blob' 
+        })
+        const url = window.URL.createObjectURL(new Blob([res.data], {
+            type: res.headers['content-type']
+        }))
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'plantilla.xlsx')
+        document.body.appendChild(link)
+        link.click()
+    }
+
+    onSubmit = async () => {
+        let f = new FormData()
+        console.log(this.state.file[0]);
+        f.append("file", this.state.file[0], "upload.xlsx")
+        axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
+        const res = await axios.post("/files/setProductos", f, {
+            headers: { 'content-type': 'multipart/form-data' }
+        })
     }
 
     render() {
@@ -38,9 +57,9 @@ export default class Init extends Component {
                                             </svg>
                                         </h1>
                                         <h5 className="card-title text-center">Descargar Plantilla Excel</h5>
-                                        <div className="text-center center">
-                                                <a href="/download" download={"Plantilla.xlsx"} >Descargar Plantilla</a>
-                                        </div>
+                                        <button className="btn color_sitio2 center" onClick={() => this.getFile()}>
+                                            Descargar Plantilla
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -57,11 +76,11 @@ export default class Init extends Component {
                                             </svg>
                                         </h1>
                                         <h5 className="card-title text-center">Subir Plantilla Excel</h5>    
-                                        <div className="container center2">
-                                            <label for="formFileMultiple" class="form-label"/>
-                                            <input type="file" id="formFileMultiple" className="ancho ml-4"/> 
+                                        <div className="container alg-center">
+                                            <label for="formFileMultiple" className="form-label"/>
+                                            <input type="file" name="files" id="formFileMultiple" className="ancho ml-4" onChange={(e) => this.handleFile(e.target.files)}/> 
                                             <div className="separacion text-center">
-                                                <button className="btn color_sitio2 margen">
+                                                <button className="btn color_sitio2 margen" onClick={() => this.onSubmit()}>
                                                     Subir Plantilla
                                                 </button>
                                             </div>
