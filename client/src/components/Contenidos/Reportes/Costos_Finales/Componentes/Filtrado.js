@@ -8,8 +8,8 @@ import axios from 'axios'
 export default class Opcion extends Component {
 
     state = {
-        f_inicio: null,
-        f_termino: null,
+        fecha1: null,
+        fecha2: null,
         filtro: false,
         productos: [],
     }
@@ -82,51 +82,60 @@ export default class Opcion extends Component {
                                     Proveedor: {this.props.Proveedores[j].nombre}
                                 </div>
                                 <h3 className="separacion text-center">Filtrar Reporte</h3>
-                                <div className="row mt-5">
-                                    <div className="col-4 text-center">
-                                        <h5>Filtrar por Año </h5>
-                                    </div>
-                                    <div className="col-8">
+                                <div >            
+                                    <div className="row mt-4" >
+                                      <div className="col-4 text-center">
+                                        <h4 className="text-center"> Filtrar fechas</h4>                  
+                                      </div>
+                                      <div className="col-7">
                                         <div className="input-group mb-3">
-                                            <div className="col-1"/>
-                                            <div className="col-2">
+                                            <div className="col-3 mb-2">
                                                 <div className="input-group-prepend ancho2">
                                                     <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
                                                 </div>
-                                            </div>
-                                            <div className="col-6">
+                                            </div>                     
+
+                                            <div className="col-xs-12 col-md-9 col-lg-9">
                                                 <input 
                                                 type="date" 
-                                                name="f_inicio"
-                                                className="form-control" 
+                                                name="fecha1"
+                                                className="form-control"
+                                                placeholder="AAAA" 
                                                 aria-label="Default" 
                                                 aria-describedby="inputGroup-sizing-default"
                                                 onChange={this.onChange}
-                                                value={this.state.f_inicio}
+                                                value={this.state.fecha1}
                                                 />
-                                            </div> 
-                                        </div>
-                                        <div className="input-group mb-3">
-                                            <div className="col-1"/>
-                                            <div className="col-2">
+                                            </div>
+                                          </div>  
+                                          <div className="input-group mb-3">
+                                            <div className="col-3 mb-2">
                                                 <div className="input-group-prepend ancho2">
                                                     <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
                                                 </div>
                                             </div>
-                                            <div className="col-6">
+
+                                            <div className="col-xs-12 col-md-9 col-lg-9">
                                                 <input 
                                                 type="date" 
-                                                name="f_termino"
+                                                name="fecha2"
                                                 className="form-control" 
+                                                placeholder="AAAA"
                                                 aria-label="Default" 
-                                                readOnly 
                                                 aria-describedby="inputGroup-sizing-default"
                                                 onChange={this.onChange}
-                                                value={this.state.f_termino}
-                                                />                                               
-                                            </div>   
-                                        </div>                                      
-                                    </div>
+                                                value={this.state.fecha2}
+                                                />
+                                            </div>
+                                          </div>  
+                                          <div className="input-group mb-3 aling-end">
+                                            <div className="col-8"/>
+                                            <div className="col-3">
+                                              <button className="btn btn-danger" onClick={this.d_filtrar}>Borrar Filtro</button>
+                                            </div>                      
+                                          </div>
+                                      </div>
+                                    </div>                                        
                                 </div>
                                 <Accordion >
                                   <Card className="separacion">

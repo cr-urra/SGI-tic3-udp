@@ -50,7 +50,7 @@ export default class Init extends Component {
       }
     }
 
-    filtrar = () =>{
+    d_filtrar = () =>{
       this.setState({
         fecha1: null,
         fecha2: null
@@ -78,8 +78,7 @@ export default class Init extends Component {
                           <div className="input-group-prepend ancho2">
                               <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
                           </div>
-                      </div>
-                      
+                      </div>                     
               
                       <div className="col-xs-12 col-md-9 col-lg-9">
                           <input 
@@ -117,12 +116,11 @@ export default class Init extends Component {
                     <div className="input-group mb-3 aling-end">
                       <div className="col-8"/>
                       <div className="col-3">
-                        <button className="btn btn-danger" onClick={this.filtrar}>Borrar Filtro</button>
+                        <button className="btn btn-danger" onClick={this.d_filtrar}>Borrar Filtro</button>
                       </div>                      
                     </div>
                 </div>
               </div>
-              {console.log(this.state.Pedidos,"ver aqui")}
               <Filtro Pedidos={this.state.Pedidos} fecha1 ={this.state.fecha1} fecha2 ={this.state.fecha2} /> 
           </li>
         )

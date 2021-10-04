@@ -13,7 +13,7 @@ export default class Opcion extends Component {
                         Proveedor {this.props.Proveedor.nombre}
                       </div>
                       <div className="container mt-4" >
-                      <h1 className="text-center" style={{fontSize:"25px"}}>Productos</h1>
+                      <h4 className="text-center" >Productos</h4>
                         <table className="table text-center table-striped table-bordered" style={{marginTop:"20px"}}>
                           <thead>
                             <tr>
