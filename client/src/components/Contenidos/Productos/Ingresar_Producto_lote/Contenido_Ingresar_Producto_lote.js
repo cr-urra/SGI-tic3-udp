@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default class Init extends Component {
 
@@ -29,12 +31,16 @@ export default class Init extends Component {
 
     onSubmit = async () => {
         let f = new FormData()
-        console.log(this.state.file[0]);
         f.append("file", this.state.file[0], "upload.xlsx")
         axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
         const res = await axios.post("/files/setProductos", f, {
             headers: { 'content-type': 'multipart/form-data' }
         })
+        if(res.data.resultado==true){
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        }else{
+            toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        } 
     }
 
     render() {

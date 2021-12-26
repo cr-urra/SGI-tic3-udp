@@ -6,6 +6,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const csurf = require('csurf');
 const https = require('https');
+const fileUpload = require('express-fileupload');
 
 require('nodemailer');
 require('./database/associations');
@@ -34,6 +35,9 @@ app.use(express.json());
 app.use(csrf);
 app.use(express.urlencoded({
     extended: false
+}));
+app.use(fileUpload({
+    createParentPath: true
 }));
 
 // Importar rutas
@@ -71,6 +75,7 @@ import bancosAgentesAduana from './routes/bancos_agentes_aduana.routes';
 import observadores from './routes/observadores.routes';
 import mail from './routes/mail.routes';
 import extrae from './routes/extrae.routes';
+import files from './routes/files.routes';
 
 // routes
 
@@ -107,6 +112,7 @@ app.use('/bancosAgentesAduana', bancosAgentesAduana);
 app.use('/observadores', observadores);
 app.use('/mail', mail);
 app.use('/extrae', extrae);
+app.use('/files', files);
 
 // rutas directas
 
