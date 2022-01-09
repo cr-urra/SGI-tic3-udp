@@ -24,8 +24,8 @@ export default class Tabla extends Component {
         })
     }
 
-    delete  =  (id) => async (e) => {            
-        const res = await axios.put("/proveedores/delete/"+ id , {} ,{"headers": {
+    delete = (id) => async (e) => {            
+        const res = await axios.put("/proveedores/delete/"+id , {} ,{"headers": {
             "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
         }} )
         
@@ -85,7 +85,7 @@ export default class Tabla extends Component {
                                     </Modal.Body>
                                     <Modal.Footer>
                                     <button type="button" class="btn btn-secondary" onClick={this.handleClose}>Cerrar</button>
-                                    <button type="button" class="btn btn-danger" onClick={this.delete(this.props.proveedoresData[j].id_banco)} >Eliminar Proveedor</button>
+                                    <button type="button" class="btn btn-danger" onClick={this.delete(this.props.proveedoresData[j].id)} >Eliminar Proveedor</button>
                                     </Modal.Footer>
                                 </Modal>
                             </div>
