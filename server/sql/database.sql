@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.13 (Debian 11.13-1.pgdg100+1)
--- Dumped by pg_dump version 11.13 (Debian 11.13-1.pgdg100+1)
+-- Dumped from database version 13.5 (Ubuntu 13.5-0ubuntu0.21.04.1)
+-- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,7 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: agentes_aduana; Type: TABLE; Schema: public; Owner: postgres
@@ -1727,10 +1727,10 @@ COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 --
 
 COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
-28	8	\N
 29	5	1
 30	6	2
 31	9	1
+28	8	1
 \.
 
 

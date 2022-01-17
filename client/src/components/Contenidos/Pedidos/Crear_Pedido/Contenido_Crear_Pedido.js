@@ -39,7 +39,8 @@ export default class Init extends Component {
 
         show: false,
         proveedores: [],
-        productos_all: []
+        productos_all: [],
+        disable: true
     }
 
     new = (e) =>{
@@ -596,9 +597,16 @@ export default class Init extends Component {
                             </div>                            
                         </form>
                         <div className="row">        
-                            <div className="col-2 separacion">
-                                <button className="btn  color_sitio2" onClick={this.handleShow}>
+                            <div className="col-xs-12 col-md-2 col-lg-2 separacion">
+                                <button className="btn color_sitio2" onClick={this.handleShow}>
                                     Guardar Pedido
+                                </button> 
+                            </div>
+                            <div className="col-md-6 col-lg-7">
+                            </div>
+                            <div className="col-xs-12 col-md-1 col-lg-1 separacion">
+                                <button disabled={this.state.disable} className="btn color_sitio2" onClick={this.handleShow}>
+                                    Descargar PDF
                                 </button> 
                             </div>
                         </div>
