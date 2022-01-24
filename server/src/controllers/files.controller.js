@@ -156,31 +156,34 @@ export const getPdfOrderImport = async (req, res) => {
 
         let tables = ``;
         let pagesTotal = 1;
+        let numberRowsObs = 38;
+        let numberRowsProducts = 14 + 45;
 
         // Inicio tabla productos
 
-        let limitRowFistPage = 5;
-        let limitRowLastPage = 15;
-        let numberRows = 6;
+        let limitRowFistPage = numberRowsProducts <= 7 ? 8 : 14; // Para evitar fallas técnicas, no poner como límite 16 o más.
+        let limitRowLastPage = 20; // Para evitar fallas técnicas, no poner como límite 39 o más.
         let content = "";
         let pageBreak = null;
         let contPage = 1;
         let fila = 0;
         let suma = 0;
-        while(suma <= numberRows-1){
+
+        while(suma <= numberRowsProducts - 1){
             content += `\n
                 <tr>
-                    <td>${fila+1}</td>
+                    <td>${suma+1}</td>
                     <td>3</td>
                     <td>KG</td>
-                    <td>AB0${fila+1}</td>
-                    <td>Descripción ${fila+1}</td>
+                    <td>AB0${suma+1}</td>
+                    <td>Descripción ${suma+1}</td>
                     <td>100</td>
                     <td>1000</td>
                 </tr>
             \n`;
-            contPage == 1 ? pageBreak = fila > limitRowFistPage + 1 ? true : false : pageBreak = fila > limitRowLastPage + 1 ? true : false;
-            if(pageBreak) {
+            contPage == 1 ? pageBreak = limitRowFistPage > 0 && fila >= limitRowFistPage - 1 ? true : false : 
+            pageBreak = fila >= limitRowLastPage - 1 ? true : false;
+            if(pageBreak && suma < numberRowsProducts - 1) {
                 content += `\n
                     </table>
                     <div style="page-break-before:always">&nbsp;</div>
@@ -202,7 +205,7 @@ export const getPdfOrderImport = async (req, res) => {
             };
             fila++;
             suma++;
-            if(suma > numberRows-1){
+            if(suma > numberRowsProducts - 1){
                 content += `\n
                         <tr>
                             <td>Total KG</td>
@@ -215,6 +218,12 @@ export const getPdfOrderImport = async (req, res) => {
                         </tr>
                     </table>
                 \n`;
+                if (numberRowsProducts > 7 && numberRowsProducts < 15) {
+                    content += `\n
+                        <div style="page-break-before:always">&nbsp;</div>
+                    \n`
+                    pagesTotal += 1
+                }
             };
         };
         tables += `\n
@@ -237,25 +246,35 @@ export const getPdfOrderImport = async (req, res) => {
 
         let tablesObs = ``;
 
-        limitRowFistPage = 2;
-        limitRowLastPage = 3;
-        numberRows = 2;
+        limitRowFistPage = numberRowsProducts <= 7 ? 8 - numberRowsProducts : 
+        (numberRowsProducts - 14) % 19 <= 17 && (numberRowsProducts - 14) % 19 > 0 ? 17 - (numberRowsProducts - 14) % 19 : 19; 
+        if ((limitRowFistPage == 19 || limitRowFistPage <= 0) && ((numberRowsProducts - 14) % 19 >= 17) || (numberRowsProducts - 14) % 19 == 0 && numberRowsProducts > 14){
+            limitRowFistPage = 19;
+            tables += `\n
+                <div style="page-break-before:always">&nbsp;</div>
+            \n`;
+            pagesTotal += 1;
+            console.log("kljsd");
+        };
+        console.log(limitRowFistPage, (numberRowsProducts - 14) % 19);
+        limitRowLastPage = 19 + 1; // Este parte desde 0, osea se debe sumar a la cantidad + 1
         content = "";
         pageBreak = null;
         contPage = 1;
         fila = 0;
         suma = 0;
-        while(suma <= numberRows - 1){
+
+        while(suma <= numberRowsObs - 1){
             content += `\n
                 <tr>
-                    <td>${fila+1}</td>
-                    <td>Problemas en contenedor ${fila+1}</td>
+                    <td>${suma+1}</td>
+                    <td>Problemas en contenedor ${suma+1}</td>
                     <td>01/01/2022</td>
                     <td>1000</td>
                 </tr>
             \n`;
-            contPage == 1 ? pageBreak = fila > limitRowFistPage + 1 ? true : false : pageBreak = fila > limitRowLastPage + 1 ? true : false;
-            if(pageBreak) {
+            contPage == 1 ? pageBreak = fila >= limitRowFistPage - 1 ? true : false : pageBreak = fila >= limitRowLastPage - 1 ? true : false;
+            if(pageBreak && suma < numberRowsObs - 1) {
                 content += `\n
                     </table>
                     <div style="page-break-before:always">&nbsp;</div>
@@ -269,12 +288,12 @@ export const getPdfOrderImport = async (req, res) => {
                 \n`;
                 pageBreak = false;
                 contPage += 1;
-                pagesTotal += 1
+                pagesTotal += 1;
                 fila = 0;
             };
             fila++;
             suma++;
-            if(suma > numberRows - 1){
+            if(suma > numberRowsObs - 1){
                 content += `\n
                     </table>
                 \n`;
