@@ -1,14 +1,44 @@
 import xlsx from 'xlsx';
 import productos from '../models/productos';
 import pdf from 'html-pdf';
-import fs from 'fs';
 import pedidos from '../models/pedidos';
-import proveedores from '../models/proveedores';
-import monedas from '../models/monedas';
+import historial_dolar from '../models/historial_dolar';
+import detalles_dolar from '../models/detalles_dolar';
 import historial_precios from '../models/historial_precios';
 import unidad_productos from '../models/unidad_productos';
 import observaciones from '../models/observaciones';
 import tiene from '../models/tiene';
+import proveedores from '../models/proveedores';
+
+const maxDateProductPrice = async (producto) => {
+    let datesPrecios = [];
+    let precio = 0;
+    producto.dataValues.historial_precios.forEach(element => {
+        datesPrecios.push(element.dataValues.fecha);
+    });
+    const maxDate = new Date(Math.max.apply(null,datesPrecios));
+    producto.dataValues.historial_precios.forEach(element => {
+        if(String(element.dataValues.fecha) == String(maxDate)){
+            precio = element.dataValues.precio;
+        };
+    });
+    return precio;
+};
+
+const priceUsdTypeInitPedido = async (historialDolar) => {
+    let dates = [];
+    let valor = 0;
+    historialDolar.forEach(element => {
+        dates.push(element.dataValues.fecha);
+    });
+    const maxDate = new Date(Math.max.apply(null,dates));
+    historialDolar.forEach(element => {
+        if(String(element.dataValues.fecha) == String(maxDate)){
+            valor = element.dataValues.detalles_dolar.dataValues.precio_compra;
+        };
+    });
+    return valor;
+};
 
 export const sendPlantilla = async (req, res) => {
     try{
@@ -93,7 +123,7 @@ export const setProductos = async (req, res) => {
 
 export const getPdfOrderImport = async (req, res) => {
     try{
-        const {id} = req.body;
+        const {id} = req.params;
         const pedido = await pedidos.findOne({
             where: {
                 id,
@@ -128,6 +158,7 @@ export const getPdfOrderImport = async (req, res) => {
             ],
             include: [
                 observaciones,
+                proveedores,
                 {
                     model: tiene,
                     include: [
@@ -146,18 +177,17 @@ export const getPdfOrderImport = async (req, res) => {
                     ]
                 },
                 {
-                    model: proveedores,
+                    model: historial_dolar,
                     include: [
-                        monedas
+                        detalles_dolar
                     ]
                 }
             ]
         });
-
         let tables = ``;
         let pagesTotal = 1;
-        let numberRowsObs = 38;
-        let numberRowsProducts = 14 + 45;
+        let numberRowsObs = pedido.dataValues.observaciones.length;
+        let numberRowsProducts = pedido.dataValues.tienes.length;
 
         // Inicio tabla productos
 
@@ -168,17 +198,24 @@ export const getPdfOrderImport = async (req, res) => {
         let contPage = 1;
         let fila = 0;
         let suma = 0;
-
+        let sumaCantidad = 0;
+        let sumaPrecioTotalUsd = 0;
         while(suma <= numberRowsProducts - 1){
+            let precio = await maxDateProductPrice(pedido.dataValues.tienes[suma].dataValues.producto);
+            let usd = await priceUsdTypeInitPedido(pedido.dataValues.historial_dolars);
+            let precioUsd = precio*usd;
+            let totalUsd = precioUsd*pedido.dataValues.tienes[suma].dataValues.cantidad;
+            sumaCantidad += pedido.dataValues.tienes[suma].dataValues.cantidad;
+            sumaPrecioTotalUsd += totalUsd;
             content += `\n
                 <tr>
                     <td>${suma+1}</td>
-                    <td>3</td>
-                    <td>KG</td>
-                    <td>AB0${suma+1}</td>
-                    <td>Descripción ${suma+1}</td>
-                    <td>100</td>
-                    <td>1000</td>
+                    <td>${pedido.dataValues.tienes[suma].dataValues.cantidad/pedido.dataValues.tienes[suma].dataValues.producto.dataValues.unidad_producto.dataValues.valor_unidad}</td>
+                    <td>${pedido.dataValues.tienes[suma].dataValues.producto.dataValues.unidad_producto.dataValues.nombre_medida}</td>
+                    <td>${pedido.dataValues.tienes[suma].dataValues.producto.dataValues.codigo}</td>
+                    <td>${pedido.dataValues.tienes[suma].dataValues.producto.dataValues.nombre}</td>
+                    <td>${precioUsd}</td>
+                    <td>${totalUsd}</td>
                 </tr>
             \n`;
             contPage == 1 ? pageBreak = limitRowFistPage > 0 && fila >= limitRowFistPage - 1 ? true : false : 
@@ -193,7 +230,7 @@ export const getPdfOrderImport = async (req, res) => {
                             <th>Cantidad</th>
                             <th>Unidad medida</th>
                             <th>Código</th>
-                            <th>Descripción de mercancias</th>
+                            <th>Descripción de mercancias</th>getPdfOrderImport
                             <th>Precio USD</th>
                             <th>Total</th>
                         </tr>
@@ -209,12 +246,12 @@ export const getPdfOrderImport = async (req, res) => {
                 content += `\n
                         <tr>
                             <td>Total KG</td>
-                            <td>10000</td>
+                            <td>${sumaCantidad}</td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td>TOTAL USD</td>
-                            <td>10000</td>
+                            <td>${sumaPrecioTotalUsd}</td>
                         </tr>
                     </table>
                 \n`;
@@ -245,7 +282,6 @@ export const getPdfOrderImport = async (req, res) => {
         // Inicio tabla observaciones
 
         let tablesObs = ``;
-
         limitRowFistPage = numberRowsProducts <= 7 ? 8 - numberRowsProducts : 
         (numberRowsProducts - 14) % 19 <= 17 && (numberRowsProducts - 14) % 19 > 0 ? 17 - (numberRowsProducts - 14) % 19 : 19; 
         if ((limitRowFistPage == 19 || limitRowFistPage <= 0) && ((numberRowsProducts - 14) % 19 >= 17) || (numberRowsProducts - 14) % 19 == 0 && numberRowsProducts > 14){
@@ -254,23 +290,20 @@ export const getPdfOrderImport = async (req, res) => {
                 <div style="page-break-before:always">&nbsp;</div>
             \n`;
             pagesTotal += 1;
-            console.log("kljsd");
         };
-        console.log(limitRowFistPage, (numberRowsProducts - 14) % 19);
         limitRowLastPage = 19 + 1; // Este parte desde 0, osea se debe sumar a la cantidad + 1
         content = "";
         pageBreak = null;
         contPage = 1;
         fila = 0;
         suma = 0;
-
         while(suma <= numberRowsObs - 1){
             content += `\n
                 <tr>
                     <td>${suma+1}</td>
-                    <td>Problemas en contenedor ${suma+1}</td>
-                    <td>01/01/2022</td>
-                    <td>1000</td>
+                    <td>${pedido.dataValues.observaciones[suma].dataValues.observacion}</td>
+                    <td>${pedido.dataValues.observaciones[suma].dataValues.fecha}</td>
+                    <td>${pedido.dataValues.observaciones[suma].dataValues.gasto}</td>
                 </tr>
             \n`;
             contPage == 1 ? pageBreak = fila >= limitRowFistPage - 1 ? true : false : pageBreak = fila >= limitRowLastPage - 1 ? true : false;
@@ -312,6 +345,10 @@ export const getPdfOrderImport = async (req, res) => {
 
         // Fin tabla observaciones
 
+        // Generación de documento
+
+        const rut =  pedido.dataValues.proveedore.dataValues.rut;
+        const fecha = `${new Date().getDate()}-${new Date().getMonth() + 1 <= 9 ? "0" +(new Date().getMonth() + 1).toString() : new Date().getMonth() + 1}-${new Date().getFullYear()}`;
         const html = `
             <!DOCTYPE html>
             <html lang="es">
@@ -333,7 +370,7 @@ export const getPdfOrderImport = async (req, res) => {
                         .header {
                             padding-top: 50px;
                             padding-left: 50px;
-                            width: 55%;
+                            width: 58.3%;
                         }
                         .center {
                             text-align: center;
@@ -356,7 +393,7 @@ export const getPdfOrderImport = async (req, res) => {
                             font-size: 5px;
                         }
                         .plt {
-                            padding-left: 50px;
+                            padding-left: 35px;
                         }
                         .margin-content {
                             padding: 50px 0 0 170px;
@@ -442,7 +479,7 @@ export const getPdfOrderImport = async (req, res) => {
                             <div class="ftn center border-order">
                                 <span class="ft-600 border-color-font">ORDEN DE COMPRA <br></span>
                                 <span class="ft-600 border-color-font">IMPORTACIÓN <br></span>
-                                <span class="ft-600 border-color-font">N°: 12-3493<br></span>
+                                <span class="ft-600 border-color-font">N°: ${pedido.dataValues.codigo}<br></span>
                             </div>
                         </div>
                     </div>
@@ -456,22 +493,22 @@ export const getPdfOrderImport = async (req, res) => {
                             <span class="text-dark">Fecha de entrega</span>
                         </div>
                         <div class="col-7 ft margin-content-value">
-                            <span class="text-dark abs">01/01/2022</span>
+                            <span class="text-dark abs">${fecha}</span>
                             <div class="content-value-underline"></div>
                             <br>
-                            <span class="text-dark abs">Crystal Master Test</span>
+                            <span class="text-dark abs">${pedido.dataValues.proveedore.dataValues.nombre}</span>
                             <div class="content-value-underline"></div>
                             <br>
-                            <span class="text-dark abs">11111111-1</span>
+                            <span class="text-dark abs">${rut.substring(0, rut.length - 2)}-${rut[rut.length - 1]}</span>
                             <div class="content-value-underline"></div>
                             <br>
                             <!--<span class="text-dark abs">test</span>
                             <div class="content-value-underline"></div>
                             <br>-->
-                            <span class="text-dark abs">CIF</span>
+                            <span class="text-dark abs">${pedido.dataValues.tipo_pago == "1" ? "Credito" : "Transferencia"}</span>
                             <div class="content-value-underline"></div>
                             <br>
-                            <span class="text-dark abs">11/11/2022</span>
+                            <span class="text-dark abs">${pedido.dataValues.fecha_inicial}</span>
                             <div class="content-value-underline"></div>
                         </div>
                     </div>
@@ -491,7 +528,7 @@ export const getPdfOrderImport = async (req, res) => {
                             <div class="col-3"></div>
                             <div class="col-3">
                                 <div class="footer-value-underline"></div>
-                                <span class="text-dark ft abs-text-footer">Crystal Master Test</span>
+                                <span class="text-dark ft abs-text-footer">${pedido.dataValues.proveedore.dataValues.nombre}</span>
                             </div>
                         </footer>
                     </div>
@@ -501,18 +538,20 @@ export const getPdfOrderImport = async (req, res) => {
         const config = {
             "format": "A4"
         };
-        pdf.create(html, config).toFile(__dirname.replace('/controllers', '/files/')+'orden.pdf', (err, res) => {
+        pdf.create(html, config).toStream(function (err, stream) {
+            if (err) return res.send(err);
+            res.type('pdf');
+            stream.pipe(res);
+        });
+        /*pdf.create(html, config).toFile(__dirname.replace('/controllers', '/files/downloads/')+'orden.pdf', (err, res) => {
             if (err) {
                 res.json({
                     message: "Ha ocurrido un error, porfavor contactese con el administrador", 
                     resultado: false
                 });
             };
-        });
-        res.json({
-            message: "xD", 
-            resultado: true
-        });
+        });*/
+        //res.sendFile(__dirname.replace('/controllers', '/files/downloads/')+'orden.pdf');
     }catch(e){
         console.log(e);
         res.json({

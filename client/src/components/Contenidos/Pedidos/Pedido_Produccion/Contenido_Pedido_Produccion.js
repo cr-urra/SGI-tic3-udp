@@ -144,7 +144,7 @@ export default class Init extends Component {
                   <Crear_Observacion id ={this.props.auxiliar.pedido.pedido.id} pedido={this.props.auxiliar.pedido} cambio={this.cambio}/>
       
                   <Estados contenido1={"En Producción"} contenido2={"En Tránsito (Internacional)"}/>
-      
+                  
                   <Requisitos id= {this.props.auxiliar.pedido.pedido.id} codigo={this.props.auxiliar.pedido.pedido.codigo}/>                    
       
                 </div>

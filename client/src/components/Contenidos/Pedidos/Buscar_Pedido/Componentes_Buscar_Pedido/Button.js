@@ -72,8 +72,8 @@ export default class Init extends Component {
         if(this.props.estado==="produccion"){
           return (
             
-              <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2" onClick={this.produccion}>
+              <div className="ml-4 text-center">
+                  <button className="btn color_sitio2 mt-3" onClick={this.produccion}>
                     Editar Pedido
                     {console.log(this.props.n_pedido,"1")}
                   </button>
@@ -83,8 +83,8 @@ export default class Init extends Component {
         }else if(this.props.estado==="internacional"){
           return (
             
-              <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2" onClick={this.internacional}>
+              <div className="ml-4 text-center">
+                  <button className="btn color_sitio2 mt-3" onClick={this.internacional}>
                     Editar Pedido
                   </button>
               </div>
@@ -93,8 +93,8 @@ export default class Init extends Component {
         }else if(this.props.estado==="ingreso"){
           return (
            
-              <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2" onClick={this.ingreso}>
+              <div className="ml-4 text-center">
+                  <button className="btn color_sitio2 mt-3" onClick={this.ingreso}>
                     Editar Pedido
                   </button>
               </div>
@@ -103,8 +103,8 @@ export default class Init extends Component {
         }else if(this.props.estado==="nacional"){
           return (
            
-              <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2" onClick={this.nacional}>
+              <div className="ml-4 text-center">
+                  <button className="btn color_sitio2 mt-3" onClick={this.nacional}>
                     Editar Pedido
                   </button>
               </div>
@@ -113,8 +113,8 @@ export default class Init extends Component {
         }else if(this.props.estado==="finalizado"){
           return (
            
-              <div className="ml-5 text-center">
-                  <button className="btn color_sitio2 mt-2" onClick={this.finalizado}>
+              <div className="ml-4 text-center">
+                  <button className="btn color_sitio2 mt-3" onClick={this.finalizado}>
                     Editar Pedido
                   </button>
               </div>

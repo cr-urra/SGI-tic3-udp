@@ -602,13 +602,6 @@ export default class Init extends Component {
                                     Guardar Pedido
                                 </button> 
                             </div>
-                            <div className="col-md-6 col-lg-7">
-                            </div>
-                            <div className="col-xs-12 col-md-1 col-lg-1 separacion">
-                                <button disabled={this.state.disable} className="btn color_sitio2" onClick={this.handleShow}>
-                                    Descargar PDF
-                                </button> 
-                            </div>
                         </div>
                         
                     </div>
