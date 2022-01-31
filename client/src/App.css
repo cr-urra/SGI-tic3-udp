@@ -1,3 +1,11 @@
+/* Parche defecto sidebar NO QUITAR HASTA QUE SE ARREGLE DESDE LA FUENTE (react-pro-sidebar) */
+
+.pro-sidebar:not(.collapsed) .popper-inner {
+    display: none;
+}
+
+/**/
+
 .altura-msj-cons{
     margin: 19rem 0 0 0;
 }

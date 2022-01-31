@@ -6,20 +6,19 @@ import {SidebarData} from './sidebarData';
 
 export default class Sidebar extends Component {
 
-      state = {
-          collapsed:  true
-      }
+    state = {
+        collapsed:  true
+    }
 
-      onChange_collapsed = (e) => {
-        this.setState(prevState => ({
-            collapsed: !prevState.collapsed
-        }))
+    onChange_collapsed = (e) => {
+      this.setState(prevState => ({
+          collapsed: !prevState.collapsed
+      }))
     }
 
     buildMenu = () => {
       return SidebarData.map((item, index) => {
         const { title, path, icon, subNav = null } = item;
-
         if (subNav) {
           return (
               <SubMenu key={`sub${index}`} icon={icon} title={title}>
@@ -51,6 +50,7 @@ export default class Sidebar extends Component {
               </SubMenu>
           )
         }
+        
         return (
           <MenuItem key ={index} icon = {icon}>
             <Link to={path}>{title}</Link>
@@ -59,7 +59,7 @@ export default class Sidebar extends Component {
       })
     }
 
-  render() {
+    render() {
         return (
           <ProSidebar 
       
@@ -74,7 +74,7 @@ export default class Sidebar extends Component {
               </button>
               
             </SidebarHeader >
-              <Menu  iconShape="circle" x   >
+              <Menu iconShape="circle">
                 {this.buildMenu()}
               </Menu>
             </ProSidebar>

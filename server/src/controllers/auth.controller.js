@@ -5,11 +5,11 @@ import config from '../config';
 import jwt from 'jsonwebtoken';
 import * as mail from './mail.controller';
 
-export const comparePassword = async (password, receivePassword) => {
+const comparePassword = async (password, receivePassword) => {
     return await bcrypt.compare(password, receivePassword);
 };
 
-export const encryptPassword = async (password) => {
+const encryptPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
 };
