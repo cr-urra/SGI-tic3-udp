@@ -30,10 +30,18 @@ export default class Login extends Component {
             address: addr
         };
         const res = await axios.post('/auth/signin', datosLogin);
-        localStorage.setItem('X-CSRF-Token', data.csrfToken);
-        res.data.resultado === true ? this.setState({ 
-            cod_rol: res.data.usuario.cod_rol 
-        }) : this.setState({ 
+        if(res.data.resultado){
+            const res2 = await axios.get("/money");
+            localStorage.setItem('X-CSRF-Token', data.csrfToken);
+            localStorage.setItem('nombre', res.data.usuario.nombre);
+            localStorage.setItem('dolar', res2.data.dolar.valor);
+            localStorage.setItem('uf', res2.data.uf.valor);
+            localStorage.setItem('utm', res2.data.utm.valor);
+            this.setState({ 
+                cod_rol: res.data.usuario.cod_rol 
+            });
+        } 
+        else this.setState({ 
             resultado: res.data.resultado 
         });
     }

@@ -1,22 +1,33 @@
 import React, { Component } from 'react'
-import Logo from '../../imagenes/logoNavbar.png';
+import Logo from '../../imagenes/logoNavbar.png'
+import axios from 'axios'
 
 
 
 export default class Navbar extends Component {
 
     state = {
-        UF: "29.706,87",
-        Dolar: "732,25",
-        UTM: "52.005,00"
+        UF: "",
+        Dolar: "",
+        UTM: "",
+        nombre: ""
     }
 
+    componentDidMount = async () => {
+        axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
+        this.setState({
+            UF: localStorage.getItem('uf'),
+            Dolar: localStorage.getItem('dolar'),
+            UTM: localStorage.getItem('utm'),
+            nombre: localStorage.getItem('nombre')
+        })
+    }
 
     render() {
         return (     
             <nav className="navbar navbar-expand-lg color_sitio navbar-dark">
                 <img src={Logo} alt="logo" />
-                <span className="ml-2 navbar-brand" to="#">Hola, Administrador</span> 
+                <span className="ml-2 navbar-brand" to="#">Hola, {this.state.nombre}</span> 
                     <div className="container">
                         <div className="container ">
                             <div className="row">

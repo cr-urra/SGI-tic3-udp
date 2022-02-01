@@ -5,8 +5,6 @@ import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Bienvenida/Bienvenida.js'
 import {Redirect,Link} from 'react-router-dom';
 
-
-
 export default class AdminHome extends Component {
     state = {
         rut: 0,
@@ -26,7 +24,7 @@ export default class AdminHome extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-        alert(this.state.message);
+            alert(this.state.message)
     };
 
     logOut = async () => {
@@ -47,20 +45,17 @@ export default class AdminHome extends Component {
                 break;
         };
         return (
-            
-
-    
-                <div className="layout has-sidebar">
-                  <aside >
+            <div className="layout has-sidebar">
+                <aside >
                     <Sidebar/>
-                    </aside>                 
-                  <div className="layout">
-                    <header className="header"><Navbar logOut={this.logOut}/></header>
-                    <Contenido/>
+                </aside>                 
+                <div className="layout">
+                    <header className="header">
+                        <Navbar logOut={this.logOut}/></header>
+                        <Contenido/>
                     <div className="overlay"></div>
-                  </div>
-                </div>            
- 
+                </div>
+            </div>            
         )
-    };
+    }
 }
