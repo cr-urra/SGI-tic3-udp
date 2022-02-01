@@ -11,14 +11,6 @@ export default class Login extends Component {
         resultado: ""
     }
 
-    componentDidMount = async () => {
-        const res = await axios.get("/auth/getRol");
-        res.data.resultado &&  this.setState({
-            cod_rol: res.data.codRol
-        })
-        console.log(this.state.cod_rol)
-    }
-
     onSubmit = async (e) => {
         e.preventDefault();
         const addr = await axios.get('https://api.ipify.org?format=json');
