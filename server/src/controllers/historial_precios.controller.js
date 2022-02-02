@@ -3,20 +3,18 @@ import sequelize from 'sequelize';
 
 export const createHistorialPrecios = async (req, res) => {
     try{
-        const {precio, productos_id, tipo} = req.body;
+        const {precio, productos_id} = req.body;
         let newHistorialPrecios = await historialPrecios.create({
             precio, 
             productos_id,
             fecha: sequelize.literal('CURRENT_TIMESTAMP'),
-            vigencia: true,
-            tipo
+            vigencia: true
         },{
             fields: [
                 'precio', 
                 'productos_id',
                 'fecha',
-                'vigencia',
-                'tipo'
+                'vigencia'
             ]
         });
         res.json({
@@ -74,8 +72,7 @@ export const deleteHistorialPrecios = async (req, res) => {
                 'id',
                 'precio', 
                 'fecha', 
-                'productos_id',
-                'tipo'
+                'productos_id'
             ]
         });
         if(historialPrecio){
@@ -129,8 +126,7 @@ export const getAllHistorialPrecios = async (req, res) => {
                 'id',
                 'precio', 
                 'fecha', 
-                'productos_id',
-                'tipo'
+                'productos_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -167,8 +163,7 @@ export const getHistorialPreciosId = async (req, res) => {
                 'id',
                 'precio', 
                 'fecha', 
-                'productos_id',
-                'tipo'
+                'productos_id'
             ]
         });
         res.json({
@@ -198,8 +193,7 @@ export const getHistorialPreciosIdForProductosId = async (req, res) => {
                 'id',
                 'precio', 
                 'fecha', 
-                'productos_id',
-                'tipo'
+                'productos_id'
             ]
         });
         res.json({
@@ -224,8 +218,7 @@ export const getAllHistorialPreciosWithFalse = async (req, res) => {
                 'id',
                 'precio', 
                 'fecha', 
-                'productos_id',
-                'tipo'
+                'productos_id'
             ],
             order: [
                 ['id', 'DESC']
@@ -258,8 +251,7 @@ export const getHistorialPreciosMaxDate = async (req, res) => {
                 'id',
                 'precio', 
                 'fecha', 
-                'productos_id',
-                'tipo'
+                'productos_id'
             ]
         });
         let datesPrecios = [];

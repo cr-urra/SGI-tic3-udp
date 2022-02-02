@@ -1,4 +1,5 @@
 import xlsx from 'xlsx';
+import fs from 'fs';
 import productos from '../models/productos';
 import pdf from 'html-pdf';
 import pedidos from '../models/pedidos';
@@ -9,6 +10,8 @@ import unidad_productos from '../models/unidad_productos';
 import observaciones from '../models/observaciones';
 import tiene from '../models/tiene';
 import proveedores from '../models/proveedores';
+import sequelize from 'sequelize';
+import { log } from 'console';
 
 const maxDateProductPrice = async (producto) => {
     let datesPrecios = [];
@@ -42,7 +45,7 @@ const priceUsdTypeInitPedido = async (historialDolar) => {
 
 export const sendPlantilla = async (req, res) => {
     try{
-        res.sendFile(__dirname.replace('/controllers', '/files/')+'plantilla.xlsx');
+        res.sendFile(__dirname.replace('/controllers', '/files/templates/')+'plantilla.xlsx');
     }catch(e){
         console.log(e);
         res.json({
@@ -106,7 +109,82 @@ export const setProductos = async (req, res) => {
             });
         } else {
             const file = req.files.file;
-            file.mv(__dirname.replace('/controllers', '/files/')+file.name);
+            await file.mv(__dirname.replace('/controllers', '/files/uploads/')+file.name);
+            const excel = xlsx.readFile(__dirname.replace('/controllers', '/files/uploads/')+file.name);
+            const sheet = excel.Sheets[excel.SheetNames[0]];
+            let validar = true;
+            let cont = 5;
+            while(validar){
+                if (sheet["B"+cont.toString()] !== undefined) {
+                    const proveedor = await proveedores.findOne({
+                        where: {
+                            nombre: sheet["F"+cont.toString()].v,
+                            vigencia: true
+                        },
+                        attributes: [
+                            'id', 
+                            'nombre', 
+                            'direccion',
+                            'correo',
+                            'pais',
+                            'monedas_id',
+                            'rut',
+                            'cuentas_bancos_id'
+                        ]
+                    });
+                    const unidadProducto = await unidad_productos.findOne({
+                        where: {
+                            nombre_medida: sheet["H"+cont.toString()].v,
+                            vigencia: true
+                        },
+                        attributes: [
+                            'id',
+                            'nombre_medida',
+                            'valor_unidad'
+                        ]
+                    });
+                    if (proveedor && unidadProducto) {
+                        const producto = await productos.create({
+                            codigo: sheet["B"+cont.toString()].v,
+                            nombre: sheet["C"+cont.toString()].v,
+                            tipo: sheet["G"+cont.toString()].v,
+                            proveedores_id: proveedor.dataValues.id,
+                            unidad_productos_id: unidadProducto.dataValues.id,
+                            vigencia: true
+                        },{
+                            fields: [
+                                'codigo',
+                                'nombre',
+                                'tipo',
+                                'proveedores_id',
+                                'unidad_productos_id',
+                                'vigencia'
+                            ]
+                        });
+                        const historialPrecio = await historial_precios.create({
+                            precio: sheet["E"+cont.toString()].v, 
+                            productos_id: producto.dataValues.id,
+                            fecha: sequelize.literal('CURRENT_TIMESTAMP'),
+                            vigencia: true
+                        },{
+                            fields: [
+                                'precio', 
+                                'productos_id',
+                                'fecha',
+                                'vigencia'
+                            ]
+                        });
+                    } else {
+                        res.json({
+                            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+                            resultado: false, 
+                        });
+                    }
+                    cont += 1;
+                } else {
+                    validar = false;
+                };
+            };
             res.json({
                 message: "Planilla subida correctamente", 
                 resultado: true, 
@@ -348,7 +426,7 @@ export const getPdfOrderImport = async (req, res) => {
         // Generación de documento
 
         const rut =  pedido.dataValues.proveedore.dataValues.rut;
-        const fecha = `${new Date().getDate()}-${new Date().getMonth() + 1 <= 9 ? "0" +(new Date().getMonth() + 1).toString() : new Date().getMonth() + 1}-${new Date().getFullYear()}`;
+        const fecha = `${new Date().getFullYear()}-${new Date().getMonth() + 1 <= 9 ? "0" +(new Date().getMonth() + 1).toString() : new Date().getMonth() + 1}-${new Date().getDate() <= 9 ? "0" +(new Date().getDate()).toString() : new Date().getDate()}`;
         const html = `
             <!DOCTYPE html>
             <html lang="es">

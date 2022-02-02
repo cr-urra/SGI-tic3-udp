@@ -15,9 +15,6 @@ const historial_precios = database.define('historial_precios',{
     productos_id:{
         type: sequelize.INTEGER
     },
-    tipo:{
-        type: sequelize.BOOLEAN
-    },
     vigencia:{
         type: sequelize.BOOLEAN
     }

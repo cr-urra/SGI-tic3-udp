@@ -8,7 +8,7 @@ import * as pedidosController from './pedidos.controller';
 export const createProductos = async (req, res) => {
     try{
         const {codigo, nombre, tipo, proveedores_id, unidad_productos_id} = req.body;
-        let newProducto = await productos.create({
+        const newProducto = await productos.create({
             codigo,
             nombre,
             tipo,
@@ -19,7 +19,6 @@ export const createProductos = async (req, res) => {
             fields: [
                 'codigo',
                 'nombre',
-                'precio_por_kg',
                 'tipo',
                 'proveedores_id',
                 'unidad_productos_id',
