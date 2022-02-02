@@ -1,11 +1,11 @@
 import nodeMailer from 'nodemailer';
 
 const transporter = nodeMailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
+    host: "vy9bogruz.gclientes.com",
+    port: 465,
     auth: {
-        user: "b105f20bca2103",
-        pass: "63c6bcb6ac5444"
+        user: "sgi@vy9bogruz.gclientes.com",
+        pass: "Kolmn25134k25@"
     }
 });
 
@@ -17,7 +17,7 @@ export const templateBienvenida = (name, token) => {
                     Estimado ${name}, 
                 </p>
                 <p>
-                    Bienvenido al Sistema de Gesti&oacuten para Importaciones de PROMACHILE. Para poder acceder a su interfaz, porfavor verifique su correo ingresando al siguiente 
+                    Bienvenido al Sistema de Gestión para Importaciones de PROMA CHILE. Para poder acceder a su interfaz, porfavor verifique su correo ingresando al siguiente 
                     <a href="http://localhost:4000/auth/confirm/${token}">Link</a>.
                 </p>
             </p>
@@ -25,7 +25,7 @@ export const templateBienvenida = (name, token) => {
                 Saludos.
             </p>
             <p>
-                Pd: Este es un mensaje automatizado, por ende no responder a el.
+                Pd: Este es un mensaje automatizado, por ende no responder a él.
             </p>
             <p 
                 style="margin: 10px 0px"
@@ -33,7 +33,7 @@ export const templateBienvenida = (name, token) => {
                 ---
             </p>
             <p>
-                Este correo fue enviado desde la aplicaci&oacuten SGI (Sistema de Gesti&oacuten para Importaciones) de PROMACHILE.
+                Este correo fue enviado desde la aplicación SGI (Sistema de Gestión para Importaciones) de PROMA CHILE.
             </p>
         </div>
     `

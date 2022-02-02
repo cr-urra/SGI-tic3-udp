@@ -80,7 +80,6 @@ export const getXlsxImportMoney = async (req, res) => {
         });
         let cont = 2;
         prods.forEach(element => {
-            console.log();
             xlsx.utils.sheet_add_aoa(sheet, [[element.dataValues.codigo]], {origin: "A"+cont.toString()});
             xlsx.utils.sheet_add_aoa(sheet, [[element.dataValues.nombre]], {origin: "B"+cont.toString()});
             xlsx.utils.sheet_add_aoa(sheet, [[0]], {origin: "C"+cont.toString()});

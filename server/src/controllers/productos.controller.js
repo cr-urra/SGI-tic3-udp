@@ -40,7 +40,6 @@ export const createProductos = async (req, res) => {
     };
 };
 
-
 export const updateProductos = async (req, res) => {
     try{
         const {id} = req.params;

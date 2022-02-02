@@ -8,7 +8,8 @@ export default class Login extends Component {
         rut: 0,
         password: "",
         cod_rol: "",
-        resultado: ""
+        resultado: "",
+        message: true
     }
 
     onSubmit = async (e) => {
@@ -34,7 +35,8 @@ export default class Login extends Component {
             });
         } 
         else this.setState({ 
-            resultado: res.data.resultado 
+            resultado: res.data.resultado,
+            message: res.data.message
         });
     }
 
@@ -105,6 +107,7 @@ export default class Login extends Component {
                         />
                     </div>
                     <button type="submit" className="btn btn-outline-primary rounded-pill ancho mt-2 mb-2"> Ingresar</button>
+                    {!this.state.resultado && <p className="mt-4">{this.state.message}</p>}
                 </form>
             </div>
         </div>
