@@ -8,7 +8,6 @@ import dolar_mensual from '../models/dolar_mensual';
 import gastos_extras from '../models/gastos_extras';
 import historial_dolar from '../models/historial_dolar';
 import historial_precios from '../models/historial_precios';
-import ips from '../models/ips';
 import monedas from '../models/monedas';
 import movimientos from '../models/movimientos'
 import numeros_aba from '../models/numeros_aba';
@@ -108,9 +107,6 @@ telefonos_agentes_aduana.belongsTo(agentes_aduana, {foreignKey: 'agentes_aduana_
 
 cuentas_corrientes.hasMany(movimientos, {foreignKey: 'cuentas_corrientes_id', sourceKey: 'id'});
 movimientos.belongsTo(cuentas_corrientes, {foreignKey: 'cuentas_corrientes_id', sourceKey: 'id'});
-
-usuarios.hasMany(ips, {foreignKey: 'usuarios_id', sourceKey: 'id'});
-ips.belongsTo(usuarios, {foreignKey: 'usuarios_id', sourceKey: 'id'});
 
 pedidos.hasMany(historial_dolar, {foreignKey: 'pedidos_id', sourceKey: 'id'});
 historial_dolar.belongsTo(pedidos, {foreignKey: 'pedidos_id', sourceKey: 'id'});

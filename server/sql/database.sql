@@ -468,41 +468,6 @@ ALTER SEQUENCE public.historial_precios_id_seq OWNED BY public.historial_precios
 
 
 --
--- Name: ips; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.ips (
-    id integer NOT NULL,
-    ip character varying(30),
-    usuarios_id integer
-);
-
-
-ALTER TABLE public.ips OWNER TO postgres;
-
---
--- Name: ips_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.ips_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.ips_id_seq OWNER TO postgres;
-
---
--- Name: ips_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.ips_id_seq OWNED BY public.ips.id;
-
-
---
 -- Name: monedas; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1183,13 +1148,6 @@ ALTER TABLE ONLY public.historial_precios ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- Name: ips id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ips ALTER COLUMN id SET DEFAULT nextval('public.ips_id_seq'::regclass);
-
-
---
 -- Name: monedas id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1487,14 +1445,6 @@ COPY public.historial_precios (id, precio, fecha, productos_id, vigencia) FROM s
 48	0	2021-09-06 10:43:34.616586	48	t
 49	0	2021-09-06 10:43:57.277026	49	t
 50	0	2021-09-06 10:44:13.239072	50	t
-\.
-
-
---
--- Data for Name: ips; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.ips (id, ip, usuarios_id) FROM stdin;
 \.
 
 
@@ -1831,13 +1781,6 @@ SELECT pg_catalog.setval('public.historial_precios_id_seq', 50, true);
 
 
 --
--- Name: ips_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.ips_id_seq', 1, true);
-
-
---
 -- Name: monedas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -2052,14 +1995,6 @@ ALTER TABLE ONLY public.historial_dolar
 
 ALTER TABLE ONLY public.historial_precios
     ADD CONSTRAINT historial_precios_pkey PRIMARY KEY (id);
-
-
---
--- Name: ips ips_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ips
-    ADD CONSTRAINT ips_pkey PRIMARY KEY (id);
 
 
 --
@@ -2340,14 +2275,6 @@ ALTER TABLE ONLY public.historial_dolar
 
 ALTER TABLE ONLY public.historial_precios
     ADD CONSTRAINT historial_precios_productos_id_fkey FOREIGN KEY (productos_id) REFERENCES public.productos(id);
-
-
---
--- Name: ips ips_usuarios_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ips
-    ADD CONSTRAINT ips_usuarios_id_fkey FOREIGN KEY (usuarios_id) REFERENCES public.usuarios(id);
 
 
 --

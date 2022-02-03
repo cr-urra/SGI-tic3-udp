@@ -1,8 +1,6 @@
 import usuarios from '../models/usuarios';
-import ips from '../models/ips';
 import telefonoUsuarios from '../models/telefonos_usuarios';
 import * as ct from './telefonos_usuarios.controller';
-import * as ipsc from './ips.controller';
 
 export const updateUsuarios = async (req, res) => {
     try{
@@ -43,7 +41,6 @@ export const deleteUsuarios = async (req, res) => {
                 'id'
             ],
             include: [
-                ips,
                 telefonoUsuarios
             ]
         });
@@ -59,17 +56,6 @@ export const deleteUsuarios = async (req, res) => {
                     id: element.dataValues.id
                 };
                 if(aux.resultado) aux = await ct.deleteTelefonosUsuarios(req, res)
-                else res.json({
-                    resultado: false, 
-                    message: "Ha ocurrido un error, porfavor contactese con el administrador"
-                });
-            });
-            console.log("aqui");
-            user.dataValues.ips.forEach(async element => {
-                req.params = {
-                    id: element.dataValues.id
-                };
-                if(aux.resultado) aux = aux = await ipsc.deleteIps(req, res)
                 else res.json({
                     resultado: false, 
                     message: "Ha ocurrido un error, porfavor contactese con el administrador"
