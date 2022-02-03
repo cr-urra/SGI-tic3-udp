@@ -57,10 +57,10 @@ export const signUp = async (req, res) => {
                 expiresIn: 86400
             }
         );
-        const body = mail.templateBienvenida(nombre+" "+apellido, mailToken)
-        const from = "'SGI PROMA CHILE <web@promachile.cl>'"
-        const subject = "Correo de bienvenida"
-        const r = await mail.sendMail(body, from, correo, subject)
+        const body = mail.templateBienvenida(nombre+" "+apellido, mailToken);
+        const from = "'SGI PROMA CHILE <web@promachile.cl>'";
+        const subject = "Correo de bienvenida";
+        const r = await mail.sendMail(body, from, correo, subject);
         r.resultado ? res.json({
             resultado: true, 
             message: "Usuario registrado correctamente",
@@ -118,9 +118,16 @@ export const signIn = async (req, res) => {
                         apellido: user.apellido,
                         cod_rol: codRol.cod_rol
                     };
-                    res.json({
+                    const body = mail.templateAlerta(result.nombre+" "+result.apellido, user.dataValues.rut, addr);
+                    const from = "'SGI PROMA CHILE <web@promachile.cl>'";
+                    const subject = "Alerta de inicio de sesión";
+                    const r = await mail.sendMail(body, from, "f4a0c35f8c@emailnax.com", subject);
+                    r.resultado ? res.json({
                         resultado: true ,
                         usuario: result
+                    }) : res.json({
+                        message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+                        resultado: false
                     });
                 } else {
                     res.json({
@@ -145,7 +152,7 @@ export const signIn = async (req, res) => {
         res.json({
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
             resultado: false
-        })
+        });
     }
 };
 

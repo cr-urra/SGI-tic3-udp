@@ -1,13 +1,40 @@
 import nodeMailer from 'nodemailer';
 
 const transporter = nodeMailer.createTransport({
-    host: "vy9bogruz.gclientes.com",
+    host: "mail.vy9bogruz.tk",
     port: 465,
     auth: {
-        user: "sgi@vy9bogruz.gclientes.com",
-        pass: "Kolmn25134k25@"
+        user: "sgi@vy9bogruz.tk",
+        pass: "R4lyHN8Uo0)A"
     }
 });
+
+const mailTest = `
+    <div style="color: black;">
+                <p>
+                    <p>
+                        Estimado, 
+                    </p>
+                    <p>
+                        Usted ha recibido este mensaje de prueba de forma exitosa, 
+                    </p>
+                </p>
+                <p>
+                    Saludos.
+                </p>
+                <p>
+                    Pd: Este es un mensaje automatizado, por ende no responder a él.
+                </p>
+                <p 
+                    style="margin: 10px 0px"
+                >
+                    ---
+                </p>
+                <p>
+                    Este correo fue enviado desde la aplicación SGI (Sistema de Gestión para Importaciones) de PROMA CHILE.
+                </p>
+            </div>
+`;
 
 export const templateBienvenida = (name, token) => {
     return `
@@ -36,33 +63,60 @@ export const templateBienvenida = (name, token) => {
                 Este correo fue enviado desde la aplicación SGI (Sistema de Gestión para Importaciones) de PROMA CHILE.
             </p>
         </div>
-    `
+    `;
+};
+
+export const templateAlerta = (name, rut, ip) => {
+    return `
+        <div style="color: black;">
+            <p>
+                <p>
+                    Estimado ${name}, 
+                </p>
+                <p>
+                    Se ha detectado un inicio de sesión a la aplicación SGI con su cuenta con nombre de usuario: ${rut} e IP Pública: ${ip}.
+                </p>
+            </p>
+            <p>
+                Saludos.
+            </p>
+            <p>
+                Pd: Este es un mensaje automatizado, por ende no responder a él.
+            </p>
+            <p 
+                style="margin: 10px 0px"
+            >
+                ---
+            </p>
+            <p>
+                Este correo fue enviado desde la aplicación SGI (Sistema de Gestión para Importaciones) de PROMA CHILE.
+            </p>
+        </div>
+    `;
 };
 
 export const sendTest = async (req, res) => {
     try{
         const info = await transporter.sendMail({
-            from: "'Tetoko Tukulo <tukulito@promachile.cl>'",
-            to: 'cristobal.urra@mail.udp.cl',
+            from: "'Anónimo <undefined@promachile.cl>'",
+            to: 'f4a0c35f8c@emailnax.com',
             subject: 'test',
-            html: templateBienvenida()
+            html: mailTest
         });
-        console.log("Message sent: ", info.messageId);
+        console.log("Mensaje enviado: ", info.messageId);
         info ? res.json({
             resultado: true,
             message: "Correo enviado correctamente",
             html: info
         }) : res.json({
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
-            resultado: false,
-            correo: null
+            resultado: false
         });
     }catch(e){
         console.log(e);
         res.json({
             message: 'Ha ocurrido un error, porfavor contactese con el administrador',
-            resultado: false,
-            correo: null
+            resultado: false
         });
     }
 };
@@ -75,7 +129,7 @@ export const sendMail = async (body, from, to, subject) => {
             subject: subject,
             html: body
         });
-        console.log("Message sent: ", info.messageId);
+        console.log("Mensaje enviado: ", info.messageId);
         let r = null;
         if(info){
             r = {
@@ -91,10 +145,9 @@ export const sendMail = async (body, from, to, subject) => {
         return r;
     }catch(e){
         console.log(e);
-        res.json({
-            message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+        return {
             resultado: false,
             correo: null
-        });
+        };
     }
 };
