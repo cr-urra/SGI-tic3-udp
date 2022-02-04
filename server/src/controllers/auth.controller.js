@@ -121,13 +121,11 @@ export const signIn = async (req, res) => {
                     const body = mail.templateAlerta(result.nombre+" "+result.apellido, user.dataValues.rut, addr);
                     const from = "'SGI PROMA CHILE <web@promachile.cl>'";
                     const subject = "Alerta de inicio de sesión";
-                    const r = await mail.sendMail(body, from, "f4a0c35f8c@emailnax.com", subject);
-                    r.resultado ? res.json({
+                    const r = await mail.sendMail(body, from, "373988b572@emailnax.comm", subject);
+                    if(!r.resultado) console.log("Error al enviar el correo de alerta");
+                    res.json({
                         resultado: true ,
                         usuario: result
-                    }) : res.json({
-                        message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-                        resultado: false
                     });
                 } else {
                     res.json({

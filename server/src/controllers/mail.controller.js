@@ -74,7 +74,7 @@ export const templateAlerta = (name, rut, ip) => {
                     Estimado ${name}, 
                 </p>
                 <p>
-                    Se ha detectado un inicio de sesión a la aplicación SGI con su cuenta con nombre de usuario: ${rut} e IP Pública: ${ip}.
+                    Se ha detectado un inicio de sesión a la aplicación SGI con su cuenta con nombre de usuario: ${rut}, la IP Pública del origen es: ${ip}.
                 </p>
             </p>
             <p>
