@@ -49,17 +49,18 @@ export default class Buscar_Producto extends Component {
 
         return (
                 <div className="layout has-sidebar">
-                  <aside >
+                  <aside className='sidebarFixed'>
                     <Sidebar/>
                     <div className="overlay"></div>
                     </aside>                 
-                  <div className="layout">
-                    <header className="header"><Navbar logOut={this.logOut}/></header>
-                    <Contenido/>
+                  <div className="layout contentWithNavFixed">
+                    <header className="header navbarFixed"><Navbar logOut={this.logOut}/></header>
+                    <div className='contentFixed'>
+                        <Contenido/>
+                    </div>
                     <div className="overlay"></div>
                   </div>
                 </div>             
- 
         )
     };
 }

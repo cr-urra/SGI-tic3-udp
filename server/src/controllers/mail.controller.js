@@ -1,7 +1,7 @@
 import nodeMailer from 'nodemailer';
 
 const transporter = nodeMailer.createTransport({
-    host: "mail.vy9bogruz.tk",
+    host: "mail.vy9bogruz.tkk",
     port: 465,
     auth: {
         user: "sgi@vy9bogruz.tk",

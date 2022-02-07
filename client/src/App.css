@@ -6,6 +6,30 @@
 
 /**/
 
+/* Reglas bars fixed*/
+
+.sidebarFixed {
+    position: fixed;
+    z-index: 1;
+    height: 100%;
+}
+
+.contentWithNavFixed {
+    margin-left: 80px;
+}
+
+.navbarFixed {
+    position: fixed !important;
+    width: 100%;
+    z-index: 1;
+}
+
+.contentFixed {
+    margin-top: 65px;
+}
+
+/**/
+
 .altura-msj-cons{
     margin: 19rem 0 0 0;
 }
@@ -55,7 +79,7 @@
 }
 
 .boton_sidebar{
-    padding: 20px 0 20px 23px !important;
+    padding: 20px 0 21px 23px !important;
 }
 
 .bienvenida{

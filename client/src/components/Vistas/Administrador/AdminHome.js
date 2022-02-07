@@ -51,8 +51,9 @@ export default class AdminHome extends Component {
                 </aside>                 
                 <div className="layout">
                     <header className="header">
-                        <Navbar logOut={this.logOut}/></header>
-                        <Contenido/>
+                        <Navbar logOut={this.logOut}/>
+                    </header>
+                    <Contenido/>
                     <div className="overlay"></div>
                 </div>
             </div>            

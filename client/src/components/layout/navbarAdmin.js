@@ -41,7 +41,7 @@ export default class Navbar extends Component {
                                     <span className="navbar-brand">UTM: ${this.state.UTM}</span>
                                 </div>
                             </div>
-                            <ul className="navbar-nav ml-auto">
+                            <ul className="navbar-nav ml-auto pr-5">
                                 <li className="nav-item active">
                                     <button type="button" className="btn color_sitio2" onClick={this.props.logOut}>
                                         Cerrar sesión  
