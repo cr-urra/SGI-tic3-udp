@@ -1,48 +1,90 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
+import CryptoJS from 'crypto-js';
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default class Login extends Component {
 
     state = {
-        rut: 0,
+        stringOne: "Ñ_nñ*@119Bgˀ¬ø*&&3/!dk",
+        stringTwo: "@?bBÑ4",
         password: "",
         cod_rol: "",
         resultado: "",
-        message: true
+        rut: "",
+        message: true,
+        verificacion: false,
+        button: true
+    }
+
+    encrypt = async (pass) => {
+        const hash = CryptoJS.SHA3(pass+"promachile.cl", {outputLength: 512});
+        return hash;
+    }
+
+    encryptAes = async (message, key, iv) => {
+        const encrypted = CryptoJS.AES.encrypt(message, key, {iv: iv});
+        return CryptoJS.enc.Utf8.parse(encrypted);
+    }
+
+    decryptAes = async (encrypt, key, iv) => {
+        const decrypted = CryptoJS.AES.decrypt(CryptoJS.enc.Utf8.stringify(encrypt), key, {iv: iv});
+        return CryptoJS.enc.Utf8.stringify(decrypted);
     }
 
     onSubmit = async (e) => {
         e.preventDefault();
-        const addr = await axios.get('https://api.ipify.org?format=json');
-        const {data} = await axios.get("/csrf");
-        axios.defaults.headers.post['X-CSRF-Token'] = data.csrfToken;
-        const datosLogin = {
-            rut: this.state.rut,
-            contraseña: this.state.password,
-            address: addr
-        };
-        const res = await axios.post('/auth/signin', datosLogin);
-        if(res.data.resultado){
-            const res2 = await axios.get("/money");
-            localStorage.setItem('X-CSRF-Token', data.csrfToken);
-            localStorage.setItem('nombre', res.data.usuario.nombre);
-            localStorage.setItem('dolar', res2.data.dolar.valor);
-            localStorage.setItem('uf', res2.data.uf.valor);
-            localStorage.setItem('utm', res2.data.utm.valor);
-            this.setState({ 
-                cod_rol: res.data.usuario.cod_rol 
+        this.setState({ 
+            button: true
+        })
+        if(this.state.verificacion){
+            const addr = await axios.get('https://api.ipify.org?format=json');
+            const {data} = await axios.get("/csrf");
+            axios.defaults.headers.post['X-CSRF-Token'] = data.csrfToken;
+            const key = this.state.stringOne+data.csrfToken.substring(10, 20);
+            const iv = data.csrfToken.substring(20, 30)+this.state.stringTwo;
+            const datosLogin = {
+                rut: await this.encryptAes(this.state.rut, key, iv),
+                contraseña: await this.encrypt(this.state.password),
+                address: await this.encryptAes(addr.data.ip, key, iv)
+            };
+            const res = await axios.post('/auth/signin', datosLogin);
+            if(res.data.resultado){
+                const res2 = await axios.get("/money");
+                localStorage.setItem('X-CSRF-Token', data.csrfToken);
+                localStorage.setItem('nombre', await this.decryptAes(res.data.usuario.nombre, key, iv));
+                localStorage.setItem('dolar', res2.data.dolar.valor);
+                localStorage.setItem('uf', res2.data.uf.valor);
+                localStorage.setItem('utm', res2.data.utm.valor);
+                localStorage.setItem('iv', iv);
+                localStorage.setItem('key', key);
+                localStorage.setItem('rut', this.state.rut);
+                this.setState({ 
+                    cod_rol: await this.decryptAes(res.data.usuario.cod_rol, key, iv) 
+                });
+            } else this.setState({ 
+                resultado: res.data.resultado,
+                message: res.data.message,
+                button: false
             });
-        } 
-        else this.setState({ 
-            resultado: res.data.resultado,
-            message: res.data.message
+        } else this.setState({ 
+            resultado: false,
+            message: "Captcha aún no verificado",
+            button: true
         });
     }
 
     onInputChange = (e) => {
         this.setState({ 
             [e.target.name]: e.target.value
+        })
+    }
+
+    onChange = () => {
+        this.setState({ 
+            verificacion: true,
+            button: false
         })
     }
 
@@ -77,7 +119,7 @@ export default class Login extends Component {
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person" viewBox="0 0 18 18">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                     </svg>
-                Usuario
+                    Usuario
                 </h5>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group mb-4">
@@ -106,7 +148,13 @@ export default class Login extends Component {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-outline-primary rounded-pill ancho mt-2 mb-2"> Ingresar</button>
+                    <div className="pl-4 pt-2 pb-2">
+                        <ReCAPTCHA
+                            sitekey="6LdBCnYeAAAAAJIjA5EY_G-z151jqYpkcDEZjfPa"
+                            onChange={this.onChange}
+                        />
+                    </div>
+                    <button disabled={this.state.button} type="submit" className="btn btn-outline-primary rounded-pill ancho mt-2 mb-2"> Ingresar</button>
                     {!this.state.resultado && <p className="mt-4">{this.state.message}</p>}
                 </form>
             </div>

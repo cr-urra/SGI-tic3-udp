@@ -130,6 +130,10 @@ app.get('/money', (req, res) => {
         });
     }).on('error', (err) => {
         console.log(err);
+        res.json({
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false
+        });
     });
 });
 

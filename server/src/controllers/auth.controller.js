@@ -1,17 +1,48 @@
 import usuarios from '../models/usuarios';
 import roles from '../models/roles';
-import bcrypt from 'bcryptjs';
 import config from '../config';
 import jwt from 'jsonwebtoken';
 import * as mail from './mail.controller';
+import argon2 from 'argon2';
+import forge from 'node-forge';
+import CryptoJS from 'crypto-js';
 
-const comparePassword = async (password, receivePassword) => {
-    return await bcrypt.compare(password, receivePassword);
+export const decryptData = async (encrypted, localCsrf) => {
+    const decrypted = CryptoJS.AES.decrypt(CryptoJS.enc.Utf8.stringify(encrypted), "Ñ_nñ*@119Bgˀ¬ø*&&3/!dk"+localCsrf.substring(10, 20),{iv: localCsrf.substring(20, 30)+"@?bBÑ4"});
+    return CryptoJS.enc.Utf8.stringify(decrypted);
+}; 
+
+export const encryptData = async (message, localCsrf) => {
+    const encrypted = CryptoJS.AES.encrypt(message, "Ñ_nñ*@119Bgˀ¬ø*&&3/!dk"+localCsrf.substring(10, 20), {iv: localCsrf.substring(20, 30)+"@?bBÑ4"});
+    return CryptoJS.enc.Utf8.parse(encrypted);
 };
 
-const encryptPassword = async (password) => {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
+const comparePassword = async (receivePassword, password) => {
+    let decipher = forge.cipher.createDecipher('AES-GCM', config.KEY);
+    decipher.start({
+        iv: config.IV,
+        additionalData: 'binary-encoded string',
+        tagLength: 128,
+        tag: forge.util.hexToBytes(password.toString().substring(190, password.toString().length))
+    });
+    decipher.update(forge.util.createBuffer(forge.util.hexToBytes(password.toString().substring(0,190))));
+    const pass = decipher.finish();
+    let result = null;
+    pass ? result = await argon2.verify(decipher.output.toString(), receivePassword.words) : result = "F";
+    return result;
+};
+
+export const encryptPassword = async (password) => {
+    const hash = await argon2.hash(password.words, {type: argon2.argon2d});
+    let cipher = forge.cipher.createCipher('AES-GCM', config.KEY);
+    cipher.start({
+        iv: config.IV,
+        additionalData: 'binary-encoded string',
+        tagLength: 128 
+    });
+    cipher.update(forge.util.createBuffer(hash));
+    cipher.finish();
+    return cipher.output.toHex()+cipher.mode.tag.toHex();
 };
 
 export const consulRol = async (id) => {
@@ -28,7 +59,13 @@ export const consulRol = async (id) => {
 
 export const signUp = async (req, res) => {
     try{
-        const {rut, nombre, apellido, roles_id, contraseña, correo} = req.body;
+        const localCsrf = req.get('X-CSRF-Token');
+        let rut = await decryptData(req.body.rut, localCsrf);
+        let nombre = await decryptData(req.body.nombre, localCsrf);
+        let apellido = await decryptData(req.body.apellido, localCsrf);
+        let roles_id = await decryptData(req.body.roles_id, localCsrf);
+        let contraseña = req.body.contraseña;
+        let correo = await decryptData(req.body.correo, localCsrf);
         const usr = await usuarios.create({
             rut,
             nombre,
@@ -61,14 +98,15 @@ export const signUp = async (req, res) => {
         const from = "'SGI PROMA CHILE <web@promachile.cl>'";
         const subject = "Correo de bienvenida";
         const r = await mail.sendMail(body, from, correo, subject);
-        r.resultado ? res.json({
+        if (!r.resultado) console.log("Error al enviar el mensaje")
+        const userId = await encryptData(usr.dataValues.id.toString(), localCsrf);
+        res.json({
             resultado: true, 
             message: "Usuario registrado correctamente",
-            usuario: usr
-        }) : res.json({
-            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            resultado: false
-        });
+            usuario: {
+                id: userId
+            }
+        })
     }catch(e){
         console.log(e);
         res.json({
@@ -81,9 +119,10 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
     try{
         const {rut} = req.body;
+        const localCsrf = req.get('X-CSRF-Token');
         const user = await usuarios.findOne({
             where: {
-                rut
+                rut: await decryptData(rut, localCsrf)
             },
             attributes: [
                 'id', 
@@ -96,7 +135,7 @@ export const signIn = async (req, res) => {
             ]
         });
         if(user){
-            const addr = req.body.address.data.ip;
+            const addr = await decryptData(req.body.address, localCsrf);
             const matchPassword = await comparePassword(req.body.contraseña, user.contraseña);
             let user_token = null;
             if(matchPassword){
@@ -114,17 +153,17 @@ export const signIn = async (req, res) => {
                     });
                     const codRol = await consulRol(user.roles_id);
                     const result = {
-                        nombre: user.nombre,
-                        apellido: user.apellido,
-                        cod_rol: codRol.cod_rol
+                        nombre: await encryptData(user.nombre, localCsrf),
+                        apellido: await encryptData(user.apellido, localCsrf),
+                        cod_rol: await encryptData(codRol.cod_rol, localCsrf)
                     };
                     const body = mail.templateAlerta(result.nombre+" "+result.apellido, user.dataValues.rut, addr);
                     const from = "'SGI PROMA CHILE <web@promachile.cl>'";
                     const subject = "Alerta de inicio de sesión";
-                    const r = await mail.sendMail(body, from, "373988b572@emailnax.comm", subject);
+                    const r = await mail.sendMail(body, from, "edf1ff78d6@emailnax.com", subject);
                     if(!r.resultado) console.log("Error al enviar el correo de alerta");
                     res.json({
-                        resultado: true ,
+                        resultado: true,
                         usuario: result
                     });
                 } else {
@@ -151,7 +190,7 @@ export const signIn = async (req, res) => {
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
             resultado: false
         });
-    }
+    };
 };
 
 export const verifyAdm = async (req, res) => {
@@ -178,7 +217,7 @@ export const verifyAdm = async (req, res) => {
             cod_rol: rol.cod_rol, 
             message: "Su usuario no se encuentra autorizado para acceder a esta interfaz"
         });
-    } 
+    };
 };
 
 export const verifySup = async (req, res) => {
@@ -205,7 +244,7 @@ export const verifySup = async (req, res) => {
             cod_rol: rol.cod_rol, 
             message: "Su usuario no se encuentra autorizado para acceder a esta interfaz"
         });
-    } 
+    };
 };
 
 export const verifyUsr = async (req, res) => {
@@ -232,7 +271,7 @@ export const verifyUsr = async (req, res) => {
             cod_rol: rol.cod_rol, 
             message: "Su usuario no se encuentra autorizado para acceder a esta interfaz"
         });
-    } 
+    }; 
 };
 
 export const logOut = async (req, res) => {
@@ -245,7 +284,6 @@ export const getRol = async (req, res) => {
     !token && res.json({resultado: false, cod_rol: "", message: ""});
     let verifyDecoded = null;
     jwt.verify(token, config.SECRET, (err) => {verifyDecoded = err});
-    console.log(verifyDecoded);
     if(verifyDecoded !== null){
         res.json({resultado: false, cod_rol: "", message: ""});
     }else{

@@ -13,7 +13,7 @@ export const verifyUser = async (req, res, next) => {
     });
     user ? res.json({
         message: "El rut ingresado ya existe", 
-        rut: user.rut
+        resultado: false
     }) : next();
 };
 
@@ -29,6 +29,6 @@ export const existUser = async (req, res, next) => {
     });
     user ? next() : res.json({
         message: "El rut ingresado no existe", 
-        rut: user.rut
+        resultado: false
     });
 };

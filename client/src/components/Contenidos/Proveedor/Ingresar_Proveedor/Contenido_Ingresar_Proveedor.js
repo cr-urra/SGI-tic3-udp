@@ -9,8 +9,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 toast.configure()
 
-
-
 export default class Ingresar_Usuario extends Component {
     state ={
         nombre: null,
@@ -36,7 +34,6 @@ export default class Ingresar_Usuario extends Component {
 
     componentDidMount = async () => {
         const res = await axios.get("/monedas/",{})
-        console.log(res,"monedas");
         for (let i= 0; i < res.data.monedas.length ; i++){
             const moneda = {
               pais:  res.data.monedas[i].pais,
@@ -82,21 +79,17 @@ export default class Ingresar_Usuario extends Component {
             this.state.cuenta_interbancaria != "" 
             
         ){
-            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')    
-
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
             const Pais ={
                 codigo_iban: this.state.iban,
                 pais: this.state.pais_b
             }
-
             const ABA = {
                 numero_aba: this.state.n_aba,
                 nombre_banco: this.state.nombre_b
             }
-                
             const res3 = await axios.post("/paises/", Pais) 
             const res4 = await axios.post("/numerosAba/", ABA) 
-
             const Banco = {
                 nombre_banco: this.state.nombre_b,
                 numero_cuenta: this.state.cuenta_interbancaria,
@@ -106,9 +99,7 @@ export default class Ingresar_Usuario extends Component {
                 numeros_aba_id: res4.data.numeroAba.id,
                 swift_code: this.state.codigo_swift,
             }
-
             const res2 = await axios.post("/cuentasBancos/", Banco) 
-
             const Proveedor = {
                 nombre: this.state.nombre,
                 pais: this.state.pais,
@@ -118,10 +109,6 @@ export default class Ingresar_Usuario extends Component {
                 monedas_id: this.state.moneda,    
                 cuentas_bancos_id: res2.data.cuentas_bancos.id
             }
-            
-            
-            console.log(res4)
-           
             const res = await axios.post("/proveedores/", Proveedor)   
             const Telefono = {
                 telefono: this.state.telefono,
@@ -129,7 +116,6 @@ export default class Ingresar_Usuario extends Component {
             }
 
             const res5 = await axios.post("/telefonosProveedores/", Telefono) 
- 
             toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
 
         }else{
@@ -151,9 +137,9 @@ export default class Ingresar_Usuario extends Component {
         this.setState({
             filtro: event.target.value
         })
-      }
+    }
 
-      handleClose = () =>{
+    handleClose = () =>{
         this.setState({
             show: false
         })
@@ -171,7 +157,6 @@ export default class Ingresar_Usuario extends Component {
         }))
     }
 
-
     render() {
         return (
             <main className="content">
@@ -183,7 +168,6 @@ export default class Ingresar_Usuario extends Component {
                         </div>
                         <form onSubmit = {this.onSubmit}>
                             <div className = "container separacion" >
-                            
                                 <div className="row mt-2 mb-2">         
                                     <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Nombre"} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
@@ -215,8 +199,7 @@ export default class Ingresar_Usuario extends Component {
                                     </div>
                                     <Moneda filtro ={this.state.new} />
                                 </div>    
-                                <h5 className="separacion"> Datos Bancarios</h5>                                                    
-
+                                <h5 className="separacion"> Datos Bancarios</h5>
                                 <div className="row ">
                                     <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Nombre"} name={"nombre_b"} name2={this.state.nombre_b} onChange={this.onChange}/>
@@ -239,7 +222,6 @@ export default class Ingresar_Usuario extends Component {
                                     <div className="col-xs-12 col-md-6 col-lg-6 mb-3">
                                         <Dato nombre={"Código SWIFT"}  name={"codigo_swift"} name2={this.state.codigo_swift} onChange={this.onChange}/>
                                     </div>
-
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>
                                           <Modal.Title className="text-primary">Ingresar Proveedor</Modal.Title>

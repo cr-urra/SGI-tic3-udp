@@ -1,8 +1,11 @@
 import telefonosUsuarios from '../models/telefonos_usuarios';
+import * as authController from './auth.controller';
 
 export const createTelefonosUsuarios = async (req, res) => {
     try{
-        const {telefono, usuarios_id} = req.body;
+        const localCsrf = req.get('X-CSRF-Token');
+        const telefono = await authController.decryptData(req.body.telefono, localCsrf);
+        const usuarios_id = await authController.decryptData(req.body.usuarios_id, localCsrf);
         let newTelefonoUsuario = await telefonosUsuarios.create({
             telefono,
             usuarios_id
@@ -14,15 +17,13 @@ export const createTelefonosUsuarios = async (req, res) => {
         });
         res.json({
             resultado: true,
-            message: "Telefono de usuario creado correctamente",
-            telefono: newTelefonoUsuario
+            message: "Telefono de usuario creado correctamente"
         });
     } catch (e) {
         console.log(e);
         res.json({
-            message: "Ha ocurrido un error, por favor contactese con el administrador", 
-            resultado: false, 
-            telefono: null
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false
         });
     };
 };
@@ -115,10 +116,11 @@ export const getTelefonosUsuariosId = async (req, res) => {
 
 export const getTelefonosUsuariosIdForUsuariosId = async (req, res) => {
     try{
-        const {id} = req.params;
+        const {usuarios_id} = req.params;
+        const localCsrf = req.get('X-CSRF-Token');
         const telefono = await telefonosUsuarios.findOne({
             where: {
-                usuarios_id: id
+                usuarios_id: usuarios_id
             },
             attributes: [
                 'id', 
@@ -126,10 +128,16 @@ export const getTelefonosUsuariosIdForUsuariosId = async (req, res) => {
                 'usuarios_id'
             ]
         });
+        const id = await authController.encryptData(telefono.dataValues.id.toString(), localCsrf);
+        const tel = await authController.encryptData(telefono.dataValues.telefono, localCsrf);
+        const telefonoEncrypt = {
+            telefono: tel,
+            id: id
+        };
         res.json({
             resultado: true,
             message: "",
-            telefono: telefono
+            telefono: telefonoEncrypt
         });
     }catch(e){
         console.log(e);

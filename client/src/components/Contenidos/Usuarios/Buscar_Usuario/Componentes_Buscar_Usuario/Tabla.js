@@ -31,9 +31,11 @@ export default class Tabla extends Component {
             }
         })
         if(res.data.resultado==true){
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide}) 
+            this.props.onResetUsuario()
+            await this.props.onRechargeData()
         }else{
-            toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
         } 
         this.setState({
             show: false

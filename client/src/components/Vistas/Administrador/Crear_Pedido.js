@@ -26,7 +26,7 @@ export default class Buscar_Producto extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-        alert(this.state.message);
+            alert(this.state.message);
     };
 
     logOut = async () => {

@@ -5,14 +5,13 @@ import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Usuarios/Buscar_Usuario/Contenido_Buscar_Usuario'
 import {Redirect,Link} from 'react-router-dom';
 
-
-
 export default class Buscar_Producto extends Component {
     state = {
         rut: 0,
         cod_rol: "",
         verify: undefined,
         message: null,
+        out: false
     };
 
     componentDidMount = async () => {
@@ -26,17 +25,23 @@ export default class Buscar_Producto extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-        alert(this.state.message);
+            alert(this.state.message);
     };
 
-    logOut = async () => {
+    logOut = async (e) => {
         const res = await axios.get("/auth/logout");
         this.setState({
             verify: res.data.logout,
-            message: res.data.message
+            message: this.state.out ? "Su usuario se ha actualizado correctamente, para terminar de aplicar los cambios, se cerrará la sesión" : res.data.message
         });
     };
-    
+
+    onChangeOut = () => {
+        this.setState({
+            out: true
+        })
+    }
+
     render() {
         switch(this.state.verify) {
             case false:
@@ -47,20 +52,16 @@ export default class Buscar_Producto extends Component {
                 break;
         };
         return (
-            
-
-    
                 <div className="layout has-sidebar">
                   <aside >
                     <Sidebar/>
                     </aside>                 
                   <div className="layout">
                     <header className="header"><Navbar logOut={this.logOut}/></header>
-                    <Contenido/>
+                    <Contenido logOut={this.logOut} onChangeOut={this.onChangeOut}/>
                     <div className="overlay"></div>
                   </div>
                 </div>            
- 
         )
     };
 }

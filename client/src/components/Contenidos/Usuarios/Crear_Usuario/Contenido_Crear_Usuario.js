@@ -5,9 +5,9 @@ import InputFormOption from './Componentes_crear_usuario/InputFormOption'
 import Modal from 'react-bootstrap/Modal'
 import { toast , Slide  } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import CryptoJS from 'crypto-js'
 
 toast.configure()
-
 
 export default class Crear_Usuario extends Component {
 
@@ -20,14 +20,26 @@ export default class Crear_Usuario extends Component {
         contraseña: null,
         r_contraseña: null,
         rol: null,
-
         show: false
     }
 
+    encrypt = async (pass) => {
+        const hash = CryptoJS.SHA3(pass+"promachile.cl", { outputLength: 512 })
+        return hash
+    }
+
+    encryptAes = async (message, key, iv) => {
+        const encrypted = CryptoJS.AES.encrypt(message, key, {iv: iv});
+        return CryptoJS.enc.Utf8.parse(encrypted);
+    }
+
+    decryptAes = async (encrypt, key, iv) => {
+        const decrypted = CryptoJS.AES.decrypt(CryptoJS.enc.Utf8.stringify(encrypt), key, {iv: iv});
+        return CryptoJS.enc.Utf8.stringify(decrypted);
+    }
 
     onSubmit = async e => {
         e.preventDefault();
-        console.log(this.state)
         if(
             this.state.nombre != null &&
             this.state.apellido != null &&
@@ -45,47 +57,47 @@ export default class Crear_Usuario extends Component {
             this.state.contraseña != "" &&
             this.state.r_contraseña != "" &&
             this.state.rol != ""
-
         ){
-            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')  
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
+            const iv = localStorage.getItem('iv')
+            const key = localStorage.getItem('key')
             if(this.state.contraseña === this.state.r_contraseña){
                 const Usuario = {
-                    nombre: this.state.nombre,
-                    apellido: this.state.apellido,
-                    rut: this.state.rut,
-                    correo: this.state.correo,
-                    telefono: this.state.telefono,
-                    contraseña: this.state.contraseña,
-                    roles_id: this.state.rol
-                }               
-                console.log(Usuario)
+                    nombre: await this.encryptAes(this.state.nombre, key, iv),
+                    apellido: await this.encryptAes(this.state.apellido, key, iv),
+                    rut: await this.encryptAes(this.state.rut, key, iv),
+                    correo: await this.encryptAes(this.state.correo, key, iv),
+                    telefono: await this.encryptAes(this.state.telefono, key, iv),
+                    contraseña: await this.encrypt(this.state.contraseña),
+                    roles_id: await this.encryptAes(this.state.rol, key, iv)
+                }        
                 const res = await axios.post("/auth/signup/", Usuario) 
-                console.log(res,"reviasasdas")
-
-                const telefono = {
-                    telefono: this.state.telefono,
-                    usuarios_id: res.data.usuario.id
-                }
-
-                const res2 = await axios.post("/telefonosUsuarios/", telefono) 
-
-                if(res.data.resultado==true){
-                    toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-                }else{
+                if(res.data.resultado) {
+                    const telefono = {
+                        telefono: await this.encryptAes(this.state.telefono, key, iv),
+                        usuarios_id: res.data.usuario.id
+                    }
+                    let res2 = null
+                    res ? res2 = await axios.post("/telefonosUsuarios/", telefono) :  toast.error(res.data.message, {
+                        position: toast.POSITION.TOP_CENTER , transition: Slide
+                    })  
+                    if(res2.data.resultado==true){
+                        toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+                    }else{
+                        toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+                    }
+                } else {
                     toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-                }
-                
+                } 
             }else{
                 toast.error("Las contraseñas ingresadas no coinciden, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }            
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
-        
         this.setState({
             show: false
         })
-        
     }
 
     onChange = e => {
@@ -116,15 +128,11 @@ export default class Crear_Usuario extends Component {
         return (
             <main className="content">
                 <h1 className="display-5 titulo">Crear Usuario</h1>
-
                 <div className="container separacion">
-
                     <div className="card shadow-lg">
-
                         <div className="card-header">
                             Formulario de creación de Usuario
                         </div>
-
                         <div className="container separacion">
                             <form onSubmit ={this.onSubmit}>
                                 <div className="row g-2 mt-2 mb-2">
@@ -141,7 +149,6 @@ export default class Crear_Usuario extends Component {
                                             Guardar Usuario
                                         </button>
                                     </div> 
-
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>
                                           <Modal.Title className="text-primary">Ingresar Nuevo Usuario</Modal.Title>
@@ -157,7 +164,6 @@ export default class Crear_Usuario extends Component {
                                 </div>                            
                             </form>
                         </div>
-                        
                     </div> 
                 </div>
             </main>

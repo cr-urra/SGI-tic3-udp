@@ -1666,8 +1666,8 @@ COPY public.telefonos_proveedores (id, telefono, proveedores_id, vigencia) FROM 
 --
 
 COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
-2	345784937	2
 7	+56998847879	21
+2	345784934	2
 \.
 
 
@@ -1698,8 +1698,8 @@ COPY public.unidad_productos (id, valor_unidad, vigencia, nombre_medida) FROM st
 --
 
 COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id, verificacion) FROM stdin;
-2	123456781	admin	01	nombre.apellido@mail.cl	$2a$10$FLCHmK7KDzK8aDWq7HqstuxzQOjaTKLq42rGy/tKSUuhWwLcATN7G	1	t
-21	073898188	Moisés	Paredes	moises@promachile.cl	$2a$10$pFW0KtH2ad76SeHAppgVluBRy4kWgnl4tRQtGyDrj.tfkgJcb89EC	1	t
+21	073898188	Moisés	Paredes	moises@promachile.cl	1bb9aa797a8d10fb815f707ca0b3098836805a60352c5f0ba07628df443ed616eeae09ad926e0c102b1ef94813e994867ca253405613dfc69e72fc3adca807bf690f5d601392a5a7fbed119307d3c2cb32adacc926434c0b738b6a5ff866cd132f417a693a719a22a74e326688b55b	1	t
+2	123456781	Admin	01	nombre.apellido@mail.cl	1bb9aa797a8d10fb815f707ca0b3098836805a60352c5f0ba07628df4478e72cebac74ce987e054f1572c85e30f2d2e40a9d53404f44cae6a12bac038b9954b76930224c2caab9ad88b930a84cf1e2c944ce8feb797e606e51e463519351cdb56447311d1690ceecd3eb81830bc08e	1	t
 \.
 
 
@@ -1868,7 +1868,7 @@ SELECT pg_catalog.setval('public.telefonos_proveedores_id_seq', 13, true);
 -- Name: telefonos_usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 10, true);
+SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 17, true);
 
 
 --
@@ -1882,7 +1882,7 @@ SELECT pg_catalog.setval('public.unidad_productos_id_seq', 2, true);
 -- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuarios_id_seq', 21, true);
+SELECT pg_catalog.setval('public.usuarios_id_seq', 40, true);
 
 
 --
