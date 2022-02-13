@@ -148,7 +148,7 @@ export default class Login extends Component {
                             required
                         />
                     </div>
-                    <div className="pl-4 pt-2 pb-2">
+                    <div className="captcha pt-2 pb-2">
                         <ReCAPTCHA
                             sitekey="6LdBCnYeAAAAAJIjA5EY_G-z151jqYpkcDEZjfPa"
                             onChange={this.onChange}

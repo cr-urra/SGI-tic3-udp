@@ -6,6 +6,11 @@
 
 /**/
 
+.captcha {
+    padding-left: 138px;
+    padding-right: 131px;
+}
+
 /* Reglas bars fixed*/
 
 .sidebarFixed {
