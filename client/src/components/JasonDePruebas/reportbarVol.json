@@ -1,0 +1,32 @@
+{
+    "reportsBarVol":
+    [
+        {
+            "año": "2018",
+            "totalKarina" : 120000,
+            "totalJJplastaloy": 80000,
+            "totalCristal" : 110000
+        },
+        {
+            "ano":"2019",
+            "totalKarina" : 174020,
+            "totalJJplastaloy": 160000,
+            "totalCristal" : 140000
+        },
+        {
+            "año":"2020",
+            "totalKarina" : 270000,
+            "totalJJplastaloy": 240000,
+            "totalCristal" : 200000
+        },
+        {
+            "año": "2021",
+            "totalKarina" : 119040,
+            "totalJJplastaloy": 169040,
+            "totalCristal" : 150404
+        }
+    ]
+}
+
+ 
+ 

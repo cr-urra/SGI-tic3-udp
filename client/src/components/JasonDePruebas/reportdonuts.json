@@ -1,0 +1,22 @@
+{
+    "reportsDonuts":{
+        "Produccion" : {
+            "total" : 3,
+            "amount": 80000
+        },
+        "IngresoPais": {
+            "total" : 1,
+            "amount": 44340
+        },
+        "TransNacional": {
+            "total" : 1,
+            "amount": 46345
+        },
+        "TransInter":{
+            "total": 0,
+            "amount": 0
+        }
+    }
+}
+ 
+ 
