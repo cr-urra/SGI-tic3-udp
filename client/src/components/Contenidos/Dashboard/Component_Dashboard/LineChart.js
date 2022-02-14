@@ -22,7 +22,38 @@ ChartJS.register(
 )
 export default class LineChart extends Component {
 
-  
+  state = {
+    DataSem1: [],
+    DataSem2: []
+  }
+
+  componentDidMount = ()=>{
+    console.log("este es el props de line chart", this.props.data)
+
+    for(let i=0;i<this.props.data.length;i++){
+      let aux = {
+        label: this.props.data[i].label,
+        data: this.props.data[i].data.slice(0,5),
+        backgroundColor: this.props.data[i].backgroundColor,
+        borderColor: this.props.data[i].borderColor,
+      }
+      let aux2 = {
+        label: this.props.data[i].label,
+        data: this.props.data[i].data.slice(6,11),
+        backgroundColor: this.props.data[i].backgroundColor,
+        borderColor: this.props.data[i].borderColor,
+      }
+      this.setState({
+        DataSem1: [...this.state.DataSem1, aux]
+      })
+      this.setState({
+        DataSem2: [...this.state.DataSem2, aux2]
+      })
+    }   
+    console.log("data sem1",this.state.DataSem1)
+    console.log("data sem2",this.state.DataSem2)
+
+  }
 
   render() {
     if(this.props.estado == true ){
@@ -35,8 +66,9 @@ export default class LineChart extends Component {
             data= {{
               labels: ['Ene', 'Feb', 'Marzo', 'Abr', 'May', 'Jun'],
   
-              datasets: this.props.data
+              datasets: this.state.DataSem1
             }}/>
+            {console.log("data de prosp",this.props.data)}
         </div>
       )
     }else{
@@ -49,7 +81,7 @@ export default class LineChart extends Component {
             data= {{
               labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov','Dic'],
   
-              datasets: this.props.data
+              datasets: this.state.DataSem2
             }}/>
         </div>
       )

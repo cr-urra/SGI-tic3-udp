@@ -8,7 +8,8 @@ export default class Init extends Component {
     state = {
       estado_line: false,
       datasets:[],
-      colors: ['rgba(255, 99, 132)', 'rgba(54, 162, 235)', 'rgba(75, 192, 192)' /* crear más colores */]
+      colors: ['rgba(255, 99, 132)', 'rgba(54, 162, 235)', 'rgba(75, 192, 192)' /* crear más colores */],
+      bool : false
     }
     componentDidMount = async ()=>{
       const res = await axios.get("https://00667823-85a6-4c7d-bdcb-6260eb99f8ac.mock.pstmn.io/getData/Barra",{});
@@ -25,6 +26,9 @@ export default class Init extends Component {
           datasets: [...this.state.datasets, aux]
         })
       }
+      this.setState({
+        bool: true
+      })
     }
 
     cambio_line  = (e) => {    
@@ -35,17 +39,21 @@ export default class Init extends Component {
     
 
     render() {
+      if(this.state.bool){
         return (
-            <main className="content">
-            <div className="jumbotron jumbotron-fluid">
-                <div className="container bienvenida">
-                  <h1 className="display-4">BIENVENIDO A SGI</h1>
-                  <p className="lead">DASHBOARD</p>
-                  <LineChart data = {this.state.datasets} estado= {this.state.estado_line} funcion ={this.cambio_line} />
-              
-                </div>
-            </div>
-            </main>
-        )
+          <main className="content">
+          <div className="jumbotron jumbotron-fluid">
+              <div className="container bienvenida">
+                <h1 className="display-4">BIENVENIDO A SGI</h1>
+                <p className="lead">DASHBOARD</p>
+                <LineChart data = {this.state.datasets} estado= {this.state.estado_line} funcion ={this.cambio_line} />
+              </div>
+          </div>
+          </main>
+      )
+      }else{
+        return <div></div>
+      }
+        
     }
 }
