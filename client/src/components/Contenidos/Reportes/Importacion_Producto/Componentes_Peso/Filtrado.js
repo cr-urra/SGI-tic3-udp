@@ -14,6 +14,7 @@ export default class Opcion extends Component {
         fecha2: null,
         filtro: false,
         productos: [],
+        estado: false
     }
 
     componentDidMount = async () => {
@@ -39,6 +40,8 @@ export default class Opcion extends Component {
         }
     }
 
+
+
     filtro = () =>{
         if(this.state.filtro===true){
             for(let i=0; i < this.state.productos.length ; i++){
@@ -63,6 +66,13 @@ export default class Opcion extends Component {
                 this.state.productos[i].filtro = !this.state.productos[i].filtro
             }
         }
+        this.forceUpdate()
+    }
+
+    cambio = (e) =>{
+        this.setState(prevState =>({
+            estado: !prevState.estado
+          })) 
         this.forceUpdate()
     }
 
@@ -169,10 +179,11 @@ export default class Opcion extends Component {
                                   </Accordion.Collapse>
                                 </Card>
                               </Accordion>
-                          </div>
-                      </div>
-                      <h2 className="text-center separacion">Reporte</h2>
-                      <Reporte Proveedor = {this.props.Proveedores[j]} Productos={this.state.productos} id={this.props.id}/>
+                          </div>                          
+                      </div>   
+
+                        <Reporte Proveedor = {this.props.Proveedores[j]} Productos={this.state.productos} id={this.props.id} fecha1 = {this.state.fecha1} fecha2 = {this.state.fecha2}/>
+
                   </div> 
               )                
           }else{

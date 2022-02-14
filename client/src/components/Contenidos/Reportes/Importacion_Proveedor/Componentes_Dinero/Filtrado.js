@@ -14,6 +14,7 @@ export default class Opcion extends Component {
         fecha2: null,
         filtro: false,
         productos: [],
+        estado: false
     }
 
     componentDidMount = async () => {
@@ -171,8 +172,8 @@ export default class Opcion extends Component {
                               </Accordion>
                           </div>
                       </div>
-                      <h2 className="text-center separacion">Reporte</h2>
-                      <Reporte Proveedor = {this.props.Proveedores[j]} Productos={this.state.productos} id={this.props.id}/>
+
+                      <Reporte Proveedor = {this.props.Proveedores[j]} Productos={this.state.productos} id={this.props.id} fecha1 = {this.state.fecha1} fecha2 = {this.state.fecha2}/>
                   </div> 
               )                
           }else{
