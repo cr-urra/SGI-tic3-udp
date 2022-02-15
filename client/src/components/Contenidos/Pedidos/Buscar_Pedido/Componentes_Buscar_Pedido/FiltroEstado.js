@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import Pedidos from './Pedidos'
 
-
-
 export default class Init extends Component {
 
-
     render() {
-      if(this.props.filtro==="0"){  
-        {console.log(this.props,"estado")}      
+      if(this.props.filtro==="0"){      
         return <Pedidos Pedidos = {this.props.Pedidos} />       
       } else if(this.props.filtro==="produccion"){
         return (

@@ -83,8 +83,8 @@ export default class Login extends Component {
 
     onChange = () => {
         this.setState({ 
-            verificacion: true,
-            button: false
+            verificacion: !this.state.verificacion,
+            button: !this.state.button
         })
     }
 

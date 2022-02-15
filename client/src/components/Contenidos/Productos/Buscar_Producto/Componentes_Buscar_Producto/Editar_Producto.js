@@ -17,7 +17,6 @@ export default class EditProduct extends Component {
         precio: null,
         id: null,
         id_proveedor: null,
-
         show: false
     }
 
@@ -25,7 +24,6 @@ export default class EditProduct extends Component {
         if(this.props.product !== ""){
             let j;
             for(let i = 0 ; i < this.props.productsData.length ; i++){
-                
                 if(this.props.product=== this.props.productsData[i].nombre){
                     j = i;
                 }
@@ -57,16 +55,22 @@ export default class EditProduct extends Component {
                 nombre: this.state.nombre,
                 codigo: this.state.codigo,
                 tipo: this.state.tipo,
-                precio: this.state.precio
             }
-            
-
-            const res = await axios.put("/productos/" + this.state.id, Producto, {"headers": {
-                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-              }} )  
-
-
-            if(res.data.resultado==true){
+            const res = await axios.put("/productos/" + this.state.id, Producto, {
+                "headers": {
+                    "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                }
+            }) 
+            let res2 = null;
+            res.data.resultado ? res2 = await axios.post("/historialPrecios/",{
+                productos_id: this.state.id,
+                precio: this.state.precio
+            } , {
+                "headers": {
+                    "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                }
+            }) : toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            if(res2.data.resultado==true){
                 toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }else{
                 toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -74,8 +78,7 @@ export default class EditProduct extends Component {
 
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-        }
-               
+        } 
         this.setState({
             show: false
         })               

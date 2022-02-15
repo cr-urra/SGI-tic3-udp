@@ -58,8 +58,7 @@ export default class Init extends Component {
         const A_pago = {
           haber: this.state.iva
         }
-
-        const res3 = await axios.put("/cuentasCorrientes/agentesAduana/"+this.state.agente,A_pago,{
+        const res3 = await axios.put("/cuentasCorrientes/agentesAduana/"+this.props.agenteAduana,A_pago,{
           headers: {
             "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
           }
@@ -92,13 +91,13 @@ export default class Init extends Component {
                             <span className="input-group-text ancho2 " id="inputGroup-sizing-default">Cobro IVA</span>
                         </div>
                         <input 
-                        type="text" 
-                        name="iva"
-                        className="form-control text-right col-6" 
-                        aria-label="Default" 
-                        aria-describedby="inputGroup-sizing-default"
-                        value={this.state.iva}
-                        onChange={this.onChange}
+                          type="text" 
+                          name="iva"
+                          className="form-control text-right col-6" 
+                          aria-label="Default" 
+                          aria-describedby="inputGroup-sizing-default"
+                          value={this.state.iva}
+                          onChange={this.onChange}
                         />
                         <div className="col-2"/>
                         <div className="col-12 separacion"/>
@@ -107,13 +106,13 @@ export default class Init extends Component {
                             <span className="input-group-text ancho2 " id="inputGroup-sizing-default">Valor Dolar Aduana</span>
                         </div>
                         <input 
-                        type="text" 
-                        name="dolar"
-                        className="form-control text-right col-6" 
-                        aria-label="Default" 
-                        aria-describedby="inputGroup-sizing-default"
-                        value={this.state.dolar}
-                        onChange={this.onChange}
+                          type="text" 
+                          name="dolar"
+                          className="form-control text-right col-6" 
+                          aria-label="Default" 
+                          aria-describedby="inputGroup-sizing-default"
+                          value={this.state.dolar}
+                          onChange={this.onChange}
                         />
                         <div className="col-2"/>
                         <div className="col-12 separacion"/>

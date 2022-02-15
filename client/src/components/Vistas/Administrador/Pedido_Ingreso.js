@@ -5,9 +5,8 @@ import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Pedidos/Pedido_Ingreso/Contenido_Pedido_Ingreso.js'
 import {Redirect,Link} from 'react-router-dom';
 
-
-
 export default class Buscar_Producto extends Component {
+
     state = {
         rut: 0,
         cod_rol: "",
@@ -26,7 +25,7 @@ export default class Buscar_Producto extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-        alert(this.state.message);
+            alert(this.state.message);
     };
 
     logOut = async () => {
@@ -47,20 +46,18 @@ export default class Buscar_Producto extends Component {
                 break;
         };
         return (
-            
-
-    
             <div className="layout has-sidebar">
-            <aside >
-              <Sidebar/>
-              </aside>                 
-            <div className="layout">
-              <header className="header"><Navbar logOut={this.logOut}/></header>
-              <Contenido auxiliar ={this.props.location.state} />
-              <div className="overlay"></div>
-            </div>
-          </div>            
- 
+                <aside >
+                    <Sidebar/>
+                </aside>                 
+                <div className="layout">
+                    <header className="header">
+                        <Navbar logOut={this.logOut}/>
+                    </header>
+                    <Contenido auxiliar ={this.props.location.state} />
+                    <div className="overlay"></div>
+                </div>
+             </div>            
         )
     };
 }

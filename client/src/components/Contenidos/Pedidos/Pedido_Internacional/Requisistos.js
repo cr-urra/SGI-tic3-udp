@@ -25,7 +25,8 @@ export default class Init extends Component {
       const res = await axios.get("/agentesAduana/",{}) 
       console.log(res,"agentes");
       for (let i= 0; i < res.data.agentes_aduana.length ; i++){
-          const aux = await axios.get("/bancosAgentesAduana/"+res.data.agentes_aduana[i].bancos_agentes_aduana_id,{}) 
+          alert(res.data.agentes_aduana[i].id)
+          const aux = await axios.get("/bancosAgentesAduana/"+res.data.agentes_aduana[i].id,{}) 
           const aux2 = await axios.get("/telefonosAgentesAduana/agentes/"+res.data.agentes_aduana[i].id,{})       
           console.log( await axios.get("/telefonosAgentesAduana/agentes/"+res.data.agentes_aduana[i].id,{}) )
           const agente = {

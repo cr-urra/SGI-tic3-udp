@@ -42,21 +42,18 @@ export default class Init extends Component {
 
       show: false,
     }
-
     
     handleClose = () =>{
-      this.setState({
-          show: false
-      })
-  }
+        this.setState({
+            show: false
+        })
+    }
 
-  handleShow = () =>{
-      this.setState({
-          show: true
-      })
-  }
-
-  
+    handleShow = () =>{
+        this.setState({
+            show: true
+        })
+    }
 
     componentDidMount = async () => {      
       let cuenta = 0
@@ -196,7 +193,7 @@ export default class Init extends Component {
 
                     <Estados contenido1={"Ingreso al País"} contenido2={"En Tránsito (Nacional)"}/>
 
-                    <Requisitos id= {this.props.auxiliar.pedido.pedido.id} codigo={this.props.auxiliar.pedido.pedido.codigo}/>    
+                    <Requisitos id= {this.props.auxiliar.pedido.pedido.id} codigo={this.props.auxiliar.pedido.pedido.codigo} agenteAduana = {this.props.auxiliar.pedido.pedido.agentes_aduana_id}/>    
 
                   </div>
                 </div> 

@@ -120,9 +120,10 @@ export const signIn = async (req, res) => {
     try{
         const {rut} = req.body;
         const localCsrf = req.get('X-CSRF-Token');
+        const rutDecrypt = await decryptData(rut, localCsrf);
         const user = await usuarios.findOne({
             where: {
-                rut: await decryptData(rut, localCsrf)
+                rut: rutDecrypt
             },
             attributes: [
                 'id', 
