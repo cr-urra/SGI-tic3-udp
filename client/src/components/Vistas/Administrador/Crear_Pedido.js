@@ -4,8 +4,10 @@ import Navbar from '../../layout/navbarAdmin.js'
 import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Pedidos/Crear_Pedido/Contenido_Crear_Pedido'
 import {Redirect,Link} from 'react-router-dom';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-
+toast.configure()
 
 export default class Buscar_Producto extends Component {
     state = {
@@ -26,7 +28,7 @@ export default class Buscar_Producto extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-            alert(this.state.message);
+            toast.warn(this.state.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
     };
 
     logOut = async () => {
@@ -46,20 +48,21 @@ export default class Buscar_Producto extends Component {
             default:
                 break;
         };
-
         return (
                 <div className="layout has-sidebar">
-                  <aside className='sidebarFixed'>
-                    <Sidebar/>
-                    <div className="overlay"></div>
+                    <aside className='sidebarFixed'>
+                        <Sidebar/>
+                        <div className="overlay"></div>
                     </aside>                 
-                  <div className="layout contentWithNavFixed">
-                    <header className="header navbarFixed"><Navbar logOut={this.logOut}/></header>
-                    <div className='contentFixed'>
-                        <Contenido/>
+                    <div className="layout contentWithNavFixed">
+                        <header className="header navbarFixed">
+                            <Navbar logOut={this.logOut}/>
+                        </header>
+                        <div className='contentFixed'>
+                            <Contenido/>
+                        </div>
+                        <div className="overlay"></div>
                     </div>
-                    <div className="overlay"></div>
-                  </div>
                 </div>             
         )
     };

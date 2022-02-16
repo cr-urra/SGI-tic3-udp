@@ -4,6 +4,10 @@ import Navbar from '../../layout/navbarAdmin.js'
 import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Usuarios/Buscar_Usuario/Contenido_Buscar_Usuario'
 import {Redirect,Link} from 'react-router-dom';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export default class Buscar_Producto extends Component {
     state = {
@@ -25,14 +29,14 @@ export default class Buscar_Producto extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-            alert(this.state.message);
+            toast.warn(this.state.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
     };
 
     logOut = async (e) => {
         const res = await axios.get("/auth/logout");
         this.setState({
             verify: res.data.logout,
-            message: this.state.out ? "Su usuario se ha actualizado correctamente, para terminar de aplicar los cambios, se cerrará la sesión" : res.data.message
+            message: this.state.out ? "Su usuario se ha actualizado correctamente, se cierra la sesión para terminar de aplicar los cambios" : res.data.message
         });
     };
 

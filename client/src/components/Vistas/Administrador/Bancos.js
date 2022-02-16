@@ -3,11 +3,14 @@ import axios from 'axios';
 import Navbar from '../../layout/navbarAdmin.js'
 import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Bancos/Contenido_Banco'
-import {Redirect,Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-
+toast.configure()
 
 export default class Buscar_Producto extends Component {
+    
     state = {
         rut: 0,
         cod_rol: "",
@@ -26,7 +29,7 @@ export default class Buscar_Producto extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-            alert(this.state.message);
+            toast.warn(this.state.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
     };
 
     logOut = async () => {
@@ -47,18 +50,20 @@ export default class Buscar_Producto extends Component {
                 break;
         };
         return (
-            
                 <div className="layout has-sidebar">
-                  <aside >
-                    <Sidebar/>
+                    <aside className='sidebarFixed'>
+                        <Sidebar/>
                     </aside>                 
-                  <div className="layout">
-                    <header className="header"><Navbar logOut={this.logOut}/></header>
-                    <Contenido/>
-                    <div className="overlay"></div>
-                  </div>
+                    <div className="layout contentWithNavFixed">
+                        <header className="header navbarFixed">
+                            <Navbar logOut={this.logOut}/>
+                        </header>
+                        <div className='contentFixed'>
+                            <Contenido/>
+                        </div>
+                        <div className="overlay"></div>
+                    </div>
                 </div>          
- 
         )
     };
 }

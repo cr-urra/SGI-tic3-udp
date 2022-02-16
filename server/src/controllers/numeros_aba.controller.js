@@ -160,7 +160,6 @@ export const getAllNumerosAba = async (req, res) => {
 export const getNumerosAbaId = async (req, res) => {
     try{
         const {id} = req.params;
-        console.log(id);
         const numeroAba = await numerosAba.findOne({
             where: {
                 id,

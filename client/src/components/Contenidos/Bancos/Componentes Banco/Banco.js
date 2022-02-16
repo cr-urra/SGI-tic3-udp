@@ -2,16 +2,11 @@ import React, { Component } from 'react'
 import Lista from './Lista'
 import Botones from './Botones'
 
-
 export default class Banco extends Component {
-
-
     render() {
-
         if(this.props.banco !== ""){
             let j;
             for(let i = 0 ; i < this.props.bancos.length ; i++){
-                
                 if(this.props.banco=== this.props.bancos[i].nombre){
                     j = i;
                 }
@@ -19,9 +14,7 @@ export default class Banco extends Component {
             if(this.props.bancos[j]!=null){
                 return (
                     <div>
-                        
                         <div className="container separacion">
-
                             <div className="card border-primary  shadow-lg">
                               <div className="card-header text-primary">
                                 <h4>{this.props.bancos[j].nombre}</h4>
@@ -36,7 +29,7 @@ export default class Banco extends Component {
                                 </ul>
                             </div>
                         </div>
-                        <Botones change = {this.props.change} delete={this.props.delete} nombre={this.props.bancos[j].nombre} id={this.props.bancos[j].id}/>
+                        <Botones change = {this.props.change} delete={this.props.delete} nombre={this.props.bancos[j].nombre} id={this.props.bancos[j].id} onResetBanco={this.props.onResetBanco} onRechargeData={this.props.onRechargeData}/>
                     </div>
                 )
             }else{

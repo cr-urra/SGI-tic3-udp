@@ -24,13 +24,15 @@ export default class Botones extends Component {
     }
 
     delete  = async (e) => {       
-
-        const res = await axios.put("/cuentasBancos/delete/"+ this.props.id , {} ,{"headers": {
-            "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-        }} )
-
+        const res = await axios.put("/cuentasBancos/delete/"+ this.props.id , {} ,{
+            "headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+            }
+        })
         if(res.data.resultado==true){
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            await this.props.onResetBanco()
+            await this.props.onRechargeData()
         }else{
             toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         } 
@@ -39,9 +41,7 @@ export default class Botones extends Component {
         })
     }
 
-
     render() {
-
             return (
                 <div className="container separacion_final">
                     <div className="row g-2  mb-4">
@@ -70,9 +70,6 @@ export default class Botones extends Component {
                         </Modal.Footer>
                     </Modal>
                 </div>
-
-                
-        
             )
     }
 }

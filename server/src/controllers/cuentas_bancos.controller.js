@@ -182,6 +182,9 @@ export const getAllCuentasBancos = async (req, res) => {
                 'paises_id',
                 'numeros_aba_id'
             ],
+            include: [
+                proveedores
+            ],
             order: [
                 ['id', 'DESC']
             ]

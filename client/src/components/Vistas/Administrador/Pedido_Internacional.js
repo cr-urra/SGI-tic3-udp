@@ -4,6 +4,10 @@ import Navbar from '../../layout/navbarAdmin.js'
 import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Pedidos/Pedido_Internacional/Contenido_Pedido_Internacional'
 import {Redirect} from 'react-router-dom';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export default class Buscar_Producto extends Component {
     state = {

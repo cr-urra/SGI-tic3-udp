@@ -21,16 +21,8 @@ export default class Banco extends Component {
         cuenta_interbancaria: null,
         aba_id:null,
         pais_id: null,
-        
-
         show:false
     }
-    
-    
-    
-    
-    
-    
     
     componentDidMount = async () => {
         if(this.props.banco !== ""){
@@ -41,7 +33,6 @@ export default class Banco extends Component {
                 }
             }
             if(this.props.bancos[j]!=null){
-                console.log(this.props.bancos[j], "revisa aqui 23434")
                 this.setState({
                     id: this.props.bancos[j].id,
                     nombre: this.props.bancos[j].nombre ,        
@@ -60,7 +51,6 @@ export default class Banco extends Component {
     
     onSubmit = async (e) => { 
         e.preventDefault();
-        console.log(this.state)
         if(
             this.state.nombre != "" &&        
             this.state.iban != "" &&
@@ -70,7 +60,6 @@ export default class Banco extends Component {
             this.state.codigo_swift != "" &&        
             this.state.cuenta_interbancaria != "" 
         ){
-
             const banco = {
                 nombre_banco: this.state.nombre,            
                 codigo_iban: this.state.iban,
@@ -81,36 +70,34 @@ export default class Banco extends Component {
                 numero_cuenta: this.state.cuenta_interbancaria,
     
             }
-            console.log(banco,"llegue hasta aqui")
-            const res = await axios.put("/cuentasBancos/"+this.state.id, banco , {"headers": {
-                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-              }} )
-
+            const res = await axios.put("/cuentasBancos/"+this.state.id, banco , {
+                "headers": {
+                    "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                }
+            })
             const aba = {
                 numero_aba: this.state.n_aba
             }
-              const res2 = await axios.put("/numerosAba/"+this.state.aba_id , aba , {"headers": {
-                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-              }} )
-            
-
-              if(res.data.resultado==true){
-                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            let res2 = null;
+            res.data.resultado == true ? res2 = await axios.put("/numerosAba/"+this.state.aba_id , aba , {
+                "headers": {
+                    "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                }
+            }) : toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            if(res2.data.resultado==true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide}) 
+                //await this.props.onResetBanco()
+                await this.props.onRechargeData()
             }else{
                 toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             } 
-
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-        }
-               
+        }   
         this.setState({
             show: false
-        })               
-        
+        })                 
     }
-
-    
     
     onChange = e => {
         this.setState({
@@ -131,11 +118,9 @@ export default class Banco extends Component {
     }
 
     render() {
-
         if(this.props.banco !== ""){
             let j;
             for(let i = 0 ; i < this.props.bancos.length ; i++){
-                
                 if(this.props.banco=== this.props.bancos[i].nombre){
                     j = i;
                 }
@@ -143,9 +128,7 @@ export default class Banco extends Component {
             if(this.props.bancos[j]!=null){
                 return (
                     <div>
-                        
                         <div className="container separacion">
-
                             <div className="card border-primary  shadow-lg">
                                 <form onSubmit={this.onSubmit}>
                                     <div className="card-header text-primary">
@@ -165,7 +148,6 @@ export default class Banco extends Component {
                                             </div>
                                         </div>                                        
                                     </div>
-                                   
                                     <Datos nombre={"Nombre"} contenido={this.props.bancos[j].nombre} name={"nombre"} name2={this.state.nombre} onChange={this.onChange}/>
                                     <Datos nombre={"Cuenta Interbancaria"} contenido={this.props.bancos[j].cuenta_interbancaria} name={"cuenta_interbancaria"} name2={this.state.cuenta_interbancaria} onChange={this.onChange}/>
                                     <Datos nombre={"País"} contenido={this.props.bancos[j].pais} name={"pais"} name2={this.state.pais} onChange={this.onChange}/>
@@ -187,14 +169,11 @@ export default class Banco extends Component {
                                         </Modal.Footer>
                                     </Modal>
                                 </form>
-                            </div>
-                            
+                            </div> 
                             <button className="btn color_sitio2 separacion" onClick={this.handleShow}>
                                 Guardar Banco
                             </button>
-                            
                         </div>
-
                     </div>
                 )
             }else{

@@ -4,6 +4,10 @@ import Navbar from '../../layout/navbarAdmin.js'
 import Sidebar from '../../layout/sidebarAdmin.js'
 import Contenido from '../../Contenidos/Bienvenida/Bienvenida.js'
 import {Redirect,Link} from 'react-router-dom';
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export default class AdminHome extends Component {
     state = {
@@ -24,7 +28,7 @@ export default class AdminHome extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-            alert(this.state.message)
+            toast.warn(this.state.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
     };
 
     logOut = async () => {
