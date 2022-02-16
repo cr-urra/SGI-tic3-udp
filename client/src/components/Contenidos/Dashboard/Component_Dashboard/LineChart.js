@@ -27,31 +27,33 @@ export default class LineChart extends Component {
     DataSem2: []
   }
 
-  componentDidMount = ()=>{
+  componentDidMount = async ()=>{
     console.log("este es el props de line chart", this.props.data[1])
+    
+    let aux, aux2;
 
-    for(let i=0; i<this.props.data.length; i++){
-      let aux = {
+    for(let i=0 ; i < this.props.data.length; i++){
+      console.log("revisa aqui",this.props.data[i])
+      aux = {
         label: this.props.data[i].label,
         data: this.props.data[i].data.slice(0,5),
         backgroundColor: this.props.data[i].backgroundColor,
         borderColor: this.props.data[i].borderColor
       }
-      let aux2 = {
+      aux2 = {
         label: this.props.data[i].label,
         data: this.props.data[i].data.slice(6,11),
         backgroundColor: this.props.data[i].backgroundColor,
         borderColor: this.props.data[i].borderColor
       }
-      this.setState({
-        DataSem1: [...this.state.DataSem1, aux]
-      })
-      this.setState({
+      console.log(aux,aux2)
+      await this.setState({
+        DataSem1: [...this.state.DataSem1, aux],
         DataSem2: [...this.state.DataSem2, aux2]
       })
     }   
-    console.log("data sem1",this.state.DataSem1)
-    console.log("data sem2",this.state.DataSem2)
+    console.log("data sem1111",this.state.DataSem1)
+    console.log("data sem2222",this.state.DataSem2)
 
   }
 
@@ -80,9 +82,10 @@ export default class LineChart extends Component {
           <Chart type='line' 
             data= {{
               labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov','Dic'],
-  
+              
               datasets: this.state.DataSem2
             }}/>
+            {console.log("data de prosp sem2",this.state.DataSem2)}
         </div>
       )
     }    

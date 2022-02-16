@@ -16,7 +16,7 @@ export default class Opcion extends Component {
               Fecha1: this.props.fecha1,
               Fecha2: this.props.fecha2
             }
-            const precio = await axios.put("/historialPrecios/otra-url", auxiliar)                 
+            const precio = await axios.put("/historialPrecios/betweenDate", auxiliar)                 
             console.log("precio max:", precio)      
             /*
             this.props.Productos[j].max_price = price
