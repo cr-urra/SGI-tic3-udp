@@ -42,13 +42,13 @@ export default class Init extends Component {
       if(this.state.bool){
         return (
           <main className="content">
-          <div className="jumbotron jumbotron-fluid">
+
               <div className="container bienvenida">
-                <h1 className="display-4">BIENVENIDO A SGI</h1>
-                <p className="lead">DASHBOARD</p>
+                <h1 className="display-4">DASHBOARD</h1>
+
                 <LineChart data = {this.state.datasets} estado= {this.state.estado_line} funcion ={this.cambio_line} />
               </div>
-          </div>
+     
           </main>
       )
       }else{
