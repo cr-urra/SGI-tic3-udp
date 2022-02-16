@@ -28,12 +28,9 @@ export default class LineChart extends Component {
   }
 
   componentDidMount = async ()=>{
-    console.log("este es el props de line chart", this.props.data[1])
-    
     let aux, aux2;
 
     for(let i=0 ; i < this.props.data.length; i++){
-      console.log("revisa aqui",this.props.data[i])
       aux = {
         label: this.props.data[i].label,
         data: this.props.data[i].data.slice(0,5),
@@ -46,14 +43,11 @@ export default class LineChart extends Component {
         backgroundColor: this.props.data[i].backgroundColor,
         borderColor: this.props.data[i].borderColor
       }
-      console.log(aux,aux2)
       await this.setState({
         DataSem1: [...this.state.DataSem1, aux],
         DataSem2: [...this.state.DataSem2, aux2]
       })
-    }   
-    console.log("data sem1111",this.state.DataSem1)
-    console.log("data sem2222",this.state.DataSem2)
+    }
 
   }
 
@@ -61,31 +55,24 @@ export default class LineChart extends Component {
     if(this.props.estado == true ){
       return (
         <div className="App">        
-          <button className='separacion' onClick={this.props.funcion}>
-            Cambio de semestre
-          </button>  
+          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.funcion}>Cambio de Semestre</button>
           <Chart type='line' 
             data= {{
               labels: ['Ene', 'Feb', 'Marzo', 'Abr', 'May', 'Jun'],
-  
               datasets: this.state.DataSem1
             }}/>
-            {console.log("data de prosp sem1",this.state.DataSem1)}
+            {console.log("datasem1",this.state.DataSem1)}
         </div>
       )
     }else{
       return (
         <div className="App">
-          <button className='separacion' onClick={this.props.funcion}>
-            Cambio de semestre
-          </button>  
+          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.funcion}>Cambio de Semestre</button>
           <Chart type='line' 
             data= {{
               labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov','Dic'],
-              
               datasets: this.state.DataSem2
             }}/>
-            {console.log("data de prosp sem2",this.state.DataSem2)}
         </div>
       )
     }    
