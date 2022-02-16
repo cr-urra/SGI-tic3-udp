@@ -282,11 +282,13 @@ export const getHistorialPreciosMaxDate = async (req, res) => {
 
 export const getHistorialPreciosBetweenDates = async (req, res) => {
     try{
+        const op = sequelize.Op;
         let id = req.body.Producto.id;
         let minDate = req.body.fecha1;
-        let maxDate =  req.body.fecha2;
-        if (minDate == null) minDate = "";
-        if (maxDate == null) maxDate = "";
+        let maxDate = req.body.fecha2;
+        if (minDate == null) minDate = new Date(0,0,0);
+        let lastYear = new Date().getFullYear()+1;
+        if (maxDate == null) maxDate = new Date(lastYear,11,11);
         const maxHistorialPrecios = await historialPrecios.findAll({
             where: {
                 vigencia: true,
@@ -299,13 +301,11 @@ export const getHistorialPreciosBetweenDates = async (req, res) => {
                 'productos_id'
             ]
         });
-        let datesPrecios = maxHistorialPrecios.filter(element => {
-            element.dataValues.fecha >= minDate && element.dataValues.fecha <= maxDate
-        });
+        const filter = maxHistorialPrecios.filter((element) => {return element.dataValues.fecha <= new Date(maxDate) && element.dataValues.fecha >= new Date(minDate)})
         res.json({
             resultado: true, 
             message: "",
-            historialPrecios: datesPrecios
+            historialPrecios: filter
         });
     }catch(e){
         console.log(e);

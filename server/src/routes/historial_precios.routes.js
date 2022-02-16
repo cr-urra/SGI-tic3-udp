@@ -7,14 +7,14 @@ import * as historialPrecios from '../controllers/historial_precios.controller';
 router.post('/', historialPrecios.createHistorialPrecios);
 router.get('/', historialPrecios.getAllHistorialPrecios);
 router.get('/all', historialPrecios.getAllHistorialPreciosWithFalse);
+router.put('/betweenDate', historialPrecios.getHistorialPreciosBetweenDates);
 
 // historialPrecios/:id
 
-router.put('/:id', historialPrecios.updateHistorialPrecios);
+//router.put('/:id', historialPrecios.updateHistorialPrecios);
 router.put('/delete/:id', historialPrecios.deleteHistorialPrecios);
 router.get('/:id', historialPrecios.getHistorialPreciosId);
 router.get('/productos/:id', historialPrecios.getHistorialPreciosIdForProductosId);
 router.get('/maxDate/:id', historialPrecios.getHistorialPreciosMaxDate);
-router.put('/betweenDate/', historialPrecios.getHistorialPreciosMaxDate);
 
 module.exports = router;
