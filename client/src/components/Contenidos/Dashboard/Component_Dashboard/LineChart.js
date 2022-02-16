@@ -28,20 +28,20 @@ export default class LineChart extends Component {
   }
 
   componentDidMount = ()=>{
-    console.log("este es el props de line chart", this.props.data)
+    console.log("este es el props de line chart", this.props.data[1])
 
-    for(let i=0;i<this.props.data.length;i++){
+    for(let i=0; i<this.props.data.length; i++){
       let aux = {
         label: this.props.data[i].label,
         data: this.props.data[i].data.slice(0,5),
         backgroundColor: this.props.data[i].backgroundColor,
-        borderColor: this.props.data[i].borderColor,
+        borderColor: this.props.data[i].borderColor
       }
       let aux2 = {
         label: this.props.data[i].label,
         data: this.props.data[i].data.slice(6,11),
         backgroundColor: this.props.data[i].backgroundColor,
-        borderColor: this.props.data[i].borderColor,
+        borderColor: this.props.data[i].borderColor
       }
       this.setState({
         DataSem1: [...this.state.DataSem1, aux]
@@ -68,7 +68,7 @@ export default class LineChart extends Component {
   
               datasets: this.state.DataSem1
             }}/>
-            {console.log("data de prosp",this.props.data)}
+            {console.log("data de prosp sem1",this.state.DataSem1)}
         </div>
       )
     }else{
