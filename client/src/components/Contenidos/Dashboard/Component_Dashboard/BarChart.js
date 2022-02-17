@@ -57,31 +57,62 @@ ChartJS.register(
 );
 
 export default class BarChart extends Component {
+
+  state = {
+    DataSem1: [],
+    DataSem2: []
+  }
+
+  componentDidMount = async () => {
+    let aux, aux2;
+    console.log("Este es el props de barraChart", this.props.data)
+    console.log("este es el estado ", this.props.estado)
+
+    for(let i=0 ; i < this.props.data.length; i++){
+      aux = {
+        label: this.props.data[i].label,
+        data: this.props.data[i].data.slice(0,6),
+        backgroundColor: this.props.data[i].backgroundColor,
+        borderColor: this.props.data[i].borderColor
+      }
+      aux2 = {
+        label: this.props.data[i].label,
+        data: this.props.data[i].data.slice(6,12),
+        backgroundColor: this.props.data[i].backgroundColor,
+        borderColor: this.props.data[i].borderColor
+      }
+      await this.setState({
+        DataSem1: [...this.state.DataSem1, aux],
+        DataSem2: [...this.state.DataSem2, aux2]
+      })
+    }
+  }
+
   render() {
-    return (
-      <div className="App">
-      <Chart type='bar' data= {{
-      labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov','Dic'],
-      
-      datasets: [
-        {
-          label: 'Karina',
-          data: [160000, 140000, 200000, 150404, 207938,104872],
-          backgroundColor: 'rgb(255, 99, 132)',
-        },
-        {
-          label: 'JJplastaloy',
-          data: [200000, 160000, 240000, 169040, 214892,111763],
-          backgroundColor: 'rgb(54, 162, 235)',
-        },
-        {
-          label: 'Cristal master',
-          data: [230876, 180000, 210000, 159040, 234892,131763],
-          backgroundColor: 'rgb(75, 192, 192)',
-        }
-      ],
-    }}/>
-    </div>
-    )
+    if(this.props.estado == true ){
+      return (
+        <div className="App">        
+          <Chart type='bar' 
+            data= {{
+              labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+              datasets: this.state.DataSem1
+            }}/>
+            {console.log("data semn1 ",this.state.DataSem1)}
+          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.function}>Cambio de Semestre</button>
+        </div>
+      )
+    }else{
+      return (
+        <div className="App">
+          <Chart type='bar' 
+            data= {{
+              labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov','Dic'],
+              datasets: this.state.DataSem2
+            }}/>
+          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.function}>Cambio de Semestre</button>
+
+        </div>
+      )
+    }    
   }
 }

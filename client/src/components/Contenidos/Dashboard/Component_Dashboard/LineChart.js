@@ -33,13 +33,13 @@ export default class LineChart extends Component {
     for(let i=0 ; i < this.props.data.length; i++){
       aux = {
         label: this.props.data[i].label,
-        data: this.props.data[i].data.slice(0,5),
+        data: this.props.data[i].data.slice(0,6),
         backgroundColor: this.props.data[i].backgroundColor,
         borderColor: this.props.data[i].borderColor
       }
       aux2 = {
         label: this.props.data[i].label,
-        data: this.props.data[i].data.slice(6,11),
+        data: this.props.data[i].data.slice(6,12),
         backgroundColor: this.props.data[i].backgroundColor,
         borderColor: this.props.data[i].borderColor
       }
@@ -55,24 +55,24 @@ export default class LineChart extends Component {
     if(this.props.estado == true ){
       return (
         <div className="App">        
-          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.funcion}>Cambio de Semestre</button>
           <Chart type='line' 
             data= {{
-              labels: ['Ene', 'Feb', 'Marzo', 'Abr', 'May', 'Jun'],
+              labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
               datasets: this.state.DataSem1
             }}/>
-            {console.log("datasem1",this.state.DataSem1)}
+          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.funcion}>Cambio de Semestre</button>
         </div>
       )
     }else{
       return (
         <div className="App">
-          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.funcion}>Cambio de Semestre</button>
           <Chart type='line' 
             data= {{
               labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov','Dic'],
               datasets: this.state.DataSem2
             }}/>
+          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.funcion}>Cambio de Semestre</button>
+
         </div>
       )
     }    
