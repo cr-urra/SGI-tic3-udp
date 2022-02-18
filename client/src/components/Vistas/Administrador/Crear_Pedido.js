@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css'
 toast.configure()
 
 export default class Buscar_Producto extends Component {
+    
     state = {
         rut: 0,
         cod_rol: "",

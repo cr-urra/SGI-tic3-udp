@@ -6,11 +6,6 @@
 
 /**/
 
-.captcha {
-    padding-left: 138px;
-    padding-right: 131px;
-}
-
 /* Reglas bars fixed*/
 
 .sidebarFixed {
@@ -26,7 +21,7 @@
 .navbarFixed {
     position: fixed !important;
     width: 100%;
-    z-index: 1;
+    z-index: 9999;
 }
 
 .contentFixed {
@@ -76,8 +71,6 @@
     color: #F18B31 !important
     
 }
-
-
 
 .head{
     height: 73px !important;
@@ -169,4 +162,133 @@
     text-align: center;
 }
 
+.values-mobile {
+    pointer-events: none;
+}
 
+.captcha {
+    margin-top: 1.1rem;
+}
+
+.btn.btn-outline-primary.rounded-pill.ancho.mt-2.mb-2 {
+    margin-top: 7rem !important;
+}
+
+/* Responsive */
+
+#dp-none {
+    display: none
+}
+
+.navbar.navbar-expand-lg.color_sitio.navbar-dark.row {
+    padding-top: 1px
+}
+
+.navbar.navbar-expand-lg.color_sitio.navbar-dark.row {
+    z-index: 9999;
+}
+
+@media (max-width: 947px) {
+
+    .navbar.navbar-expand-lg.color_sitio.navbar-dark.row {
+        padding-top: 0px
+    }
+
+    .pro-sidebar.md {
+        display: none;
+    }
+
+    .pro-sidebar.md.collapsed {
+        display: none;
+    }
+
+    .contentWithNavFixed {
+        margin-left: 0px;
+    }
+
+    .desktop {
+        display: none !important;
+    }
+
+    .ml-2.navbar-brand{
+        padding-top: 1.3rem!important;
+    }
+
+    .width-78 {
+        width: 226px !important;
+    }
+
+    .navbar-nav.mobile.col-md-12.text-center.values-mobile {
+        max-width: 100% !important;
+    }
+}
+
+@media (min-width: 753px) and (max-width: 947px) {
+
+    .navbar.navbar-expand-lg.color_sitio.navbar-dark.row div:first-child{
+        flex: 0 0 30% !important;
+        max-width: 30% !important;
+    }
+
+}
+
+@media (min-width: 947px) {
+
+    .navbar.navbar-expand-lg.color_sitio.navbar-dark.row {
+        height: 113%;
+    }
+}
+
+@media (min-width: 991px) {
+
+    .ml-2.navbar-brand{
+        padding-top: 1.5rem!important;
+    }
+
+    .container.col-xs-8.col-md-9.col-lg-9.desktop div {
+        padding-top: 0.1rem!important;
+    }
+
+    .nav-item.activ {
+        padding-top: 0.1rem!important;
+    }
+
+}
+
+@media (min-width: 992px) {
+
+    .nav-item.activ {
+        padding-top: 0.2rem!important;
+    }
+
+}
+
+@media (min-width: 948px) and (max-width: 991px){
+
+    .ml-2.navbar-brand{
+        padding-top: 1.1rem!important;
+    }
+
+    .container.col-xs-8.col-md-9.col-lg-9.desktop div {
+        padding-top: 0rem!important;
+    }
+
+}
+
+@media (width: 947px) {
+
+    .navbar.navbar-expand-lg.color_sitio.navbar-dark.row {
+        height: 122%;
+    }
+
+}
+
+@media (min-width: 948px) {
+
+    .mobile {
+        display: none !important;
+    }
+
+}
+
+/**/

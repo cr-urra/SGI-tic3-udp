@@ -9,8 +9,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 toast.configure()
 
-
 export default class Buscar_Producto extends Component {
+
     state = {
         rut: 0,
         cod_rol: "",
@@ -51,18 +51,19 @@ export default class Buscar_Producto extends Component {
                 break;
         };
         return (
-            
-
-    
                 <div className="layout has-sidebar">
-                  <aside >
-                    <Sidebar/>
+                    <aside className='sidebarFixed'>
+                        <Sidebar/>
                     </aside>                 
-                  <div className="layout">
-                    <header className="header"><Navbar logOut={this.logOut}/></header>
-                    <Contenido auxiliar ={this.props.location.state} />
-                    <div className="overlay"></div>
-                  </div>
+                    <div className="layout contentWithNavFixed">
+                        <header className="header navbarFixed">
+                            <Navbar logOut={this.logOut}/>
+                        </header>
+                        <div className='contentFixed'>
+                            <Contenido auxiliar ={this.props.location.state} />
+                        </div>
+                        <div className="overlay"></div>
+                    </div>
                 </div>            
  
         )

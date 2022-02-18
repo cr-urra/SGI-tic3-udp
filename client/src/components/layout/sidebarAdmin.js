@@ -3,7 +3,6 @@ import { ProSidebar, Menu, MenuItem, SubMenu , SidebarHeader } from 'react-pro-s
 import {Link} from 'react-router-dom';
 import {SidebarData} from './sidebarData';
 
-
 export default class Sidebar extends Component {
 
     state = {

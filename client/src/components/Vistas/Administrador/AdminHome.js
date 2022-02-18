@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css'
 toast.configure()
 
 export default class AdminHome extends Component {
+
     state = {
         rut: 0,
         cod_rol: "",
@@ -50,14 +51,16 @@ export default class AdminHome extends Component {
         };
         return (
             <div className="layout has-sidebar">
-                <aside >
+                <aside className='sidebarFixed'>
                     <Sidebar/>
                 </aside>                 
-                <div className="layout">
-                    <header className="header">
+                <div className="layout contentWithNavFixed">
+                    <header className="header navbarFixed">
                         <Navbar logOut={this.logOut}/>
                     </header>
-                    <Contenido/>
+                    <div className='contentFixed'>
+                        <Contenido/>
+                    </div>
                     <div className="overlay"></div>
                 </div>
             </div>            

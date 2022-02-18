@@ -59,6 +59,7 @@ export default class Init extends Component {
     }
 
     onChange = e =>{
+      if(e.target.name == "fecha1") alert(e.target.value)
       this.setState({
         [e.target.name]: e.target.value
       })
