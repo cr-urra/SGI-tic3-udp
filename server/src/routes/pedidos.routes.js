@@ -7,6 +7,7 @@ import * as pedidos from '../controllers/pedidos.controller';
 router.post('/', pedidos.createPedidos);
 router.get('/', pedidos.getAllPedidos);
 router.get('/all', pedidos.getAllPedidosWithFalse);
+router.get('/dashboards', pedidos.getAllPedidosDashboards);
 
 // pedidos/:id
 

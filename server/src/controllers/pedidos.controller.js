@@ -3,7 +3,10 @@ import usuarios from '../models/usuarios';
 import historialDolar from '../models/historial_dolar';
 import detallesDolar from '../models/detalles_dolar';
 import productos from '../models/productos';
+import proveedores from '../models/proveedores';
+import unidadProductos from '../models/unidad_productos';
 import detallesPedidos from '../models/detalles_pedidos';
+import tiene from '../models/tiene';
 import documentos from '../models/documentos';
 import observaciones from '../models/observaciones';
 import gastosExtras from '../models/gastos_extras';
@@ -347,6 +350,73 @@ export const getAllPedidos = async (req, res) => {
                     model: agentesAduana,
                     include: [
                         cuentasCorrientes
+                    ]
+                }
+            ]
+        });
+        res.json({
+            resultado: true, 
+            message: "",
+            pedidos: allPedidos
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            pedidos: null
+        });
+    };
+};
+
+export const getAllPedidosDashboards = async (req, res) => {
+    try{
+        const allPedidos = await pedidos.findAll({
+            where: {
+                vigencia: true
+            },
+            attributes: [
+                'id',
+                'codigo', 
+                'pago_inicial', 
+                'pago_final',
+                'fecha_pago', 
+                'fecha_salida', 
+                'fecha_llegada_real', 
+                'fecha_llegada_estimada', 
+                'fecha_aduana',
+                'estado',
+                'tipo_de_envio',
+                'flete',
+                'valor_cif',
+                'honorarios',
+                'arancel',
+                'gastos_agencia',
+                'numero_din',
+                'cuentas_bancos_id',
+                'agentes_aduana_id',
+                'proveedores_id',
+                'dolar_mensual_id',
+                'fecha_vencimiento',
+                'tipo_pago',
+                'fecha_inicial',
+                'seguro',
+                'vigencia'
+            ],
+            order: [
+                ['id', 'DESC']
+            ],
+            include: [
+                proveedores,
+                {
+                    model: tiene,
+                    include: [
+                        {
+                            model: productos,
+                            include: [
+                                unidadProductos
+                            ]
+                        }
                     ]
                 }
             ]
