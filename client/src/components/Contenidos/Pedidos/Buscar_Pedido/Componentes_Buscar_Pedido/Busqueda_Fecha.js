@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Filtro from './FiltroFecha'
 import axios from 'axios'
 
-
 export default class Init extends Component {
 
     state ={
@@ -18,8 +17,7 @@ export default class Init extends Component {
     }
   
     componentDidMount = async () => {
-      const res = await axios.get("/pedidos/",{})
-      console.log(res,"Did Mount")    
+      const res = await axios.get("/pedidos/",{})   
       for(let i=0; i < res.data.pedidos.length; i++){
         const res2= await axios.get("/proveedores/"+res.data.pedidos[i].proveedores_id,{})
         const res3= await axios.get("/tiene/pedidos/"+res.data.pedidos[i].id,{})
@@ -29,8 +27,7 @@ export default class Init extends Component {
           const precio = await axios.get("/historialPrecios/maxDate/"+res3.data.tiene[j].productos_id,{})  
           producto = { producto: res3.data.tiene[j] , precio: precio.data.historialPrecios.precio}
           productos = [...productos,producto]
-        }      
-        console.log(res3,"Did Mount3")      
+        }           
         const pedido = {
           pedido:  res.data.pedidos[i],
           n_pedido: res.data.pedidos[i].codigo,
@@ -59,7 +56,6 @@ export default class Init extends Component {
     }
 
     onChange = e =>{
-      if(e.target.name == "fecha1") alert(e.target.value)
       this.setState({
         [e.target.name]: e.target.value
       })

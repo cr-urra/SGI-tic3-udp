@@ -282,7 +282,6 @@ export const getHistorialPreciosMaxDate = async (req, res) => {
 
 export const getHistorialPreciosBetweenDates = async (req, res) => {
     try{
-        const op = sequelize.Op;
         let id = req.body.Producto.id;
         let minDate = req.body.fecha1;
         let maxDate = req.body.fecha2;
@@ -301,7 +300,9 @@ export const getHistorialPreciosBetweenDates = async (req, res) => {
                 'productos_id'
             ]
         });
-        const filter = maxHistorialPrecios.filter((element) => {return element.dataValues.fecha <= new Date(maxDate) && element.dataValues.fecha >= new Date(minDate)})
+        const filter = maxHistorialPrecios.filter((element) => {
+            return new Date(element.dataValues.fecha.getFullYear().toString()+"-"+(element.dataValues.fecha.getMonth() + 1 <= 9 ? "0" +(element.dataValues.fecha.getMonth() + 1).toString() : (element.dataValues.fecha.getMonth() + 1).toString() )+"-"+element.dataValues.fecha.getDate().toString()) <= new Date(maxDate) && new Date(element.dataValues.fecha.getFullYear().toString()+"-"+(element.dataValues.fecha.getMonth() + 1 <= 9 ? "0" +(element.dataValues.fecha.getMonth() + 1).toString() : (element.dataValues.fecha.getMonth() + 1).toString() )+"-"+element.dataValues.fecha.getDate().toString()) >= new Date(minDate)
+        })
         res.json({
             resultado: true, 
             message: "",

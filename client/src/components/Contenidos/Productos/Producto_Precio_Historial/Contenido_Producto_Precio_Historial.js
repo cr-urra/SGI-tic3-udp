@@ -1,21 +1,105 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom'
+import axios from 'axios'
+import { toast , Slide  } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Precios from './Componentes_Producto_Precio_Historial/Precios'
 
+toast.configure()
 
 export default class Init extends Component {
+
+    state = {
+        fechaInicio: null,
+        fechaTermino: null,
+        nombre: "",
+        codigo: "",
+        precios: []
+    }
+
+    componentDidMount = async () => {
+        if (window.sessionStorage.getItem("historialProductId") != null) {
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
+            const id = window.sessionStorage.getItem("historialProductId")
+            const res = await axios.get('/productos/'+id)
+            if (res.data.resultado) {
+                this.setState({
+                    nombre: res.data.productos.nombre,
+                    codigo: res.data.productos.codigo
+                })
+                const res2 = await axios.put("/historialPrecios/betweenDate", {
+                    fecha1: null,
+                    fecha2: null,
+                    Producto: {
+                        id: id
+                    }
+                }, {
+                    "headers": {
+                        "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                    }
+                })
+                if (res2.data.resultado) {
+                    this.setState({
+                        precios: res2.data.historialPrecios
+                    })
+                } else {
+                    toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+                }
+            } else {
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            }
+        }
+    }
+
+    onFilterData = async () => {
+        if (window.sessionStorage.getItem("historialProductId") != null) {
+            axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token') 
+            const id = window.sessionStorage.getItem("historialProductId")
+            const res = await axios.get('/productos/'+id)
+            if (res.data.resultado) {
+                this.setState({
+                    nombre: res.data.productos.nombre,
+                    codigo: res.data.productos.codigo
+                })
+                const res2 = await axios.put("/historialPrecios/betweenDate", {
+                    fecha1: this.state.fechaInicio,
+                    fecha2: this.state.fechaTermino,
+                    Producto: {
+                        id: id
+                    }
+                }, {
+                    "headers": {
+                        "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                    }
+                })
+                if (res2.data.resultado) {
+                    this.setState({
+                        precios: res2.data.historialPrecios
+                    })
+                } else {
+                    toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+                }
+            } else {
+                toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            }
+        }    
+    }
+
+    onChange = (e) => {
+        this.setState({
+            [e.target.name]: [e.target.value]
+        })
+    }
+
     render() {
         return (
             <main className="content">
                 <h1 className="display-5 titulo">Historial de precio</h1>
-
                 <div className="container separacion">
-
                     <div className="card shadow-lg">
-
                         <div className="card-header">
                             <div className="row">
                                 <div className="col-3 text-center">
-                                    Historial Precio Producto 1
                                 </div>
                                 <div className="col-6 text-right" >                  
                                 </div>
@@ -45,12 +129,11 @@ export default class Init extends Component {
                                         <div className="col-9">
                                             <input 
                                             type="date" 
-                                            name="empresa"
+                                            name="fechaInicio"
                                             className="form-control" 
                                             aria-label="Default" 
                                             aria-describedby="inputGroup-sizing-default"
-                                            /*onChange={this.onChange}
-                                            value={this.state.empresa}*/
+                                            onChange={this.onChange}
                                             />
                                         </div>   
                                     </div>
@@ -63,12 +146,11 @@ export default class Init extends Component {
                                         <div className="col-9">
                                             <input 
                                             type="date" 
-                                            name="empresa"
+                                            name="fechaTermino"
                                             className="form-control" 
                                             aria-label="Default" 
                                             aria-describedby="inputGroup-sizing-default"
-                                            /*onChange={this.onChange}
-                                            value={this.state.empresa}*/
+                                            onChange={this.onChange}
                                             />
                                         </div>   
                                     </div> 
@@ -76,54 +158,23 @@ export default class Init extends Component {
                                 </div>
                                 <div className="col-9"/>
                                 <div className="col-2">
-                                    <button type="button" className="btn btn-primary rounded-pill " >
+                                    <button type="button" className="btn btn-primary rounded-pill " onClick={this.onFilterData} >
                                             Filtrar Fechas
                                     </button> 
                                 </div>
                             </div>
-
                             <div className="container mt-4">
                                 <table class="table">
                                   <thead>
                                     <tr>
-                                      <th scope="col">Id Producto</th>
+                                      <th scope="col">Código</th>
                                       <th scope="col">Nombre</th>
-                                      <th scope="col">Fecha</th>
                                       <th scope="col">Precio USD</th>
-                                      
+                                      <th scope="col">Fecha</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>Producto 1</td>
-                                        <td>02/10/2019</td>
-                                        <td>$0,9</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>Producto 1</td>
-                                        <td>02/12/2019</td>
-                                        <td>$0,96</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>Producto 1</td>
-                                        <td>10/03/2020</td>
-                                        <td>$0,93</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>Producto 1</td>
-                                        <td>02/05/2020</td>
-                                        <td>$1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15678</td>
-                                        <td>Producto 1</td>
-                                        <td>15/08/2020</td>
-                                        <td>$0,96</td>
-                                    </tr>
+                                    <Precios precios = {this.state.precios} producto={{nombre: this.state.nombre, codigo: this.state.codigo}} />
                                   </tbody>
                                 </table>
                             </div>

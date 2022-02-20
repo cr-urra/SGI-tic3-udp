@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import DatoTabla from './DatoTabla'
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
@@ -10,7 +10,8 @@ import 'react-toastify/dist/ReactToastify.css'
 export default class Tabla extends Component {
 
     state ={
-        show: false
+        show: false,
+        historial: false
     }
 
     handleClose = () =>{
@@ -25,12 +26,10 @@ export default class Tabla extends Component {
         })
     }
 
-    delete  =  (id) => async (e) => {       
-        console.log(localStorage.getItem('X-CSRF-Token') , "revisa aqui")        
+    delete  =  (id) => async (e) => {           
         const res = await axios.put("/productos/delete/"+ id , {} ,{"headers": {
             "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
         }} )
-        
         if(res.data.resultado==true){
             toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }else{
@@ -41,11 +40,20 @@ export default class Tabla extends Component {
         })
     }
 
+    onChange = (id) => (e) => {
+        window.sessionStorage.setItem("historialProductId", id);
+        this.setState({
+            historial: true
+        })
+    }
+
     render() {
+        if (this.state.historial) return <Redirect to={{ 
+            pathname: '/users/Buscar_Producto/Historial_Producto_Precio'
+        }} />;
         if(this.props.product !== ""){
             let j;
             for(let i = 0 ; i < this.props.productsData.length ; i++){
-                
                 if(this.props.product=== this.props.productsData[i].nombre){
                     j = i;
                 }
@@ -68,11 +76,9 @@ export default class Tabla extends Component {
                                     <div className="row">
                                         <div className="col-3"/>
                                         <div className="col-6 text-center">
-                                            <Link to = '/users/Buscar_Producto/Historial_Producto_Precio'>
-                                                <button type="button" className="btn btn-outline-success rounded-pill ancho ">                                                  
-                                                    Ver Historial de Precio
-                                                </button>
-                                            </Link> 
+                                            <button type="button" className="btn btn-outline-success rounded-pill ancho" onClick={this.onChange(this.props.productsData[j].id)}>                                                  
+                                                Ver Historial de Precio
+                                            </button>
                                         </div>
                                         <div className="col-3"/>                                        
                                     </div>

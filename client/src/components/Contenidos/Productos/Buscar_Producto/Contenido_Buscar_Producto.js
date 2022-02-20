@@ -17,9 +17,11 @@ export default class Init extends Component {
 
     componentDidMount = async () => {
         const res = await axios.get("/productos/",{})
+        console.log(res);
         for (let i= 0; i < res.data.productos.length ; i++){
             const medida = await axios.get("/unidadProductos/"+res.data.productos[i].unidad_productos_id,{})
             const precio = await axios.get("/historialPrecios/maxDate/"+res.data.productos[i].id,{})
+            console.log(precio);
             const proveedor = await axios.get("/proveedores/"+res.data.productos[i].proveedores_id,{})
             const producto = {
                  nombre :  res.data.productos[i].nombre,
