@@ -14,13 +14,11 @@ export default class Opcion extends Component {
             Fecha1: this.props.fecha1,
             Fecha2: this.props.fecha2
           }
-          const res = await axios.put("/historialPrecios/betweenDate", auxiliar, {
-              "headers": {
-                  "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-              }
-          })                  
-          this.props.Productos[j].max_price = res.data.historialPrecios[0].precio
-
+          const res = await axios.put("/pedidos/betweenDates", auxiliar, {"headers": {
+            "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+          }})     
+          console.log(res,"aqui")          
+          this.props.Productos[j].max_price = res.data.pedidos[0].precio
       }
       this.forceUpdate()
   }
