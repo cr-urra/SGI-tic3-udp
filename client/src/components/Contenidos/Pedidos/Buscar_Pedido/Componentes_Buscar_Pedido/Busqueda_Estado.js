@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import pedidos from '../../../../JasonDePruebas/Pedidos.json'
 import Filtro from './FiltroEstado'
 import axios from 'axios'
+import Carga from './Carga'
 
 export default class Init extends Component {
 
     state = {
       pedidos: pedidos,
       filtro: "0",
-      Pedidos: []
+      Pedidos: [],
+      carga: false
     }
 
   
@@ -43,6 +45,9 @@ export default class Init extends Component {
           Pedidos: [...this.state.Pedidos,pedido]
         })
       }
+      await this.setState({
+        carga: true
+      })
     }
 
     onChange = e => {
@@ -52,30 +57,35 @@ export default class Init extends Component {
     }
 
     render() {
-        return (
-          <li className="list-group-item">
-              Busqueda por Estado
-            <div className="container separacion">
-              <div className="row">
-                <div className="input-group no_flex">
-                  <div className="col-xs-2 col-md-2 col-lg-2">
-                    <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Estado</label>
-                  </div>                  
-                  <div className="col-xs-6 col-md-4 col-lg-4">
-                    <select className="form-select ancho alto"  id="inputGroupSelect01" name="filtro" value={this.state.filtro} onChange={this.onChange}>
-                      <option defaultValue value="0">Estado del Pedido</option>
-                      <option value="produccion">En Producción</option>
-                      <option value="internacional">En Transito (Internacional)</option>
-                      <option value="ingreso">Ingreso al País</option>
-                      <option value="nacional">En Transito (Nacional)</option>
-                      <option value="finalizado">Finalizado</option>
-                    </select>
+        if(this.state.carga==true){
+
+          return (
+            <li className="list-group-item">
+                Busqueda por Estado
+              <div className="container separacion">
+                <div className="row">
+                  <div className="input-group no_flex">
+                    <div className="col-xs-2 col-md-2 col-lg-2">
+                      <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Estado</label>
+                    </div>                  
+                    <div className="col-xs-6 col-md-4 col-lg-4">
+                      <select className="form-select ancho alto"  id="inputGroupSelect01" name="filtro" value={this.state.filtro} onChange={this.onChange}>
+                        <option defaultValue value="0">Estado del Pedido</option>
+                        <option value="produccion">En Producción</option>
+                        <option value="internacional">En Transito (Internacional)</option>
+                        <option value="ingreso">Ingreso al País</option>
+                        <option value="nacional">En Transito (Nacional)</option>
+                        <option value="finalizado">Finalizado</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <Filtro Pedidos ={this.state.Pedidos} filtro = {this.state.filtro}/>                                           
-          </li>
-        )
+              <Filtro Pedidos ={this.state.Pedidos} filtro = {this.state.filtro}/>                                           
+            </li>
+          )
+          }else{
+            return <Carga/>
+          }
     }
 }

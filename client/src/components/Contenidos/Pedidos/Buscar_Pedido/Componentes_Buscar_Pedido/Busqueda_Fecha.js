@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Filtro from './FiltroFecha'
 import axios from 'axios'
+import Carga from './Carga'
 
 export default class Init extends Component {
 
@@ -13,7 +14,8 @@ export default class Init extends Component {
       año2: null,
       fecha1: null,
       fecha2: null,
-      Pedidos: []
+      Pedidos: [],
+      carga: false
     }
   
     componentDidMount = async () => {
@@ -45,6 +47,9 @@ export default class Init extends Component {
           Pedidos: [...this.state.Pedidos,pedido]
         })
       }
+      await this.setState({
+        carga: true
+      })
     }
 
     d_filtrar = () =>{
@@ -62,64 +67,68 @@ export default class Init extends Component {
     }
 
     render() {
-        return (
-          <li className="list-group-item">            
-              Busqueda por Fecha
-              <div className="row mt-4" >
-                <div className="col-4 text-center">
-                  <span className="text-center"> Filtrar fechas</span>                  
-                </div>
-                <div className="col-8">
-                  <div className="input-group mb-3">
-                      <div className="col-3 mb-2">
-                          <div className="input-group-prepend ancho2">
-                              <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
-                          </div>
-                      </div>                     
-              
-                      <div className="col-xs-12 col-md-9 col-lg-9">
-                          <input 
-                          type="date" 
-                          name="fecha1"
-                          className="form-control"
-                          placeholder="AAAA" 
-                          aria-label="Default" 
-                          aria-describedby="inputGroup-sizing-default"
-                          onChange={this.onChange}
-                          value={this.state.fecha1}
-                          />
-                      </div>
-                    </div>  
+        if(this.state.carga==true){
+          return (
+            <li className="list-group-item">            
+                Busqueda por Fecha
+                <div className="row mt-4" >
+                  <div className="col-4 text-center">
+                    <span className="text-center"> Filtrar fechas</span>                  
+                  </div>
+                  <div className="col-8">
                     <div className="input-group mb-3">
-                      <div className="col-3 mb-2">
-                          <div className="input-group-prepend ancho2">
-                              <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
-                          </div>
+                        <div className="col-3 mb-2">
+                            <div className="input-group-prepend ancho2">
+                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
+                            </div>
+                        </div>                     
+
+                        <div className="col-xs-12 col-md-9 col-lg-9">
+                            <input 
+                            type="date" 
+                            name="fecha1"
+                            className="form-control"
+                            placeholder="AAAA" 
+                            aria-label="Default" 
+                            aria-describedby="inputGroup-sizing-default"
+                            onChange={this.onChange}
+                            value={this.state.fecha1}
+                            />
+                        </div>
+                      </div>  
+                      <div className="input-group mb-3">
+                        <div className="col-3 mb-2">
+                            <div className="input-group-prepend ancho2">
+                                <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
+                            </div>
+                        </div>
+
+                        <div className="col-xs-12 col-md-9 col-lg-9">
+                            <input 
+                            type="date" 
+                            name="fecha2"
+                            className="form-control" 
+                            placeholder="AAAA"
+                            aria-label="Default" 
+                            aria-describedby="inputGroup-sizing-default"
+                            onChange={this.onChange}
+                            value={this.state.fecha2}
+                            />
+                        </div>
+                      </div>  
+                      <div className="input-group mb-3 aling-end">
+                        <div className="col-8"/>
+                        <div className="col-3">
+                          <button className="btn btn-danger" onClick={this.d_filtrar}>Borrar Filtro</button>
+                        </div>                      
                       </div>
-                      
-                      <div className="col-xs-12 col-md-9 col-lg-9">
-                          <input 
-                          type="date" 
-                          name="fecha2"
-                          className="form-control" 
-                          placeholder="AAAA"
-                          aria-label="Default" 
-                          aria-describedby="inputGroup-sizing-default"
-                          onChange={this.onChange}
-                          value={this.state.fecha2}
-                          />
-                      </div>
-                    </div>  
-                    <div className="input-group mb-3 aling-end">
-                      <div className="col-8"/>
-                      <div className="col-3">
-                        <button className="btn btn-danger" onClick={this.d_filtrar}>Borrar Filtro</button>
-                      </div>                      
-                    </div>
+                  </div>
                 </div>
-              </div>
-              <Filtro Pedidos={this.state.Pedidos} fecha1 ={this.state.fecha1} fecha2 ={this.state.fecha2} /> 
-          </li>
-        )
+                <Filtro Pedidos={this.state.Pedidos} fecha1 ={this.state.fecha1} fecha2 ={this.state.fecha2} /> 
+            </li>
+          )
+        }else{
+          return <Carga/>
+        }
     }
 }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Opciones from './Opciones'
 import Filtro from './FiltroProveedor'
-import Proveedores from '../../../../JasonDePruebas/Proveedores.json'
 import Pedidos from '../../../../JasonDePruebas/Pedidos.json'
 import axios from 'axios'
+import Carga from './Carga'
 
 
 
@@ -14,7 +14,8 @@ export default class Init extends Component {
       proveedores: [],
       pedidos: Pedidos,
       eleccion: "0",
-      Pedidos: []
+      Pedidos: [],
+      carga: false
     }
   
     componentDidMount = async () => {
@@ -59,6 +60,9 @@ export default class Init extends Component {
               proveedores: [...this.state.proveedores, proveedor]
             })
         }
+      await this.setState({
+        carga: true
+      })  
     }
 
     onChange = e => {
@@ -68,30 +72,34 @@ export default class Init extends Component {
     }
 
     render() {
-        return (
-          <li className="list-group-item">
-            Busqueda por Proveedor
-            <div className="row mt-4" >
-              <div className="col-5">
-                <div className="container" >
-                  <div className="row">
-                    <div className="input-group no_flex">
-                      <div className="col-5">
-                        <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Proveedores</label>
-                      </div>                  
-                      <div className="col-xs-10 col-md-10 col-lg-10">
-                        <select className="form-select ancho alto"  id="inputGroupSelect01" name="eleccion" value={this.state.filtro} onChange={this.onChange}>
-                          <option defaultValue value="0">Proveedores</option>
-                          <Opciones Proveedores={this.state.proveedores}  />
-                        </select>
+        if(this.state.carga==true){
+          return (
+            <li className="list-group-item">
+              Busqueda por Proveedor
+              <div className="row mt-4" >
+                <div className="col-5">
+                  <div className="container" >
+                    <div className="row">
+                      <div className="input-group no_flex">
+                        <div className="col-5">
+                          <label className="input-group-text ancho2 rounded-pill " for="inputGroupSelect01">Proveedores</label>
+                        </div>                  
+                        <div className="col-xs-10 col-md-10 col-lg-10">
+                          <select className="form-select ancho alto"  id="inputGroupSelect01" name="eleccion" value={this.state.filtro} onChange={this.onChange}>
+                            <option defaultValue value="0">Proveedores</option>
+                            <Opciones Proveedores={this.state.proveedores}  />
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>              
-            </div>
-            <Filtro Pedidos={this.state.Pedidos} filtro ={this.state.eleccion} />
-        </li>
-        )
+                </div>              
+              </div>
+              <Filtro Pedidos={this.state.Pedidos} filtro ={this.state.eleccion} />
+          </li>
+          )
+        }else{
+          return <Carga/>
+        }  
     }
 }
