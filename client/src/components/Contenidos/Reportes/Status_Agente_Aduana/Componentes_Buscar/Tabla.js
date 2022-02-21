@@ -17,7 +17,7 @@ export default class Tabla extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <DatosTabla AgenteAduana={this.props.AgenteAduana} f_inicio={this.props.f_inicio} f_termino={this.props.f_termino}/>
+                    <DatosTabla AgenteAduana={this.props.AgenteAduana} f_inicio={this.props.f_inicio} f_termino={this.props.f_termino}/> 
                   </tbody>
                 </table>
             </div>

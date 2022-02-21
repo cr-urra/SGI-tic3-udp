@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Lineas from './Lineas'
-import { Accordion, Card, Button } from 'react-bootstrap';
+import Tabla from "./Tabla"
 import axios from 'axios'
 
 
@@ -41,25 +40,10 @@ export default class Opcion extends Component {
                             <div className="container separacion">
                                 <div className="card border-primary  shadow-lg">
                                     <div className="card-header text-primary" style={{fontSize:"18px"}}>
-                                        JJPlastalloy
+                                         {this.props.AgenteAduana.nombre}
                                     </div>
                                     <div className="container" >
-                                        <h1 className="text-center" style={{fontSize:"25px",marginTop:"10px"}}>Monto Importacion Proveedor JJPlastalloy</h1>
-                                        <div className="input-group no_flex">
-                                            <table className="table text-center table-striped table-bordered" style={{marginTop:"20px"}}>
-                                                <thead>
-                                                    <tr>
-                                                        <th >Id Producto</th>
-                                                        <th >Nombre</th>
-                                                        <th >Pesos Chile</th>
-                                                        <th >Dolares Chile</th>            
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                <Lineas Productos={this.props.Productos.filter(producto => producto.proveedores_id === this.props.id)} />                            
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <Tabla AgenteAduana={this.props.AgenteAduana} f_inicio={this.props.fecha1} f_termino={this.props.fecha2} />
                                     </div>                            
                                 </div>
                             </div>
