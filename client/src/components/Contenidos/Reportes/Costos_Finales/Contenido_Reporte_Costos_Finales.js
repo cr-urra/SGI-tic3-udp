@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Listado from './Componentes/Listado'
 import Filtrado from './Componentes/Filtrado'
 import axios from 'axios'
+import Carga from './Carga'
 
 
 export default class Init extends Component {
@@ -9,7 +10,8 @@ export default class Init extends Component {
     state = {
       proveedores: [],
       proveedor: null,
-      id: null
+      id: null,
+      carga: false
     }
 
     componentDidMount = async () => {
@@ -23,6 +25,9 @@ export default class Init extends Component {
             proveedores: [...this.state.proveedores, proveedor]
           })
       }
+      await this.setState({
+        carga: true
+      })
     }
 
     onChangeProveedor = async (event) => {
@@ -41,14 +46,19 @@ export default class Init extends Component {
     }
 
     render() {
-        return (
+        if(this.state.carga==true){
+          return (
             <main className="content">
                 <h1 className="display-5 titulo">Reporte de Costos Por Proveedor</h1>
                 <Listado Proveedores={this.state.proveedores} Proveedor={this.state.proveedor} onChangeProveedor={this.onChangeProveedor}/>
-
-                <Filtrado Proveedores={this.state.proveedores} Proveedor={this.state.proveedor} id={this.state.id}/>
-                    
+                <Filtrado Proveedores={this.state.proveedores} Proveedor={this.state.proveedor} id={this.state.id}/>                    
             </main>
-        )
+          )
+        }else{
+          return(
+            <Carga/>
+          )
+        }
+
     }
 }

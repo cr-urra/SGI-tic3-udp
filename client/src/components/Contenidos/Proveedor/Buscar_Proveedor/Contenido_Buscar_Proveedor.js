@@ -3,6 +3,7 @@ import Listado from './Componentes_Buscar_Proveedor/Listado';
 import Tabla from './Componentes_Buscar_Proveedor/Tabla';
 import Editar_proveedor from './Componentes_Buscar_Proveedor/Editar_Proveedor'
 import axios from 'axios'
+import Carga from './Carga'
 
 
 export default class Init extends Component {
@@ -11,6 +12,7 @@ export default class Init extends Component {
       proveedores: [],
       proveedor : "",
       editar: "false",
+      carga: false
     }
 
     componentDidMount = async () => {
@@ -37,6 +39,9 @@ export default class Init extends Component {
             proveedores: [...this.state.proveedores, proveedor]
           })
       }
+      await this.setState({
+        carga: true
+      })
   }
 
     change = (event) =>{
@@ -53,27 +58,31 @@ export default class Init extends Component {
     }
 
     render() {
+      if(this.state.carga==true){
+        if(this.state.editar === "true"){
+          return (
+            <main className="content">
+                <h1 className="display-5 titulo">Editar Proveedor {this.state.banco}</h1>
+                <Editar_proveedor proveedores={this.state.proveedores} proveedor = {this.state.proveedor} change = {this.change}/>
+            </main>
+          )
+        }else{
+          return (
+            <main className="content">
+                <h1 className="display-5 titulo">Buscar Proveedor</h1>
 
-      if(this.state.editar === "true"){
-        return (
-          <main className="content">
-              <h1 className="display-5 titulo">Editar Proveedor {this.state.banco}</h1>
-              <Editar_proveedor proveedores={this.state.proveedores} proveedor = {this.state.proveedor} change = {this.change}/>
-          </main>
-        )
+                <Listado proveedoresData={this.state.proveedores} proveedor={this.state.proveedor} onChangeProveedor={this.onChangeProveedor}/>
+
+                <Tabla proveedoresData={this.state.proveedores} proveedor={this.state.proveedor} change={this.change}/>
+            </main>
+          )
+        }
       }else{
-        return (
-          <main className="content">
-              <h1 className="display-5 titulo">Buscar Proveedor</h1>
-              
-              <Listado proveedoresData={this.state.proveedores} proveedor={this.state.proveedor} onChangeProveedor={this.onChangeProveedor}/>
-
-              <Tabla proveedoresData={this.state.proveedores} proveedor={this.state.proveedor} change={this.change}/>
-
-          </main>
-      )
-
+        return(
+          <Carga/>
+        )
       }
+        
         
     }
 }

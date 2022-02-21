@@ -3,6 +3,7 @@ import Reporte from './Reporte'
 import { Accordion, Card, Button } from 'react-bootstrap';
 import Productos from './Productos'
 import axios from 'axios'
+import Carga from '../Carga'
 
 
 
@@ -14,7 +15,8 @@ export default class Opcion extends Component {
         fecha2: null,
         filtro: false,
         productos: [],
-        estado: false
+        estado: false,
+        carga: false
     }
 
     componentDidMount = async () => {
@@ -37,6 +39,9 @@ export default class Opcion extends Component {
                 productos: [...this.state.productos, producto]
             })                                                
         }
+        await this.setState({
+            carga: true
+        })
     }
 
     filtro = () =>{
@@ -73,128 +78,134 @@ export default class Opcion extends Component {
     }
 
     render() {
-      if(this.props.Proveedor !== ""){
-          let j;
-          for(let i = 0 ; i < this.props.Proveedores.length ; i++){
-              
-              if(this.props.Proveedor=== this.props.Proveedores[i].nombre){
-                  j = i;
-              }
-          }
-          if(this.props.Proveedores[j]!=null){
-              return (      
-                  <div >                    
-                      <div className="container separacion">
-                          <div className="card border-primary  shadow-lg">
-                              <div className="card-header text-primary">
-                                  Proveedor: {this.props.Proveedores[j].nombre}
-                              </div>
-                              <h3 className="separacion text-center">Filtrar Reporte</h3>
-                              <div >            
-                                  <div className="row mt-4" >
-                                    <div className="col-4 text-center">
-                                      <h4 className="text-center"> Filtrar fechas</h4>                  
-                                    </div>
-                                    <div className="col-7">
-                                      <div className="input-group mb-3">
-                                          <div className="col-3 mb-2">
-                                              <div className="input-group-prepend ancho2">
-                                                  <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
-                                              </div>
-                                          </div>                     
+        if(this.state.carga==true){
 
-                                          <div className="col-xs-12 col-md-9 col-lg-9">
-                                              <input 
-                                              type="date" 
-                                              name="fecha1"
-                                              className="form-control"
-                                              placeholder="AAAA" 
-                                              aria-label="Default" 
-                                              aria-describedby="inputGroup-sizing-default"
-                                              onChange={this.onChange}
-                                              value={this.state.fecha1}
-                                              />
-                                          </div>
-                                        </div>  
-                                        <div className="input-group mb-3">
-                                          <div className="col-3 mb-2">
-                                              <div className="input-group-prepend ancho2">
-                                                  <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
-                                              </div>
-                                          </div>
+        
+            if(this.props.Proveedor !== ""){
+                let j;
+                for(let i = 0 ; i < this.props.Proveedores.length ; i++){
 
-                                          <div className="col-xs-12 col-md-9 col-lg-9">
-                                              <input 
-                                              type="date" 
-                                              name="fecha2"
-                                              className="form-control" 
-                                              placeholder="AAAA"
-                                              aria-label="Default" 
-                                              aria-describedby="inputGroup-sizing-default"
-                                              onChange={this.onChange}
-                                              value={this.state.fecha2}
-                                              />
-                                          </div>
-                                        </div>  
-                                        <div className="input-group mb-3 aling-end">
-                                          <div className="col-8"/>
-                                          <div className="col-3">
-                                            <button className="btn btn-danger" onClick={this.d_filtrar}>Borrar Filtro</button>
-                                          </div>                      
-                                        </div>
+                    if(this.props.Proveedor=== this.props.Proveedores[i].nombre){
+                        j = i;
+                    }
+                }
+                if(this.props.Proveedores[j]!=null){
+                    return (      
+                        <div >                    
+                            <div className="container separacion">
+                                <div className="card border-primary  shadow-lg">
+                                    <div className="card-header text-primary">
+                                        Proveedor: {this.props.Proveedores[j].nombre}
                                     </div>
-                                  </div>                                        
-                              </div>
-                              <Accordion >
-                                <Card className="separacion">
-                                  <Card.Header>                                      
-                                      <div className="row">
-                                          <div className="col-2 ">
-                                              <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                                  Productos
-                                              </Accordion.Toggle>
+                                    <h3 className="separacion text-center">Filtrar Reporte</h3>
+                                    <div >            
+                                        <div className="row mt-4" >
+                                          <div className="col-4 text-center">
+                                            <h4 className="text-center"> Filtrar fechas</h4>                  
                                           </div>
-                                          <div className="col-8">
-                                              <div class="form-check mt-2">
-                                                <input class="form-check-input" type="checkbox" onChange={this.filtro} id="flexCheckChecked" />
-                                                <label class="form-check-label" for="flexCheckChecked">
-                                                  Filtrar Productos
-                                                </label>
+                                          <div className="col-7">
+                                            <div className="input-group mb-3">
+                                                <div className="col-3 mb-2">
+                                                    <div className="input-group-prepend ancho2">
+                                                        <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
+                                                    </div>
+                                                </div>                     
+                    
+                                                <div className="col-xs-12 col-md-9 col-lg-9">
+                                                    <input 
+                                                    type="date" 
+                                                    name="fecha1"
+                                                    className="form-control"
+                                                    placeholder="AAAA" 
+                                                    aria-label="Default" 
+                                                    aria-describedby="inputGroup-sizing-default"
+                                                    onChange={this.onChange}
+                                                    value={this.state.fecha1}
+                                                    />
+                                                </div>
+                                              </div>  
+                                              <div className="input-group mb-3">
+                                                <div className="col-3 mb-2">
+                                                    <div className="input-group-prepend ancho2">
+                                                        <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
+                                                    </div>
+                                                </div>
+                    
+                                                <div className="col-xs-12 col-md-9 col-lg-9">
+                                                    <input 
+                                                    type="date" 
+                                                    name="fecha2"
+                                                    className="form-control" 
+                                                    placeholder="AAAA"
+                                                    aria-label="Default" 
+                                                    aria-describedby="inputGroup-sizing-default"
+                                                    onChange={this.onChange}
+                                                    value={this.state.fecha2}
+                                                    />
+                                                </div>
+                                              </div>  
+                                              <div className="input-group mb-3 aling-end">
+                                                <div className="col-8"/>
+                                                <div className="col-3">
+                                                  <button className="btn btn-danger" onClick={this.d_filtrar}>Borrar Filtro</button>
+                                                </div>                      
                                               </div>
                                           </div>
-                                      </div>
-                                  </Card.Header>
-                                  <Accordion.Collapse eventKey="0">
-                                    <Card.Body>                                                                           
-                                      <div class="container">
-                                          <div class="row g-2">                                        
-                                          <Productos Productos={this.state.productos} filtro ={this.state.filtro} id={this.props.id} onChange={this.onChange2}/>                                                                                      
-                                          </div>
-                                      </div>
-                                    </Card.Body>
-                                  </Accordion.Collapse>
-                                </Card>
-                              </Accordion>
-                          </div>
-                      </div>
-                        <div className="row">
-                            <div className='col-2'/>
-                            <div className="col-3">
-                                <Accordion.Toggle as={Button} className="btn btn-success ancho rounded-pill"  eventKey="0" onClick={this.cambio}>
-                                    Generar Reporte
-                                </Accordion.Toggle>
+                                        </div>                                        
+                                    </div>
+                                    <Accordion >
+                                      <Card className="separacion">
+                                        <Card.Header>                                      
+                                            <div className="row">
+                                                <div className="col-2 ">
+                                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                                        Productos
+                                                    </Accordion.Toggle>
+                                                </div>
+                                                <div className="col-8">
+                                                    <div class="form-check mt-2">
+                                                      <input class="form-check-input" type="checkbox" onChange={this.filtro} id="flexCheckChecked" />
+                                                      <label class="form-check-label" for="flexCheckChecked">
+                                                        Filtrar Productos
+                                                      </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey="0">
+                                          <Card.Body>                                                                           
+                                            <div class="container">
+                                                <div class="row g-2">                                        
+                                                <Productos Productos={this.state.productos} filtro ={this.state.filtro} id={this.props.id} onChange={this.onChange2}/>                                                                                      
+                                                </div>
+                                            </div>
+                                          </Card.Body>
+                                        </Accordion.Collapse>
+                                      </Card>
+                                    </Accordion>
+                                </div>
                             </div>
-                        </div>
-
-                        <Reporte estado = {this.state.estado} Proveedor = {this.props.Proveedores[j]} Productos={this.state.productos} id={this.props.id} fecha1 = {this.state.fecha1} fecha2 = {this.state.fecha2}/>
-                        <div className='margen2' />
-                  </div> 
-              )                
-          }else{
-              return <div/>
-          }
-      }else{
-          return <div/>
-      } 
+                              <div className="row">
+                                  <div className='col-2'/>
+                                  <div className="col-3">
+                                      <Accordion.Toggle as={Button} className="btn btn-success ancho rounded-pill"  eventKey="0" onClick={this.cambio}>
+                                          Generar Reporte
+                                      </Accordion.Toggle>
+                                  </div>
+                              </div>
+                    
+                              <Reporte estado = {this.state.estado} Proveedor = {this.props.Proveedores[j]} Productos={this.state.productos} id={this.props.id} fecha1 = {this.state.fecha1} fecha2 = {this.state.fecha2}/>
+                              <div className='margen2' />
+                        </div> 
+                    )                
+                }else{
+                    return <div/>
+                }
+            }else{
+                return <div/>
+            }
+        }else{
+            return <Carga/>
+        } 
   }
 }

@@ -6,10 +6,10 @@ export default class Opcion extends Component {
         if(this.props.Producto.filtro===false){
             return (       
                 <tr>
-                    {console.log(this.props,"auxiliooo")}
-                    <td>{this.props.Producto.codigo}</td>
-                    <td>{this.props.Producto.nombre}</td>
+                    <td>Falta Código</td>
                     <td>Falta Fecha</td>
+                    <td>{this.props.Producto.codigo}</td>
+                    <td>{this.props.Producto.nombre}</td>                    
                     <td>{this.props.Producto.max_price}</td>
                 </tr>
             )

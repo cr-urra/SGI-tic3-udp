@@ -4,13 +4,15 @@ import Tabla from './Componentes_Buscar_Usuario/Tabla'
 import Editar_usuario from './Componentes_Buscar_Usuario/Editar_Usuario'
 import axios from 'axios'
 import CryptoJS from 'crypto-js'
+import Carga from './Carga'
 
 export default class Init extends Component {
 
     state ={
         Usuarios: [],
         Usuario: "",
-        editar: "false"
+        editar: "false",
+        carga: false
     }
 
     encryptAes = async (message, key, iv) => {
@@ -66,6 +68,9 @@ export default class Init extends Component {
                 Usuarios: [...this.state.Usuarios, usuario]
             })
         }
+        await this.setState({
+            carga: true
+        })
     }
 
     componentDidMount = async () => {
@@ -91,21 +96,28 @@ export default class Init extends Component {
     }
 
     render() {
-        if(this.state.editar ==="true"){
-            return(
-                <main className="content">
-                    <h1 className="display-5 titulo">Editar Usuario {this.state.AgenteAduana}</h1>
-                    <Editar_usuario Usuarios={this.state.Usuarios} Usuario = {this.state.Usuario} change = {this.change} onRechargeData = {this.onRechargeData} logOut = {this.props.logOut} onChangeOut={this.props.onChangeOut}/>
-                </main>
-            )
+        if(this.state.carga==true){
+            if(this.state.editar ==="true"){
+                return(
+                    <main className="content">
+                        <h1 className="display-5 titulo">Editar Usuario {this.state.AgenteAduana}</h1>
+                        <Editar_usuario Usuarios={this.state.Usuarios} Usuario = {this.state.Usuario} change = {this.change} onRechargeData = {this.onRechargeData} logOut = {this.props.logOut} onChangeOut={this.props.onChangeOut}/>
+                    </main>
+                )
+            }else{
+                return (
+                    <main className="content">
+                        <h1 className="display-5 titulo">Buscar Usuario</h1>
+                            <Listado Usuarios ={this.state.Usuarios} onChangeUsuario ={this.onChangeUsuario} Usuario={this.state.Usuario}/>
+                            <Tabla  Usuario={this.state.Usuario} Usuarios = {this.state.Usuarios} change={this.change} onRechargeData = {this.onRechargeData} onResetUsuario  = {this.onResetUsuario}/>            
+                    </main>
+                )
+            } 
         }else{
-            return (
-                <main className="content">
-                    <h1 className="display-5 titulo">Buscar Usuario</h1>
-                        <Listado Usuarios ={this.state.Usuarios} onChangeUsuario ={this.onChangeUsuario} Usuario={this.state.Usuario}/>
-                        <Tabla  Usuario={this.state.Usuario} Usuarios = {this.state.Usuarios} change={this.change} onRechargeData = {this.onRechargeData} onResetUsuario  = {this.onResetUsuario}/>            
-                </main>
+            return(
+                <Carga />
             )
-        } 
+        }
+            
     }
 }

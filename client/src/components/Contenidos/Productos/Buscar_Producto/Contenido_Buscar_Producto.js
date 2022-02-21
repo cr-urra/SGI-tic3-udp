@@ -3,8 +3,7 @@ import Listado from './Componentes_Buscar_Producto/Listado';
 import Tabla from './Componentes_Buscar_Producto/Tabla';
 import Editar_Producto from './Componentes_Buscar_Producto/Editar_Producto'
 import axios from 'axios'
-
-
+import Carga from './Carga'
 
 
 export default class Init extends Component {
@@ -13,6 +12,7 @@ export default class Init extends Component {
         productsData : [],
         product : "",
         editar : "false",
+        carga: false
     }
 
     componentDidMount = async () => {
@@ -37,6 +37,9 @@ export default class Init extends Component {
                 productsData: [...this.state.productsData, producto]
             })
         }
+        await this.setState({
+            carga: true
+        })
     }
 
     onChangeProduct = (event) => {
@@ -52,25 +55,31 @@ export default class Init extends Component {
      }
 
     render() {
+        if(this.state.carga==true){
+            if(this.state.editar ==="true"){
+                return(
+                    <main className="content">
+                        <h1 className="display-5 titulo">Editar {this.state.product}</h1>
+                        <Editar_Producto productsData={this.state.productsData} product = {this.state.product} change = {this.change}/>
+                    </main>
+                )
 
-        if(this.state.editar ==="true"){
-            return(
+            }else{
+                return (
                 <main className="content">
-                    <h1 className="display-5 titulo">Editar {this.state.product}</h1>
-                    <Editar_Producto productsData={this.state.productsData} product = {this.state.product} change = {this.change}/>
+                    <h1 className="display-5 titulo">Buscar Producto</h1>
+                
+                    <Listado productsData = {this.state.productsData} onChangeProduct = {this.onChangeProduct} product = {this.state.product}></Listado>
+                    <Tabla product = {this.state.product} productsData = {this.state.productsData} change={this.change}></Tabla>
                 </main>
-            )
 
+                )
+            }
         }else{
-            return (
-            <main className="content">
-                <h1 className="display-5 titulo">Buscar Producto</h1>
-    
-                <Listado productsData = {this.state.productsData} onChangeProduct = {this.onChangeProduct} product = {this.state.product}></Listado>
-                <Tabla product = {this.state.product} productsData = {this.state.productsData} change={this.change}></Tabla>
-            </main>
-        
+            return(
+                <Carga />
             )
         }
+            
     }
 }

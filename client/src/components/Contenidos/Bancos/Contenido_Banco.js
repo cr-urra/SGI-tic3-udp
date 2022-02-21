@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Listado from './Componentes Banco/Listado'
 import Banco from './Componentes Banco/Banco'
 import EditarBanco from './Componentes Banco/Editar_Banco'
+import Carga from './Carga'
 import axios from 'axios'
 
 
@@ -11,7 +12,9 @@ export default class Contenido_Banco extends Component {
     state = {
         bancos: [],
         banco: "",
-        editar: "false"
+        editar: "false",
+        carga:  false
+
     }
 
     onRechargeData = async () => {
@@ -41,6 +44,9 @@ export default class Contenido_Banco extends Component {
                 bancos: [...this.state.bancos, banco]
             })
         }
+        await this.setState({
+            carga: true
+        })
     }
 
     change = (event) => {
@@ -66,21 +72,28 @@ export default class Contenido_Banco extends Component {
     }
 
     render() {
-        if(this.state.editar==="true"){
+        if(this.state.carga==true){
+            if(this.state.editar==="true"){
+                return (
+                    <main className="content">
+                        <h1 className="display-5 titulo">Editar Banco {this.state.banco}</h1>
+                        <EditarBanco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change} onRechargeData={this.onRechargeData}/>
+                    </main>
+                )
+            }else {
+                return (
+                    <main className="content">
+                        <h1 className="display-5 titulo">Bancos</h1>
+                        <Listado bancos={this.state.bancos} banco = {this.state.banco} onChangeBanco = {this.onChangeBanco} />
+                        <Banco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change} delete = {this.delete} onResetBanco={this.onResetBanco} onRechargeData={this.onRechargeData}/>
+                    </main>
+                )
+            }
+        }else{
             return (
-                <main className="content">
-                    <h1 className="display-5 titulo">Editar Banco {this.state.banco}</h1>
-                    <EditarBanco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change} onRechargeData={this.onRechargeData}/>
-                </main>
-            )
-        }else {
-            return (
-                <main className="content">
-                    <h1 className="display-5 titulo">Bancos</h1>
-                    <Listado bancos={this.state.bancos} banco = {this.state.banco} onChangeBanco = {this.onChangeBanco} />
-                    <Banco bancos={this.state.bancos} banco = {this.state.banco} change = {this.change} delete = {this.delete} onResetBanco={this.onResetBanco} onRechargeData={this.onRechargeData}/>
-                </main>
-            )
+                <Carga />
+            )                                         
         }
+            
     }
 }

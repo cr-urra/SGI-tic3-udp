@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Listado from './Componentes_Buscar/Listado';
 import Filtrado from './Componentes_Buscar/Filtrado'
 import axios from 'axios'
+import Carga from './Carga'
 
 
 export default class Init extends Component {
@@ -9,6 +10,7 @@ export default class Init extends Component {
     state = {
         AgentesAduana: [],
         AgenteAduana: "",
+        carga: false
     }
 
     componentDidMount = async () => {
@@ -57,6 +59,9 @@ export default class Init extends Component {
                 AgentesAduana: [...this.state.AgentesAduana, agente]
             })
         }
+        await this.setState({
+            carga: true
+        })
     }
 
     onChangeAgente = (event) => {
@@ -66,17 +71,22 @@ export default class Init extends Component {
     }
     
     render() {
-        return (
-            <main className="content">
-                <h1 className="display-5 titulo">Historial de Saldo: Agente A</h1>
+        if(this.state.carga==true){
+            return (
+                <main className="content">
+                    <h1 className="display-5 titulo">Historial de Saldo: Agente A</h1>
+                    <div className="container separacion">                    
+                        <Listado AgentesAduana= {this.state.AgentesAduana} onChangeAgente={this.onChangeAgente} AgenteAduana={this.state.AgenteAduana}/>
 
-                <div className="container separacion">                    
-                    <Listado AgentesAduana= {this.state.AgentesAduana} onChangeAgente={this.onChangeAgente} AgenteAduana={this.state.AgenteAduana}/>
-
-                    <Filtrado AgentesAduana={this.state.AgentesAduana} AgenteAduana={this.state.AgenteAduana}/>            
-                                        
-                </div>
-            </main>
-        )
+                        <Filtrado AgentesAduana={this.state.AgentesAduana} AgenteAduana={this.state.AgenteAduana}/>                                                    
+                    </div>
+                </main>
+            )
+        }else{
+            return(
+                <Carga />
+            )
+        }
+            
     }
 }

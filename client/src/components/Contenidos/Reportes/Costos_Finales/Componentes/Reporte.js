@@ -18,10 +18,11 @@ export default class Opcion extends Component {
                         <table className="table text-center table-striped table-bordered" style={{marginTop:"20px"}}>
                           <thead>
                             <tr>
-                              <th scope="col">Id Producto</th>
-                              <th scope="col">Nombre</th>
+                              <th scope="col">Id Pedido</th>
                               <th scope="col">Fecha</th>
-                              <th scope="col">Precio USD</th>                                  
+                              <th scope="col">Id Producto</th>
+                              <th scope="col">Nombre</th>                                                            
+                              <th scope="col">Precio C/U (CLP)</th>                                  
                             </tr>
                           </thead>
                           <tbody>

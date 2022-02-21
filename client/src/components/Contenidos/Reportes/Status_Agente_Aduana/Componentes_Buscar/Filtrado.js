@@ -42,7 +42,9 @@ export default class Opcion extends Component {
                       <div className="container separacion">
                           <div className="card border-primary  shadow-lg">
                               <div className="card-header text-primary">
-                                  Agente de Aduana: {this.props.AgentesAduana[j].nombre}
+                                  Agente de Aduana: {this.props.AgentesAduana[j].nombre} 
+                                  <br/>
+                                  Saldo Actual: Falta Conectar
                               </div>
                               <h3 className="separacion text-center">Filtrar Reporte</h3>
                               <div >            
@@ -91,12 +93,13 @@ export default class Opcion extends Component {
                                               />
                                           </div>
                                         </div>  
-                                        <div className="input-group mb-3 aling-end">
+                                        <div className="input-group mb-3 aling-end separacion">
                                           <div className="col-8"/>
                                           <div className="col-3">
-                                            <button className="btn btn-danger" onClick={this.d_filtrar}>Borrar Filtro</button>
+                                            <button className="btn btn-danger separacion" onClick={this.d_filtrar}>Borrar Filtro</button>
                                           </div>                      
                                         </div>
+                                        <div className='margen'/>
                                     </div>
                                   </div>                                        
                               </div>
