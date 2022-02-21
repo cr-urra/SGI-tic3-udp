@@ -97,7 +97,6 @@ export const createPedidos = async (req, res) => {
                 'vigencia'
             ]
         });
-        console.log(newPedido);
         req.body = {
             diferencia_de_costos: 0,
             pedidos_id: newPedido.dataValues.id
@@ -369,6 +368,84 @@ export const getAllPedidos = async (req, res) => {
     };
 };
 
+export const getAllPedidosBetweenDates = async (req, res) => {
+    try{
+        let id = req.body.Producto.id;
+        let minDate = req.body.fecha1;
+        let maxDate = req.body.fecha2;
+        if (minDate == null) minDate = new Date(0,0,0);
+        let lastYear = new Date().getFullYear()+1;
+        if (maxDate == null) maxDate = new Date(lastYear,11,11);
+        const allPedidos = await pedidos.findAll({
+            where: {
+                vigencia: true
+            },
+            attributes: [
+                'id',
+                'codigo', 
+                'pago_inicial', 
+                'pago_final',
+                'fecha_pago', 
+                'fecha_salida', 
+                'fecha_llegada_real', 
+                'fecha_llegada_estimada', 
+                'fecha_aduana',
+                'estado',
+                'tipo_de_envio',
+                'flete',
+                'valor_cif',
+                'honorarios',
+                'arancel',
+                'gastos_agencia',
+                'numero_din',
+                'cuentas_bancos_id',
+                'agentes_aduana_id',
+                'proveedores_id',
+                'dolar_mensual_id',
+                'fecha_vencimiento',
+                'tipo_pago',
+                'fecha_inicial',
+                'seguro',
+                'vigencia'
+            ],
+            order: [
+                ['id', 'DESC']
+            ],
+            include: [
+                proveedores,
+                {
+                    model: tiene,
+                    where:{
+                        productos_id: id
+                    },
+                    include: [
+                        {
+                            model: productos,
+                            include: [
+                                unidadProductos
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+        const filter = allPedidos.filter((element) => {
+            return new Date(element.dataValues.fecha_llegada_real) <= new Date(maxDate) && new Date(element.dataValues.fecha_llegada_real) >= new Date(minDate)
+        })
+        res.json({
+            resultado: true, 
+            message: "",
+            pedidos: filter
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            resultado: false, 
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            pedidos: null
+        });
+    };
+};
 export const getAllPedidosDashboards = async (req, res) => {
     try{
         const allPedidos = await pedidos.findAll({

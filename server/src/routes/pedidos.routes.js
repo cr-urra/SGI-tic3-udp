@@ -8,6 +8,7 @@ router.post('/', pedidos.createPedidos);
 router.get('/', pedidos.getAllPedidos);
 router.get('/all', pedidos.getAllPedidosWithFalse);
 router.get('/dashboards', pedidos.getAllPedidosDashboards);
+router.put('/betweenDates', pedidos.getAllPedidosBetweenDates);
 
 // pedidos/:id
 
