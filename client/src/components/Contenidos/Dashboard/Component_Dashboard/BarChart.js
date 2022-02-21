@@ -65,9 +65,6 @@ export default class BarChart extends Component {
 
   componentDidMount = async () => {
     let aux, aux2;
-    console.log("Este es el props de barraChart", this.props.data)
-    console.log("este es el estado ", this.props.estado)
-
     for(let i=0 ; i < this.props.data.length; i++){
       aux = {
         label: this.props.data[i].label,
@@ -97,7 +94,6 @@ export default class BarChart extends Component {
               labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
               datasets: this.state.DataSem1
             }}/>
-            {console.log("data semn1 ",this.state.DataSem1)}
           <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.function}>Cambio de Semestre</button>
         </div>
       )

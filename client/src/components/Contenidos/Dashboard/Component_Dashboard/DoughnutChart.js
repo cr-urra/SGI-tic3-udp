@@ -10,7 +10,6 @@ export default class DoughnutChart extends Component {
     datasets : []
   }
   componentDidMount = async () =>{
-    console.log(this.props.data)
     let aux = {
       cutout: '40%',
       radius: '80%',
