@@ -59,6 +59,7 @@ export default class Init extends Component {
 
                                 </ul>
                             </div>
+                            <div className='margen2'/>
                         </div>
                     </div>
                 </div>
