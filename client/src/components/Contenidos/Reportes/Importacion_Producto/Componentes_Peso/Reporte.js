@@ -7,8 +7,9 @@ import axios from 'axios'
 export default class Opcion extends Component {
 
     componentDidMount = async () => {
-      console.log(1)
-      for (let j=0; j< this.props.Productos.length ; j++){
+      
+      for (let j=0; j< this.props.Productos.length ; j++){ 
+        if(this.props.Productos[j].proveedores_id == this.props.Proveedor.id){        
           let auxiliar = {
             Producto: this.props.Productos[j],
             Fecha1: this.props.fecha1,
@@ -17,8 +18,12 @@ export default class Opcion extends Component {
           const res = await axios.put("/pedidos/betweenDates", auxiliar, {"headers": {
             "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
           }})     
-          console.log(res,"aqui")          
-          this.props.Productos[j].max_price = res.data.pedidos[0].precio
+          
+          for(let i=0; i < res.data.pedidos.length ; i++){
+            this.props.Productos[j].max_price += res.data.pedidos[i].tienes[0].cantidad * res.data.pedidos[i].tienes[0].producto.unidad_producto.valor_unidad
+          }            
+             
+        }
       }
       this.forceUpdate()
   }

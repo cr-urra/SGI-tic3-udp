@@ -65,19 +65,6 @@ export default class Tabla extends Component {
                                 <DatoTabla contenido = {"Tipo de Cuenta"} contenido2={this.props.AgentesAduana[j].tipo_cuenta}/>
                                 <DatoTabla contenido = {"Numero de Cuenta"} contenido2={this.props.AgentesAduana[j].n_cuenta}/>
                                 <DatoTabla contenido = {"Saldo Actual"} contenido2={this.props.AgentesAduana[j].saldo}/>
-                                <li className = "list-group-item">
-                                    <div className="row">
-                                        <div className="col-3"/>
-                                        <div className="col-6 text-center">
-                                            <Link to = '/users/Buscar_Agente_Aduana/Historial_Saldo'>
-                                                <button type="button" className="btn btn-outline-success rounded-pill ancho ">                                                  
-                                                    Ver Historial del Saldo
-                                                </button>
-                                            </Link> 
-                                        </div>
-                                        <div className="col-3"/>                                        
-                                    </div>
-                                </li>
                             </ul>
                         </div>
                         <div className="row g-2 mt-4 mb-2">

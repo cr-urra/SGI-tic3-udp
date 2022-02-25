@@ -33,7 +33,7 @@ export default class Opcion extends Component {
                 proveedores_id: res2.data.productos[j].proveedores_id,
                 tipo: res2.data.productos[j].tipo,
                 unidad_productos_id: res2.data.productos[j].unidad_productos_id,
-                max_price: precio.data.historialPrecios.precio,
+                max_price: 0,
                 filtro: false
             }
             this.setState({

@@ -8,21 +8,21 @@ import axios from 'axios'
 export default class Opcion extends Component {
 
     componentDidMount = async () => {
-        console.log(1)
         for (let j=0; j< this.props.Productos.length ; j++){
-            let auxiliar = {
-              Producto: this.props.Productos[j],
-              Fecha1: this.props.fecha1,
-              Fecha2: this.props.fecha2
-            }
-            const res = await axios.put("/historialPrecios/betweenDate", auxiliar, {
-                "headers": {
-                    "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+            if(this.props.Productos[j].proveedores_id == this.props.Proveedor.id){  
+                let auxiliar = {
+                  Producto: this.props.Productos[j],
+                  Fecha1: this.props.fecha1,
+                  Fecha2: this.props.fecha2
                 }
-            })          
+                const res = await axios.put("/historialPrecios/betweenDate", auxiliar, {
+                    "headers": {
+                        "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                    }
+                })          
 
-            this.props.Productos[j].max_price = res.data.historialPrecios[0].precio
-
+                this.props.Productos[j].max_price = res.data.historialPrecios[0].precio
+            }
         }
         this.forceUpdate()
     }
