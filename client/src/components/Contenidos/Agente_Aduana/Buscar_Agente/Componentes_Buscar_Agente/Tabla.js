@@ -25,14 +25,14 @@ export default class Tabla extends Component {
     }
 
     
-    delete  =  (id) => async (e) => {       
-
+    delete = (id) => async (e) => {       
         const res = await axios.put("/agentesAduana/delete/"+ id , {} ,{"headers": {
             "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
         }} )
-
         if(res.data.resultado==true){
             toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            this.props.onRechargeData()
+            this.props.onResetAgente()
         }else{
             toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         } 

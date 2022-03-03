@@ -19,8 +19,6 @@ export default class EditAgenteAduana extends Component {
         n_cuenta: null,
         id: null,
         banco_id: null,
-        
-
         show: false
     }
 
@@ -28,7 +26,6 @@ export default class EditAgenteAduana extends Component {
         if(this.props.AgenteAduana !== ""){
             let j;
             for(let i = 0 ; i < this.props.AgentesAduana.length ; i++){
-                
                 if(this.props.AgenteAduana=== this.props.AgentesAduana[i].nombre){
                     j = i;
                 }
@@ -58,45 +55,53 @@ export default class EditAgenteAduana extends Component {
             this.state.tipo_cuenta  != "" &&
             this.state.n_cuenta != "" 
         ){
-
             const Agente = {
                 nombre: this.state.nombre,
                 apellido: this.state.apellido,
                 numero_cuenta: this.state.n_cuenta,
                 tipo_cuenta: this.state.tipo_cuenta,            
             }
-            console.log(Agente)
-            const res = await axios.put("/agentesAduana/" + this.state.id, Agente , {"headers": {
-                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-              }} )
-
+            const res = await axios.put("/agentesAduana/" + this.state.id, Agente, {
+                "headers": {
+                    "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                }
+            })
             const banco ={
                 nombre_banco: this.state.banco
             }
-
-            const res2 = await axios.put("/bancosAgentesAduana/" + this.state.banco_id, banco , {"headers": {
-                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-              }} )
-
-            const telefono = {
-                telefono: this.state.telefono
-            }
-            const res3 = await axios.put("/telefonosAgentesAduana/" + this.state.id, telefono , {"headers": {
-                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-              }} )
-              
-
-              
-
-            if(res.data.resultado==true){
-                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-            }else{
+            let res2 = null
+            let res3 = null
+            if (res.data.resultado) {
+                res2 = await axios.put("/bancosAgentesAduana/" + this.state.banco_id, banco, {
+                    "headers": {
+                        "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                    }
+                })
+                const telefono = {
+                    telefono: this.state.telefono
+                }
+                if (res2.data.resultado) {
+                    res3 = await axios.put("/telefonosAgentesAduana/" + this.state.id, telefono, {
+                        "headers": {
+                            "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                        }
+                    })
+                    if (res3.data.resultado==true) {
+                        toast.success(res3.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+                        this.props.onRechargeData()
+                        this.props.onResetAgente()
+                    }else{
+                        toast.error(res3.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+                    } 
+                } else {
+                    toast.error(res2.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+                }
+            } else {
                 toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             } 
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
-               
         this.setState({
             show: false
         })                    

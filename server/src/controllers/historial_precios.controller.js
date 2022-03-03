@@ -133,8 +133,8 @@ export const getAllHistorialPrecios = async (req, res) => {
             ]
         });
         let arr = [];
-        allHistorialPrecios.dataValues.forEach(element =>{
-            arr.push(element.precio);
+        allHistorialPrecios.forEach(element =>{
+            arr.push(element.dataValues.precio);
         });
         res.json({
             resultado: true, 

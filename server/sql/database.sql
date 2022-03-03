@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.5 (Ubuntu 13.5-0ubuntu0.21.04.1)
--- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.04.1)
+-- Dumped from database version 13.5 (Ubuntu 13.5-0ubuntu0.21.10.1)
+-- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.10.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1306,10 +1306,10 @@ COPY public.cuentas_bancos (id, numero_cuenta, nombre_banco, swift_code, codigo_
 --
 
 COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FROM stdin;
-3	928374657	532323	5	t
 4	0	0	1	t
 5	0	0	8	f
 6	0	0	9	t
+3	2	532323	5	t
 \.
 
 
@@ -1318,10 +1318,9 @@ COPY public.cuentas_corrientes (id, debe, haber, agentes_aduana_id, vigencia) FR
 --
 
 COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FROM stdin;
-4	1	7	f
-5	1	8	f
 6	1	9	t
 7	2	10	t
+8	1	11	t
 \.
 
 
@@ -1330,8 +1329,6 @@ COPY public.detalles_dolar (id, precio_compra, historial_dolar_id, vigencia) FRO
 --
 
 COPY public.detalles_pedidos (id, diferencia_de_costos, pedidos_id, vigencia) FROM stdin;
-13	0	28	f
-14	0	29	f
 15	0	30	t
 16	0	31	t
 \.
@@ -1384,10 +1381,9 @@ COPY public.gastos_extras (id, monto, pedidos_id, observaciones_id, vigencia) FR
 --
 
 COPY public.historial_dolar (id, fecha, tipo, vigencia, pedidos_id, dolar_mensual_id) FROM stdin;
-7	2021-08-16 02:23:54.700255	inicio	f	28	1
-8	2021-09-06 10:54:20.497524	inicio	f	29	1
 9	2021-09-06 10:56:41.695681	inicio	t	30	1
 10	2021-09-06 10:58:40.626091	inicio	t	31	1
+11	2022-03-03 22:52:45.066595	final	t	31	1
 \.
 
 
@@ -1465,6 +1461,7 @@ COPY public.monedas (id, pais, moneda, vigencia) FROM stdin;
 COPY public.movimientos (id, monto, fecha, descripcion, cuentas_corrientes_id, vigencia) FROM stdin;
 1	6873478	2021-06-14	Descripcion 2	3	t
 3	2323	2021-06-14	Descripcion 4	3	t
+4	2	2022-03-03	Pago Pedido: 31	3	t
 \.
 
 
@@ -1526,10 +1523,8 @@ COPY public.paises (id, pais, codigo_iban, vigencia) FROM stdin;
 --
 
 COPY public.pedidos (id, codigo, pago_inicial, pago_final, fecha_inicial, fecha_pago, fecha_salida, fecha_llegada_real, fecha_llegada_estimada, fecha_aduana, estado, tipo_de_envio, flete, seguro, valor_cif, honorarios, arancel, gastos_agencia, numero_din, cuentas_bancos_id, agentes_aduana_id, proveedores_id, dolar_mensual_id, tipo_pago, fecha_vencimiento, vigencia) FROM stdin;
-28	334	1	0	2021-08-15	2021-08-16	2021-08-16	2021-08-16	2021-08-16	2021-08-16	produccion	1	\N	0	2	0	0	0	0	\N	\N	10	\N	1	2021-08-15	f
-29	334	1	0	2021-09-07	2021-09-06	2021-09-06	2021-09-06	2021-09-06	2021-09-06	produccion	1	\N	0	2	0	0	0	0	\N	\N	9	\N	1	2021-09-06	f
-30	334	1	0	2021-09-22	2021-09-06	2021-09-06	2021-09-06	2021-09-06	2021-09-06	produccion	1	\N	0	1	0	0	0	0	\N	\N	3	\N	1	2021-09-07	t
-31	334	2	0	2021-09-09	2021-09-06	2021-09-06	2021-09-06	2021-09-06	2021-09-06	produccion	1	\N	0	2	0	0	0	0	\N	\N	10	\N	1	2021-09-16	t
+30	334	1	0	2021-09-22	2021-09-06	2022-03-08	2021-09-06	2022-03-11	2021-09-06	internacional	1	\N	0	1	0	0	0	0	\N	\N	3	\N	1	2021-09-07	t
+31	234	2	1	2021-09-09	2021-09-06	2022-03-04	2021-09-06	2022-03-05	2021-09-06	ingreso	1	\N	0	2	0	0	0	3	\N	5	10	\N	1	2021-09-16	t
 \.
 
 
@@ -1611,8 +1606,6 @@ COPY public.proveedores (id, nombre, direccion, correo, pais, monedas_id, rut, v
 --
 
 COPY public.realiza (usuarios_id, pedidos_id, createdat, updatedat) FROM stdin;
-2	28	2021-08-16 02:23:54.685	2021-08-16 02:23:54.685
-2	29	2021-09-06 10:54:20.491	2021-09-06 10:54:20.491
 2	30	2021-09-06 10:56:41.676	2021-09-06 10:56:41.676
 2	31	2021-09-06 10:58:40.612	2021-09-06 10:58:40.612
 \.
@@ -1673,10 +1666,8 @@ COPY public.telefonos_usuarios (id, telefono, usuarios_id) FROM stdin;
 --
 
 COPY public.tiene (pedidos_id, productos_id, cantidad) FROM stdin;
-29	5	1
 30	6	2
 31	9	1
-28	8	1
 \.
 
 
@@ -1732,7 +1723,7 @@ SELECT pg_catalog.setval('public.cuentas_corrientes_id_seq', 6, true);
 -- Name: detalles_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 7, true);
+SELECT pg_catalog.setval('public.detalles_dolar_id_seq', 8, true);
 
 
 --
@@ -1767,7 +1758,7 @@ SELECT pg_catalog.setval('public.gastos_extras_id_seq', 5, true);
 -- Name: historial_dolar_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.historial_dolar_id_seq', 10, true);
+SELECT pg_catalog.setval('public.historial_dolar_id_seq', 11, true);
 
 
 --
@@ -1788,7 +1779,7 @@ SELECT pg_catalog.setval('public.monedas_id_seq', 3, true);
 -- Name: movimientos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.movimientos_id_seq', 3, true);
+SELECT pg_catalog.setval('public.movimientos_id_seq', 4, true);
 
 
 --

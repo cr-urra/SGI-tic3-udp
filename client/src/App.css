@@ -21,7 +21,7 @@
 .navbarFixed {
     position: fixed !important;
     width: 100%;
-    z-index: 9999;
+    z-index: 1000;
 }
 
 .contentFixed {

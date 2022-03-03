@@ -131,8 +131,15 @@ app.get('/money', (req, res) => {
     }).on('error', (err) => {
         console.log(err);
         res.json({
-            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            resultado: false
+            dolar: {
+                valor: 0
+            },
+            uf: {
+                valor: 0
+            },
+            utm: {
+                valor: 0
+            }
         });
     });
 });
