@@ -20,7 +20,7 @@ export default class Sidebar extends Component {
         const { title, path, icon, subNav = null } = item;
         if (subNav) {
           return (
-              <SubMenu key={`sub${index}`} icon={icon} title={title}>
+              <SubMenu key={`sub${index}`} icon={icon} title={title} disabled>
               {
                 subNav.map((subNavItem, subNavIndex) => {
                   const {title:title2,path:path2,icon:icon2,subsubNav=null} = subNavItem;

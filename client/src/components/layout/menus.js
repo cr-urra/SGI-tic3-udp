@@ -11,7 +11,7 @@ export default class menus extends Component {
     switch(this.state.menu) {
         case 0:
             return <>
-                <Link class="nav-item nav-link" to='/users/dashboard'>Dashboards</Link>
+                <Link class="nav-item nav-link" to='/users/dashboard'>Dashboard</Link>
                 <a class="nav-item nav-link" onClick={() => {this.setState({menu: 1})}}>Pedidos</a>
                 <a class="nav-item nav-link" onClick={() => {this.setState({menu: 2})}}>Proveedor</a>
                 <a class="nav-item nav-link" onClick={() => {this.setState({menu: 3})}}>Productos</a>
