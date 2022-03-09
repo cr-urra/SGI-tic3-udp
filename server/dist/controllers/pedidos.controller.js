@@ -1,11 +1,11 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllPedidosWithFalse = exports.getPedidosId = exports.getAllPedidos = exports.deletePedidos = exports.updatePedidos = exports.createPedidos = void 0;
+exports.updatePedidos = exports.getPedidosId = exports.getAllPedidosWithFalse = exports.getAllPedidosDashboards = exports.getAllPedidosBetweenDates = exports.getAllPedidos = exports.deletePedidos = exports.createPedidos = void 0;
 
 var _pedidos = _interopRequireDefault(require("../models/pedidos"));
 
@@ -17,7 +17,13 @@ var _detalles_dolar = _interopRequireDefault(require("../models/detalles_dolar")
 
 var _productos = _interopRequireDefault(require("../models/productos"));
 
+var _proveedores = _interopRequireDefault(require("../models/proveedores"));
+
+var _unidad_productos = _interopRequireDefault(require("../models/unidad_productos"));
+
 var _detalles_pedidos = _interopRequireDefault(require("../models/detalles_pedidos"));
+
+var _tiene = _interopRequireDefault(require("../models/tiene"));
 
 var _documentos = _interopRequireDefault(require("../models/documentos"));
 
@@ -101,12 +107,11 @@ var createPedidos = /*#__PURE__*/function () {
 
           case 7:
             newPedido = _context.sent;
-            console.log(newPedido);
             req.body = {
               diferencia_de_costos: 0,
               pedidos_id: newPedido.dataValues.id
             };
-            _context.next = 12;
+            _context.next = 11;
             return _detalles_pedidos["default"].create({
               diferencia_de_costos: 0,
               pedidos_id: newPedido.dataValues.id,
@@ -115,9 +120,9 @@ var createPedidos = /*#__PURE__*/function () {
               fields: ['diferencia_de_costos', 'pedidos_id', 'vigencia']
             });
 
-          case 12:
+          case 11:
             newDetallePedido = _context.sent;
-            _context.next = 15;
+            _context.next = 14;
             return _usuarios["default"].findOne({
               where: {
                 id: user_id
@@ -125,7 +130,7 @@ var createPedidos = /*#__PURE__*/function () {
               attributes: ['id']
             });
 
-          case 15:
+          case 14:
             user = _context.sent;
             newPedido.addUsuarios([user]);
             res.json({
@@ -133,11 +138,11 @@ var createPedidos = /*#__PURE__*/function () {
               message: "Pedido creado correctamente",
               pedido: newPedido
             });
-            _context.next = 24;
+            _context.next = 23;
             break;
 
-          case 20:
-            _context.prev = 20;
+          case 19:
+            _context.prev = 19;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.json({
@@ -146,15 +151,15 @@ var createPedidos = /*#__PURE__*/function () {
               pedido: null
             });
 
-          case 24:
+          case 23:
             ;
 
-          case 25:
+          case 24:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 20]]);
+    }, _callee, null, [[0, 19]]);
   }));
 
   return function createPedidos(_x, _x2) {
@@ -667,43 +672,54 @@ var getAllPedidos = /*#__PURE__*/function () {
 
 exports.getAllPedidos = getAllPedidos;
 
-var getPedidosId = /*#__PURE__*/function () {
+var getAllPedidosBetweenDates = /*#__PURE__*/function () {
   var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
-    var id, pedido;
+    var id, minDate, maxDate, lastYear, allPedidos, filter;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
             _context9.prev = 0;
-            id = req.params.id;
-            _context9.next = 4;
-            return _pedidos["default"].findOne({
+            id = req.body.Producto.id;
+            minDate = req.body.fecha1;
+            maxDate = req.body.fecha2;
+            if (minDate == null) minDate = new Date(0, 0, 0);
+            lastYear = new Date().getFullYear() + 1;
+            if (maxDate == null) maxDate = new Date(lastYear, 11, 11);
+            _context9.next = 9;
+            return _pedidos["default"].findAll({
               where: {
-                id: id,
                 vigencia: true
               },
               attributes: ['id', 'codigo', 'pago_inicial', 'pago_final', 'fecha_pago', 'fecha_salida', 'fecha_llegada_real', 'fecha_llegada_estimada', 'fecha_aduana', 'estado', 'tipo_de_envio', 'flete', 'valor_cif', 'honorarios', 'arancel', 'gastos_agencia', 'numero_din', 'cuentas_bancos_id', 'agentes_aduana_id', 'proveedores_id', 'dolar_mensual_id', 'fecha_vencimiento', 'tipo_pago', 'fecha_inicial', 'seguro', 'vigencia'],
-              include: [_observaciones["default"], {
-                model: _historial_dolar["default"],
-                include: [_detalles_dolar["default"]]
-              }, {
-                model: _agentes_aduana["default"],
-                include: [_cuentas_corrientes["default"]]
+              order: [['id', 'DESC']],
+              include: [_proveedores["default"], {
+                model: _tiene["default"],
+                where: {
+                  productos_id: id
+                },
+                include: [{
+                  model: _productos["default"],
+                  include: [_unidad_productos["default"]]
+                }]
               }]
             });
 
-          case 4:
-            pedido = _context9.sent;
+          case 9:
+            allPedidos = _context9.sent;
+            filter = allPedidos.filter(function (element) {
+              return new Date(element.dataValues.fecha_llegada_real) <= new Date(maxDate) && new Date(element.dataValues.fecha_llegada_real) >= new Date(minDate);
+            });
             res.json({
               resultado: true,
               message: "",
-              pedidos: pedido
+              pedidos: filter
             });
-            _context9.next = 12;
+            _context9.next = 18;
             break;
 
-          case 8:
-            _context9.prev = 8;
+          case 14:
+            _context9.prev = 14;
             _context9.t0 = _context9["catch"](0);
             console.log(_context9.t0);
             res.json({
@@ -712,25 +728,25 @@ var getPedidosId = /*#__PURE__*/function () {
               pedidos: null
             });
 
-          case 12:
+          case 18:
             ;
 
-          case 13:
+          case 19:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[0, 8]]);
+    }, _callee9, null, [[0, 14]]);
   }));
 
-  return function getPedidosId(_x13, _x14) {
+  return function getAllPedidosBetweenDates(_x13, _x14) {
     return _ref9.apply(this, arguments);
   };
 }();
 
-exports.getPedidosId = getPedidosId;
+exports.getAllPedidosBetweenDates = getAllPedidosBetweenDates;
 
-var getAllPedidosWithFalse = /*#__PURE__*/function () {
+var getAllPedidosDashboards = /*#__PURE__*/function () {
   var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
     var allPedidos;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
@@ -740,14 +756,17 @@ var getAllPedidosWithFalse = /*#__PURE__*/function () {
             _context10.prev = 0;
             _context10.next = 3;
             return _pedidos["default"].findAll({
+              where: {
+                vigencia: true
+              },
               attributes: ['id', 'codigo', 'pago_inicial', 'pago_final', 'fecha_pago', 'fecha_salida', 'fecha_llegada_real', 'fecha_llegada_estimada', 'fecha_aduana', 'estado', 'tipo_de_envio', 'flete', 'valor_cif', 'honorarios', 'arancel', 'gastos_agencia', 'numero_din', 'cuentas_bancos_id', 'agentes_aduana_id', 'proveedores_id', 'dolar_mensual_id', 'fecha_vencimiento', 'tipo_pago', 'fecha_inicial', 'seguro', 'vigencia'],
               order: [['id', 'DESC']],
-              include: [_observaciones["default"], {
-                model: _historial_dolar["default"],
-                include: [_detalles_dolar["default"]]
-              }, {
-                model: _agentes_aduana["default"],
-                include: [_cuentas_corrientes["default"]]
+              include: [_proveedores["default"], {
+                model: _tiene["default"],
+                include: [{
+                  model: _productos["default"],
+                  include: [_unidad_productos["default"]]
+                }]
               }]
             });
 
@@ -782,8 +801,130 @@ var getAllPedidosWithFalse = /*#__PURE__*/function () {
     }, _callee10, null, [[0, 7]]);
   }));
 
-  return function getAllPedidosWithFalse(_x15, _x16) {
+  return function getAllPedidosDashboards(_x15, _x16) {
     return _ref10.apply(this, arguments);
+  };
+}();
+
+exports.getAllPedidosDashboards = getAllPedidosDashboards;
+
+var getPedidosId = /*#__PURE__*/function () {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
+    var id, pedido;
+    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            _context11.prev = 0;
+            id = req.params.id;
+            _context11.next = 4;
+            return _pedidos["default"].findOne({
+              where: {
+                id: id,
+                vigencia: true
+              },
+              attributes: ['id', 'codigo', 'pago_inicial', 'pago_final', 'fecha_pago', 'fecha_salida', 'fecha_llegada_real', 'fecha_llegada_estimada', 'fecha_aduana', 'estado', 'tipo_de_envio', 'flete', 'valor_cif', 'honorarios', 'arancel', 'gastos_agencia', 'numero_din', 'cuentas_bancos_id', 'agentes_aduana_id', 'proveedores_id', 'dolar_mensual_id', 'fecha_vencimiento', 'tipo_pago', 'fecha_inicial', 'seguro', 'vigencia'],
+              include: [_observaciones["default"], {
+                model: _historial_dolar["default"],
+                include: [_detalles_dolar["default"]]
+              }, {
+                model: _agentes_aduana["default"],
+                include: [_cuentas_corrientes["default"]]
+              }]
+            });
+
+          case 4:
+            pedido = _context11.sent;
+            res.json({
+              resultado: true,
+              message: "",
+              pedidos: pedido
+            });
+            _context11.next = 12;
+            break;
+
+          case 8:
+            _context11.prev = 8;
+            _context11.t0 = _context11["catch"](0);
+            console.log(_context11.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              pedidos: null
+            });
+
+          case 12:
+            ;
+
+          case 13:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11, null, [[0, 8]]);
+  }));
+
+  return function getPedidosId(_x17, _x18) {
+    return _ref11.apply(this, arguments);
+  };
+}();
+
+exports.getPedidosId = getPedidosId;
+
+var getAllPedidosWithFalse = /*#__PURE__*/function () {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(req, res) {
+    var allPedidos;
+    return regeneratorRuntime.wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.prev = 0;
+            _context12.next = 3;
+            return _pedidos["default"].findAll({
+              attributes: ['id', 'codigo', 'pago_inicial', 'pago_final', 'fecha_pago', 'fecha_salida', 'fecha_llegada_real', 'fecha_llegada_estimada', 'fecha_aduana', 'estado', 'tipo_de_envio', 'flete', 'valor_cif', 'honorarios', 'arancel', 'gastos_agencia', 'numero_din', 'cuentas_bancos_id', 'agentes_aduana_id', 'proveedores_id', 'dolar_mensual_id', 'fecha_vencimiento', 'tipo_pago', 'fecha_inicial', 'seguro', 'vigencia'],
+              order: [['id', 'DESC']],
+              include: [_observaciones["default"], {
+                model: _historial_dolar["default"],
+                include: [_detalles_dolar["default"]]
+              }, {
+                model: _agentes_aduana["default"],
+                include: [_cuentas_corrientes["default"]]
+              }]
+            });
+
+          case 3:
+            allPedidos = _context12.sent;
+            res.json({
+              resultado: true,
+              message: "",
+              pedidos: allPedidos
+            });
+            _context12.next = 11;
+            break;
+
+          case 7:
+            _context12.prev = 7;
+            _context12.t0 = _context12["catch"](0);
+            console.log(_context12.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              pedidos: null
+            });
+
+          case 11:
+            ;
+
+          case 12:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, _callee12, null, [[0, 7]]);
+  }));
+
+  return function getAllPedidosWithFalse(_x19, _x20) {
+    return _ref12.apply(this, arguments);
   };
 }();
 

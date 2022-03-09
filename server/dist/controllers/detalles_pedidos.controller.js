@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllDetallesPedidosWithFalse = exports.getDetallesPedidosId = exports.getAllDetallesPedidos = exports.deleteDetallesPedidos = exports.updateDetallesPedidos = exports.createDetallesPedidos = void 0;
+exports.updateDetallesPedidos = exports.getDetallesPedidosId = exports.getAllDetallesPedidosWithFalse = exports.getAllDetallesPedidos = exports.deleteDetallesPedidos = exports.createDetallesPedidos = void 0;
 
 var _detalles_pedidos = _interopRequireDefault(require("../models/detalles_pedidos"));
 

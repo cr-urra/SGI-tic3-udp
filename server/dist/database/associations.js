@@ -20,8 +20,6 @@ var _historial_dolar = _interopRequireDefault(require("../models/historial_dolar
 
 var _historial_precios = _interopRequireDefault(require("../models/historial_precios"));
 
-var _ips = _interopRequireDefault(require("../models/ips"));
-
 var _monedas = _interopRequireDefault(require("../models/monedas"));
 
 var _movimientos = _interopRequireDefault(require("../models/movimientos"));
@@ -313,16 +311,6 @@ _cuentas_corrientes["default"].hasMany(_movimientos["default"], {
 
 _movimientos["default"].belongsTo(_cuentas_corrientes["default"], {
   foreignKey: 'cuentas_corrientes_id',
-  sourceKey: 'id'
-});
-
-_usuarios["default"].hasMany(_ips["default"], {
-  foreignKey: 'usuarios_id',
-  sourceKey: 'id'
-});
-
-_ips["default"].belongsTo(_usuarios["default"], {
-  foreignKey: 'usuarios_id',
   sourceKey: 'id'
 });
 

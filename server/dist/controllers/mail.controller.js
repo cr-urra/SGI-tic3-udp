@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sendMail = exports.sendTest = exports.templateBienvenida = void 0;
+exports.templateBienvenida = exports.templateAlerta = exports.sendTest = exports.sendMail = void 0;
 
 var _nodemailer = _interopRequireDefault(require("nodemailer"));
 
@@ -14,19 +14,27 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var transporter = _nodemailer["default"].createTransport({
-  host: "smtp.mailtrap.io",
-  port: 2525,
+  host: "mail.vy9bogruz.tkk",
+  port: 465,
   auth: {
-    user: "b105f20bca2103",
-    pass: "63c6bcb6ac5444"
+    user: "sgi@vy9bogruz.tk",
+    pass: "R4lyHN8Uo0)A"
   }
 });
 
+var mailTest = "\n    <div style=\"color: black;\">\n                <p>\n                    <p>\n                        Estimado, \n                    </p>\n                    <p>\n                        Usted ha recibido este mensaje de prueba de forma exitosa, \n                    </p>\n                </p>\n                <p>\n                    Saludos.\n                </p>\n                <p>\n                    Pd: Este es un mensaje automatizado, por ende no responder a \xE9l.\n                </p>\n                <p \n                    style=\"margin: 10px 0px\"\n                >\n                    ---\n                </p>\n                <p>\n                    Este correo fue enviado desde la aplicaci\xF3n SGI (Sistema de Gesti\xF3n para Importaciones) de PROMA CHILE.\n                </p>\n            </div>\n";
+
 var templateBienvenida = function templateBienvenida(name, token) {
-  return "\n        <div style=\"color: black;\">\n            <p>\n                <p>\n                    Estimado ".concat(name, ", \n                </p>\n                <p>\n                    Bienvenido al Sistema de Gesti&oacuten para Importaciones de PROMACHILE. Para poder acceder a su interfaz, porfavor verifique su correo ingresando al siguiente \n                    <a href=\"http://localhost:4000/auth/confirm/").concat(token, "\">Link</a>.\n                </p>\n            </p>\n            <p>\n                Saludos.\n            </p>\n            <p>\n                Pd: Este es un mensaje automatizado, por ende no responder a el.\n            </p>\n            <p \n                style=\"margin: 10px 0px\"\n            >\n                ---\n            </p>\n            <p>\n                Este correo fue enviado desde la aplicaci&oacuten SGI (Sistema de Gesti&oacuten para Importaciones) de PROMACHILE.\n            </p>\n        </div>\n    ");
+  return "\n        <div style=\"color: black;\">\n            <p>\n                <p>\n                    Estimado ".concat(name, ", \n                </p>\n                <p>\n                    Bienvenido al Sistema de Gesti\xF3n para Importaciones de PROMA CHILE. Para poder acceder a su interfaz, porfavor verifique su correo ingresando al siguiente \n                    <a href=\"http://localhost:4000/auth/confirm/").concat(token, "\">Link</a>.\n                </p>\n            </p>\n            <p>\n                Saludos.\n            </p>\n            <p>\n                Pd: Este es un mensaje automatizado, por ende no responder a \xE9l.\n            </p>\n            <p \n                style=\"margin: 10px 0px\"\n            >\n                ---\n            </p>\n            <p>\n                Este correo fue enviado desde la aplicaci\xF3n SGI (Sistema de Gesti\xF3n para Importaciones) de PROMA CHILE.\n            </p>\n        </div>\n    ");
 };
 
 exports.templateBienvenida = templateBienvenida;
+
+var templateAlerta = function templateAlerta(name, rut, ip) {
+  return "\n        <div style=\"color: black;\">\n            <p>\n                <p>\n                    Estimado ".concat(name, ", \n                </p>\n                <p>\n                    Se ha detectado un inicio de sesi\xF3n a la aplicaci\xF3n SGI con su cuenta con nombre de usuario: ").concat(rut, ", la IP P\xFAblica del origen es: ").concat(ip, ".\n                </p>\n            </p>\n            <p>\n                Saludos.\n            </p>\n            <p>\n                Pd: Este es un mensaje automatizado, por ende no responder a \xE9l.\n            </p>\n            <p \n                style=\"margin: 10px 0px\"\n            >\n                ---\n            </p>\n            <p>\n                Este correo fue enviado desde la aplicaci\xF3n SGI (Sistema de Gesti\xF3n para Importaciones) de PROMA CHILE.\n            </p>\n        </div>\n    ");
+};
+
+exports.templateAlerta = templateAlerta;
 
 var sendTest = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
@@ -38,23 +46,22 @@ var sendTest = /*#__PURE__*/function () {
             _context.prev = 0;
             _context.next = 3;
             return transporter.sendMail({
-              from: "'Tetoko Tukulo <tukulito@promachile.cl>'",
-              to: 'cristobal.urra@mail.udp.cl',
+              from: "'Anónimo <undefined@promachile.cl>'",
+              to: 'f4a0c35f8c@emailnax.com',
               subject: 'test',
-              html: templateBienvenida()
+              html: mailTest
             });
 
           case 3:
             info = _context.sent;
-            console.log("Message sent: ", info.messageId);
+            console.log("Mensaje enviado: ", info.messageId);
             info ? res.json({
               resultado: true,
               message: "Correo enviado correctamente",
               html: info
             }) : res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
-              resultado: false,
-              correo: null
+              resultado: false
             });
             _context.next = 12;
             break;
@@ -65,8 +72,7 @@ var sendTest = /*#__PURE__*/function () {
             console.log(_context.t0);
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
-              resultado: false,
-              correo: null
+              resultado: false
             });
 
           case 12:
@@ -102,7 +108,7 @@ var sendMail = /*#__PURE__*/function () {
 
           case 3:
             info = _context2.sent;
-            console.log("Message sent: ", info.messageId);
+            console.log("Mensaje enviado: ", info.messageId);
             r = null;
 
             if (info) {
@@ -123,8 +129,7 @@ var sendMail = /*#__PURE__*/function () {
             _context2.prev = 10;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
-            res.json({
-              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
+            return _context2.abrupt("return", {
               resultado: false,
               correo: null
             });

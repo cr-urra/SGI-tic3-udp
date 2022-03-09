@@ -3,9 +3,9 @@ import roles from '../models/roles';
 import config from '../config';
 import jwt from 'jsonwebtoken';
 import * as mail from './mail.controller';
-import argon2 from 'argon2';
 import forge from 'node-forge';
 import CryptoJS from 'crypto-js';
+import bcrypt from 'bcryptjs';
 
 export const decryptData = async (encrypted, localCsrf) => {
     const decrypted = CryptoJS.AES.decrypt(CryptoJS.enc.Utf8.stringify(encrypted), "Ñ_nñ*@119Bgˀ¬ø*&&3/!dk"+localCsrf.substring(10, 20),{iv: localCsrf.substring(20, 30)+"@?bBÑ4"});
@@ -23,17 +23,20 @@ const comparePassword = async (receivePassword, password) => {
         iv: config.IV,
         additionalData: 'binary-encoded string',
         tagLength: 128,
-        tag: forge.util.hexToBytes(password.toString().substring(190, password.toString().length))
+        tag: forge.util.hexToBytes(password.toString().substring(120, password.toString().length))
     });
-    decipher.update(forge.util.createBuffer(forge.util.hexToBytes(password.toString().substring(0,190))));
+    decipher.update(forge.util.createBuffer(forge.util.hexToBytes(password.toString().substring(0,120))));
     const pass = decipher.finish();
     let result = null;
-    pass ? result = await argon2.verify(decipher.output.toString(), receivePassword.words) : result = "F";
+    console.log(decipher.output.toString());
+    pass ? result = await bcrypt.compare(receivePassword.words.toString(), decipher.output.toString()) : result = "F";
     return result;
 };
 
 export const encryptPassword = async (password) => {
-    const hash = await argon2.hash(password.words, {type: argon2.argon2d});
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password.words.toString(), salt);
+    console.log(hash);
     let cipher = forge.cipher.createCipher('AES-GCM', config.KEY);
     cipher.start({
         iv: config.IV,
@@ -42,6 +45,8 @@ export const encryptPassword = async (password) => {
     });
     cipher.update(forge.util.createBuffer(hash));
     cipher.finish();
+    console.log(cipher.output.toHex());
+    console.log(cipher.mode.tag.toHex());
     return cipher.output.toHex()+cipher.mode.tag.toHex();
 };
 

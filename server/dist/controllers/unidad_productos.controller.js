@@ -1,11 +1,11 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllUnidadProductosWithFalse = exports.getUnidadProductosId = exports.getAllUnidadProductos = exports.deleteUnidadProductos = exports.updateUnidadProductos = exports.createUnidadProductos = void 0;
+exports.updateUnidadProductos = exports.getUnidadProductosId = exports.getAllUnidadProductosWithFalse = exports.getAllUnidadProductos = exports.deleteUnidadProductos = exports.createUnidadProductos = void 0;
 
 var _unidad_productos = _interopRequireDefault(require("../models/unidad_productos"));
 

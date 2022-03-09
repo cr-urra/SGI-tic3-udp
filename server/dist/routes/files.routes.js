@@ -2,9 +2,7 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-var proveedores = _interopRequireWildcard(require("../controllers/proveedores.controller"));
-
-var verifyDelete = _interopRequireWildcard(require("../middlewares/verifyDelete"));
+var files = _interopRequireWildcard(require("../controllers/files.controller"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -13,12 +11,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var express = require('express');
 
 var router = express.Router();
-// proveedores
-router.post('/', proveedores.createProveedores);
-router.get('/', proveedores.getAllProveedores);
-router.get('/all', proveedores.getAllProveedoresWithFalse); // proveedores/:id
-
-router.put('/:id', proveedores.updateProveedores);
-router.put('/delete/:id', verifyDelete.verifyProveedores, proveedores.deleteProveedores);
-router.get('/:id', proveedores.getProveedoresId);
+// files
+router.get('/plantilla', files.sendPlantilla);
+router.get('/xlsx', files.getXlsxImportMoney);
+router.get('/orderImport/:id', files.getPdfOrderImport);
+router.post('/setProductos', files.setProductos);
 module.exports = router;

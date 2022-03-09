@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllMovimientos = exports.getMovimientosId = exports.getAllMovimientosWithFalse = exports.deleteMovimientos = exports.updateMovimientos = exports.createMovimientos = void 0;
+exports.updateMovimientos = exports.getMovimientosId = exports.getAllMovimientosWithFalse = exports.getAllMovimientos = exports.deleteMovimientos = exports.createMovimientos = void 0;
 
 var _movimientos = _interopRequireDefault(require("../models/movimientos"));
 

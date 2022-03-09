@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllGastosExtrasWithFalse = exports.getGastosExtrasId = exports.getAllGastosExtras = exports.deleteGastosExtras = exports.updateGastosExtras = exports.createGastosExtras = void 0;
+exports.updateGastosExtras = exports.getGastosExtrasId = exports.getAllGastosExtrasWithFalse = exports.getAllGastosExtras = exports.deleteGastosExtras = exports.createGastosExtras = void 0;
 
 var _gastos_extras = _interopRequireDefault(require("../models/gastos_extras"));
 

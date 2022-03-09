@@ -1,8 +1,10 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 var productos = _interopRequireWildcard(require("../controllers/productos.controller"));
+
+var verifyDelete = _interopRequireWildcard(require("../middlewares/verifyDelete"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -17,6 +19,6 @@ router.get('/', productos.getAllProductos);
 router.get('/all', productos.getAllProductosWithFalse); // productos/:id
 
 router.put('/:id', productos.updateProductos);
-router.put('/delete/:id', productos.deleteProductos);
+router.put('/delete/:id', verifyDelete.verifyProductos, productos.deleteProductos);
 router.get('/:id', productos.getProductosId);
 module.exports = router;

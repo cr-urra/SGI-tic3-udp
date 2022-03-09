@@ -1,11 +1,11 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllObservacionesWithFalse = exports.getObservacionesId = exports.getAllObservaciones = exports.deleteObservaciones = exports.updateObservaciones = exports.createObservaciones = void 0;
+exports.updateObservaciones = exports.getObservacionesId = exports.getAllObservacionesWithFalse = exports.getAllObservaciones = exports.deleteObservaciones = exports.createObservaciones = void 0;
 
 var _observaciones = _interopRequireDefault(require("../models/observaciones"));
 

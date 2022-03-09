@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getRolesId = exports.getAllRoles = exports.updateRoles = void 0;
+exports.updateRoles = exports.getRolesId = exports.getAllRoles = void 0;
 
 var _roles = _interopRequireDefault(require("../models/roles"));
 

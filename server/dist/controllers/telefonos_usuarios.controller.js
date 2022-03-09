@@ -1,11 +1,19 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllTelefonosUsuarios = exports.getTelefonosUsuariosIdForUsuariosId = exports.getTelefonosUsuariosId = exports.deleteTelefonosUsuarios = exports.updateTelefonosUsuarios = exports.createTelefonosUsuarios = void 0;
+exports.updateTelefonosUsuarios = exports.getTelefonosUsuariosIdForUsuariosId = exports.getTelefonosUsuariosId = exports.getAllTelefonosUsuarios = exports.deleteTelefonosUsuarios = exports.createTelefonosUsuarios = void 0;
 
 var _telefonos_usuarios = _interopRequireDefault(require("../models/telefonos_usuarios"));
+
+var authController = _interopRequireWildcard(require("./auth.controller"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -15,15 +23,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var createTelefonosUsuarios = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, telefono, usuarios_id, newTelefonoUsuario;
-
+    var localCsrf, telefono, usuarios_id, newTelefonoUsuario;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _req$body = req.body, telefono = _req$body.telefono, usuarios_id = _req$body.usuarios_id;
+            localCsrf = req.get('X-CSRF-Token');
             _context.next = 4;
+            return authController.decryptData(req.body.telefono, localCsrf);
+
+          case 4:
+            telefono = _context.sent;
+            _context.next = 7;
+            return authController.decryptData(req.body.usuarios_id, localCsrf);
+
+          case 7:
+            usuarios_id = _context.sent;
+            _context.next = 10;
             return _telefonos_usuarios["default"].create({
               telefono: telefono,
               usuarios_id: usuarios_id
@@ -31,35 +48,33 @@ var createTelefonosUsuarios = /*#__PURE__*/function () {
               fields: ['telefono', 'usuarios_id']
             });
 
-          case 4:
+          case 10:
             newTelefonoUsuario = _context.sent;
             res.json({
               resultado: true,
-              message: "Telefono de usuario creado correctamente",
-              telefono: newTelefonoUsuario
+              message: "Telefono de usuario creado correctamente"
             });
-            _context.next = 12;
+            _context.next = 18;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 14:
+            _context.prev = 14;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.json({
-              message: "Ha ocurrido un error, por favor contactese con el administrador",
-              resultado: false,
-              telefono: null
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              resultado: false
             });
 
-          case 12:
+          case 18:
             ;
 
-          case 13:
+          case 19:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 14]]);
   }));
 
   return function createTelefonosUsuarios(_x, _x2) {
@@ -126,49 +141,49 @@ exports.updateTelefonosUsuarios = updateTelefonosUsuarios;
 
 var deleteTelefonosUsuarios = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id;
+    var body, id;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
+            body = req.body;
+            _context3.prev = 1;
             id = req.params.id;
-            _context3.next = 4;
+            _context3.next = 5;
             return _telefonos_usuarios["default"].destroy({
               where: {
-                usuarios_id: id
+                id: id
               }
             });
 
-          case 4:
-            if (!req.body.cascade) {
-              _context3.next = 8;
+          case 5:
+            if (!body.cascade) {
+              _context3.next = 9;
               break;
             }
 
             return _context3.abrupt("return", {
-              message: 'Teléfono de usuario eliminado correctamente',
               resultado: true
             });
 
-          case 8:
+          case 9:
             res.json({
               message: 'Teléfono de usuario eliminado correctamente',
               resultado: true
             });
 
-          case 9:
+          case 10:
             ;
-            _context3.next = 20;
+            _context3.next = 21;
             break;
 
-          case 12:
-            _context3.prev = 12;
-            _context3.t0 = _context3["catch"](0);
+          case 13:
+            _context3.prev = 13;
+            _context3.t0 = _context3["catch"](1);
             console.log(_context3.t0);
 
-            if (!req.body.cascade) {
-              _context3.next = 19;
+            if (!body.cascade) {
+              _context3.next = 20;
               break;
             }
 
@@ -176,21 +191,21 @@ var deleteTelefonosUsuarios = /*#__PURE__*/function () {
               resultado: false
             });
 
-          case 19:
+          case 20:
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
               resultado: false
             });
 
-          case 20:
+          case 21:
             ;
 
-          case 21:
+          case 22:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 12]]);
+    }, _callee3, null, [[1, 13]]);
   }));
 
   return function deleteTelefonosUsuarios(_x5, _x6) {
@@ -254,33 +269,48 @@ exports.getTelefonosUsuariosId = getTelefonosUsuariosId;
 
 var getTelefonosUsuariosIdForUsuariosId = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, telefono;
+    var usuarios_id, localCsrf, telefono, id, tel, telefonoEncrypt;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
-            id = req.params.id;
-            _context5.next = 4;
+            usuarios_id = req.params.usuarios_id;
+            localCsrf = req.get('X-CSRF-Token');
+            _context5.next = 5;
             return _telefonos_usuarios["default"].findOne({
               where: {
-                usuarios_id: id
+                usuarios_id: usuarios_id
               },
               attributes: ['id', 'telefono', 'usuarios_id']
             });
 
-          case 4:
+          case 5:
             telefono = _context5.sent;
+            _context5.next = 8;
+            return authController.encryptData(telefono.dataValues.id.toString(), localCsrf);
+
+          case 8:
+            id = _context5.sent;
+            _context5.next = 11;
+            return authController.encryptData(telefono.dataValues.telefono, localCsrf);
+
+          case 11:
+            tel = _context5.sent;
+            telefonoEncrypt = {
+              telefono: tel,
+              id: id
+            };
             res.json({
               resultado: true,
               message: "",
-              telefono: telefono
+              telefono: telefonoEncrypt
             });
-            _context5.next = 12;
+            _context5.next = 20;
             break;
 
-          case 8:
-            _context5.prev = 8;
+          case 16:
+            _context5.prev = 16;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
             res.json({
@@ -289,12 +319,12 @@ var getTelefonosUsuariosIdForUsuariosId = /*#__PURE__*/function () {
               telefono: null
             });
 
-          case 12:
+          case 20:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 8]]);
+    }, _callee5, null, [[0, 16]]);
   }));
 
   return function getTelefonosUsuariosIdForUsuariosId(_x9, _x10) {

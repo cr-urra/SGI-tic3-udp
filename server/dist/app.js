@@ -39,8 +39,6 @@ var _movimientos = _interopRequireDefault(require("./routes/movimientos.routes")
 
 var _monedas = _interopRequireDefault(require("./routes/monedas.routes"));
 
-var _ips = _interopRequireDefault(require("./routes/ips.routes"));
-
 var _historial_precios = _interopRequireDefault(require("./routes/historial_precios.routes"));
 
 var _historial_dolar = _interopRequireDefault(require("./routes/historial_dolar.routes"));
@@ -73,6 +71,8 @@ var _mail = _interopRequireDefault(require("./routes/mail.routes"));
 
 var _extrae = _interopRequireDefault(require("./routes/extrae.routes"));
 
+var _files = _interopRequireDefault(require("./routes/files.routes"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var express = require('express');
@@ -86,6 +86,8 @@ var cookieParser = require('cookie-parser');
 var csurf = require('csurf');
 
 var https = require('https');
+
+var fileUpload = require('express-fileupload');
 
 require('nodemailer');
 
@@ -110,6 +112,9 @@ app.use(express.json());
 app.use(csrf);
 app.use(express.urlencoded({
   extended: false
+}));
+app.use(fileUpload({
+  createParentPath: true
 })); // Importar rutas
 
 // routes
@@ -129,7 +134,6 @@ app.use('/observaciones', _observaciones["default"]);
 app.use('/numerosAba', _numeros_aba["default"]);
 app.use('/movimientos', _movimientos["default"]);
 app.use('/monedas', _monedas["default"]);
-app.use('/ips', _ips["default"]);
 app.use('/historialPrecios', _historial_precios["default"]);
 app.use('/historialDolar', _historial_dolar["default"]);
 app.use('/gastosExtras', _gastos_extras["default"]);
@@ -145,7 +149,8 @@ app.use('/unidadProductos', _unidad_productos["default"]);
 app.use('/bancosAgentesAduana', _bancos_agentes_aduana["default"]);
 app.use('/observadores', _observadores["default"]);
 app.use('/mail', _mail["default"]);
-app.use('/extrae', _extrae["default"]); // rutas directas
+app.use('/extrae', _extrae["default"]);
+app.use('/files', _files["default"]); // rutas directas
 
 app.get('/csrf', function (req, res) {
   res.send({
@@ -165,6 +170,17 @@ app.get('/money', function (req, res) {
     });
   }).on('error', function (err) {
     console.log(err);
+    res.json({
+      dolar: {
+        valor: 0
+      },
+      uf: {
+        valor: 0
+      },
+      utm: {
+        valor: 0
+      }
+    });
   });
 });
 var _default = app;

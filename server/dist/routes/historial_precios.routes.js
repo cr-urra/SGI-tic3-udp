@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 var historialPrecios = _interopRequireWildcard(require("../controllers/historial_precios.controller"));
 
@@ -13,12 +13,13 @@ var express = require('express');
 var router = express.Router();
 // historialPrecios
 router.post('/', historialPrecios.createHistorialPrecios);
-router.get('/', historialPrecios.getAllHistorialPrecios);
-router.get('/all', historialPrecios.getAllHistorialPreciosWithFalse); // historialPrecios/:id
+router.get('/:id', historialPrecios.getAllHistorialPrecios);
+router.get('/all', historialPrecios.getAllHistorialPreciosWithFalse);
+router.put('/betweenDate', historialPrecios.getHistorialPreciosBetweenDates); // historialPrecios/:id
+//router.put('/:id', historialPrecios.updateHistorialPrecios);
 
-router.put('/:id', historialPrecios.updateHistorialPrecios);
-router.put('/delete/:id', historialPrecios.deleteHistorialPrecios);
-router.get('/:id', historialPrecios.getHistorialPreciosId);
+router.put('/delete/:id', historialPrecios.deleteHistorialPrecios); //router.get('/:id', historialPrecios.getHistorialPreciosId);
+
 router.get('/productos/:id', historialPrecios.getHistorialPreciosIdForProductosId);
 router.get('/maxDate/:id', historialPrecios.getHistorialPreciosMaxDate);
 module.exports = router;

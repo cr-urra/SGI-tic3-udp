@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTiene = exports.deleteTienePedidos = exports.deleteTieneProductos = exports.createTiene = void 0;
+exports.getTiene = exports.deleteTieneProductos = exports.deleteTienePedidos = exports.createTiene = void 0;
 
 var _tiene = _interopRequireDefault(require("../models/tiene"));
 

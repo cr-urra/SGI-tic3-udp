@@ -13,18 +13,25 @@ export default class Init extends Component {
     }
 
     componentDidMount = async () => {
-        const res = await axios.get("/auth/getRol");
-        if(res.data.resultado) {
-            const res2 = await axios.get("/money");
-            localStorage.setItem('dolar', res2.data.dolar.valor);
-            localStorage.setItem('uf', res2.data.uf.valor);
-            localStorage.setItem('utm', res2.data.utm.valor);
+        try{
+            const res = await axios.get("/auth/getRol");
+            if(res.data.resultado) {
+                const res2 = await axios.get("/money");
+                localStorage.setItem('dolar', res2.data.dolar.valor);
+                localStorage.setItem('uf', res2.data.uf.valor);
+                localStorage.setItem('utm', res2.data.utm.valor);
+                this.setState({
+                    cod_rol: res.data.codRol
+                })
+            } else {
+                this.setState({
+                    resultado: false
+                })
+            }   
+        }catch(e){
+            console.log(e);
             this.setState({
-                cod_rol: res.data.codRol
-            })
-        } else {
-            this.setState({
-                resultado: res.data.resultado
+                resultado: false
             })
         }
     }
@@ -46,7 +53,7 @@ export default class Init extends Component {
             default:
                 break;
         };
-        if (this.state.resultado === false)
+        if (this.state.resultado !== true && this.state.resultado !== null)
             return (
                 <div>
                     <div className="text-center pt-3">

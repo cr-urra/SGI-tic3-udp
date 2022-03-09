@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getHistorialPreciosMaxDate = exports.getAllHistorialPreciosWithFalse = exports.getHistorialPreciosIdForProductosId = exports.getHistorialPreciosId = exports.getAllHistorialPrecios = exports.deleteHistorialPrecios = exports.updateHistorialPrecios = exports.createHistorialPrecios = void 0;
+exports.updateHistorialPrecios = exports.getHistorialPreciosMaxDate = exports.getHistorialPreciosIdForProductosId = exports.getHistorialPreciosId = exports.getHistorialPreciosBetweenDates = exports.getAllHistorialPreciosWithFalse = exports.getAllHistorialPrecios = exports.deleteHistorialPrecios = exports.createHistorialPrecios = void 0;
 
 var _historial_precios = _interopRequireDefault(require("../models/historial_precios"));
 
@@ -17,23 +17,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var createHistorialPrecios = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, precio, productos_id, tipo, newHistorialPrecios;
+    var _req$body, precio, productos_id, newHistorialPrecios;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _req$body = req.body, precio = _req$body.precio, productos_id = _req$body.productos_id, tipo = _req$body.tipo;
+            _req$body = req.body, precio = _req$body.precio, productos_id = _req$body.productos_id;
             _context.next = 4;
             return _historial_precios["default"].create({
               precio: precio,
               productos_id: productos_id,
               fecha: _sequelize["default"].literal('CURRENT_TIMESTAMP'),
-              vigencia: true,
-              tipo: tipo
+              vigencia: true
             }, {
-              fields: ['precio', 'productos_id', 'fecha', 'vigencia', 'tipo']
+              fields: ['precio', 'productos_id', 'fecha', 'vigencia']
             });
 
           case 4:
@@ -142,7 +141,7 @@ var deleteHistorialPrecios = /*#__PURE__*/function () {
               where: {
                 id: id
               },
-              attributes: ['id', 'precio', 'fecha', 'productos_id', 'tipo']
+              attributes: ['id', 'precio', 'fecha', 'productos_id']
             });
 
           case 5:
@@ -259,15 +258,15 @@ var getAllHistorialPrecios = /*#__PURE__*/function () {
                 productos_id: id,
                 vigencia: true
               },
-              attributes: ['id', 'precio', 'fecha', 'productos_id', 'tipo'],
+              attributes: ['id', 'precio', 'fecha', 'productos_id'],
               order: [['id', 'DESC']]
             });
 
           case 4:
             allHistorialPrecios = _context4.sent;
             arr = [];
-            allHistorialPrecios.dataValues.forEach(function (element) {
-              arr.push(element.precio);
+            allHistorialPrecios.forEach(function (element) {
+              arr.push(element.dataValues.precio);
             });
             res.json({
               resultado: true,
@@ -320,7 +319,7 @@ var getHistorialPreciosId = /*#__PURE__*/function () {
                 productos_id: id,
                 vigencia: true
               },
-              attributes: ['id', 'precio', 'fecha', 'productos_id', 'tipo']
+              attributes: ['id', 'precio', 'fecha', 'productos_id']
             });
 
           case 4:
@@ -376,7 +375,7 @@ var getHistorialPreciosIdForProductosId = /*#__PURE__*/function () {
                 productos_id: id,
                 vigencia: true
               },
-              attributes: ['id', 'precio', 'fecha', 'productos_id', 'tipo']
+              attributes: ['id', 'precio', 'fecha', 'productos_id']
             });
 
           case 4:
@@ -427,7 +426,7 @@ var getAllHistorialPreciosWithFalse = /*#__PURE__*/function () {
             _context7.prev = 0;
             _context7.next = 3;
             return _historial_precios["default"].findAll({
-              attributes: ['id', 'precio', 'fecha', 'productos_id', 'tipo'],
+              attributes: ['id', 'precio', 'fecha', 'productos_id'],
               order: [['id', 'DESC']]
             });
 
@@ -484,7 +483,7 @@ var getHistorialPreciosMaxDate = /*#__PURE__*/function () {
                 vigencia: true,
                 productos_id: id
               },
-              attributes: ['id', 'precio', 'fecha', 'productos_id', 'tipo']
+              attributes: ['id', 'precio', 'fecha', 'productos_id']
             });
 
           case 4:
@@ -535,3 +534,67 @@ var getHistorialPreciosMaxDate = /*#__PURE__*/function () {
 }();
 
 exports.getHistorialPreciosMaxDate = getHistorialPreciosMaxDate;
+
+var getHistorialPreciosBetweenDates = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
+    var id, minDate, maxDate, lastYear, maxHistorialPrecios, filter;
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            _context9.prev = 0;
+            id = req.body.Producto.id;
+            minDate = req.body.fecha1;
+            maxDate = req.body.fecha2;
+            if (minDate == null) minDate = new Date(0, 0, 0);
+            lastYear = new Date().getFullYear() + 1;
+            if (maxDate == null) maxDate = new Date(lastYear, 11, 11);
+            _context9.next = 9;
+            return _historial_precios["default"].findAll({
+              where: {
+                vigencia: true,
+                productos_id: id
+              },
+              attributes: ['id', 'precio', 'fecha', 'productos_id']
+            });
+
+          case 9:
+            maxHistorialPrecios = _context9.sent;
+            filter = maxHistorialPrecios.filter(function (element) {
+              return new Date(element.dataValues.fecha.getFullYear().toString() + "-" + (element.dataValues.fecha.getMonth() + 1 <= 9 ? "0" + (element.dataValues.fecha.getMonth() + 1).toString() : (element.dataValues.fecha.getMonth() + 1).toString()) + "-" + element.dataValues.fecha.getDate().toString()) <= new Date(maxDate) && new Date(element.dataValues.fecha.getFullYear().toString() + "-" + (element.dataValues.fecha.getMonth() + 1 <= 9 ? "0" + (element.dataValues.fecha.getMonth() + 1).toString() : (element.dataValues.fecha.getMonth() + 1).toString()) + "-" + element.dataValues.fecha.getDate().toString()) >= new Date(minDate);
+            });
+            res.json({
+              resultado: true,
+              message: "",
+              historialPrecios: filter
+            });
+            _context9.next = 18;
+            break;
+
+          case 14:
+            _context9.prev = 14;
+            _context9.t0 = _context9["catch"](0);
+            console.log(_context9.t0);
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              historialPrecios: null
+            });
+
+          case 18:
+            ;
+
+          case 19:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, _callee9, null, [[0, 14]]);
+  }));
+
+  return function getHistorialPreciosBetweenDates(_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}();
+
+exports.getHistorialPreciosBetweenDates = getHistorialPreciosBetweenDates;

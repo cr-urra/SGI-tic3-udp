@@ -1,21 +1,19 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllUsuarios = exports.getUsuariosId = exports.deleteUsuarios = exports.updateUsuarios = void 0;
+exports.updateUsuarios = exports.getUsuariosId = exports.getAllUsuarios = exports.deleteUsuarios = void 0;
 
 var _usuarios = _interopRequireDefault(require("../models/usuarios"));
-
-var _ips = _interopRequireDefault(require("../models/ips"));
 
 var _telefonos_usuarios = _interopRequireDefault(require("../models/telefonos_usuarios"));
 
 var ct = _interopRequireWildcard(require("./telefonos_usuarios.controller"));
 
-var ipsc = _interopRequireWildcard(require("./ips.controller"));
+var authController = _interopRequireWildcard(require("./auth.controller"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -29,50 +27,122 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var updateUsuarios = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var id, body, userUpdate;
+    var id, localCsrf, body, userUpdate;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
             id = req.params.id;
-            body = req.body;
+            localCsrf = req.get('X-CSRF-Token');
             _context.next = 5;
+            return authController.decryptData(req.body.nombre, localCsrf);
+
+          case 5:
+            _context.t0 = _context.sent;
+            _context.next = 8;
+            return authController.decryptData(req.body.apellido, localCsrf);
+
+          case 8:
+            _context.t1 = _context.sent;
+            _context.next = 11;
+            return authController.decryptData(req.body.rut, localCsrf);
+
+          case 11:
+            _context.t2 = _context.sent;
+            _context.next = 14;
+            return authController.decryptData(req.body.correo, localCsrf);
+
+          case 14:
+            _context.t3 = _context.sent;
+            _context.next = 17;
+            return authController.decryptData(req.body.roles_id, localCsrf);
+
+          case 17:
+            _context.t4 = _context.sent;
+            body = {
+              nombre: _context.t0,
+              apellido: _context.t1,
+              rut: _context.t2,
+              correo: _context.t3,
+              roles_id: _context.t4
+            };
+            userUpdate = null;
+
+            if (!(req.body.contraseña != "default")) {
+              _context.next = 37;
+              break;
+            }
+
+            _context.t5 = _usuarios["default"];
+            _context.t6 = body.nombre;
+            _context.t7 = body.apellido;
+            _context.t8 = body.rut;
+            _context.t9 = body.correo;
+            _context.t10 = body.roles_id;
+            _context.next = 29;
+            return authController.encryptPassword(req.body.contraseña);
+
+          case 29:
+            _context.t11 = _context.sent;
+            _context.t12 = {
+              nombre: _context.t6,
+              apellido: _context.t7,
+              rut: _context.t8,
+              correo: _context.t9,
+              roles_id: _context.t10,
+              contraseña: _context.t11
+            };
+            _context.t13 = {
+              where: {
+                id: id
+              }
+            };
+            _context.next = 34;
+            return _context.t5.update.call(_context.t5, _context.t12, _context.t13);
+
+          case 34:
+            userUpdate = _context.sent;
+            _context.next = 40;
+            break;
+
+          case 37:
+            _context.next = 39;
             return _usuarios["default"].update(body, {
               where: {
                 id: id
               }
             });
 
-          case 5:
+          case 39:
             userUpdate = _context.sent;
+
+          case 40:
             res.json({
               message: 'Usuario actualizado correctamente',
-              resultado: true,
-              usuarios: userUpdate
+              resultado: true
             });
-            _context.next = 13;
+            _context.next = 47;
             break;
 
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](0);
-            console.log(_context.t0);
+          case 43:
+            _context.prev = 43;
+            _context.t14 = _context["catch"](0);
+            console.log(_context.t14);
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
-              resultado: true,
-              usuarios: null
+              resultado: false
             });
 
-          case 13:
+          case 47:
             ;
 
-          case 14:
+          case 48:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee, null, [[0, 43]]);
   }));
 
   return function updateUsuarios(_x, _x2) {
@@ -83,124 +153,139 @@ var updateUsuarios = /*#__PURE__*/function () {
 exports.updateUsuarios = updateUsuarios;
 
 var deleteUsuarios = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var id, user, r;
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+    var body, id, user, aux;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.prev = 0;
+            body = req.body;
+            _context3.prev = 1;
             id = req.params.id;
-            user = _usuarios["default"].findOne({
+            _context3.next = 5;
+            return _usuarios["default"].findOne({
               where: {
                 id: id
               },
               attributes: ['id'],
-              include: [_ips["default"], _telefonos_usuarios["default"]]
+              include: [_telefonos_usuarios["default"]]
             });
 
+          case 5:
+            user = _context3.sent;
+
             if (!user) {
-              _context2.next = 24;
+              _context3.next = 20;
               break;
             }
 
             req.body = {
               cascade: true
             };
-            _context2.next = 7;
-            return ct.deleteTelefonosUsuarios(req, res);
+            aux = {
+              resultado: true
+            };
+            user.dataValues.telefonos_usuarios.forEach( /*#__PURE__*/function () {
+              var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(element) {
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                  while (1) {
+                    switch (_context2.prev = _context2.next) {
+                      case 0:
+                        req.params = {
+                          id: element.dataValues.id
+                        };
 
-          case 7:
-            r = _context2.sent;
+                        if (!aux.resultado) {
+                          _context2.next = 7;
+                          break;
+                        }
 
-            if (!r.resultado) {
-              _context2.next = 14;
+                        _context2.next = 4;
+                        return ct.deleteTelefonosUsuarios(req, res);
+
+                      case 4:
+                        aux = _context2.sent;
+                        _context2.next = 8;
+                        break;
+
+                      case 7:
+                        res.json({
+                          resultado: false,
+                          message: "Ha ocurrido un error, porfavor contactese con el administrador"
+                        });
+
+                      case 8:
+                      case "end":
+                        return _context2.stop();
+                    }
+                  }
+                }, _callee2);
+              }));
+
+              return function (_x5) {
+                return _ref3.apply(this, arguments);
+              };
+            }());
+
+            if (!aux.resultado) {
+              _context3.next = 16;
               break;
             }
 
-            _context2.next = 11;
-            return ipsc.deleteIps(req, res);
-
-          case 11:
-            r = _context2.sent;
-            _context2.next = 15;
-            break;
-
-          case 14:
-            res.json({
-              message: 'Ha ocurrido un error, porfavor contactese con el administrador',
-              resultado: false
-            });
-
-          case 15:
-            if (!r.resultado) {
-              _context2.next = 21;
-              break;
-            }
-
-            _context2.next = 18;
+            _context3.next = 13;
             return _usuarios["default"].destroy({
               where: {
                 id: id
               }
             });
 
-          case 18:
+          case 13:
             res.json({
               message: 'Usuario eliminado correctamente',
               resultado: true
             });
-            _context2.next = 22;
+            _context3.next = 17;
             break;
 
-          case 21:
+          case 16:
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
               resultado: false
             });
 
-          case 22:
-            _context2.next = 25;
+          case 17:
+            ;
+            _context3.next = 21;
+            break;
+
+          case 20:
+            res.json({
+              message: 'Usuario no encontrado',
+              resultado: false
+            });
+
+          case 21:
+            ;
+            _context3.next = 27;
             break;
 
           case 24:
-            res.json({
-              message: 'El usuario ingresado no se encuentra',
-              resultado: false
-            });
-
-          case 25:
-            _context2.next = 34;
-            break;
-
-          case 27:
-            _context2.prev = 27;
-            _context2.t0 = _context2["catch"](0);
-
-            if (!req.body.cascade) {
-              _context2.next = 33;
-              break;
-            }
-
-            return _context2.abrupt("return", {
-              resultado: false
-            });
-
-          case 33:
+            _context3.prev = 24;
+            _context3.t0 = _context3["catch"](1);
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
               resultado: false
             });
 
-          case 34:
+          case 27:
             ;
 
-          case 35:
+          case 28:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2, null, [[0, 27]]);
+    }, _callee3, null, [[1, 24]]);
   }));
 
   return function deleteUsuarios(_x3, _x4) {
@@ -211,15 +296,15 @@ var deleteUsuarios = /*#__PURE__*/function () {
 exports.deleteUsuarios = deleteUsuarios;
 
 var getUsuariosId = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
     var id, user;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.prev = 0;
+            _context4.prev = 0;
             id = req.params.id;
-            _context3.next = 4;
+            _context4.next = 4;
             return _usuarios["default"].findOne({
               where: {
                 id: id
@@ -228,19 +313,19 @@ var getUsuariosId = /*#__PURE__*/function () {
             });
 
           case 4:
-            user = _context3.sent;
+            user = _context4.sent;
             res.json({
               resultado: true,
               message: "",
               usuario: user
             });
-            _context3.next = 12;
+            _context4.next = 12;
             break;
 
           case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
+            _context4.prev = 8;
+            _context4.t0 = _context4["catch"](0);
+            console.log(_context4.t0);
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
               resultado: false,
@@ -249,63 +334,121 @@ var getUsuariosId = /*#__PURE__*/function () {
 
           case 12:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, null, [[0, 8]]);
+    }, _callee4, null, [[0, 8]]);
   }));
 
-  return function getUsuariosId(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function getUsuariosId(_x6, _x7) {
+    return _ref4.apply(this, arguments);
   };
 }();
 
 exports.getUsuariosId = getUsuariosId;
 
 var getAllUsuarios = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var allUsers;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+    var localCsrf, allUsers, encryptAllUsers, len, i, id, rut, nombre, apellido, roles_id, correo, obj;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context5.prev = 0;
+            localCsrf = req.get('X-CSRF-Token');
+            _context5.next = 4;
             return _usuarios["default"].findAll({
-              attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'contraseña', 'correo', 'verificacion'],
+              attributes: ['id', 'rut', 'nombre', 'apellido', 'roles_id', 'correo'],
               order: [['id', 'DESC']]
             });
 
-          case 3:
-            allUsers = _context4.sent;
+          case 4:
+            allUsers = _context5.sent;
+            encryptAllUsers = [];
+            len = allUsers.length;
+            i = 0;
+
+          case 8:
+            if (!(i < len)) {
+              _context5.next = 32;
+              break;
+            }
+
+            _context5.next = 11;
+            return authController.encryptData(allUsers[i].dataValues.id.toString(), localCsrf);
+
+          case 11:
+            id = _context5.sent;
+            _context5.next = 14;
+            return authController.encryptData(allUsers[i].dataValues.rut, localCsrf);
+
+          case 14:
+            rut = _context5.sent;
+            _context5.next = 17;
+            return authController.encryptData(allUsers[i].dataValues.nombre, localCsrf);
+
+          case 17:
+            nombre = _context5.sent;
+            _context5.next = 20;
+            return authController.encryptData(allUsers[i].dataValues.apellido, localCsrf);
+
+          case 20:
+            apellido = _context5.sent;
+            _context5.next = 23;
+            return authController.encryptData(allUsers[i].dataValues.roles_id.toString(), localCsrf);
+
+          case 23:
+            roles_id = _context5.sent;
+            _context5.next = 26;
+            return authController.encryptData(allUsers[i].dataValues.correo, localCsrf);
+
+          case 26:
+            correo = _context5.sent;
+            obj = {
+              id: id,
+              rut: rut,
+              nombre: nombre,
+              apellido: apellido,
+              roles_id: roles_id,
+              correo: correo
+            };
+            encryptAllUsers.push(obj);
+
+          case 29:
+            i++;
+            _context5.next = 8;
+            break;
+
+          case 32:
+            ;
             res.json({
               resultado: true,
               message: "",
-              usuarios: allUsers
+              usuarios: encryptAllUsers
             });
-            _context4.next = 11;
+            _context5.next = 40;
             break;
 
-          case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
+          case 36:
+            _context5.prev = 36;
+            _context5.t0 = _context5["catch"](0);
+            console.log(_context5.t0);
             res.json({
               message: 'Ha ocurrido un error, porfavor contactese con el administrador',
               resultado: false,
               usuarios: false
             });
 
-          case 11:
+          case 40:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, null, [[0, 7]]);
+    }, _callee5, null, [[0, 36]]);
   }));
 
-  return function getAllUsuarios(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getAllUsuarios(_x8, _x9) {
+    return _ref5.apply(this, arguments);
   };
 }();
 

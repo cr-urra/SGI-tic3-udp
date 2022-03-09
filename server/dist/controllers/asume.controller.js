@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteAsumeAgentesAduana = exports.deleteAsumeObservadores = exports.createAsume = void 0;
+exports.deleteAsumeObservadores = exports.deleteAsumeAgentesAduana = exports.createAsume = void 0;
 
 var _asume = _interopRequireDefault(require("../models/asume"));
 

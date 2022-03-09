@@ -1686,8 +1686,8 @@ COPY public.unidad_productos (id, valor_unidad, vigencia, nombre_medida) FROM st
 --
 
 COPY public.usuarios (id, rut, nombre, apellido, correo, "contraseña", roles_id, verificacion) FROM stdin;
-21	073898188	Moisés	Paredes	moises@promachile.cl	1bb9aa797a8d10fb815f707ca0b3098836805a60352c5f0ba07628df443ed616eeae09ad926e0c102b1ef94813e994867ca253405613dfc69e72fc3adca807bf690f5d601392a5a7fbed119307d3c2cb32adacc926434c0b738b6a5ff866cd132f417a693a719a22a74e326688b55b	1	t
-2	123456781	Admin	01	nombre.apellido@mail.cl	1bb9aa797a8d10fb815f707ca0b3098836805a60352c5f0ba07628df4478e72cebac74ce987e054f1572c85e30f2d2e40a9d53404f44cae6a12bac038b9954b76930224c2caab9ad88b930a84cf1e2c944ce8feb797e606e51e463519351cdb56447311d1690ceecd3eb81830bc08e	1	t
+21	073898188	Moisés	Paredes	moises@promachile.cl	1beab93a24d306abcc62030fd4e402c251d50079683e1272bd6b2da10574e80bf49a54c6996e02681f20da6a72c4e79d75804d546974f4ccbc3d8e219bb3753cd0e5f0bba93388a01f3790de	1	t
+2	123456781	Admin	01	nombre.apellido@mail.cl	1beab93a24d306dacc073934f7b90cdc3585003b6a1a0d0cbe687f872f38ca1eecc87bcba45d1f441977f07735d2d8b04b8b6d226956e0eca80abf3996b95500b3a008c22b47f14632d48a2e	1	t
 \.
 
 
@@ -1856,7 +1856,7 @@ SELECT pg_catalog.setval('public.telefonos_proveedores_id_seq', 13, true);
 -- Name: telefonos_usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 17, true);
+SELECT pg_catalog.setval('public.telefonos_usuarios_id_seq', 19, true);
 
 
 --
@@ -1870,7 +1870,7 @@ SELECT pg_catalog.setval('public.unidad_productos_id_seq', 2, true);
 -- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuarios_id_seq', 40, true);
+SELECT pg_catalog.setval('public.usuarios_id_seq', 42, true);
 
 
 --

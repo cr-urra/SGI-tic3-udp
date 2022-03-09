@@ -25,9 +25,6 @@ var historial_precios = _database.database.define('historial_precios', {
   productos_id: {
     type: _sequelize["default"].INTEGER
   },
-  tipo: {
-    type: _sequelize["default"].BOOLEAN
-  },
   vigencia: {
     type: _sequelize["default"].BOOLEAN
   }

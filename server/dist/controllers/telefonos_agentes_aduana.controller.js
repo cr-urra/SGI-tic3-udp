@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTelefonosAgentesAduanaForAgentesId = exports.getAllTelefonosAgentesAduana = exports.getAllTelefonosAgentesAduanaWithFalse = exports.getTelefonosAgentesAduanaId = exports.deleteTelefonosAgentesAduana = exports.updateTelefonosAgentesAduana = exports.createTelefonosAgentesAduana = void 0;
+exports.updateTelefonosAgentesAduana = exports.getTelefonosAgentesAduanaId = exports.getTelefonosAgentesAduanaForAgentesId = exports.getAllTelefonosAgentesAduanaWithFalse = exports.getAllTelefonosAgentesAduana = exports.deleteTelefonosAgentesAduana = exports.createTelefonosAgentesAduana = void 0;
 
 var _telefonos_agentes_aduana = _interopRequireDefault(require("../models/telefonos_agentes_aduana"));
 

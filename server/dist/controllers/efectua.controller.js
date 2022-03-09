@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteEfectuaObservaciones = exports.deleteEfectuaObservadores = exports.createEfectua = void 0;
+exports.deleteEfectuaObservadores = exports.deleteEfectuaObservaciones = exports.createEfectua = void 0;
 
 var _efectua = _interopRequireDefault(require("../models/efectua"));
 

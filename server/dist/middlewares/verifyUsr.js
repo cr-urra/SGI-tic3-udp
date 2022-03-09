@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.existUser = exports.verifyUser = void 0;
+exports.verifyUser = exports.existUser = void 0;
 
 var _usuarios = _interopRequireDefault(require("../models/usuarios"));
 
@@ -33,7 +33,7 @@ var verifyUser = /*#__PURE__*/function () {
             user = _context.sent;
             user ? res.json({
               message: "El rut ingresado ya existe",
-              rut: user.rut
+              resultado: false
             }) : next();
 
           case 5:
@@ -71,7 +71,7 @@ var existUser = /*#__PURE__*/function () {
             user = _context2.sent;
             user ? next() : res.json({
               message: "El rut ingresado no existe",
-              rut: user.rut
+              resultado: false
             });
 
           case 5:

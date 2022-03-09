@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.usuario = exports.superUsuario = exports.administrador = exports.verifyToken = void 0;
+exports.verifyToken = exports.usuario = exports.superUsuario = exports.administrador = void 0;
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 

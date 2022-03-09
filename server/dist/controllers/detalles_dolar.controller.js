@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllDetallesDolarWithFalse = exports.getDetallesDolarId = exports.getAllDetallesDolar = exports.deleteDetallesDolar = exports.updateDetallesDolar = exports.createDetallesDolar = void 0;
+exports.updateDetallesDolar = exports.getDetallesDolarId = exports.getAllDetallesDolarWithFalse = exports.getAllDetallesDolar = exports.deleteDetallesDolar = exports.createDetallesDolar = void 0;
 
 var _detalles_dolar = _interopRequireDefault(require("../models/detalles_dolar"));
 

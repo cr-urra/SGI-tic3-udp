@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllDocumentosWithFalse = exports.getDocumentosId = exports.getAllDocumentos = exports.deleteDocumentos = exports.updateDocumentos = exports.createDocumentos = void 0;
+exports.updateDocumentos = exports.getDocumentosId = exports.getAllDocumentosWithFalse = exports.getAllDocumentos = exports.deleteDocumentos = exports.createDocumentos = void 0;
 
 var _documentos = _interopRequireDefault(require("../models/documentos"));
 

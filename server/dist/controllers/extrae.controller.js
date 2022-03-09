@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteExtraeHistorialPrecios = exports.deleteExtraePedidos = exports.createExtrae = void 0;
+exports.deleteExtraePedidos = exports.deleteExtraeHistorialPrecios = exports.createExtrae = void 0;
 
 var _extrae = _interopRequireDefault(require("../models/extrae"));
 

@@ -1,11 +1,11 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAgentesAduanaId = exports.getAllAgentesAduanaWithFalse = exports.getAllAgentesAduana = exports.deleteAgentesAduana = exports.updateAgentesAduana = exports.createAgentesAduana = void 0;
+exports.updateAgentesAduana = exports.getAllAgentesAduanaWithFalse = exports.getAllAgentesAduana = exports.getAgentesAduanaId = exports.deleteAgentesAduana = exports.createAgentesAduana = void 0;
 
 var _agentes_aduana = _interopRequireDefault(require("../models/agentes_aduana"));
 

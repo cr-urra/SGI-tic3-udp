@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllTelefonosProveedoresWithFalse = exports.getAllTelefonosProveedores = exports.getTelefonosProveedoresForProveedoresId = exports.getTelefonosProveedoresId = exports.deleteTelefonosProveedores = exports.updateTelefonosProveedores = exports.createTelefonosProveedores = void 0;
+exports.updateTelefonosProveedores = exports.getTelefonosProveedoresId = exports.getTelefonosProveedoresForProveedoresId = exports.getAllTelefonosProveedoresWithFalse = exports.getAllTelefonosProveedores = exports.deleteTelefonosProveedores = exports.createTelefonosProveedores = void 0;
 
 var _telefonos_proveedores = _interopRequireDefault(require("../models/telefonos_proveedores"));
 

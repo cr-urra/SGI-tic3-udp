@@ -1,11 +1,11 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllNumerosAbaWithFalse = exports.getNumerosAbaId = exports.getAllNumerosAba = exports.deleteNumerosAba = exports.updateNumerosAba = exports.createNumerosAba = void 0;
+exports.updateNumerosAba = exports.getNumerosAbaId = exports.getAllNumerosAbaWithFalse = exports.getAllNumerosAba = exports.deleteNumerosAba = exports.createNumerosAba = void 0;
 
 var _numeros_aba = _interopRequireDefault(require("../models/numeros_aba"));
 
@@ -345,8 +345,7 @@ var getNumerosAbaId = /*#__PURE__*/function () {
           case 0:
             _context6.prev = 0;
             id = req.params.id;
-            console.log(id);
-            _context6.next = 5;
+            _context6.next = 4;
             return _numeros_aba["default"].findOne({
               where: {
                 id: id,
@@ -355,18 +354,18 @@ var getNumerosAbaId = /*#__PURE__*/function () {
               attributes: ['id', 'nombre_banco', 'numero_aba']
             });
 
-          case 5:
+          case 4:
             numeroAba = _context6.sent;
             res.json({
               resultado: true,
               message: "",
               numerosAba: numeroAba
             });
-            _context6.next = 13;
+            _context6.next = 12;
             break;
 
-          case 9:
-            _context6.prev = 9;
+          case 8:
+            _context6.prev = 8;
             _context6.t0 = _context6["catch"](0);
             console.log(_context6.t0);
             res.json({
@@ -375,15 +374,15 @@ var getNumerosAbaId = /*#__PURE__*/function () {
               numerosAba: null
             });
 
-          case 13:
+          case 12:
             ;
 
-          case 14:
+          case 13:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[0, 9]]);
+    }, _callee6, null, [[0, 8]]);
   }));
 
   return function getNumerosAbaId(_x10, _x11) {

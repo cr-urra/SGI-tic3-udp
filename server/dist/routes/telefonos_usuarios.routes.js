@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 var telefonosUsuarios = _interopRequireWildcard(require("../controllers/telefonos_usuarios.controller"));
 
@@ -18,5 +18,5 @@ router.get('/', telefonosUsuarios.getAllTelefonosUsuarios); // telefonosUsuarios
 router.put('/:id', telefonosUsuarios.updateTelefonosUsuarios);
 router["delete"]('/:id', telefonosUsuarios.deleteTelefonosUsuarios);
 router.get('/:id', telefonosUsuarios.getTelefonosUsuariosId);
-router.get('/usuarios/:id', telefonosUsuarios.getTelefonosUsuariosIdForUsuariosId);
+router.get('/usuarios/:usuarios_id', telefonosUsuarios.getTelefonosUsuariosIdForUsuariosId);
 module.exports = router;

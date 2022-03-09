@@ -1,11 +1,11 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllProductosWithFalse = exports.getProductosId = exports.getAllProductos = exports.deleteProductos = exports.updateProductos = exports.createProductos = void 0;
+exports.updateProductos = exports.getProductosId = exports.getAllProductosWithFalse = exports.getAllProductos = exports.deleteProductos = exports.createProductos = void 0;
 
 var _productos = _interopRequireDefault(require("../models/productos"));
 
@@ -48,7 +48,7 @@ var createProductos = /*#__PURE__*/function () {
               unidad_productos_id: unidad_productos_id,
               vigencia: true
             }, {
-              fields: ['codigo', 'nombre', 'precio_por_kg', 'tipo', 'proveedores_id', 'unidad_productos_id', 'vigencia']
+              fields: ['codigo', 'nombre', 'tipo', 'proveedores_id', 'unidad_productos_id', 'vigencia']
             });
 
           case 4:
