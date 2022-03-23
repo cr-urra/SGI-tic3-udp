@@ -2,55 +2,16 @@
     "reportsBarVol":
     [
         {
-            "año": "2020",
-            "Proveedor" : [
-                {
-                    "name" : "karina",
-                    "total": 12000
-                },
-                {
-                    "name" : "JJplastaloy",
-                    "total":80000
-                },
-                {
-                    "name" : "Crital",
-                    "total": 11000
-                }
-            ]
+            "name" : "Karina",
+            "data" : [14000,15000,13000]
         },
         {
-            "año":"2021",
-            "Proveedor": [
-                {
-                    "name":"karina",
-                    "total":14000
-                },
-                {
-                    "name":"JJplastaloy",
-                    "total":16000
-                },
-                {
-                    "name":"Crital",
-                    "total":18000
-                }
-            ]
+            "name":"JJplastaloy",
+            "data" : [16000,17000,18000]
         },
         {
-            "año":"2022",
-            "Proveedor": [
-                {
-                    "name":"karina",
-                    "total": 15000
-                },
-                {
-                    "name":"JJplastaloy",
-                    "total":17000
-                },
-                {
-                    "name":"Crital",
-                    "total": 19000
-                }
-            ]
+            "name":"Cristal Master",
+            "data": [17000,18000,19000]
         }
     ]
 }
