@@ -92,15 +92,15 @@ export default class Login extends Component {
         switch(this.state.cod_rol) {
             case "adm":
                 return <Redirect to={{ 
-                            pathname: '/users/adm'
+                            pathname: '/users/Dashboard'
                         }} />;
             case "sup":
                 return <Redirect to={{ 
-                            pathname: '/users/sup'
+                            pathname: '/users/Dashboard'
                         }} />;
             case "usr":
                 return <Redirect to={{ 
-                            pathname: '/users/usr'
+                            pathname: '/users/Dashboard'
                         }} />;
             default:
                 break;

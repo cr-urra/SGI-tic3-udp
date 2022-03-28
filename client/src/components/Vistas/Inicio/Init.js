@@ -14,6 +14,7 @@ export default class Init extends Component {
 
     componentDidMount = async () => {
         const res = await axios.get("/auth/getRol");
+        console.log(res);
         if(res.data.resultado) {
             const res2 = await axios.get("/money");
             localStorage.setItem('dolar', res2.data.dolar.valor);

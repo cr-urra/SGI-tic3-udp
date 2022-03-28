@@ -3,11 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setProductos = exports.sendPlantilla = exports.getXlsxImportMoney = exports.getPdfOrderImport = void 0;
+exports.setProductos = exports.setDocumentos = exports.sendPlantilla = exports.getXlsxImportMoney = exports.getPdfOrderImport = void 0;
 
 var _xlsx = _interopRequireDefault(require("xlsx"));
-
-var _fs = _interopRequireDefault(require("fs"));
 
 var _productos = _interopRequireDefault(require("../models/productos"));
 
@@ -31,7 +29,7 @@ var _proveedores = _interopRequireDefault(require("../models/proveedores"));
 
 var _sequelize = _interopRequireDefault(require("sequelize"));
 
-var _console = require("console");
+var _documentos = _interopRequireDefault(require("../models/documentos"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -379,16 +377,104 @@ var setProductos = /*#__PURE__*/function () {
 
 exports.setProductos = setProductos;
 
-var getPdfOrderImport = /*#__PURE__*/function () {
+var setDocumentos = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var id, pedido, tables, pagesTotal, numberRowsObs, numberRowsProducts, limitRowFistPage, limitRowLastPage, content, pageBreak, contPage, fila, suma, sumaCantidad, sumaPrecioTotalUsd, precio, usd, precioUsd, totalUsd, tablesObs, rut, fecha, html, config;
+    var i, newDocumento;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.prev = 0;
+
+            if (req.files) {
+              _context6.next = 5;
+              break;
+            }
+
+            res.json({
+              resultado: false,
+              message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+            _context6.next = 16;
+            break;
+
+          case 5:
+            i = 0;
+
+          case 6:
+            if (!(i < req.files.files.length)) {
+              _context6.next = 15;
+              break;
+            }
+
+            _context6.next = 9;
+            return req.files.files[i].mv(__dirname.replace('/controllers', '/files/documentos/') + req.files.files[i].name);
+
+          case 9:
+            _context6.next = 11;
+            return _documentos["default"].create({
+              nombre_documento: req.files.files[i].name,
+              pedidos_id: req.params.id,
+              vigencia: true
+            }, {
+              fields: ['nombre_documento', 'pedidos_id', 'vigencia']
+            });
+
+          case 11:
+            newDocumento = _context6.sent;
+
+          case 12:
+            i++;
+            _context6.next = 6;
+            break;
+
+          case 15:
+            res.json({
+              resultado: true
+            });
+
+          case 16:
+            ;
+            _context6.next = 23;
+            break;
+
+          case 19:
+            _context6.prev = 19;
+            _context6.t0 = _context6["catch"](0);
+            console.log(_context6.t0);
+            res.json({
+              message: "Ha ocurrido un error, porfavor contactese con el administrador",
+              resultado: false
+            });
+
+          case 23:
+            ;
+
+          case 24:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[0, 19]]);
+  }));
+
+  return function setDocumentos(_x9, _x10) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.setDocumentos = setDocumentos;
+
+var getPdfOrderImport = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
+    var id, pedido, tables, pagesTotal, numberRowsObs, numberRowsProducts, limitRowFistPage, limitRowLastPage, content, pageBreak, contPage, fila, suma, sumaCantidad, sumaPrecioTotalUsd, precio, usd, precioUsd, totalUsd, tablesObs, rut, fecha, html, config;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.prev = 0;
             id = req.params.id;
-            _context6.next = 4;
+            _context7.next = 4;
             return _pedidos["default"].findOne({
               where: {
                 id: id,
@@ -411,7 +497,7 @@ var getPdfOrderImport = /*#__PURE__*/function () {
             });
 
           case 4:
-            pedido = _context6.sent;
+            pedido = _context7.sent;
             tables = "";
             pagesTotal = 1;
             numberRowsObs = pedido.dataValues.observaciones.length;
@@ -431,20 +517,20 @@ var getPdfOrderImport = /*#__PURE__*/function () {
 
           case 18:
             if (!(suma <= numberRowsProducts - 1)) {
-              _context6.next = 39;
+              _context7.next = 39;
               break;
             }
 
-            _context6.next = 21;
+            _context7.next = 21;
             return maxDateProductPrice(pedido.dataValues.tienes[suma].dataValues.producto);
 
           case 21:
-            precio = _context6.sent;
-            _context6.next = 24;
+            precio = _context7.sent;
+            _context7.next = 24;
             return priceUsdTypeInitPedido(pedido.dataValues.historial_dolars);
 
           case 24:
-            usd = _context6.sent;
+            usd = _context7.sent;
             precioUsd = precio * usd;
             totalUsd = precioUsd * pedido.dataValues.tienes[suma].dataValues.cantidad;
             sumaCantidad += pedido.dataValues.tienes[suma].dataValues.cantidad;
@@ -474,7 +560,7 @@ var getPdfOrderImport = /*#__PURE__*/function () {
             }
 
             ;
-            _context6.next = 18;
+            _context7.next = 18;
             break;
 
           case 39:
@@ -550,13 +636,13 @@ var getPdfOrderImport = /*#__PURE__*/function () {
             //res.sendFile(__dirname.replace('/controllers', '/files/downloads/')+'orden.pdf');
 
 
-            _context6.next = 65;
+            _context7.next = 65;
             break;
 
           case 61:
-            _context6.prev = 61;
-            _context6.t0 = _context6["catch"](0);
-            console.log(_context6.t0);
+            _context7.prev = 61;
+            _context7.t0 = _context7["catch"](0);
+            console.log(_context7.t0);
             res.json({
               message: "Ha ocurrido un error, porfavor contactese con el administrador",
               resultado: false
@@ -567,14 +653,14 @@ var getPdfOrderImport = /*#__PURE__*/function () {
 
           case 66:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, null, [[0, 61]]);
+    }, _callee7, null, [[0, 61]]);
   }));
 
-  return function getPdfOrderImport(_x9, _x10) {
-    return _ref6.apply(this, arguments);
+  return function getPdfOrderImport(_x11, _x12) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

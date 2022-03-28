@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Modal from 'react-bootstrap/Modal'
 import Estado from '.././Pedido_Componentes/Estado'
 import Agentes from './Agentes'
-
+import {Redirect} from 'react-router-dom';
 
 export default class Init extends Component {
 
@@ -17,6 +17,7 @@ export default class Init extends Component {
       abono: null,
       din: null,
       show: false,
+      redirect: false,
 
       AgentesAduana: [],
     }
@@ -67,9 +68,9 @@ export default class Init extends Component {
               AgentesAduana: [...this.state.AgentesAduana, agente]
           })
       }
-  }
+    }
 
-      handleClose = () =>{
+    handleClose = () =>{
         this.setState({
             show: false
         })
@@ -81,10 +82,26 @@ export default class Init extends Component {
         })
     }
 
+    handleFile = (archivos) => {
+      this.setState({archivos: archivos})
+    }
+
     onChange = e => {
       this.setState({
         [e.target.name]: e.target.value
       })
+    }
+
+    onFiles = async () => {
+      const f = new FormData()
+      for(let i = 0; i < this.state.archivos.length; i++) {
+        f.append("files", this.state.archivos[i])
+      }
+      axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
+      const res = await axios.post("/files/setDocumentos/"+this.props.id+"&"+"internacional", f, {
+        headers: { 'content-type': 'multipart/form-data' }
+      })
+      return res.data.resultado
     }
 
     onSubmit = async e => {
@@ -150,17 +167,20 @@ export default class Init extends Component {
 
         const res4 = await axios.post("/movimientos/",movimiento)
 
-        if(res4.data.resultado===true){
+        let res6 = res4.data.resultado ? await this.onFiles() : false
+
+        if(res6){
           if(res.data.resultado==true){
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            this.setState({
+              redirect: true
+            })
           }else{
             toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
           }          
         }else{
           toast.error(res4.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
         }
-
-        
       }else{    
           toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }      
@@ -168,6 +188,9 @@ export default class Init extends Component {
     
     
     render() {
+        if (this.state.redirect) return <Redirect to={{ 
+              pathname: '/users/Buscar_Pedido'
+        }} />
         return (
           <div>
             <form onSubmit={this.state.onSubmit}>
@@ -268,7 +291,7 @@ export default class Init extends Component {
                             <label for="formFileMultiple" class="form-label">Documentos Originales</label>
                           </div>
                           <div className="col-8">                    
-                            <input className="ancho ml-4" type="file" id="formFileMultiple" onChange={this.onChange} name="archivos" value={this.state.archivos} multiple />
+                            <input className="ancho ml-4" type="file" id="formFileMultiple" onChange={(e) => this.handleFile(e.target.files)} name="archivos"  multiple />
                           </div>
                         </div>
                       </div>

@@ -10,7 +10,6 @@ export default class Init extends Component {
     }
 
     handleFile = (file) => {
-        console.log("f", file);
         this.setState({file: file})
     }
 

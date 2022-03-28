@@ -4,13 +4,15 @@ import { toast , Slide  } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Modal from 'react-bootstrap/Modal'
 import Estado from '.././Pedido_Componentes/Estado'
+import {Redirect} from 'react-router-dom';
 
 export default class Init extends Component {
 
     state = {
       iva: null,
       dolar: null,
-      show: false
+      show: false,
+      redirect: false
     }
 
     handleClose = () =>{
@@ -63,9 +65,11 @@ export default class Init extends Component {
             "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
           }
         })
-
-          if(res.data.resultado==true){
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+        if(res.data.resultado==true){
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            this.setState({
+              redirect: true
+            })
         }else{
           toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
@@ -74,7 +78,10 @@ export default class Init extends Component {
         }      
       }
 
-    render() {    
+    render() { 
+        if (this.state.redirect) return <Redirect to={{ 
+              pathname: '/users/Buscar_Pedido'
+        }} />   
         return (
           <div>.
             <form onSubmit={this.onSubmit}>

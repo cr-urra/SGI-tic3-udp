@@ -25,12 +25,15 @@ export default class Tabla extends Component {
     }
 
     delete = (id) => async (e) => {            
-        const res = await axios.put("/proveedores/delete/"+id , {} ,{"headers": {
-            "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-        }} )
-        
+        const res = await axios.put("/proveedores/delete/" + id , {} ,{
+            "headers": {
+                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+            }
+        })
         if(res.data.resultado==true){
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            await this.props.onRechargeData()
+            await this.props.onResetProveedor()
         }else{
             toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         } 
@@ -43,7 +46,6 @@ export default class Tabla extends Component {
         if(this.props.proveedor !== ""){
             let j;
             for(let i = 0 ; i < this.props.proveedoresData.length ; i++){
-                
                 if(this.props.proveedor=== this.props.proveedoresData[i].nombre){
                     j = i;
                 }

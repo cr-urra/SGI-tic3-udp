@@ -16,4 +16,5 @@ router.get('/plantilla', files.sendPlantilla);
 router.get('/xlsx', files.getXlsxImportMoney);
 router.get('/orderImport/:id', files.getPdfOrderImport);
 router.post('/setProductos', files.setProductos);
+router.post('/setDocumentos/:id', files.setDocumentos);
 module.exports = router;

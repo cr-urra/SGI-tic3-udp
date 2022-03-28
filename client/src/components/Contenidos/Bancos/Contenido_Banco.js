@@ -21,7 +21,8 @@ export default class Contenido_Banco extends Component {
         this.setState({
             bancos: [],
             banco: "",
-            editar: "false"
+            editar: "false",
+            carga:  false
         })
         const res = await axios.get("/cuentasBancos/",{})  
         for (let i= 0; i < res.data.cuentas_bancos.length ; i++){

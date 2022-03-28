@@ -25,7 +25,6 @@ export default class Banco extends Component {
         if(this.props.proveedor !== ""){
             let j;
             for(let i = 0 ; i < this.props.proveedores.length ; i++){
-                
                 if(this.props.proveedor=== this.props.proveedores[i].nombre){
                     j = i;
                 }
@@ -59,23 +58,20 @@ export default class Banco extends Component {
                 correo: this.state.correo,
                 telefono: this.state.telefono,      
             }    
-            console.log(Proveedor)
-
-            const res = await axios.put("/proveedores/"+ this.state.id, Proveedor, {"headers": {
-                "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
-              }} )
-
-
-            if(res.data.resultado==true){
-                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-            }else{
+            const res = await axios.put("/proveedores/"+ this.state.id, Proveedor, {
+                "headers": {
+                    "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
+                }
+            })
+            if (res.data.resultado == true){
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+                await this.props.onRechargeData()
+            } else {
                 toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }   
-
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         }
-               
         this.setState({
             show: false
         }) 
@@ -100,11 +96,9 @@ export default class Banco extends Component {
     }
 
     render() {
-
         if(this.props.proveedor !== ""){
             let j;
             for(let i = 0 ; i < this.props.proveedores.length ; i++){
-                
                 if(this.props.proveedor=== this.props.proveedores[i].nombre){
                     j = i;
                 }
@@ -112,9 +106,7 @@ export default class Banco extends Component {
             if(this.props.proveedores[j]!=null){
                 return (
                     <div>
-                        
                         <div className="container separacion">
-
                             <div className="card border-primary  shadow-lg">
                                 <form onSubmit={this.onSubmit}>
                                     <div className="card-header text-primary">
@@ -139,7 +131,6 @@ export default class Banco extends Component {
                                     <Datos nombre={"Direccion"} contenido={this.props.proveedores[j].direccion} name={"direccion"} name2={this.state.direccion} onChange={this.onChange}/>
                                     <Datos nombre={"Correo"} contenido={this.props.proveedores[j].correo} name={"correo"} name2={this.state.correo} onChange={this.onChange}/>
                                     <Datos nombre={"Telefono"} contenido={this.props.proveedores[j].telefono} name={"telefono"} name2={this.state.telefono} onChange={this.onChange}/>
-
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>
                                           <Modal.Title className="text-primary">Editar Proveedor</Modal.Title>
@@ -155,12 +146,10 @@ export default class Banco extends Component {
                                     </Modal>
                                 </form>
                             </div>
-                            
                             <button className="btn color_sitio2 separacion" onClick={this.handleShow}>
                                 Guardar Proveedor
                             </button>
                         </div>
-
                     </div>
                 )
             }else{

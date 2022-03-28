@@ -45,9 +45,6 @@ export default class Init extends Component {
       const resBarProdu = dataproductt
       console.log("RespBarProdu", resBarProdu)
 
-      const DataPedidos = await axios.get("http://localhost:4000/pedidos/dashboards",{});
-      console.log("Data de pedidos",DataPedidos)
-      
       for(let i = 0; i<resBarProdu.reportProduct.length; i++){
         let auxProd = {
           name: resBarProdu.reportProduct[i].name,
@@ -98,26 +95,38 @@ export default class Init extends Component {
       if(this.state.bool){
         return (
           <main className="content">
-              <div className="container bienvenida">
-                <h1 className="display-4 mb-2" style={{textAlign:'center'}}>DASHBOARD</h1>
-                <div className ="container">
+              <h1 className="display-5 titulo">DASHBOARD</h1>
+              <div className="row">
+                <div className ="col-1"></div>
+                <div className ="container col-10">
                   <BarChartHC data = {this.state.dataBarraHC} estado= {this.state.estado_barHC} function = {this.cambio_barHC}></BarChartHC>
                 </div>
-                <div className ="container">
+                <div className ="col-1"></div>
+                <div className ="col-1"></div>
+                <div className ="container col-10">
                   <LineChartHC data = {this.state.dataLineHC} estado= {this.state.estado_lineHC} function = {this.cambio_lineHC}></LineChartHC>
                 </div>
-                <div className ="container">
+                <div className ="col-1"></div>
+                <div className ="col-1"></div>
+                <div className ="container col-10">
                   <DoughnutChartHC data={this.state.dataDonuts}></DoughnutChartHC>
                 </div>
-                <div className ="container">
+                <div className ="col-1"></div>
+                <div className ="col-1"></div>
+                <div className ="container col-10">
                   <LineChart2HC data = {this.state.dataDonuts}></LineChart2HC>
                 </div>
-                <div className ="container">
+                <div className ="col-1"></div>
+                <div className ="col-1"></div>
+                <div className ="container col-10">
                   <BarChartVolumHC data = {this.state.datasetsBarraVolum}></BarChartVolumHC>
                 </div>
-                <div className ="container">
+                <div className ="col-1"></div>
+                <div className ="col-1"></div>
+                <div className ="container col-10">
                   <BarChartProductHC data = {this.state.datasetsBarraProduc}></BarChartProductHC>
                 </div>
+                <div className ="col-1"></div>
               </div>
           </main>
       )

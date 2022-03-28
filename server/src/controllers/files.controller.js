@@ -1,5 +1,4 @@
 import xlsx from 'xlsx';
-import fs from 'fs';
 import productos from '../models/productos';
 import pdf from 'html-pdf';
 import pedidos from '../models/pedidos';
@@ -11,7 +10,7 @@ import observaciones from '../models/observaciones';
 import tiene from '../models/tiene';
 import proveedores from '../models/proveedores';
 import sequelize from 'sequelize';
-import { log } from 'console';
+import documentos from '../models/documentos';
 
 const maxDateProductPrice = async (producto) => {
     let datesPrecios = [];
@@ -188,6 +187,50 @@ export const setProductos = async (req, res) => {
                 message: "Planilla subida correctamente", 
                 resultado: true, 
             });
+        };
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false
+        });
+    };
+};
+
+export const setDocumentos = async (req, res) => {
+    try{
+        if (!req.files) {
+            res.json({
+                resultado: false,
+                message: "Ha ocurrido un error, porfavor contactese con el administrador"
+            });
+        } else {
+            for(let i = 0; i < req.files.files.length; i++) {
+                const pedido = await pedidos.findOne({
+                    where: {
+                        id: req.params.id,
+                        vigencia: true
+                    },
+                    attributes: [
+                        'id',
+                        'codigo'
+                    ]
+                });
+                const name = "pedido_"+pedido.dataValues.codigo+"_"+"estado_"+req.params.estado+"_"+req.files.files[i].name;
+                await req.files.files[i].mv(__dirname.replace('/controllers', '/files/documentos/')+name);
+                const newDocumento = await documentos.create({
+                    nombre_documento: name, 
+                    pedidos_id: req.params.id,
+                    vigencia: true
+                },{
+                    fields: [
+                        'nombre_documento', 
+                        'pedidos_id',
+                        'vigencia'
+                    ]
+                });
+            }
+            res.json({resultado: true});
         };
     }catch(e){
         console.log(e);
@@ -542,7 +585,7 @@ export const getPdfOrderImport = async (req, res) => {
                 <body>
                     <div class="row header">
                         <div class="col-5 center">
-                            <img class="logo" src="https://promachile.cl/wp-content/uploads/2021/08/Group-1.svg">
+                            <img class="logo" src="../files/media/lamp.jpg">
                         </div>
                         <div class="col-5 text-dark ft plt">
                             <span class="ft-600">PROMACHILE LIMITADA <br></span>

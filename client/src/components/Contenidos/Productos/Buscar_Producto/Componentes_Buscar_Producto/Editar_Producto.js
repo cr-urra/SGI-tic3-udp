@@ -71,7 +71,8 @@ export default class EditProduct extends Component {
                 }
             }) : toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
             if(res2.data.resultado==true){
-                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+                toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+                await this.props.onRechargeData()
             }else{
                 toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }  

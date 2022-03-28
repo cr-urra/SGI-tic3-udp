@@ -31,7 +31,9 @@ export default class Tabla extends Component {
             "X-CSRF-Token": localStorage.getItem('X-CSRF-Token') 
         }} )
         if(res.data.resultado==true){
-            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+            toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+            this.props.onRechargeData()
+            this.props.onResetProduct()
         }else{
             toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         } 

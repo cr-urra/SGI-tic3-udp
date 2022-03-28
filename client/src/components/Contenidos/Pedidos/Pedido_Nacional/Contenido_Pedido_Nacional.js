@@ -17,12 +17,35 @@ import Estado from '.././Pedido_Componentes/Estado'
 import Tipo_Pago from '../Editar_Pedidos/Tipo_pago'
 import Transporte from '../Editar_Pedidos/Transporte'
 import Datos from '../Editar_Pedidos/Datos'
+import {Redirect} from 'react-router-dom';
 
 export default class Init extends Component {
 
+  state = {
+    costos: 0,
+    observaciones: null,
+    show: false,
+    editar: false,
+
+    tipo_pago: null,
+    fecha_vencimiento: null,   
+    fecha_entrega: null,
+    pago_inicial: null,
+    cambio_pago_inicial: null,
+    tipo_transporte: null,
+    pago_transporte: null,
+    pago_seguro: null,
+    fecha_salida: null,
+    fecha_estimada_arribo: null,
+    pago_final: null,
+    cambio_pago_final: null,
+    abono: null,
+    din: null,
+    redirect: false
+  }
+
   onSubmit = async e => {
     e.preventDefault();
-    
         const Requisitos = { 
           estado: "finalizado"
         }
@@ -32,32 +55,13 @@ export default class Init extends Component {
           }
         })
         if(res.data.resultado==true){
-          toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
+          toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
+          this.setState({
+            redirect: true
+          })  
       }else{
         toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
       }   
-    }
-
-    state = {
-      costos: 0,
-      observaciones: null,
-      show: false,
-      editar: false,
-
-      tipo_pago: null,
-      fecha_vencimiento: null,   
-      fecha_entrega: null,
-      pago_inicial: null,
-      cambio_pago_inicial: null,
-      tipo_transporte: null,
-      pago_transporte: null,
-      pago_seguro: null,
-      fecha_salida: null,
-      fecha_estimada_arribo: null,
-      pago_final: null,
-      cambio_pago_final: null,
-      abono: null,
-      din: null,
     }
 
     handleClose = () =>{
@@ -102,6 +106,9 @@ export default class Init extends Component {
     }
 
     render() {
+        if (this.state.redirect) return <Redirect to={{ 
+              pathname: '/users/Buscar_Pedido'
+        }} />
         if(this.state.editar===true){
         return (
           <main className="content">
