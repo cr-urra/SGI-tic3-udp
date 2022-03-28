@@ -423,7 +423,6 @@ export const getPdfOrderImport = async (req, res) => {
                     <td>${suma+1}</td>
                     <td>${pedido.dataValues.observaciones[suma].dataValues.observacion}</td>
                     <td>${pedido.dataValues.observaciones[suma].dataValues.fecha}</td>
-                    <td>${pedido.dataValues.observaciones[suma].dataValues.gasto}</td>
                 </tr>
             \n`;
             contPage == 1 ? pageBreak = fila >= limitRowFistPage - 1 ? true : false : pageBreak = fila >= limitRowLastPage - 1 ? true : false;
@@ -436,7 +435,6 @@ export const getPdfOrderImport = async (req, res) => {
                             <th>Observación N°</th>
                             <th>Descripción</th>
                             <th>Fecha</th>
-                            <th>Gasto</th>
                         </tr>
                 \n`;
                 pageBreak = false;
@@ -458,7 +456,6 @@ export const getPdfOrderImport = async (req, res) => {
                     <th>Observación N°</th>
                     <th>Descripción</th>
                     <th>Fecha</th>
-                    <th>Gasto</th>
                 </tr>
                 ${content}
         \n`;
@@ -563,7 +560,7 @@ export const getPdfOrderImport = async (req, res) => {
                             margin: 20px 0 0 50px;
                         }  
                         td, th {
-                            border: 1px solid #dddddd;
+                            border: 1px solid black;
                             text-align: left;
                             padding: 8px;
                         }  
@@ -585,7 +582,7 @@ export const getPdfOrderImport = async (req, res) => {
                 <body>
                     <div class="row header">
                         <div class="col-5 center">
-                            <img class="logo" src="../files/media/lamp.jpg">
+                            <img class="logo" src="https://raw.githubusercontent.com/cr-urra/SGI-tic3-udp/main/server/src/files/media/logo.png">
                         </div>
                         <div class="col-5 text-dark ft plt">
                             <span class="ft-600">PROMACHILE LIMITADA <br></span>
