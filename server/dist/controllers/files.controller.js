@@ -379,7 +379,7 @@ exports.setProductos = setProductos;
 
 var setDocumentos = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var i, newDocumento;
+    var i, pedido, name, newDocumento;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -395,7 +395,7 @@ var setDocumentos = /*#__PURE__*/function () {
               resultado: false,
               message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
-            _context6.next = 16;
+            _context6.next = 20;
             break;
 
           case 5:
@@ -403,43 +403,55 @@ var setDocumentos = /*#__PURE__*/function () {
 
           case 6:
             if (!(i < req.files.files.length)) {
-              _context6.next = 15;
+              _context6.next = 19;
               break;
             }
 
             _context6.next = 9;
-            return req.files.files[i].mv(__dirname.replace('/controllers', '/files/documentos/') + req.files.files[i].name);
+            return _pedidos["default"].findOne({
+              where: {
+                id: req.params.id,
+                vigencia: true
+              },
+              attributes: ['id', 'codigo']
+            });
 
           case 9:
-            _context6.next = 11;
+            pedido = _context6.sent;
+            name = "pedido_" + pedido.dataValues.codigo + "_" + "estado_" + req.params.estado + "_" + req.files.files[i].name;
+            _context6.next = 13;
+            return req.files.files[i].mv(__dirname.replace('/controllers', '/files/documentos/') + name);
+
+          case 13:
+            _context6.next = 15;
             return _documentos["default"].create({
-              nombre_documento: req.files.files[i].name,
+              nombre_documento: name,
               pedidos_id: req.params.id,
               vigencia: true
             }, {
               fields: ['nombre_documento', 'pedidos_id', 'vigencia']
             });
 
-          case 11:
+          case 15:
             newDocumento = _context6.sent;
 
-          case 12:
+          case 16:
             i++;
             _context6.next = 6;
             break;
 
-          case 15:
+          case 19:
             res.json({
               resultado: true
             });
 
-          case 16:
+          case 20:
             ;
-            _context6.next = 23;
+            _context6.next = 27;
             break;
 
-          case 19:
-            _context6.prev = 19;
+          case 23:
+            _context6.prev = 23;
             _context6.t0 = _context6["catch"](0);
             console.log(_context6.t0);
             res.json({
@@ -447,15 +459,15 @@ var setDocumentos = /*#__PURE__*/function () {
               resultado: false
             });
 
-          case 23:
+          case 27:
             ;
 
-          case 24:
+          case 28:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[0, 19]]);
+    }, _callee6, null, [[0, 23]]);
   }));
 
   return function setDocumentos(_x9, _x10) {
@@ -587,11 +599,11 @@ var getPdfOrderImport = /*#__PURE__*/function () {
             suma = 0;
 
             while (suma <= numberRowsObs - 1) {
-              content += "\n\n                <tr>\n                    <td>".concat(suma + 1, "</td>\n                    <td>").concat(pedido.dataValues.observaciones[suma].dataValues.observacion, "</td>\n                    <td>").concat(pedido.dataValues.observaciones[suma].dataValues.fecha, "</td>\n                    <td>").concat(pedido.dataValues.observaciones[suma].dataValues.gasto, "</td>\n                </tr>\n            \n");
+              content += "\n\n                <tr>\n                    <td>".concat(suma + 1, "</td>\n                    <td>").concat(pedido.dataValues.observaciones[suma].dataValues.observacion, "</td>\n                    <td>").concat(pedido.dataValues.observaciones[suma].dataValues.fecha, "</td>\n                </tr>\n            \n");
               contPage == 1 ? pageBreak = fila >= limitRowFistPage - 1 ? true : false : pageBreak = fila >= limitRowLastPage - 1 ? true : false;
 
               if (pageBreak && suma < numberRowsObs - 1) {
-                content += "\n\n                    </table>\n                    <div style=\"page-break-before:always\">&nbsp;</div>\n                    <table class=\"ft\">\n                        <tr>\n                            <th>Observaci\xF3n N\xB0</th>\n                            <th>Descripci\xF3n</th>\n                            <th>Fecha</th>\n                            <th>Gasto</th>\n                        </tr>\n                \n";
+                content += "\n\n                    </table>\n                    <div style=\"page-break-before:always\">&nbsp;</div>\n                    <table class=\"ft\">\n                        <tr>\n                            <th>Observaci\xF3n N\xB0</th>\n                            <th>Descripci\xF3n</th>\n                            <th>Fecha</th>\n                        </tr>\n                \n";
                 pageBreak = false;
                 contPage += 1;
                 pagesTotal += 1;
@@ -610,12 +622,12 @@ var getPdfOrderImport = /*#__PURE__*/function () {
             }
 
             ;
-            tablesObs += "\n\n            <table class=\"ft\">\n                <tr>\n                    <th>Observaci\xF3n N\xB0</th>\n                    <th>Descripci\xF3n</th>\n                    <th>Fecha</th>\n                    <th>Gasto</th>\n                </tr>\n                ".concat(content, "\n        \n"); // Fin tabla observaciones
+            tablesObs += "\n\n            <table class=\"ft\">\n                <tr>\n                    <th>Observaci\xF3n N\xB0</th>\n                    <th>Descripci\xF3n</th>\n                    <th>Fecha</th>\n                </tr>\n                ".concat(content, "\n        \n"); // Fin tabla observaciones
             // Generación de documento
 
             rut = pedido.dataValues.proveedore.dataValues.rut;
             fecha = "".concat(new Date().getFullYear(), "-").concat(new Date().getMonth() + 1 <= 9 ? "0" + (new Date().getMonth() + 1).toString() : new Date().getMonth() + 1, "-").concat(new Date().getDate() <= 9 ? "0" + new Date().getDate().toString() : new Date().getDate());
-            html = "\n            <!DOCTYPE html>\n            <html lang=\"es\">\n                <head>\n                    <meta charset=\"UTF-8\">\n                    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n                    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n                    <title>Orden de importaci\xF3n</title>\n                    <link \n                        rel=\"stylesheet\" \n                        href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" \n                        integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" \n                        crossorigin=\"anonymous\"\n                    >\n                    <style type=\"text/css\">\n                        .logo {\n                            width: 93%;\n                        }\n                        .header {\n                            padding-top: 50px;\n                            padding-left: 50px;\n                            width: 58.3%;\n                        }\n                        .center {\n                            text-align: center;\n                        }\n                        .ft-600 {\n                            font-weight: 600;\n                        }\n                        .border-order {\n                            border-style: solid;\n                            color:#2b5e11;\n                            border-width: thin;\n                        }\n                        .border-color-font {\n                            color: #4a9923;\n                        }\n                        .ft {\n                            font-size: 7px;\n                        }\n                        .ftn {\n                            font-size: 5px;\n                        }\n                        .plt {\n                            padding-left: 35px;\n                        }\n                        .margin-content {\n                            padding: 50px 0 0 170px;\n                            margin-top: 2px;\n                        }\n                        .margin-content-value {\n                            padding: 50px 0 0 0;\n                            margin: 0 0 0 -120px;\n                        }\n                        .content-value-underline {\n                            position: relative;\n                            display: inline-block;\n                            padding-bottom: 4px;\n                        }\n                        .content-value-underline:after {\n                            position: absolute;\n                            content: '';\n                            left: 50%;\n                            bottom: -2px;\n                            width: 170px;\n                            height: 1px;\n                            background: black;\n                            transform: translateX(-50%);\n                        }\n                        .footer-value-underline {\n                            position: relative;\n                            display: inline-block;\n                            padding-bottom: 4px;\n                        }\n                        .footer-value-underline:after {\n                            position: absolute;\n                            content: '';\n                            left: 50%;\n                            bottom: -2px;\n                            width: 100px;\n                            height: 1px;\n                            background: black;\n                            transform: translateX(-50%);\n                        }\n                        .abs {\n                            position: absolute;\n                        }\n                        table {\n                            font-family: arial, sans-serif;\n                            border-collapse: collapse;\n                            width: 50%;\n                            margin: 20px 0 0 50px;\n                        }  \n                        td, th {\n                            border: 1px solid #dddddd;\n                            text-align: left;\n                            padding: 8px;\n                        }  \n                        tr:nth-child(even) {\n                            background-color: #dddddd;\n                        }\n                        .title-table {\n                            margin: 40px 0 0 50px;\n                        }\n                        .footer {\n                            width: 50%;\n                        }\n                        .abs-text-footer {\n                            position: absolute;\n                            top: 10px;\n                        }\n                    </style>\n                </head>\n                <body>\n                    <div class=\"row header\">\n                        <div class=\"col-5 center\">\n                            <img class=\"logo\" src=\"https://promachile.cl/wp-content/uploads/2021/08/Group-1.svg\">\n                        </div>\n                        <div class=\"col-5 text-dark ft plt\">\n                            <span class=\"ft-600\">PROMACHILE LIMITADA <br></span>\n                            <span class=\"ft-600\">RUT ( ID Fiscal) 78.629.630-7 <br></span>\n                            <span class=\"ft-600\">Alcalde Guzm\xE1n 0121 Bodega G 34, Quilicura <br></span>\n                            <span class=\"ft-600\">CHILE <br></span>\n                            <p class=\"ft-600\">COD Postal: <br></p>\n                            <p class=\"ft-600\">56 (9) 98847879</p>\n                        </div>\n                        <div class=\"col-2\">\n                            <div class=\"ftn center border-order\">\n                                <span class=\"ft-600 border-color-font\">ORDEN DE COMPRA <br></span>\n                                <span class=\"ft-600 border-color-font\">IMPORTACI\xD3N <br></span>\n                                <span class=\"ft-600 border-color-font\">N\xB0: ".concat(pedido.dataValues.codigo, "<br></span>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-5 ft margin-content\">\n                            <span class=\"text-dark\">Fecha <br></span>\n                            <span class=\"text-dark\">Proveedor <br></span>\n                            <span class=\"text-dark\">RUT<br></span>\n                            <!--<span class=\"text-dark\">Atenci\xF3n <br></span>-->\n                            <span class=\"text-dark\">Forma de pago <br></span>\n                            <span class=\"text-dark\">Fecha de entrega</span>\n                        </div>\n                        <div class=\"col-7 ft margin-content-value\">\n                            <span class=\"text-dark abs\">").concat(fecha, "</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>\n                            <span class=\"text-dark abs\">").concat(pedido.dataValues.proveedore.dataValues.nombre, "</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>\n                            <span class=\"text-dark abs\">").concat(rut.substring(0, rut.length - 2), "-").concat(rut[rut.length - 1], "</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>\n                            <!--<span class=\"text-dark abs\">test</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>-->\n                            <span class=\"text-dark abs\">").concat(pedido.dataValues.tipo_pago == "1" ? "Credito" : "Transferencia", "</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>\n                            <span class=\"text-dark abs\">").concat(pedido.dataValues.fecha_inicial, "</span>\n                            <div class=\"content-value-underline\"></div>\n                        </div>\n                    </div>\n                    <!-- Seccion tablas html -->\n                    <p class=\"title-table ft-600 ft\">Solicita despachar lo siguiente:</p>\n                    ").concat(tables, "\n                    <p class=\"title-table ft-600 ft\">Observaciones:</p>\n                    ").concat(tablesObs, "\n                    <!-- Fin seccion tablas html -->\n                    <div id=\"pageFooter-").concat(pagesTotal, "\">\n                        <footer class=\"row footer\">\n                            <div class=\"col-3\"></div>\n                            <div class=\"col-3\">\n                                <div class=\"footer-value-underline\"></div>\n                                <span class=\"text-dark ft abs-text-footer\">Mois\xE9s Paredes M.</span>\n                            </div>\n                            <div class=\"col-3\"></div>\n                            <div class=\"col-3\">\n                                <div class=\"footer-value-underline\"></div>\n                                <span class=\"text-dark ft abs-text-footer\">").concat(pedido.dataValues.proveedore.dataValues.nombre, "</span>\n                            </div>\n                        </footer>\n                    </div>\n                </body>\n            </html>\n        ");
+            html = "\n            <!DOCTYPE html>\n            <html lang=\"es\">\n                <head>\n                    <meta charset=\"UTF-8\">\n                    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n                    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n                    <title>Orden de importaci\xF3n</title>\n                    <link \n                        rel=\"stylesheet\" \n                        href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" \n                        integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" \n                        crossorigin=\"anonymous\"\n                    >\n                    <style type=\"text/css\">\n                        .logo {\n                            width: 93%;\n                        }\n                        .header {\n                            padding-top: 50px;\n                            padding-left: 50px;\n                            width: 58.3%;\n                        }\n                        .center {\n                            text-align: center;\n                        }\n                        .ft-600 {\n                            font-weight: 600;\n                        }\n                        .border-order {\n                            border-style: solid;\n                            color:#2b5e11;\n                            border-width: thin;\n                        }\n                        .border-color-font {\n                            color: #4a9923;\n                        }\n                        .ft {\n                            font-size: 7px;\n                        }\n                        .ftn {\n                            font-size: 5px;\n                        }\n                        .plt {\n                            padding-left: 35px;\n                        }\n                        .margin-content {\n                            padding: 50px 0 0 170px;\n                            margin-top: 2px;\n                        }\n                        .margin-content-value {\n                            padding: 50px 0 0 0;\n                            margin: 0 0 0 -120px;\n                        }\n                        .content-value-underline {\n                            position: relative;\n                            display: inline-block;\n                            padding-bottom: 4px;\n                        }\n                        .content-value-underline:after {\n                            position: absolute;\n                            content: '';\n                            left: 50%;\n                            bottom: -2px;\n                            width: 170px;\n                            height: 1px;\n                            background: black;\n                            transform: translateX(-50%);\n                        }\n                        .footer-value-underline {\n                            position: relative;\n                            display: inline-block;\n                            padding-bottom: 4px;\n                        }\n                        .footer-value-underline:after {\n                            position: absolute;\n                            content: '';\n                            left: 50%;\n                            bottom: -2px;\n                            width: 100px;\n                            height: 1px;\n                            background: black;\n                            transform: translateX(-50%);\n                        }\n                        .abs {\n                            position: absolute;\n                        }\n                        table {\n                            font-family: arial, sans-serif;\n                            border-collapse: collapse;\n                            width: 50%;\n                            margin: 20px 0 0 50px;\n                        }  \n                        td, th {\n                            border: 1px solid black;\n                            text-align: left;\n                            padding: 8px;\n                        }  \n                        tr:nth-child(even) {\n                            background-color: #dddddd;\n                        }\n                        .title-table {\n                            margin: 40px 0 0 50px;\n                        }\n                        .footer {\n                            width: 50%;\n                        }\n                        .abs-text-footer {\n                            position: absolute;\n                            top: 10px;\n                        }\n                    </style>\n                </head>\n                <body>\n                    <div class=\"row header\">\n                        <div class=\"col-5 center\">\n                            <img class=\"logo\" src=\"https://raw.githubusercontent.com/cr-urra/SGI-tic3-udp/main/server/src/files/media/logo.png\">\n                        </div>\n                        <div class=\"col-5 text-dark ft plt\">\n                            <span class=\"ft-600\">PROMACHILE LIMITADA <br></span>\n                            <span class=\"ft-600\">RUT ( ID Fiscal) 78.629.630-7 <br></span>\n                            <span class=\"ft-600\">Alcalde Guzm\xE1n 0121 Bodega G 34, Quilicura <br></span>\n                            <span class=\"ft-600\">CHILE <br></span>\n                            <p class=\"ft-600\">COD Postal: <br></p>\n                            <p class=\"ft-600\">56 (9) 98847879</p>\n                        </div>\n                        <div class=\"col-2\">\n                            <div class=\"ftn center border-order\">\n                                <span class=\"ft-600 border-color-font\">ORDEN DE COMPRA <br></span>\n                                <span class=\"ft-600 border-color-font\">IMPORTACI\xD3N <br></span>\n                                <span class=\"ft-600 border-color-font\">N\xB0: ".concat(pedido.dataValues.codigo, "<br></span>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-5 ft margin-content\">\n                            <span class=\"text-dark\">Fecha <br></span>\n                            <span class=\"text-dark\">Proveedor <br></span>\n                            <span class=\"text-dark\">RUT<br></span>\n                            <!--<span class=\"text-dark\">Atenci\xF3n <br></span>-->\n                            <span class=\"text-dark\">Forma de pago <br></span>\n                            <span class=\"text-dark\">Fecha de entrega</span>\n                        </div>\n                        <div class=\"col-7 ft margin-content-value\">\n                            <span class=\"text-dark abs\">").concat(fecha, "</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>\n                            <span class=\"text-dark abs\">").concat(pedido.dataValues.proveedore.dataValues.nombre, "</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>\n                            <span class=\"text-dark abs\">").concat(rut.substring(0, rut.length - 2), "-").concat(rut[rut.length - 1], "</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>\n                            <!--<span class=\"text-dark abs\">test</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>-->\n                            <span class=\"text-dark abs\">").concat(pedido.dataValues.tipo_pago == "1" ? "Credito" : "Transferencia", "</span>\n                            <div class=\"content-value-underline\"></div>\n                            <br>\n                            <span class=\"text-dark abs\">").concat(pedido.dataValues.fecha_inicial, "</span>\n                            <div class=\"content-value-underline\"></div>\n                        </div>\n                    </div>\n                    <!-- Seccion tablas html -->\n                    <p class=\"title-table ft-600 ft\">Solicita despachar lo siguiente:</p>\n                    ").concat(tables, "\n                    <p class=\"title-table ft-600 ft\">Observaciones:</p>\n                    ").concat(tablesObs, "\n                    <!-- Fin seccion tablas html -->\n                    <div id=\"pageFooter-").concat(pagesTotal, "\">\n                        <footer class=\"row footer\">\n                            <div class=\"col-3\"></div>\n                            <div class=\"col-3\">\n                                <div class=\"footer-value-underline\"></div>\n                                <span class=\"text-dark ft abs-text-footer\">Mois\xE9s Paredes M.</span>\n                            </div>\n                            <div class=\"col-3\"></div>\n                            <div class=\"col-3\">\n                                <div class=\"footer-value-underline\"></div>\n                                <span class=\"text-dark ft abs-text-footer\">").concat(pedido.dataValues.proveedore.dataValues.nombre, "</span>\n                            </div>\n                        </footer>\n                    </div>\n                </body>\n            </html>\n        ");
             config = {
               "format": "A4"
             };
