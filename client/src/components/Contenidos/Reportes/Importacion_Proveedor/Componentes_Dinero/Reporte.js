@@ -41,10 +41,11 @@ export default class Opcion extends Component {
                             <div className="container separacion">
                                 <div className="card border-primary  shadow-lg">
                                     <div className="card-header text-primary" style={{fontSize:"18px"}}>
-                                        JJPlastalloy
+                                        {this.props.Proveedor.nombre}
+                                        {console.log(this.props,"revisa aqui papito papurri papa")}
                                     </div>
                                     <div className="container" >
-                                        <h1 className="text-center" style={{fontSize:"25px",marginTop:"10px"}}>Monto Importacion Proveedor JJPlastalloy</h1>
+                                        <h1 className="text-center" style={{fontSize:"25px",marginTop:"10px"}}>Monto Importacion Proveedor {this.props.Proveedor.nombre}</h1>
                                         <div className="input-group no_flex">
                                             <table className="table text-center table-striped table-bordered" style={{marginTop:"20px"}}>
                                                 <thead>

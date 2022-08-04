@@ -187,7 +187,7 @@ export default class Opcion extends Component {
                                         </Accordion.Collapse>
                                       </Card>
                                     </Accordion>
-                                </div>                          
+                                </div>                       
                             </div>   
                     
                               <Reporte Proveedor = {this.props.Proveedores[j]} Productos={this.state.productos} id={this.props.id} fecha1 = {this.state.fecha1} fecha2 = {this.state.fecha2}/>

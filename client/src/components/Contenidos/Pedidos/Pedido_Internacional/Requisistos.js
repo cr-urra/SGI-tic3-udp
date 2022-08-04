@@ -212,7 +212,7 @@ export default class Init extends Component {
                             type="number" 
                             name="pago"
                             className="form-control" 
-                            placeholder="$ Dolar"
+                            placeholder="$ C/Dolar"
                             aria-label="Default" 
                             aria-describedby="inputGroup-sizing-default"
                             onChange={this.onChange}
@@ -229,7 +229,7 @@ export default class Init extends Component {
                             type="number" 
                             name="cambio"
                             className="form-control" 
-                            placeholder="$ CLP"
+                            placeholder="$ Dolar/CLP"
                             aria-label="Default" 
                             aria-describedby="inputGroup-sizing-default"
                             onChange={this.onChange}
@@ -251,7 +251,7 @@ export default class Init extends Component {
                           </div>  
                           <div className="col-2">
                             <div className="input-group-prepend ancho2">
-                                <span className="input-group-text ancho" id="inputGroup-sizing-default">Abono</span>
+                                <span className="input-group-text ancho" id="inputGroup-sizing-default">Abono A.A.</span>
                             </div>
                           </div>
                           <div className="col-4">
@@ -259,7 +259,7 @@ export default class Init extends Component {
                             type="number" 
                             name="abono"
                             className="form-control" 
-                            placeholder="$ CLP"
+                            placeholder="$CLP"
                             aria-label="Default" 
                             aria-describedby="inputGroup-sizing-default"
                             onChange={this.onChange}

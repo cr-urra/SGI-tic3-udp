@@ -33,8 +33,8 @@ export default class Opcion extends Component {
         return (             
             <div> 
                 <Accordion >
-                <div className="row">
-                    <div className='col-2'/>
+                <div className="row container separacion">
+                    <div className='col-5'/>
                     <div className="col-3">
                         <Accordion.Toggle as={Button} className="btn btn-success ancho rounded-pill"  eventKey="0">
                             Generar Reporte

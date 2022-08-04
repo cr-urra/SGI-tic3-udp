@@ -18,7 +18,7 @@ export default class Observacion extends Component {
               <div className="col-3">Fecha: {this.props.fecha}</div>
               <div className="col-4">{this.props.descripcion}</div>
               <div className="col-3">RUT: {this.props.rut}</div>
-              <div className="col-2">Gasto: {this.props.gasto}</div>
+              <div className="col-2">Gasto(CLP): {this.props.gasto}</div>
             </div>
           </li>     
         )

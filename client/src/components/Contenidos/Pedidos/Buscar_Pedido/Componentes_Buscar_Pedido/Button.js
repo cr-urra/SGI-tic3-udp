@@ -73,8 +73,8 @@ export default class Init extends Component {
           return (
             
               <div className="ml-4 text-center">
-                  <button className="btn color_sitio2 mt-3" onClick={this.produccion}>
-                    Editar Pedido
+                  <button className="btn bg-primary text-white mt-3" onClick={this.produccion}>
+                    Ver Pedido
                     {console.log(this.props.n_pedido,"1")}
                   </button>
               </div>
@@ -84,8 +84,8 @@ export default class Init extends Component {
           return (
             
               <div className="ml-4 text-center">
-                  <button className="btn color_sitio2 mt-3" onClick={this.internacional}>
-                    Editar Pedido
+                  <button className="btn bg-primary text-white mt-3" onClick={this.internacional}>
+                    Ver Pedido
                   </button>
               </div>
             
@@ -94,8 +94,8 @@ export default class Init extends Component {
           return (
            
               <div className="ml-4 text-center">
-                  <button className="btn color_sitio2 mt-3" onClick={this.ingreso}>
-                    Editar Pedido
+                  <button className="btn bg-primary text-white mt-3" onClick={this.ingreso}>
+                    Ver Pedido
                   </button>
               </div>
            
@@ -104,8 +104,8 @@ export default class Init extends Component {
           return (
            
               <div className="ml-4 text-center">
-                  <button className="btn color_sitio2 mt-3" onClick={this.nacional}>
-                    Editar Pedido
+                  <button className="btn bg-primary text-white mt-3" onClick={this.nacional}>
+                    Ver Pedido
                   </button>
               </div>
            
@@ -114,8 +114,8 @@ export default class Init extends Component {
           return (
            
               <div className="ml-4 text-center">
-                  <button className="btn color_sitio2 mt-3" onClick={this.finalizado}>
-                    Editar Pedido
+                  <button className="btn bg-primary text-white mt-3" onClick={this.finalizado}>
+                    Ver Pedido
                   </button>
               </div>
             

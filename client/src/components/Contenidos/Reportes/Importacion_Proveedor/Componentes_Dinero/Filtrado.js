@@ -184,15 +184,18 @@ export default class Opcion extends Component {
                                       </Card>
                                     </Accordion>
                                 </div>
-                            </div>
-                              <div className="row">
-                                  <div className='col-2'/>
-                                  <div className="col-3">
+
+                                <div className="row">
+                                    
+                                  <div className='col-1'/>
+                                  <div className="col-3 mt-5">
                                       <Accordion.Toggle as={Button} className="btn btn-success ancho rounded-pill"  eventKey="0" onClick={this.cambio}>
                                           Generar Reporte
                                       </Accordion.Toggle>
                                   </div>
                               </div>
+                            </div>
+                              
                     
                               <Reporte estado = {this.state.estado} Proveedor = {this.props.Proveedores[j]} Productos={this.state.productos} id={this.props.id} fecha1 = {this.state.fecha1} fecha2 = {this.state.fecha2}/>
                               <div className='margen2' />

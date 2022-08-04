@@ -14,7 +14,7 @@ export default class Datos extends Component {
               name="gasto"
               className="form-control text-right" 
               aria-label="Default" 
-              placeholder="$ Dolar"
+              placeholder="$ CLP"
               aria-describedby="inputGroup-sizing-default"             
               value={this.props.contenido1}
               onChange={this.props.onChange}
