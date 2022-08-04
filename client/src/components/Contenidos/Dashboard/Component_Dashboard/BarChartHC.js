@@ -5,31 +5,99 @@ import HighchartsReact from 'highcharts-react-official'
 export default class BarChartHC extends Component {
 
   state = {
-    DataSem1HC: [],
-    DataSem2HC: []
+    DataSem: [],
+    Sem1: [
+      'Ene',
+      'Feb',
+      'Mar',
+      'Abr',
+      'May',
+      'Jun'
+    ],
+    Sem2: [
+      'Jul',
+      'Ago',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dic'
+    ],
+    semActual: [
+      'Ene',
+      'Feb',
+      'Mar',
+      'Abr',
+      'May',
+      'Jun'
+    ],
+    años: [],
+    año: 0,
+    sem: "1"
   }
-  componentDidMount = async () =>{
-    console.log("este es el props de mi HC", this.props.data)
-    let auxHC, aux2HC;
-    for(let i=0 ; i < this.props.data.length; i++){
-      auxHC = {
-        name: this.props.data[i].name,
-        data: this.props.data[i].data.slice(0,6),
-      }
 
-      aux2HC = {
-        name: this.props.data[i].name,
-        data: this.props.data[i].data.slice(6,12),
-      }
-      await this.setState({
-        DataSem1HC: [...this.state.DataSem1HC, auxHC],
-        DataSem2HC: [...this.state.DataSem2HC, aux2HC]
+  componentDidMount = async () =>{
+    const fechaActual = new Date()
+    let data = []
+    const arr = this.props.años;
+    this.props.data.forEach(elementProveedores => {
+      data.push({
+        name: elementProveedores.nombre,
+        data: []
       })
-    }
+      elementProveedores.cantidad.forEach(elementYears => {
+        if (elementYears.año == Math.max(...arr)) {
+          fechaActual.getMonth() <= 5 ? data[data.length - 1].data = elementYears.cantidadMes.slice(0,6) : data[data.length - 1].data = elementYears.cantidadMes.slice(6,elementYears.cantidadMes.length)
+        }
+      })
+    })
+    console.log("data", data)
+    this.setState({
+      semActual: fechaActual.getMonth() <= 5 ? this.state.Sem1 : this.state.Sem2,
+      DataSem: data,
+      años: this.props.años,
+      año: Math.max(...arr),
+      sem: fechaActual.getMonth() <= 5 ? "1" : "2"
+    })
+  }
+
+  onChangeY = (event) => {
+    this.setState({
+      año: event.target.value
+    })
+  }
+
+  onChangeS = (event) => {
+    this.setState({
+      sem: event.target.value
+    })
+    console.log(this.state.sem);
+  }
+
+  onChangeData = () => {
+    this.setState({
+      semActual: this.state.semActual == this.state.Sem1 ? this.state.Sem2 : this.state.Sem1
+    })
+    const fechaActual = new Date()
+    let data = []
+    const arr = this.props.años;
+    this.props.data.forEach(elementProveedores => {
+      data.push({
+        name: elementProveedores.nombre,
+        data: []
+      })
+      elementProveedores.cantidad.forEach(elementYears => {
+        if (elementYears.año == this.state.año) {
+          this.state.sem <= "1" ? data[data.length - 1].data = elementYears.cantidadMes.slice(0,6) : data[data.length - 1].data = elementYears.cantidadMes.slice(6,elementYears.cantidadMes.length)
+        }
+      })
+    })
+    this.setState({
+      semActual: this.state.sem == "1" ? this.state.Sem1 : this.state.Sem2,
+      DataSem: data
+    })
   }
 
   render() {
-    if(this.props.estado == false ){
       return (
         <div className="App">        
           <HighchartsReact
@@ -39,17 +107,10 @@ export default class BarChartHC extends Component {
                   type: 'column'
                 },
                 title: {
-                    text: 'Cantidad de importacion por proveedor en KG'
+                    text: 'Cantidad de importación por proveedor en KG anual'
                 },
                 xAxis: {
-                    categories: [
-                        'Jan',
-                        'Feb',
-                        'Mar',
-                        'Apr',
-                        'May',
-                        'Jun',
-                    ],
+                    categories: this.state.semActual,
                     crosshair: true
                 },
                 yAxis: {
@@ -77,68 +138,23 @@ export default class BarChartHC extends Component {
                         borderWidth: 0
                     }
                 },
-                series: this.state.DataSem1HC
+                series: this.state.DataSem
               }}
             />
-          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.function}>Cambio de Semestre</button>
+            <select className="form-select ml-5" value={this.state.año} onChange = {this.onChangeY}>
+                {this.state.años != [] && <option value={this.state.años[0]} defaultValue>{this.state.años[0]}</option>}
+                {
+                  this.state.años.length > 1 && this.state.años.slice(1, this.state.años.length).map(element => {
+                    return <option value={element} key={element}>{element}</option>
+                  })
+                }
+            </select>
+            <select className="form-select ml-5" value={this.state.sem} onChange={this.onChangeS}>
+              <option value={this.state.sem == "1" ? "1" : "2"}>{this.state.sem == "1" ? "Primer Semestre" : "Segundo Semestre"}</option>
+              <option value={this.state.sem == "2" ? "1" : "2"}>{this.state.sem == "2" ? "Primer Semestre" : "Segundo Semestre"}</option>
+            </select>
+          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.onChangeData}>Actualizar</button>
         </div>
       )
-    }else{
-      return (
-        <div className="App">
-          <HighchartsReact
-              highcharts={Highcharts}
-              options= {{
-                chart: {
-                  type: 'column'
-                },
-                title: {
-                    text: 'Cantidad de importacion por proveedor en KG'
-                },
-                xAxis: {
-                    categories: [
-                        'Jul',
-                        'Ago',
-                        'Sep',
-                        'Oct',
-                        'Nov',
-                        'Dic',
-                    ],
-                    crosshair: true
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Cantidad (KG)'
-                    }
-                },
-                legend: {
-                  layout: 'horizontal',
-                  align: 'center',
-                  verticalAlign: 'top'
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f} KG</b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
-                series: this.state.DataSem2HC
-              }}
-          />
-          {console.log("este es el la data de ssem2",this.state.DataSem2HC)}
-          <button type="button" className="btn btn-outline-secondary ml-5" onClick={this.props.function}>Cambio de Semestre</button>
-            
-        </div>
-      )
-    }  
   }
 }

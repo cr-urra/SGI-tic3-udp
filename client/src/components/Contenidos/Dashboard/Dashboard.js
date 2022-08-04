@@ -30,9 +30,12 @@ export default class Init extends Component {
         'rgba(255, 159, 64)',
         'rgba(153, 102, 255)'
          /* crear más colores */],
-      bool : false
+      bool: false
     }
+    /*
     componentDidMount = async ()=>{
+      const res = await axios.get("/pedidos/dashboards/")
+      console.log(res);
       const resBar = databar
       console.log("ResBAr",resBar)
 
@@ -74,8 +77,6 @@ export default class Init extends Component {
           dataLineHC : [...this.state.dataLineHC,auxdataHC]
         })
       }
-      console.log('esta es la data para grafico barra HC',this.state.dataBarraHC)
-      console.log('esta es la data para grafico lineal HC',this.state.dataLineHC)
       this.setState({
         bool: true
       })
@@ -91,17 +92,34 @@ export default class Init extends Component {
           estado_lineHC: !this.state.estado_lineHC
       }))
     }
+    */
+
+    componentDidMount = async () => {
+      const res = await axios.get("/pedidos/dashboards/")
+      console.log(res);
+      this.setState({
+        dataBarraHC: {
+          datos: res.data.consultas.cantidadPedidosProveedorAnualKG.datos, 
+          años: res.data.consultas.cantidadPedidosProveedorAnualKG.años
+        }
+      })
+      this.setState({
+        bool: true
+      });
+    }
+
     render() {
       if(this.state.bool){
         return (
           <main className="content">
-              <h1 className="display-5 titulo">DASHBOARD</h1>
-              <div className="row">
+              <h1 className="display-5 titulo">Dashboards</h1>
+              <div className="row margin-0">
                 <div className ="col-1"></div>
                 <div className ="container col-10">
-                  <BarChartHC data = {this.state.dataBarraHC} estado= {this.state.estado_barHC} function = {this.cambio_barHC}></BarChartHC>
+                  <BarChartHC data = {this.state.dataBarraHC.datos} años = {this.state.dataBarraHC.años}></BarChartHC>
                 </div>
                 <div className ="col-1"></div>
+                {/*
                 <div className ="col-1"></div>
                 <div className ="container col-10">
                   <LineChartHC data = {this.state.dataLineHC} estado= {this.state.estado_lineHC} function = {this.cambio_lineHC}></LineChartHC>
@@ -127,6 +145,7 @@ export default class Init extends Component {
                   <BarChartProductHC data = {this.state.datasetsBarraProduc}></BarChartProductHC>
                 </div>
                 <div className ="col-1"></div>
+                */}
               </div>
           </main>
       )

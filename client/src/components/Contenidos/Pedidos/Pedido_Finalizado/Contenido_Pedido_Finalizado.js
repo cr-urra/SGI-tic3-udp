@@ -25,6 +25,7 @@ export default class Init extends Component {
         costos: cuenta,
         observaciones: this.props.auxiliar.pedido.pedido.observaciones
       })
+      console.log("obs:", this.props.auxiliar.pedido.pedido);
     }
 
     cambio = (e) =>{

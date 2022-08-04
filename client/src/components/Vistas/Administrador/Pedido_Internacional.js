@@ -29,7 +29,7 @@ export default class Buscar_Producto extends Component {
 
     componentWillUnmount = () => {
         if(this.state.message)
-            alert(this.state.message);
+            toast.warn(this.state.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})
     };
 
     logOut = async () => {

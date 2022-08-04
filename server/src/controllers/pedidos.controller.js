@@ -23,6 +23,7 @@ import agentesAduana from '../models/agentes_aduana';
 import cuentasCorrientes from '../models/cuentas_corrientes';
 import detalles_pedidos from '../models/detalles_pedidos';
 import gastos_extras from '../models/gastos_extras';
+import {database} from '../database/database';
 
 export const createPedidos = async (req, res) => {
     try{
@@ -448,67 +449,88 @@ export const getAllPedidosBetweenDates = async (req, res) => {
 };
 export const getAllPedidosDashboards = async (req, res) => {
     try{
-        const allPedidos = await pedidos.findAll({
-            where: {
-                vigencia: true
-            },
-            attributes: [
-                'id',
-                'codigo', 
-                'pago_inicial', 
-                'pago_final',
-                'fecha_pago', 
-                'fecha_salida', 
-                'fecha_llegada_real', 
-                'fecha_llegada_estimada', 
-                'fecha_aduana',
-                'estado',
-                'tipo_de_envio',
-                'flete',
-                'valor_cif',
-                'honorarios',
-                'arancel',
-                'gastos_agencia',
-                'numero_din',
-                'cuentas_bancos_id',
-                'agentes_aduana_id',
-                'proveedores_id',
-                'dolar_mensual_id',
-                'fecha_vencimiento',
-                'tipo_pago',
-                'fecha_inicial',
-                'seguro',
-                'vigencia'
-            ],
-            order: [
-                ['id', 'DESC']
-            ],
-            include: [
-                proveedores,
-                {
-                    model: tiene,
-                    include: [
-                        {
-                            model: productos,
-                            include: [
-                                unidadProductos
-                            ]
+        // Dashboard Cantidad de importación por proveedor en KG anual
+        const [resultsProovedoresConPedidos] = await database.query('select distinct proveedores.nombre from pedidos, proveedores where pedidos.proveedores_id = proveedores.id');
+        const [resultsCantPedidosProveedorKG] = await database.query('select p.id as id, p.codigo as codigo, p.fecha_vencimiento as fecha, t.cantidad*u.valor_unidad as cantidad, pr.id as id_proveedor, pr.nombre as nombre_proveedor from pedidos as p, tiene as t, proveedores as pr, productos as prod, unidad_productos as u where p.id = t.pedidos_id and p.proveedores_id = pr.id and t.productos_id = prod.id and prod.unidad_productos_id = u.id');
+        let cantidadPedidosProveedorAnualKG = [];
+        let arrYears = [];
+        resultsProovedoresConPedidos.forEach(elementProv => {
+            cantidadPedidosProveedorAnualKG.push({
+                nombre: elementProv.nombre,
+                cantidad: []
+            });
+            const indiceProveedor = cantidadPedidosProveedorAnualKG.length - 1;
+            resultsCantPedidosProveedorKG.filter(elementPedido => elementPedido.nombre_proveedor == elementProv.nombre).forEach(elementData => {
+                const fecha = new Date(elementData.fecha);
+                const aux = cantidadPedidosProveedorAnualKG.filter(elementConsulta => elementConsulta.nombre == elementProv.nombre)[0];
+                if(aux.cantidad == []) {
+                    cantidadPedidosProveedorAnualKG.cantidad.push({
+                        año: fecha.getFullYear(),
+                        cantidadMes: [0,0,0,0,0,0,0,0,0,0,0,0]
+                    });
+                } else {
+                    let yearEncontrado = false;
+                    let indiceYear = 0;
+                    for (let i = 0; i < aux.cantidad.length; i++) {
+                        if (aux.cantidad[i].año == fecha.getFullYear()) {
+                            yearEncontrado = true;
+                            break;
+                        };
+                        indiceYear +=  1;
+                    };
+                    if (yearEncontrado) {
+                        cantidadPedidosProveedorAnualKG[indiceProveedor].cantidad[indiceYear].cantidadMes[fecha.getMonth()] += elementData.cantidad;
+                    } else {
+                        cantidadPedidosProveedorAnualKG[indiceProveedor].cantidad.push({
+                            año: fecha.getFullYear(),
+                            cantidadMes: [0,0,0,0,0,0,0,0,0,0,0,0]
+                        });
+                        indiceYear = cantidadPedidosProveedorAnualKG[indiceProveedor].cantidad.length - 1;
+                        cantidadPedidosProveedorAnualKG[indiceProveedor].cantidad[indiceYear].cantidadMes[fecha.getMonth()] += elementData.cantidad;
+                    };
+                };
+                if (arrYears == []) {
+                    arrYears.push(new Date(elementData.fecha).getFullYear());
+                } else {
+                    let bool = true;
+                    arrYears.forEach(element => {
+                        if (element == new Date(elementData.fecha).getFullYear()) {
+                            bool = false;
                         }
-                    ]
-                }
-            ]
+                    });
+                    if (bool) {
+                        arrYears.push(new Date(elementData.fecha).getFullYear());
+                    };
+                };
+            });
         });
+
+        // Total de dólares gastados por proveedor anual
+
+        //Filtrar por proveedor
+
+        //Organizar por año, cada año un proveedor, cada proveedor su gasto mensuale en el respectivo año
+        const [resultsDolaresPorProveedor] = await database.query('select p.id as pedido_id, p.codigo as pedido_codigo, p.fecha_vencimiento as fecha_pedido, pr.nombre as nombre_proveedor, pro.codigo as codigo_producto, t.cantidad as cantidad_producto, h.precio as precio_producto, h.fecha as fecha_precio_producto from pedidos as p, proveedores as pr, tiene as t, productos as pro, historial_precios as h where p.id = t.pedidos_id and t.productos_id = pro.id and pro.proveedores_id = pr.id and pro.id = h.productos_id');
+        const datosTotal = {
+            cantidadPedidosProveedorAnualKG: {
+                datos: cantidadPedidosProveedorAnualKG,
+                años: arrYears
+            },
+            dolaresPorProveedorAnual: {
+                datos: resultsDolaresPorProveedor
+            }
+        };
         res.json({
-            resultado: true, 
+            resultado: true,
             message: "",
-            pedidos: allPedidos
+            consultas: datosTotal
         });
     }catch(e){
         console.log(e);
         res.json({
             resultado: false, 
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
-            pedidos: null
+            consultas: null
         });
     };
 };

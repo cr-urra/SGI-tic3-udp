@@ -287,27 +287,30 @@ export const logOut = async (req, res) => {
 
 export const getRol = async (req, res) => {
     const token = req.cookies.token;
-    !token && res.json({resultado: false, cod_rol: "", message: ""});
-    let verifyDecoded = null;
-    jwt.verify(token, config.SECRET, (err) => {verifyDecoded = err});
-    if(verifyDecoded !== null){
+    if (!token) {
         res.json({resultado: false, cod_rol: "", message: ""});
-    }else{
-        const decoded = jwt.verify(token, config.SECRET)
-        let id = decoded.id;
-        if (id !== undefined) {
-            const user = await usuarios.findOne({
-                where: {id},
-                attributes: ['roles_id']
-            });
-            id = user.roles_id;
-            const rol = await roles.findOne({
-                where: {id},
-                attributes: ['cod_rol']
-            });
-            res.json({resultado: true, codRol: rol.cod_rol, message: ""});
-        } else {
+    } else {
+        let verifyDecoded = null;
+        jwt.verify(token, config.SECRET, (err) => {verifyDecoded = err});
+        if(verifyDecoded !== null){
             res.json({resultado: false, cod_rol: "", message: ""});
+        }else{
+            const decoded = jwt.verify(token, config.SECRET)
+            let id = decoded.id;
+            if (id !== undefined) {
+                const user = await usuarios.findOne({
+                    where: {id},
+                    attributes: ['roles_id']
+                });
+                id = user.roles_id;
+                const rol = await roles.findOne({
+                    where: {id},
+                    attributes: ['cod_rol']
+                });
+                res.json({resultado: true, codRol: rol.cod_rol, message: ""});
+            } else {
+                res.json({resultado: false, cod_rol: "", message: ""});
+            };
         };
     };
 };

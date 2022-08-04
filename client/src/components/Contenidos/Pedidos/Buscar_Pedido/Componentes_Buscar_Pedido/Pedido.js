@@ -17,10 +17,25 @@ export default class Init extends Component {
         }))
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'orden.pdf')
+        link.setAttribute('download', `orden_${this.props.pedido.n_pedido}.pdf`)
         document.body.appendChild(link)
         link.click()
     };
+
+    getDocuments = async () => {
+      axios.defaults.headers.post['X-CSRF-Token'] = localStorage.getItem('X-CSRF-Token')
+      const res = await axios.get("/files/getDocumentos/"+this.props.pedido.pedido.id,{ 
+          responseType: 'blob' 
+      })
+      const url = window.URL.createObjectURL(new Blob([res.data], {
+          type: res.headers['content-type']
+      }))
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `documentos_pedido_${this.props.pedido.n_pedido}.zip`)
+      document.body.appendChild(link)
+      link.click()
+  };
 
     render() {
         return (            
@@ -59,6 +74,9 @@ export default class Init extends Component {
                               <Productos Productos={this.props.pedido.productos} />
                               </tbody>
                             </table>
+                            <button className="btn color_sitio2 mt-3" onClick={this.getDocuments}>
+                              Descargar documentos
+                            </button>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>

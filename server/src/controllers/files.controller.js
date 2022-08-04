@@ -11,6 +11,8 @@ import tiene from '../models/tiene';
 import proveedores from '../models/proveedores';
 import sequelize from 'sequelize';
 import documentos from '../models/documentos';
+import admZip from 'adm-zip'
+import fs from 'fs';
 
 const maxDateProductPrice = async (producto) => {
     let datesPrecios = [];
@@ -20,7 +22,7 @@ const maxDateProductPrice = async (producto) => {
     });
     const maxDate = new Date(Math.max.apply(null,datesPrecios));
     producto.dataValues.historial_precios.forEach(element => {
-        if(String(element.dataValues.fecha) == String(maxDate)){
+        if(String(element.dataValues.fecha) == String(maxDate)){    
             precio = element.dataValues.precio;
         };
     });
@@ -205,7 +207,34 @@ export const setDocumentos = async (req, res) => {
                 message: "Ha ocurrido un error, porfavor contactese con el administrador"
             });
         } else {
-            for(let i = 0; i < req.files.files.length; i++) {
+            const largo = req.files.files.length >= 2 ? true : false;
+            if (largo) {
+                for(let i = 0; i < largo; i++) {
+                    const pedido = await pedidos.findOne({
+                        where: {
+                            id: req.params.id,
+                            vigencia: true
+                        },
+                        attributes: [
+                            'id',
+                            'codigo'
+                        ]
+                    });
+                    const name = "pedido_"+pedido.dataValues.codigo+"_"+"estado_"+req.params.estado+"_"+req.files.files[i].name;
+                    await req.files.files[i].mv(__dirname.replace('/controllers', '/files/documentos/')+name);
+                    const newDocumentos = await documentos.create({
+                        nombre_documento: name, 
+                        pedidos_id: req.params.id,
+                        vigencia: true
+                    },{
+                        fields: [
+                            'nombre_documento', 
+                            'pedidos_id',
+                            'vigencia'
+                        ]
+                    });
+                }
+            } else {
                 const pedido = await pedidos.findOne({
                     where: {
                         id: req.params.id,
@@ -216,9 +245,9 @@ export const setDocumentos = async (req, res) => {
                         'codigo'
                     ]
                 });
-                const name = "pedido_"+pedido.dataValues.codigo+"_"+"estado_"+req.params.estado+"_"+req.files.files[i].name;
-                await req.files.files[i].mv(__dirname.replace('/controllers', '/files/documentos/')+name);
-                const newDocumento = await documentos.create({
+                const name = "pedido_"+pedido.dataValues.codigo+"_"+"estado_"+req.params.estado+"_"+req.files.files.name;
+                await req.files.files.mv(__dirname.replace('/controllers', '/files/documentos/')+name);
+                const newDocumentos = await documentos.create({
                     nombre_documento: name, 
                     pedidos_id: req.params.id,
                     vigencia: true
@@ -499,9 +528,12 @@ export const getPdfOrderImport = async (req, res) => {
                             border-style: solid;
                             color:#2b5e11;
                             border-width: thin;
+                            width: 100px;
+                            margin-left: 7px;
                         }
                         .border-color-font {
                             color: #4a9923;
+                            font-size: 7px;
                         }
                         .ft {
                             font-size: 7px;
@@ -584,7 +616,7 @@ export const getPdfOrderImport = async (req, res) => {
                         <div class="col-5 center">
                             <img class="logo" src="https://raw.githubusercontent.com/cr-urra/SGI-tic3-udp/main/server/src/files/media/logo.png">
                         </div>
-                        <div class="col-5 text-dark ft plt">
+                        <div class="col-4 text-dark ft plt">
                             <span class="ft-600">PROMACHILE LIMITADA <br></span>
                             <span class="ft-600">RUT ( ID Fiscal) 78.629.630-7 <br></span>
                             <span class="ft-600">Alcalde Guzmán 0121 Bodega G 34, Quilicura <br></span>
@@ -592,7 +624,7 @@ export const getPdfOrderImport = async (req, res) => {
                             <p class="ft-600">COD Postal: <br></p>
                             <p class="ft-600">56 (9) 98847879</p>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             <div class="ftn center border-order">
                                 <span class="ft-600 border-color-font">ORDEN DE COMPRA <br></span>
                                 <span class="ft-600 border-color-font">IMPORTACIÓN <br></span>
@@ -653,10 +685,16 @@ export const getPdfOrderImport = async (req, res) => {
             </html>
         `;
         const config = {
-            "format": "A4"
+            childProcessOptions: {
+              env: {
+                OPENSSL_CONF: '/dev/null',
+              },
+            }
         };
         pdf.create(html, config).toStream(function (err, stream) {
-            if (err) return res.send(err);
+            if (err) {
+                console.log(err);
+            }
             res.type('pdf');
             stream.pipe(res);
         });
@@ -674,6 +712,50 @@ export const getPdfOrderImport = async (req, res) => {
         res.json({
             message: "Ha ocurrido un error, porfavor contactese con el administrador", 
             resultado: false
+        });
+    };
+};
+
+export const getDocumentos = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const docs = await documentos.findAll({
+            where: {
+                pedidos_id: id,
+                vigencia: true
+            },
+            attributes: [
+                'id',
+                'nombre_documento', 
+                'pedidos_id'
+            ]
+        });
+        const pedido = await pedidos.findOne({
+            where: {
+                id,
+                vigencia: true
+            },
+            attributes: [
+                'id',
+                'codigo'
+            ]
+        });
+        const zip = new admZip();
+        docs.forEach(element => {
+            zip.addLocalFile(__dirname.replace('/controllers', '/files/documentos/'+element.dataValues.nombre_documento));
+        });
+        fs.writeFileSync(__dirname.replace('/controllers', '/files/downloads/')+`documentos_pedido_${pedido.dataValues.codigo}.zip`, zip.toBuffer());
+        res.download(__dirname.replace('/controllers', '/files/downloads/')+`documentos_pedido_${pedido.dataValues.codigo}.zip`, (e) => {
+            if (e) {
+                console.log(e);
+            }
+        });
+    }catch(e){
+        console.log(e);
+        res.json({
+            message: "Ha ocurrido un error, porfavor contactese con el administrador", 
+            resultado: false, 
+            asume: null
         });
     };
 };

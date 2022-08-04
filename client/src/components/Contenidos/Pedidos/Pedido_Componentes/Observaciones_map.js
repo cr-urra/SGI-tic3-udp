@@ -5,6 +5,10 @@ import Observacion from './Observacion'
 
 
 export default class Observaciones extends Component {
+    componentDidMount = () => {
+      console.log(this.props.observaciones);
+    }
+
     render() {
       if(this.props.observaciones!==null){
         return this.props.observaciones.filter(observacion =>  observacion.gasto === 0).map(observacion => <Observacion gasto ={observacion.gasto} fecha={observacion.fecha} descripcion={observacion.observacion} key={observacion.id}/>)

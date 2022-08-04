@@ -76,8 +76,6 @@ export default class EditProduct extends Component {
             }else{
                 toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }  
-            console.log("res", res);
-            console.log("res2", res2);
         }else{
             toast.warn("Debes ingresar correctamente todos los datos, intenta nuevamente", {position: toast.POSITION.TOP_CENTER , transition: Slide})  
         } 

@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.5 (Ubuntu 13.5-0ubuntu0.21.10.1)
--- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.10.1)
+-- Dumped from database version 13.7 (Ubuntu 13.7-0ubuntu0.21.10.1)
+-- Dumped by pg_dump version 13.7 (Ubuntu 13.7-0ubuntu0.21.10.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -693,7 +693,7 @@ ALTER SEQUENCE public.paises_id_seq OWNED BY public.paises.id;
 
 CREATE TABLE public.pedidos (
     id integer NOT NULL,
-    codigo integer,
+    codigo text,
     pago_inicial double precision,
     pago_final double precision,
     fecha_inicial date,
