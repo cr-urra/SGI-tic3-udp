@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-
 export default class Opcion extends Component {
     render() {     
             if(this.props.estado==="produccion"){

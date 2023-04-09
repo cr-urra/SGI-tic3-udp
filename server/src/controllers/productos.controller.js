@@ -1,7 +1,7 @@
-import productos from '../models/productos';
-import historial_precios from '../models/historial_precios';
-import pedidos from '../models/pedidos';
-import tiene from '../models/tiene';
+import productos from '../models/productos.model';
+import historial_precios from '../models/historial_precios.model';
+import pedidos from '../models/pedidos.model';
+import tiene from '../models/tiene.model';
 import * as historialPreciosController from './historial_precios.controller';
 import * as pedidosController from './pedidos.controller';
 

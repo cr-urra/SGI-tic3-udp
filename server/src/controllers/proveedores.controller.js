@@ -1,12 +1,12 @@
-import proveedores from '../models/proveedores';
-import pedidos from '../models/pedidos';
-import productos from '../models/productos';
+import proveedores from '../models/proveedores.model';
+import pedidos from '../models/pedidos.model';
+import productos from '../models/productos.model';
+import cuentas_bancos from '../models/cuentas_bancos.model';
+import telefonos_proveedores from '../models/telefonos_proveedores.model';
 import * as pedidosController from './pedidos.controller';
 import * as productosController from './productos.controller';
 import * as telefonosProveedoresController from './telefonos_proveedores.controller';
 import * as cuentasBancosController from './cuentas_bancos.controller';
-import telefonos_proveedores from '../models/telefonos_proveedores';
-import cuentas_bancos from '../models/cuentas_bancos';
 
 export const createProveedores = async (req, res) => {
     try{

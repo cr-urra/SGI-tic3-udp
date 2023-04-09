@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 
-
 export default class Init extends Component {
     render() {
         return (
             <main className="content">
                 <h1 className="display-5 titulo">Historial de Saldo: Agente A</h1>
-
                 <div className="container separacion">
-
                     <div className="card shadow-lg">
-
                         <div className="card-header">
                             <div className="row">
                                 <div className="col-3 text-center">
@@ -38,7 +34,6 @@ export default class Init extends Component {
                                 </div>
                                 <div className="col-9">
                                     <div className="input-group mb-3">
-                                        
                                         <div className="col-3">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Desde</span>
@@ -58,7 +53,6 @@ export default class Init extends Component {
                                         
                                     </div>
                                     <div className="input-group mb-3">
-                                        
                                         <div className="col-3">
                                             <div className="input-group-prepend ancho2">
                                                 <span className="input-group-text ancho rounded-pill" id="inputGroup-sizing-default">Hasta</span>
@@ -82,12 +76,8 @@ export default class Init extends Component {
                                             Filtrar Fechas
                                         </button> 
                                     </div>
-                                     
                                 </div>
-
-                                
                             </div>
-
                             <div className="container mt-4">
                                 <table class="table">
                                   <thead>

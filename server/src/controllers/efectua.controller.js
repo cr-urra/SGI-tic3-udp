@@ -1,4 +1,4 @@
-import efectua from '../models/efectua';
+import efectua from '../models/efectua.model';
 
 export const createEfectua = async (req, res) => {
     try{

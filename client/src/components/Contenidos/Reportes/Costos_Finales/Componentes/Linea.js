@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-
 export default class Opcion extends Component {
     render() {
         if(this.props.Producto.filtro===false){
@@ -15,7 +14,6 @@ export default class Opcion extends Component {
             )
         }else{
             return <div/>
-        }
-        
+        }     
     }
 }

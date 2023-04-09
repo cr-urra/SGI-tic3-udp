@@ -1,5 +1,5 @@
-import historialDolar from '../models/historial_dolar';
-import detalles_dolar from '../models/detalles_dolar';
+import historialDolar from '../models/historial_dolar.model';
+import detalles_dolar from '../models/detalles_dolar.model';
 import * as detallesDolarUpdate from './detalles_dolar.controller';
 import sequelize from 'sequelize';
 

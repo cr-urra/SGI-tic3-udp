@@ -1,5 +1,5 @@
-import observaciones from '../models/observaciones';
-import gastos_extras from '../models/gastos_extras';
+import observaciones from '../models/observaciones.model';
+import gastos_extras from '../models/gastos_extras.model';
 import sequelize from 'sequelize';
 import * as gastosExtrasController from './gastos_extras.controller';
 

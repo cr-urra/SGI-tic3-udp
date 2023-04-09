@@ -5,9 +5,7 @@ import axios from 'axios';
 import { toast , Slide  } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-
 export default class Tabla extends Component {
-
     state ={
         show: false
     }

@@ -1,5 +1,5 @@
-import monedas from '../models/monedas';
-import proveedores from '../models/proveedores';
+import monedas from '../models/monedas.model';
+import proveedores from '../models/proveedores.model';
 import * as proveedoresController from './proveedores.controller';
 
 export const createMonedas = async (req, res) => {

@@ -1,5 +1,5 @@
-import cuentasCorrientes from '../models/cuentas_corrientes';
-import movimientos from '../models/movimientos';
+import cuentasCorrientes from '../models/cuentas_corrientes.model';
+import movimientos from '../models/movimientos.model';
 import * as movimientosController from './movimientos.controller';
 
 export const createCuentasCorrientes = async (req, res) => {

@@ -1,5 +1,5 @@
-import usuarios from '../models/usuarios';
-import telefonoUsuarios from '../models/telefonos_usuarios';
+import usuarios from '../models/usuarios.model';
+import telefonoUsuarios from '../models/telefonos_usuarios.model';
 import * as ct from './telefonos_usuarios.controller';
 import * as authController from './auth.controller';
 

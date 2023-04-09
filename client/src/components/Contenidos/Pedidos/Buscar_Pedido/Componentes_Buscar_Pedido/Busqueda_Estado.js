@@ -13,7 +13,6 @@ export default class Init extends Component {
       carga: false
     }
 
-  
     componentDidMount = async () => {
       const res = await axios.get("/pedidos/",{})    
       for(let i=0; i < res.data.pedidos.length; i++){
@@ -58,7 +57,6 @@ export default class Init extends Component {
 
     render() {
         if(this.state.carga==true){
-
           return (
             <li className="list-group-item">
                 Busqueda por Estado

@@ -7,7 +7,6 @@ import { toast , Slide  } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default class Tabla extends Component {
-
     state ={
         show: false
     }
@@ -23,7 +22,6 @@ export default class Tabla extends Component {
             show: true
         })
     }
-
     
     delete = (id) => async (e) => {       
         const res = await axios.put("/agentesAduana/delete/"+ id , {} ,{"headers": {

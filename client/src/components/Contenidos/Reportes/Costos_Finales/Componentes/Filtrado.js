@@ -4,7 +4,6 @@ import { Accordion, Card, Button } from 'react-bootstrap';
 import Productos from './Productos'
 import axios from 'axios'
 
-
 export default class Opcion extends Component {
 
     state = {
@@ -15,9 +14,7 @@ export default class Opcion extends Component {
     }
 
     componentDidMount = async () => {
-
         const res2 = await axios.get("/productos/",{})
-        
         for (let j=0; j< res2.data.productos.length ; j++){
             const precio = await axios.get("/historialPrecios/"+res2.data.productos[j].id,{})  
             console.log(precio, "precio")                   

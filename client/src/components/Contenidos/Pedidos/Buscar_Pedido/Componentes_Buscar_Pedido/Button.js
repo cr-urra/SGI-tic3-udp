@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import {Link , Redirect} from 'react-router-dom';
 
-
 // <Redirect to={{ pathname: '/users/usr', state: {rut: this.state.rut}}} />;
 
 export default class Init extends Component {
-
     state = {
       estado: null
     }
@@ -68,57 +66,47 @@ export default class Init extends Component {
                     }} />;            
           default:
               break;
-      };
+        };
         if(this.props.estado==="produccion"){
           return (
-            
               <div className="ml-4 text-center">
                   <button className="btn bg-primary text-white mt-3" onClick={this.produccion}>
                     Ver Pedido
                     {console.log(this.props.n_pedido,"1")}
                   </button>
               </div>
-            
           )
         }else if(this.props.estado==="internacional"){
           return (
-            
               <div className="ml-4 text-center">
                   <button className="btn bg-primary text-white mt-3" onClick={this.internacional}>
                     Ver Pedido
                   </button>
               </div>
-            
           )
         }else if(this.props.estado==="ingreso"){
           return (
-           
               <div className="ml-4 text-center">
                   <button className="btn bg-primary text-white mt-3" onClick={this.ingreso}>
                     Ver Pedido
                   </button>
               </div>
-           
           )
         }else if(this.props.estado==="nacional"){
           return (
-           
               <div className="ml-4 text-center">
                   <button className="btn bg-primary text-white mt-3" onClick={this.nacional}>
                     Ver Pedido
                   </button>
               </div>
-           
           )
         }else if(this.props.estado==="finalizado"){
           return (
-           
               <div className="ml-4 text-center">
                   <button className="btn bg-primary text-white mt-3" onClick={this.finalizado}>
                     Ver Pedido
                   </button>
               </div>
-            
           )
         }
     }

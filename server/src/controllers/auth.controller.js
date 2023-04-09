@@ -1,5 +1,5 @@
-import usuarios from '../models/usuarios';
-import roles from '../models/roles';
+import usuarios from '../models/usuarios.model';
+import roles from '../models/roles.model';
 import config from '../config';
 import jwt from 'jsonwebtoken';
 import * as mail from './mail.controller';

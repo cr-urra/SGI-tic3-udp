@@ -1,4 +1,4 @@
-import roles from '../models/roles';
+import roles from '../models/roles.model';
 
 export const updateRoles = async (req, res) => {
     try{

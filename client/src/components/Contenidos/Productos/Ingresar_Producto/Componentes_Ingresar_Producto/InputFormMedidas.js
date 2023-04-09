@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import Opciones from './opcionesM'
 
-
-
 export default class Contenido_Agente_Aduana extends Component {
-
-
     render() {
         return (
             <div className="col-xs-12 col-md-12 col-lg-6 mb-3">
@@ -21,7 +17,6 @@ export default class Contenido_Agente_Aduana extends Component {
                     </div>
                 </div>
             </div>
-
         )
     }
 }

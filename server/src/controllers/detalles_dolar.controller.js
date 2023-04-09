@@ -1,4 +1,4 @@
-import detallesDolar from '../models/detalles_dolar';
+import detallesDolar from '../models/detalles_dolar.model';
 
 export const createDetallesDolar = async (req, res) => {
     try{

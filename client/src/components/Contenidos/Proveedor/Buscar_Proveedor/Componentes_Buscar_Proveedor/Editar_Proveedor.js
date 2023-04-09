@@ -17,7 +17,6 @@ export default class Banco extends Component {
         correo: null,
         telefono: null,
         id: null,
-
         show: false
     }
 

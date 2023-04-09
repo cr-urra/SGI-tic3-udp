@@ -4,7 +4,6 @@ import { toast , Slide  } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default class Init extends Component {
-
     state = {
         file: null
     }
@@ -46,11 +45,9 @@ export default class Init extends Component {
         return (
             <main className="content">
                 <h1 className="display-5 titulo"> Ingresar Productos por Lotes</h1>
-
                 <div className="container separacion">
                     <div className="row">
                         <div className="col-1"/>
-
                         <div className="col-xs-12 col-md-5 col-lg-5 mb-3">
                             <div className="card custom1">
                                 <div className="container">
@@ -90,12 +87,10 @@ export default class Init extends Component {
                                                 </button>
                                             </div>
                                         </div>
-                             
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div className="col-1"/>
                     </div>
                 </div>

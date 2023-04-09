@@ -4,9 +4,7 @@ import Filtrado from './Componentes/Filtrado'
 import axios from 'axios'
 import Carga from './Carga'
 
-
 export default class Init extends Component {
-
     state = {
       proveedores: [],
       proveedor: null,
@@ -59,6 +57,5 @@ export default class Init extends Component {
             <Carga/>
           )
         }
-
     }
 }

@@ -1,4 +1,4 @@
-import telefonosAgentesAduana from '../models/telefonos_agentes_aduana';
+import telefonosAgentesAduana from '../models/telefonos_agentes_aduana.model';
 
 export const createTelefonosAgentesAduana = async (req, res) => {
     try{

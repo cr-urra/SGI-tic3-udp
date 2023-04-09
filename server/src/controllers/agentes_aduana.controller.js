@@ -1,17 +1,17 @@
-import agentes_aduana from '../models/agentes_aduana';
-import cuentas_corrientes from '../models/cuentas_corrientes';
-import pedidos from '../models/pedidos';
-import observaciones from '../models/observaciones';
-import telefonos_agentes_aduana from '../models/telefonos_agentes_aduana';
-import asume from '../models/asume';
+import agentes_aduana from '../models/agentes_aduana.model';
+import cuentas_corrientes from '../models/cuentas_corrientes.model';
+import pedidos from '../models/pedidos.model';
+import observaciones from '../models/observaciones.model';
+import telefonos_agentes_aduana from '../models/telefonos_agentes_aduana.model';
+import asume from '../models/asume.model';
+import observadores from '../models/observadores.model';
+import bancos_agentes_aduana from '../models/bancos_agentes_aduana.model';
 import * as cuentasCorrientesController from './cuentas_corrientes.controller';
 import * as pedidosController from './pedidos.controller';
 import * as observacionesController from './observaciones.controller';
 import * as telefonosAgentesAduanaController from './telefonos_agentes_aduana.controller';
 import * as bancosAgentesAduanaController from './bancos_agentes_aduana.controller';
 import * as observadoresController from './observadores.controller';
-import observadores from '../models/observadores';
-import bancos_agentes_aduana from '../models/bancos_agentes_aduana';
 
 export const createAgentesAduana = async (req, res) => {
     try{

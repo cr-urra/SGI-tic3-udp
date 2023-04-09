@@ -1,4 +1,4 @@
-import detallesPedidos from '../models/detalles_pedidos';
+import detallesPedidos from '../models/detalles_pedidos.model';
 
 export const createDetallesPedidos = async (req, res) => {
     try{

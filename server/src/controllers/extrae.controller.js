@@ -1,4 +1,4 @@
-import extrae from '../models/extrae';
+import extrae from '../models/extrae.model';
 
 export const createExtrae = async (req, res) => {
     try{

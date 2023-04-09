@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 
-
 export default class Producto extends Component {
     render() {
-        
         return (       
             <div class="col-6">
                 <div class="p-3 mb-4 bg-light ">

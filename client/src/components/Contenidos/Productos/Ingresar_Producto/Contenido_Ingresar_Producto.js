@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Card from './Componentes_Ingresar_Producto/Card_Form';
 
-
-
 export default class Init extends Component {
     render() {
         return (

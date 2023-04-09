@@ -1,4 +1,4 @@
-import asume from '../models/asume';
+import asume from '../models/asume.model';
 
 export const createAsume = async (req, res) => {
     try{

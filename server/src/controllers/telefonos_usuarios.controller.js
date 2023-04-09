@@ -1,4 +1,4 @@
-import telefonosUsuarios from '../models/telefonos_usuarios';
+import telefonosUsuarios from '../models/telefonos_usuarios.model';
 import * as authController from './auth.controller';
 
 export const createTelefonosUsuarios = async (req, res) => {

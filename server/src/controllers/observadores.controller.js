@@ -1,5 +1,5 @@
-import observadores from '../models/observadores';
-import efectua from '../models/efectua';
+import observadores from '../models/observadores.model';
+import efectua from '../models/efectua.model';
 import * as observacionesController from './observaciones.controller';
 
 export const createObservadores = async (req, res) => {

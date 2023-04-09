@@ -1,7 +1,7 @@
-import dolarMensual from '../models/dolar_mensual';
+import dolarMensual from '../models/dolar_mensual.model';
+import pedidos from '../models/pedidos.model';
+import historial_dolar from '../models/historial_dolar.model';
 import sequelize from 'sequelize';
-import pedidos from '../models/pedidos';
-import historial_dolar from '../models/historial_dolar';
 import * as pedidosController from './pedidos.controller';
 import * as historialDolarController from './historial_dolar.controller';
 

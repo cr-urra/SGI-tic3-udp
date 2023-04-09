@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import Filtro from './Componentes_Buscar_Pedido/Filtro'
 
 export default class Init extends Component {
-
     state = {
       eleccion: null
     }
-
 
     onChangeEleccion = (event) => {
       this.setState({
@@ -54,9 +52,7 @@ export default class Init extends Component {
                                         </div>
                                     </div>
                                   </li> 
-
                                   <Filtro eleccion = {this.state.eleccion}  />
-
                                 </ul>
                             </div>
                             <div className='margen2'/>

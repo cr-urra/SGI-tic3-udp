@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 
-
 export default class DatoTabla extends Component {
     render() {
-        
         return (       
             <li className="list-group-item">
                 <div className="row g-2 mt-2 mb-2">

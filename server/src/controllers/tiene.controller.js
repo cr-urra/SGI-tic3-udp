@@ -1,6 +1,6 @@
-import tiene from '../models/tiene';
-import productos from '../models/productos';
-import pedidos from '../models/pedidos';
+import tiene from '../models/tiene.model';
+import productos from '../models/productos.model';
+import pedidos from '../models/pedidos.model';
 
 export const createTiene = async (req, res) => {
     try{

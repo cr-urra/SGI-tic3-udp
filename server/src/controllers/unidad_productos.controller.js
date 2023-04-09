@@ -1,5 +1,5 @@
-import unidadProductos from '../models/unidad_productos';
-import productos from '../models/productos';
+import unidadProductos from '../models/unidad_productos.model';
+import productos from '../models/productos.model';
 import * as productosController from './productos.controller';
 
 export const createUnidadProductos = async (req, res) => {

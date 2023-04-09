@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-
 export default class Datos extends Component {
     render() {
         return (

@@ -1,4 +1,4 @@
-import telefonosProveedores from '../models/telefonos_proveedores';
+import telefonosProveedores from '../models/telefonos_proveedores.model';
 
 export const createTelefonosProveedores = async (req, res) => {
     try{

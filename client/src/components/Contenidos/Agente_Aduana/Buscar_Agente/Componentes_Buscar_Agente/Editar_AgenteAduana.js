@@ -125,9 +125,7 @@ export default class EditAgenteAduana extends Component {
         })
     }
 
-
     render() {
-
         if(this.props.AgenteAduana !== ""){
             let j;
             for(let i = 0 ; i < this.props.AgentesAduana.length ; i++){
@@ -168,7 +166,6 @@ export default class EditAgenteAduana extends Component {
                                     <Datos nombre={"Tipo Cuenta"} contenido={this.props.AgentesAduana[j].tipo_cuenta} name={"tipo_cuenta"} name2={this.state.tipo_cuenta} onChange={this.onChange}/>
                                     <Datos nombre={"Numero Cuenta"} contenido={this.props.AgentesAduana[j].n_cuenta} name={"n_cuenta"} name2={this.state.n_cuenta} onChange={this.onChange}/>
                                     
-
                                     <Modal show={this.state.show} onHide={this.handleClose} >
                                         <Modal.Header closeButton>
                                           <Modal.Title className="text-primary">Editar Agente de Aduana</Modal.Title>
@@ -189,7 +186,6 @@ export default class EditAgenteAduana extends Component {
                                 Guardar Agente Aduana
                             </button>
                         </div>
-
                     </div>
                 )
             }else{

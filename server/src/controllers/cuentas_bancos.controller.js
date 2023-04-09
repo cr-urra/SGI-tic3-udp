@@ -1,6 +1,6 @@
-import cuentas_bancos from '../models/cuentas_bancos';
-import pedidos from '../models/pedidos';
-import proveedores from '../models/proveedores';
+import cuentas_bancos from '../models/cuentas_bancos.model';
+import pedidos from '../models/pedidos.model';
+import proveedores from '../models/proveedores.model';
 import * as pedidosController from './pedidos.controller'
 import * as proveedoresController from './proveedores.controller';
 

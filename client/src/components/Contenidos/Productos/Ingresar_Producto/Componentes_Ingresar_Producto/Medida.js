@@ -16,7 +16,6 @@ export default class Contenido_Agente_Aduana extends Component {
     state ={
         nombre_medida: null,
         valor_unidad: null,
-
         show: false
     }
 
@@ -47,10 +46,7 @@ export default class Contenido_Agente_Aduana extends Component {
             const res = await axios.post("/unidadProductos/", Medida)  
             if(res.data.resultado==true){
                 toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
-
                 this.timeSensativeAction()
-                               
-                
             }else{
                 toast.error(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
             }  
@@ -106,7 +102,6 @@ export default class Contenido_Agente_Aduana extends Component {
                     </div>                     
                 </div>
             )
-
         }else{
             return <div/>
         }

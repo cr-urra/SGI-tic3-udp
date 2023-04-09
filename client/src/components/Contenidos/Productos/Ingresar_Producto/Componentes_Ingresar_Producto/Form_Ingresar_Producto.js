@@ -10,9 +10,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 toast.configure()
 
-
 export default class Contenido_Ingresar_Producto extends Component {
-
     state ={ 
         nombre: null,
         codigo: null,        
@@ -20,12 +18,10 @@ export default class Contenido_Ingresar_Producto extends Component {
         proveedor:null,
         tipo:null,
         medida: null,
-
         show: false,
         proveedores: [],
         medidas: [],
         new: false
-
     }
 
     componentDidMount = async () => {
@@ -53,7 +49,6 @@ export default class Contenido_Ingresar_Producto extends Component {
                 medidas: [...this.state.medidas, medida]
             })
         }
-        {console.log(this.state.medidas,"medidas")}
     }
 
     onSubmit = async e => {
@@ -89,7 +84,6 @@ export default class Contenido_Ingresar_Producto extends Component {
             }
             const res2 = await axios.post("/historialPrecios/",Precio)
             console.log(res2)
-            
 
             if(res.data.resultado==true){
                 toast.success(res.data.message, {position: toast.POSITION.TOP_CENTER , transition: Slide})  
@@ -134,7 +128,6 @@ export default class Contenido_Ingresar_Producto extends Component {
         return (
             <div className="container separacion">
                 <form onSubmit ={this.onSubmit}>
-                    
                     <div className="row g-2 mt-2 mb-2">                 
                         <InputForm field ="Nombre" onChange = {this.onChange} field2 = {this.state.nombre} name="nombre" type={"text"}/>                       
                         <InputForm field ="Codigo" onChange = {this.onChange} field2 = {this.state.codigo} name="codigo" type={"text"}/>                        
@@ -153,13 +146,8 @@ export default class Contenido_Ingresar_Producto extends Component {
                               <label className="form-check-label" for="validationFormCheck1">Agregar Nueva Medida</label>                                          
                             </div>
                         </div>
-
                         <Medida filtro ={this.state.new} />
-
-                            
                     </div>
-                    
-
                     <Modal show={this.state.show} onHide={this.handleClose} >
                         <Modal.Header closeButton>
                           <Modal.Title className="text-primary">Ingresar Producto</Modal.Title>
@@ -173,7 +161,6 @@ export default class Contenido_Ingresar_Producto extends Component {
                         </Modal.Footer>
                     </Modal>                            
                 </form>
-                
             </div>
         )
     }

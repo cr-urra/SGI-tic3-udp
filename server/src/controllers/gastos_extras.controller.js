@@ -1,4 +1,4 @@
-import gastosExtras from '../models/gastos_extras';
+import gastosExtras from '../models/gastos_extras.model';
 
 export const createGastosExtras = async (req, res) => {
     try{

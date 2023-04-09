@@ -1,4 +1,4 @@
-import historialPrecios from '../models/historial_precios';
+import historialPrecios from '../models/historial_precios.model';
 import sequelize from 'sequelize';
 
 export const createHistorialPrecios = async (req, res) => {

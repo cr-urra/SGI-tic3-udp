@@ -1,4 +1,4 @@
-import movimientos from '../models/movimientos';
+import movimientos from '../models/movimientos.model';
 import sequelize from 'sequelize';
 
 export const createMovimientos = async (req, res) => {

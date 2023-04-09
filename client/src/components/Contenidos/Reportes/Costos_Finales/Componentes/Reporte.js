@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import Lineas from './Lineas'
 
-
 export default class Opcion extends Component {
     render() {
-        
         return (       
             <div>
                 <div className="container separacion">
                     <div className="card border-primary  shadow-lg">                        
                       <div className="card-header text-primary">
-                          {console.log(this.props,"revisa aquiiiiiiiiii")}
                         Proveedor: {this.props.Proveedor.nombre}
                       </div>
                       <div className="container mt-4" >

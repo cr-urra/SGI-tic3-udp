@@ -301,3 +301,11 @@
 }
 
 /**/
+
+/* Sidebar fixed position */
+
+.pro-menu.shaped.circle.inner-submenu-arrows {
+    overflow-x: hidden;
+}
+
+/**/

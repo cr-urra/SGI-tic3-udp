@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import Opciones from './opciones'
 
-
-
 export default class Contenido_Agente_Aduana extends Component {
-
-
     render() {
         return (            
             <div className="row">

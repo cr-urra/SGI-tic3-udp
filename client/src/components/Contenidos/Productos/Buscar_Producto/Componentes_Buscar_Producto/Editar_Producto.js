@@ -162,7 +162,6 @@ export default class EditProduct extends Component {
                                 Guardar Producto
                             </button>
                         </div>
-
                     </div>
                 )
             }else{

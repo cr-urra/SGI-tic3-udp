@@ -12,14 +12,14 @@ export default class Datos extends Component {
               </div>
               <div className="col-6">
                 <input 
-                type="text" 
-                name={this.props.name}
-                className="form-control  ancho" 
-                aria-label="Default" 
-                aria-describedby={this.props.name}
-                defaultValue={this.props.contenido}
-                value = {this.props.name2}
-                onChange = {this.props.onChange}
+                  type="text" 
+                  name={this.props.name}
+                  className="form-control  ancho" 
+                  aria-label="Default" 
+                  aria-describedby={this.props.name}
+                  defaultValue={this.props.contenido}
+                  value = {this.props.name2}
+                  onChange = {this.props.onChange}
                 />
               </div>
             </div>

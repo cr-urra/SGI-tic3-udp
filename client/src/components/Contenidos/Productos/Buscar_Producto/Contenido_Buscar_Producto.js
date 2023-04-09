@@ -5,9 +5,7 @@ import Editar_Producto from './Componentes_Buscar_Producto/Editar_Producto'
 import axios from 'axios'
 import Carga from './Carga'
 
-
 export default class Init extends Component {
-
     state = {
         productsData : [],
         product : "",

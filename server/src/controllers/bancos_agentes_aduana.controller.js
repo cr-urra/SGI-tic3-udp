@@ -1,5 +1,5 @@
-import bancosAgentesAduana from '../models/bancos_agentes_aduana';
-import agentes_aduana from '../models/agentes_aduana';
+import bancosAgentesAduana from '../models/bancos_agentes_aduana.model';
+import agentes_aduana from '../models/agentes_aduana.model';
 import * as agentesAduanaController from './agentes_aduana.controller'
 
 export const createBancosAgentesAduana = async (req, res) => {

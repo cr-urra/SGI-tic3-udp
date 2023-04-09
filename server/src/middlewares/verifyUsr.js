@@ -1,4 +1,4 @@
-import usuarios from '../models/usuarios';
+import usuarios from '../models/usuarios.model';
 
 export const verifyUser = async (req, res, next) => {
     const {rut} = req.body;

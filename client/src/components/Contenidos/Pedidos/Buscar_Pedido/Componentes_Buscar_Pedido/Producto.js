@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Accordion, Card, Button } from 'react-bootstrap';
 
-
 export default class Init extends Component {
     render() {
         return (            

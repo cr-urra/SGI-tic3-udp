@@ -5,8 +5,6 @@ import EditarBanco from './Componentes Banco/Editar_Banco'
 import Carga from './Carga'
 import axios from 'axios'
 
-
-
 export default class Contenido_Banco extends Component {
 
     state = {
@@ -94,7 +92,6 @@ export default class Contenido_Banco extends Component {
             return (
                 <Carga />
             )                                         
-        }
-            
+        }    
     }
 }

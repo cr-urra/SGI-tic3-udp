@@ -1,5 +1,5 @@
-import paises from '../models/paises';
-import cuentas_bancos from '../models/cuentas_bancos';
+import paises from '../models/paises.model';
+import cuentas_bancos from '../models/cuentas_bancos.model';
 import * as cuentaBancosController from './cuentas_bancos.controller';
 
 export const createPaises = async (req, res) => {

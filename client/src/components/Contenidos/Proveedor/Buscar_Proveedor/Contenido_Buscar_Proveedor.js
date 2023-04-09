@@ -5,7 +5,6 @@ import Editar_proveedor from './Componentes_Buscar_Proveedor/Editar_Proveedor'
 import axios from 'axios'
 import Carga from './Carga'
 
-
 export default class Init extends Component {
 
     state= {

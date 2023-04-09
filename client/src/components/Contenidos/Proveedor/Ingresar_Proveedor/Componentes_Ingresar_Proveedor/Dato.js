@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 
-
 export default class Dato extends Component {
     state ={
       check: false
     }
-
+    
     onChangeCheck = () =>{
       this.setState(prevState =>({
         check: !prevState.show

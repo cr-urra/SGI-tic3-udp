@@ -1,5 +1,5 @@
-import numerosAba from '../models/numeros_aba';
-import cuentas_bancos from '../models/cuentas_bancos';
+import numerosAba from '../models/numeros_aba.model';
+import cuentas_bancos from '../models/cuentas_bancos.model';
 import * as cuentaBancosController from './cuentas_bancos.controller';
 
 export const createNumerosAba = async (req, res) => {

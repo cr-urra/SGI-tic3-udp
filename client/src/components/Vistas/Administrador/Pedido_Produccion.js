@@ -18,7 +18,6 @@ export default class Buscar_Producto extends Component {
         message: null,
     };
 
-
     componentDidMount = async () => {
         const res = await axios.get('/auth/adm/');
         this.setState({

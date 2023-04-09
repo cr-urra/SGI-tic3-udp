@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import Opciones from './opciones'
 
-
-
 export default class Listado extends Component {
     render() {
-        
         return (
             <div className="container" >
                 <div className="input-group no_flex">
@@ -16,7 +13,6 @@ export default class Listado extends Component {
                   </datalist>
                 </div>
             </div>
-        )
-        
+        ) 
     }
 }

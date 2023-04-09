@@ -107,7 +107,6 @@ export default class Contenido_Agente_Aduana extends Component {
                     </div>                     
                 </div>
             )
-
         }else{
             return <div/>
         }

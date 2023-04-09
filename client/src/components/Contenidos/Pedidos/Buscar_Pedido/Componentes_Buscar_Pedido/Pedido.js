@@ -35,7 +35,7 @@ export default class Init extends Component {
       link.setAttribute('download', `documentos_pedido_${this.props.pedido.n_pedido}.zip`)
       document.body.appendChild(link)
       link.click()
-  };
+    };
 
     render() {
         return (            

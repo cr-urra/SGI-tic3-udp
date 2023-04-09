@@ -1,8 +1,8 @@
-import pedidos from '../models/pedidos';
-import proveedores from '../models/proveedores';
-import productos from '../models/productos';
-import agentesAduana from '../models/agentes_aduana';
-import tiene from '../models/tiene';
+import pedidos from '../models/pedidos.model';
+import proveedores from '../models/proveedores.model';
+import productos from '../models/productos.model';
+import agentesAduana from '../models/agentes_aduana.model';
+import tiene from '../models/tiene.model';
 
 export const verifyProveedores = async (req, res, next) => {
     const {id} = req.params;
