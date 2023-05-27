@@ -11,7 +11,7 @@ export default class Login extends Component {
         stringTwo: "@?bBÑ4",
         password: "",
         cod_rol: "",
-        resultado: "",
+        resultado: true,
         rut: "",
         message: true,
         verificacion: false,
@@ -81,10 +81,10 @@ export default class Login extends Component {
         })
     }
 
-    onChange = () => {
+    onChange = (e) => {
         this.setState({ 
-            verificacion: !this.state.verificacion,
-            button: !this.state.button
+            verificacion: e != null ? true : false,
+            button: e != null ? false : true
         })
     }
 
@@ -137,7 +137,7 @@ export default class Login extends Component {
                           <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
                           <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                         </svg>
-                        Password
+                        Contraseña
                     </h5>
                     <div className="form-group">
                         <input 
@@ -148,7 +148,7 @@ export default class Login extends Component {
                             required
                         />
                     </div>
-                    <div className="center captcha">
+                    <div className={!this.state.resultado ? "center" : "center captcha"}>
                         <ReCAPTCHA
                             sitekey="6LdBCnYeAAAAAJIjA5EY_G-z151jqYpkcDEZjfPa"
                             onChange={this.onChange}
